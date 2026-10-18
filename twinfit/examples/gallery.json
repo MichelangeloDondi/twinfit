@@ -1,0 +1,4379 @@
+{
+ "pedestal": {
+  "field": "absorption lines of a gas cell at five pressures",
+  "truth_in_words": "truth: a pedestal 6 times wider, of relative area 0.04, under a Gaussian of width 4 MHz",
+  "truth": {
+   "width": 4.0,
+   "pedestal 6": 0.04
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian line of one width"
+   ],
+   "chi_square_per_degree": 1.1235620459355944,
+   "beyond": [
+    "what: a wider pedestal under the curve, excess 229",
+    "what: a second component of the curve, excess 131",
+    "what: a polynomial of the level, excess 122",
+    "its line 2.83"
+   ],
+   "parameters": {
+    "width": {
+     "value": 4.012766559523645,
+     "bar": 0.0010519719655338307,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "pedestal 6": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+     "a second component 1.41 widths away on both sides"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.73",
+     "a wider span, a better data collection: the error of the known parameters times 0.76"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 1",
+   "terms": [
+    "one Gaussian line of one width",
+    "a pedestal 6 times wider than the curve"
+   ],
+   "chi_square_per_degree": 0.9936314835135553,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 3.998603999038921,
+     "bar": 0.0012227486098744527,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": true,
+     "theory": null
+    },
+    "pedestal 6": {
+     "value": 0.041841497614401,
+     "bar": 0.0018336589960992868,
+     "coverage": 1.0,
+     "as": "pedestal 6",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+     "a second component 1.41 widths away on both sides"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.73",
+     "a wider span, a better data collection: the error of the known parameters times 0.76"
+    ]
+   },
+   "words": "scan the stretch of the shape that the report names first, a wider pedestal under the line, and write the term at the top of the scan",
+   "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 6: the term file holds `term = mechanisms.pedestal(6)`",
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian line of one width"
+   ],
+   "chi_square_per_degree": 1.1235620459355944,
+   "beyond": [
+    "what: a wider pedestal under the curve, excess 229",
+    "what: a second component of the curve, excess 131",
+    "what: a polynomial of the level, excess 122",
+    "its line 2.83"
+   ],
+   "parameters": {
+    "width": {
+     "value": 4.012766559523645,
+     "bar": 0.0010519719655338307,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "pedestal 6": null
+   },
+   "refused": [
+    "width changes along pressure"
+   ],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+     "a second component 1.41 widths away on both sides"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.73",
+     "a wider span, a better data collection: the error of the known parameters times 0.76"
+    ]
+   },
+   "words": "make the width change along the pressure, a setting that the report does not name",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: a pedestal 6 times wider, of relative area 0.04, under a Gaussian of width 4 MHz, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 1.0105396794969703,
+     "beyond": [
+      "what: a wider pedestal under the curve, excess 30.1",
+      "what: a second component of the curve, excess 16.5",
+      "what: a polynomial of the level, excess 15.2",
+      "its line 3.08"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.0112127626881104,
+       "bar": 0.0031522496199226312,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 1.41 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a pedestal 8 times wider than the curve"
+     ],
+     "chi_square_per_degree": 0.9935632136233535,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 3.9970972908821176,
+       "bar": 0.003584262056562119,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      },
+      "pedestal 6": {
+       "value": 0.08271778898233692,
+       "bar": 0.009950822590571387,
+       "coverage": 1.0,
+       "as": "pedestal 8",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 1.41 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8: the term file holds `term = mechanisms.pedestal(8)`",
+     "typed": "term = mechanisms.pedestal(8)",
+     "range": [
+      -10.0,
+      26.0
+     ]
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: a pedestal 6 times wider, of relative area 0.04, under a Gaussian of width 4 MHz, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 0.11875383846587859,
+     "beyond": [
+      "what: a wider pedestal under the curve, excess 208",
+      "what: a second component of the curve, excess 117",
+      "what: a polynomial of the level, excess 110",
+      "its line 2.83"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.013545126605515,
+       "bar": 0.0010525836731371794,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 1.41 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a pedestal 6.73 times wider than the curve"
+     ],
+     "chi_square_per_degree": 0.00012247714088119602,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 4.000545752052095,
+       "bar": 0.0012106477403124722,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": {
+       "value": 0.04990937617528323,
+       "bar": 0.002289613304519595,
+       "coverage": 1.0,
+       "as": "pedestal 6.73",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 1.41 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 6.73, and a finer scan about it, at 2.62394 3.99263 5.36132 6.73 8.09868 9.46737 10.8361, at 6.73: the term file holds `term = mechanisms.pedestal(6.73)`",
+     "typed": "term = mechanisms.pedestal(6.73)",
+     "range": [
+      5.361315,
+      6.73
+     ]
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a pedestal 6 times wider, of relative area 0.04, under a Gaussian of width 4 MHz, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 1.0955436702044339,
+     "beyond": [
+      "what: a wider pedestal under the curve, excess 260",
+      "what: a second component of the curve, excess 158",
+      "what: a polynomial of the level, excess 141",
+      "its line 3.13"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.0116427933400605,
+       "bar": 0.001050837916050483,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 4 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a pedestal 10.1 times wider than the curve"
+     ],
+     "chi_square_per_degree": 0.9480545898369153,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 31.2",
+      "changes along: the core along pressure, excess 17.2",
+      "what: a polynomial of the level, excess 8.74",
+      "its line 2.72"
+     ],
+     "parameters": {
+      "width": {
+       "value": 3.998458046397189,
+       "bar": 0.001183044306167804,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": {
+       "value": 0.14199169424396796,
+       "bar": 0.005829251790926963,
+       "coverage": 1.0,
+       "as": "pedestal 10.1",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 4 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 9.1, and a finer scan about it, at -2.32136 1.48576 5.29288 9.1 12.9071 16.7142 20.5214, at 10.1: the term file holds `term = mechanisms.pedestal(10.1)`",
+     "typed": "term = mechanisms.pedestal(10.1)",
+     "range": [
+      8.259903220090708,
+      12.011061403114118
+     ]
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a pedestal 6 times wider, of relative area 0.04, under a Gaussian of width 4 MHz, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 0.9718511596849944,
+     "beyond": [
+      "what: a wider pedestal under the curve, excess 42.1",
+      "what: a noise correlated from sample to sample, excess 32.1",
+      "what: a second component of the curve, excess 28.9",
+      "its line 2.74"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.007866695645417,
+       "bar": 0.003142071509359234,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 2 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a pedestal 56 times wider than the curve"
+     ],
+     "chi_square_per_degree": 0.947812508953331,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 31.2",
+      "changes along: the core along pressure, excess 16",
+      "changes along: the flanks along pressure, excess 9.22",
+      "its line 2.58"
+     ],
+     "parameters": {
+      "width": {
+       "value": 3.9930959942338147,
+       "bar": 0.003483187953861383,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "pedestal 6": {
+       "value": 23.226597779025727,
+       "bar": 2.348400152346996,
+       "coverage": 1.0,
+       "as": "pedestal 56",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a second component 2 widths away on both sides"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.76"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 12, and a finer scan about it, at 0 4 8 12 16 20 24, at 24, and a finer scan about it, at 12 16 20 24 28 32 36, at 36, and a finer scan about it, at 24 28 32 36 40 44 48, at 48, and a finer scan about it, at 36 40 44 48 52 56 60, at 56: the term file holds `term = mechanisms.pedestal(56)`",
+     "typed": "term = mechanisms.pedestal(56)",
+     "range": [
+      36.0,
+      60.0
+     ]
+    }
+   }
+  ],
+  "minutes": 3.3
+ },
+ "satellite": {
+  "field": "absorption lines of a gas cell with a weak line beside each",
+  "truth_in_words": "truth: a second component 12 MHz above, of relative area 0.08, beside a Gaussian of width 4 MHz",
+  "truth": {
+   "width": 4.0,
+   "second component at 12": 0.08
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian line of one width"
+   ],
+   "chi_square_per_degree": 38.05058775315673,
+   "beyond": [
+    "what: a second component of the curve, excess 5.45e+04",
+    "what: a tail on one side, excess 2.41e+04",
+    "what: a wider pedestal under the curve, excess 1.84e+04",
+    "its line 2.73"
+   ],
+   "parameters": {
+    "width": {
+     "value": 4.11631868723606,
+     "bar": 0.0010893976487625935,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "second component at 12": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+     "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+     "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.92",
+     "a wider span, a better data collection: the error of the known parameters times 0.96"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 1",
+   "terms": [
+    "one Gaussian line of one width",
+    "a second component 12.015 away"
+   ],
+   "chi_square_per_degree": 0.9948001092201146,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 3.998885139133836,
+     "bar": 0.0010610494620126487,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": true,
+     "theory": null
+    },
+    "second component at 12": {
+     "value": 0.08003633754120237,
+     "bar": 0.00020596845129053064,
+     "coverage": 0.9333333333333333,
+     "as": "second component at 12.015",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+     "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+     "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.92",
+     "a wider span, a better data collection: the error of the known parameters times 0.96"
+    ]
+   },
+   "words": "scan the distance of a second component, `python -m twinfit scan DIR \"second(x)\" ...`, and write the term at the top of the scan",
+   "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.95, and a finer scan about it, at 11.8522 11.8845 11.9167 11.949 11.9813 12.0135 12.0458, at 12.02: the term file holds `term = mechanisms.second(12.015)`",
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian line of one width"
+   ],
+   "chi_square_per_degree": 38.05058775315673,
+   "beyond": [
+    "what: a second component of the curve, excess 5.45e+04",
+    "what: a tail on one side, excess 2.41e+04",
+    "what: a wider pedestal under the curve, excess 1.84e+04",
+    "its line 2.73"
+   ],
+   "parameters": {
+    "width": {
+     "value": 4.11631868723606,
+     "bar": 0.0010893976487625935,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "second component at 12": null
+   },
+   "refused": [
+    "a kernel with exponential wings"
+   ],
+   "by_a_hair": true,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+     "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+     "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.92",
+     "a wider span, a better data collection: the error of the known parameters times 0.96"
+    ]
+   },
+   "words": "widen the line with a kernel, as if the satellite were wings of the line",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: a second component 12 MHz above, of relative area 0.08, beside a Gaussian of width 4 MHz, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 5.136859508846834,
+     "beyond": [
+      "what: a second component of the curve, excess 6.08e+03",
+      "what: a tail on one side, excess 3.08e+03",
+      "what: a wider pedestal under the curve, excess 2.02e+03",
+      "its line 2.93"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.1123448419645445,
+       "bar": 0.0032643631360004997,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a second component 12.046 away"
+     ],
+     "chi_square_per_degree": 0.994798558406366,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 3.9966865252424992,
+       "bar": 0.003176446545082048,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      },
+      "second component at 12": {
+       "value": 0.08010943096703843,
+       "bar": 0.0006166804275453335,
+       "coverage": 0.9333333333333333,
+       "as": "second component at 12.046",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.98, and a finer scan about it, at 11.6868 11.7835 11.8803 11.977 12.0737 12.1705 12.2672, at 12.05: the term file holds `term = mechanisms.second(12.046)`",
+     "typed": "term = mechanisms.second(12.046)",
+     "range": [
+      11.99906253404712,
+      12.092939180600897
+     ]
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: a second component 12 MHz above, of relative area 0.08, beside a Gaussian of width 4 MHz, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 36.944737374086635,
+     "beyond": [
+      "what: a second component of the curve, excess 5.44e+04",
+      "what: a tail on one side, excess 2.4e+04",
+      "what: a wider pedestal under the curve, excess 1.85e+04",
+      "its line 2.75"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.118304227664233,
+       "bar": 0.0010900348219784718,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a second component 12 away"
+     ],
+     "chi_square_per_degree": 1.4552151806670099e-08,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 4.000000109366004,
+       "bar": 0.0010621627563963448,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": {
+       "value": 0.08000000768299156,
+       "bar": 0.00020617086619758261,
+       "coverage": 0.9333333333333333,
+       "as": "second component at 12",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.94, and a finer scan about it, at 11.8382 11.8705 11.9027 11.935 11.9673 11.9995 12.0318, at 12: the term file holds `term = mechanisms.second(12)`",
+     "typed": "term = mechanisms.second(12)",
+     "range": [
+      11.984274901011299,
+      12.015693873975783
+     ]
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a second component 12 MHz above, of relative area 0.08, beside a Gaussian of width 4 MHz, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 38.132427086393456,
+     "beyond": [
+      "what: a second component of the curve, excess 5.46e+04",
+      "what: a tail on one side, excess 2.81e+04",
+      "what: a wider pedestal under the curve, excess 1.81e+04",
+      "its line 2.91"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.112016625084676,
+       "bar": 0.0010880192276956266,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a second component 12.045 away"
+     ],
+     "chi_square_per_degree": 0.9388894437502956,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 30.8",
+      "changes along: the asymmetry along pressure, excess 13",
+      "changes along: the core along pressure, excess 9.35",
+      "its line 2.9"
+     ],
+     "parameters": {
+      "width": {
+       "value": 3.996524701771698,
+       "bar": 0.0010588158692052805,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": {
+       "value": 0.08001540297160264,
+       "bar": 0.000205563776204132,
+       "coverage": 0.9333333333333333,
+       "as": "second component at 12.045",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.5)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.98, and a finer scan about it, at 11.8791 11.9114 11.9437 11.976 12.0083 12.0406 12.0729, at 12.04: the term file holds `term = mechanisms.second(12.045)`",
+     "typed": "term = mechanisms.second(12.045)",
+     "range": [
+      12.029341626958736,
+      12.060734149904409
+     ]
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a second component 12 MHz above, of relative area 0.08, beside a Gaussian of width 4 MHz, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian line of one width"
+     ],
+     "chi_square_per_degree": 5.12831760512196,
+     "beyond": [
+      "what: a second component of the curve, excess 6.29e+03",
+      "what: a tail on one side, excess 3.19e+03",
+      "what: a wider pedestal under the curve, excess 1.92e+03",
+      "its line 2.63"
+     ],
+     "parameters": {
+      "width": {
+       "value": 4.099438531780314,
+       "bar": 0.003251926716878699,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.4)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian line of one width",
+      "a second component 12.136 away"
+     ],
+     "chi_square_per_degree": 0.9388427975718598,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 30.7",
+      "changes along: the asymmetry along pressure, excess 13.8",
+      "changes along: the core along pressure, excess 9.93",
+      "its line 3.01"
+     ],
+     "parameters": {
+      "width": {
+       "value": 3.989539465707872,
+       "bar": 0.0031567227745933767,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "second component at 12": {
+       "value": 0.08007356768622292,
+       "bar": 0.0006131606070499746,
+       "coverage": 0.9333333333333333,
+       "as": "second component at 12.136",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths above the centre, `term = mechanisms.second(13.4)`",
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.92",
+       "a wider span, a better data collection: the error of the known parameters times 0.96"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 12.06, and a finer scan about it, at 11.7677 11.8648 11.9619 12.059 12.1561 12.2532 12.3503, at 12.14: the term file holds `term = mechanisms.second(12.136)`",
+     "typed": "term = mechanisms.second(12.136)",
+     "range": [
+      12.088804350911774,
+      12.182601070200183
+     ]
+    }
+   }
+  ],
+  "minutes": 3.6
+ },
+ "saturation": {
+  "field": "fluorescence of a resonance driven at five powers of a laser",
+  "truth_in_words": "truth: full width 1.0 MHz times the root of 1 + P / 50 mW, the broadening by saturation, and height 1.5 P / (P + 50 mW), place 0.3 MHz in every record, background 0.05, three glitches of +0.08 in the record at 40 mW, at -9.3, 2.1 and 7.7 MHz, noise 0.004",
+  "truth": {
+   "width at no power": 1.0,
+   "saturation power": 50.0
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one width"
+   ],
+   "chi_square_per_degree": 12.573190730861597,
+   "beyond": [
+    "along: power, excess 3.87e+04",
+    "changes along: the flanks along power, excess 1.17e+04",
+    "changes along: the core along power, excess 8.97e+03",
+    "its line 4.24"
+   ],
+   "parameters": {
+    "width at no power": null,
+    "saturation power": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+     "a periodic term of period 3.528, `term = mechanisms.periodic(3.528, \"cosine\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.68",
+     "more samples, a better data collection: the error of the known parameters times 0.76"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line whose width saturates with the power"
+   ],
+   "chi_square_per_degree": 1.150334690642586,
+   "beyond": [
+    "what: glitches, excess 96",
+    "its line 2.85"
+   ],
+   "parameters": {
+    "width at no power": {
+     "value": 0.996919125878795,
+     "bar": 0.00284718019284339,
+     "coverage": 0.9,
+     "as": "width at no power",
+     "quotable": false,
+     "theory": null
+    },
+    "saturation power": {
+     "value": 49.35639854069913,
+     "bar": 0.4221185621080178,
+     "coverage": 0.9666666666666667,
+     "as": "saturation power",
+     "quotable": false,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a tail on the upper side, 2 times wider, `term = mechanisms.tail(2, \"upper\")`",
+     "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+     "saturation power changes along the square of power, `term = mechanisms.along(\"saturation power\", \"power\", power=2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.60",
+     "more samples, a better data collection: the error of the known parameters times 0.64"
+    ]
+   },
+   "words": "write the law that the physics gives, the width saturating with the power, as shared parameters that read the power, in model.py",
+   "done": null,
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one width"
+   ],
+   "chi_square_per_degree": 12.573190730861597,
+   "beyond": [
+    "along: power, excess 3.87e+04",
+    "changes along: the flanks along power, excess 1.17e+04",
+    "changes along: the core along power, excess 8.97e+03",
+    "its line 4.24"
+   ],
+   "parameters": {
+    "width at no power": null,
+    "saturation power": null
+   },
+   "refused": [
+    "width changes along power"
+   ],
+   "by_a_hair": true,
+   "proposals": {
+    "model": [
+     "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+     "a periodic term of period 3.528, `term = mechanisms.periodic(3.528, \"cosine\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.68",
+     "more samples, a better data collection: the error of the known parameters times 0.76"
+    ]
+   },
+   "words": "a width that grows in proportion to the power, the generic term where the physics gives a law",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: full width 1.0 MHz times the root of 1 + P / 50 mW, the broadening by saturation, and height 1.5 P / (P + 50 mW), place 0.3 MHz in every record, background 0.05, three glitches of +0.08 in the record at 40 mW, at -9.3, 2.1 and 7.7 MHz, noise 0.004, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width"
+     ],
+     "chi_square_per_degree": 2.308443210180823,
+     "beyond": [
+      "along: power, excess 4.41e+03",
+      "changes along: the flanks along power, excess 1.24e+03",
+      "changes along: the core along power, excess 1.06e+03",
+      "its line 4.22"
+     ],
+     "parameters": {
+      "width at no power": null,
+      "saturation power": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a periodic term of period 3.496, `term = mechanisms.periodic(3.496, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "more samples, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose width saturates with the power"
+     ],
+     "chi_square_per_degree": 1.0084778347797845,
+     "beyond": [
+      "what: glitches, excess 8.34",
+      "its line 2.87"
+     ],
+     "parameters": {
+      "width at no power": {
+       "value": 0.9894161034865084,
+       "bar": 0.008584282279144479,
+       "coverage": 0.9,
+       "as": "width at no power",
+       "quotable": false,
+       "theory": null
+      },
+      "saturation power": {
+       "value": 47.92920334231725,
+       "bar": 1.234504332653282,
+       "coverage": 0.9666666666666667,
+       "as": "saturation power",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 0.71 widths away on both sides",
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "saturation power changes along the square of power, `term = mechanisms.along(\"saturation power\", \"power\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.60",
+       "more samples, a better data collection: the error of the known parameters times 0.64"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: full width 1.0 MHz times the root of 1 + P / 50 mW, the broadening by saturation, and height 1.5 P / (P + 50 mW), place 0.3 MHz in every record, background 0.05, three glitches of +0.08 in the record at 40 mW, at -9.3, 2.1 and 7.7 MHz, noise 0.004, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width"
+     ],
+     "chi_square_per_degree": 11.444758682821059,
+     "beyond": [
+      "along: power, excess 3.8e+04",
+      "changes along: the flanks along power, excess 1.15e+04",
+      "changes along: the core along power, excess 9.16e+03",
+      "its line 4.06"
+     ],
+     "parameters": {
+      "width at no power": null,
+      "saturation power": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a periodic term of period 3.528, `term = mechanisms.periodic(3.528, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "more samples, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose width saturates with the power"
+     ],
+     "chi_square_per_degree": 0.15990843302165836,
+     "beyond": [
+      "what: glitches, excess 93.4",
+      "its line 2.77"
+     ],
+     "parameters": {
+      "width at no power": {
+       "value": 1.0006681545606368,
+       "bar": 0.002840104021186429,
+       "coverage": 0.9,
+       "as": "width at no power",
+       "quotable": false,
+       "theory": null
+      },
+      "saturation power": {
+       "value": 50.08836798876981,
+       "bar": 0.42759545158199513,
+       "coverage": 0.9666666666666667,
+       "as": "saturation power",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the upper side, 4 times wider, `term = mechanisms.tail(4, \"upper\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "width at no power changes along power, `term = mechanisms.along(\"width at no power\", \"power\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.60",
+       "more samples, a better data collection: the error of the known parameters times 0.64"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: full width 1.0 MHz times the root of 1 + P / 50 mW, the broadening by saturation, and height 1.5 P / (P + 50 mW), place 0.3 MHz in every record, background 0.05, three glitches of +0.08 in the record at 40 mW, at -9.3, 2.1 and 7.7 MHz, noise 0.004, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width"
+     ],
+     "chi_square_per_degree": 12.87760200939369,
+     "beyond": [
+      "along: power, excess 4e+04",
+      "changes along: the core along power, excess 9.62e+03",
+      "changes along: the flanks along power, excess 9.45e+03",
+      "its line 4.25"
+     ],
+     "parameters": {
+      "width at no power": null,
+      "saturation power": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`",
+       "a periodic term of period 3.496, `term = mechanisms.periodic(3.496, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "more samples, a better data collection: the error of the known parameters times 0.76"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose width saturates with the power"
+     ],
+     "chi_square_per_degree": 1.1557637806368932,
+     "beyond": [
+      "what: glitches, excess 97",
+      "what: a noise correlated from sample to sample, excess 54.7",
+      "what: a periodic function, excess 22.8",
+      "its line 2.87"
+     ],
+     "parameters": {
+      "width at no power": {
+       "value": 0.9892203733865259,
+       "bar": 0.0028612284049922875,
+       "coverage": 0.9,
+       "as": "width at no power",
+       "quotable": false,
+       "theory": null
+      },
+      "saturation power": {
+       "value": 47.919940715590194,
+       "bar": 0.4114588334138486,
+       "coverage": 0.9666666666666667,
+       "as": "saturation power",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 2.962, `term = mechanisms.periodic(2.962, \"cosine\")`",
+       "a second component 0.71 widths away on both sides",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.60",
+       "more samples, a better data collection: the error of the known parameters times 0.64"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: full width 1.0 MHz times the root of 1 + P / 50 mW, the broadening by saturation, and height 1.5 P / (P + 50 mW), place 0.3 MHz in every record, background 0.05, three glitches of +0.08 in the record at 40 mW, at -9.3, 2.1 and 7.7 MHz, noise 0.004, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width"
+     ],
+     "chi_square_per_degree": 2.407634853294645,
+     "beyond": [
+      "along: power, excess 4.86e+03",
+      "changes along: the flanks along power, excess 1.12e+03",
+      "changes along: the core along power, excess 1.08e+03",
+      "its line 3.49"
+     ],
+     "parameters": {
+      "width at no power": null,
+      "saturation power": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "width changes along power, `term = mechanisms.along(\"width\", \"power\")`",
+       "a periodic term of period 3.496, `term = mechanisms.periodic(3.496, \"cosine\")`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "more samples, a better data collection: the error of the known parameters times 0.77"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose width saturates with the power"
+     ],
+     "chi_square_per_degree": 1.0062186197995704,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 55.5",
+      "what: a periodic function, excess 23.7",
+      "what: a second component of the curve, excess 19.6",
+      "its line 3.08"
+     ],
+     "parameters": {
+      "width at no power": {
+       "value": 0.9662707821125173,
+       "bar": 0.008713365197770804,
+       "coverage": 0.9,
+       "as": "width at no power",
+       "quotable": false,
+       "theory": null
+      },
+      "saturation power": {
+       "value": 43.893202721092074,
+       "bar": 1.1459676678647444,
+       "coverage": 0.9666666666666667,
+       "as": "saturation power",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 2.962, `term = mechanisms.periodic(2.962, \"cosine\")`",
+       "a second component 0.71 widths away on both sides",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.60",
+       "more samples, a better data collection: the error of the known parameters times 0.64"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 3.2
+ },
+ "filter": {
+  "field": "absorption dips recorded behind the low-pass filter of a detector",
+  "truth_in_words": "truth: the model is whole, width 1.2 pm, and the noise is correlated from sample to sample, 0.8 from one to the next, of spread 0.002 as stated",
+  "truth": {
+   "width": 1.2
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian dip of one width"
+   ],
+   "chi_square_per_degree": 1.0284791531682922,
+   "beyond": [
+    "what: a noise correlated from sample to sample, excess 64.7",
+    "changes along: the core along temperature, excess 26.8",
+    "what: a periodic function, excess 21",
+    "its line 3.33"
+   ],
+   "parameters": {
+    "width": {
+     "value": 1.2002434021371875,
+     "bar": 0.00033012840757852774,
+     "coverage": 0.9666666666666667,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a periodic term of period 0.7728, `term = mechanisms.periodic(0.7728, \"cosine\")`",
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.98)`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.70",
+     "more repeats, a better data collection: the error of the known parameters times 0.71"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian dip of one width"
+   ],
+   "chi_square_per_degree": 1.0512000729223938,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 1.2006884660989257,
+     "bar": 0.0012787083231072473,
+     "coverage": 0.9666666666666667,
+     "as": "width",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 2 widths away on both sides",
+     "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`",
+     "a periodic term of period 1.632, `term = mechanisms.periodic(1.632, \"cosine\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.67",
+     "more samples, a better data collection: the error of the known parameters times 0.70"
+    ]
+   },
+   "words": "read the correlated noise as noise: keep one sample in every few with `python -m twinfit thin DIR N`, at the span that the report gives, and run the loop on the copy",
+   "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian dip of one width"
+   ],
+   "chi_square_per_degree": 1.0284791531682922,
+   "beyond": [
+    "what: a noise correlated from sample to sample, excess 64.7",
+    "changes along: the core along temperature, excess 26.8",
+    "what: a periodic function, excess 21",
+    "its line 3.33"
+   ],
+   "parameters": {
+    "width": {
+     "value": 1.2002434021371875,
+     "bar": 0.00033012840757852774,
+     "coverage": 0.9666666666666667,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    }
+   },
+   "refused": [
+    "a pedestal 6 times wider than the curve"
+   ],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a periodic term of period 0.7728, `term = mechanisms.periodic(0.7728, \"cosine\")`",
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.98)`",
+     "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.70",
+     "more repeats, a better data collection: the error of the known parameters times 0.71"
+    ]
+   },
+   "words": "hold the correlation with a term of the curve, a pedestal",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: the model is whole, width 1.2 pm, and the noise is correlated from sample to sample, 0.8 from one to the next, of spread 0.002 as stated, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0284786016394303,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 66.8",
+      "changes along: the core along temperature, excess 25.8",
+      "where: the flanks, excess 13.7",
+      "its line 2.89"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.2007417162800271,
+       "bar": 0.00099120402599195,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.7728, `term = mechanisms.periodic(0.7728, \"cosine\")`",
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.98)`",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.70",
+       "more repeats, a better data collection: the error of the known parameters times 0.71"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0511672217012034,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.2020800187116096,
+       "bar": 0.0038434763617243334,
+       "coverage": 0.9333333333333333,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 2 widths away on both sides",
+       "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`",
+       "a periodic term of period 1.632, `term = mechanisms.periodic(1.632, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
+      ]
+     },
+     "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
+     "typed": "python -m twinfit thin DIR 15",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: the model is whole, width 1.2 pm, and the noise is correlated from sample to sample, 0.8 from one to the next, of spread 0.002 as stated, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.3798793512540712e-08,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.2000000906434543,
+       "bar": 0.00032999253738629587,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "a tail on the lower side, 2 times wider, `term = mechanisms.tail(2, \"lower\")`",
+       "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.70",
+       "more repeats, a better data collection: the error of the known parameters times 0.71"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.3847436955107668e-08,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.2000001696474503,
+       "bar": 0.0012774898160221504,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
+      ]
+     },
+     "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
+     "typed": "python -m twinfit thin DIR 15",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "white",
+    "truth_in_words": "truth: the model is whole, width 1.2 pm, and the noise is white: nothing is missing",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0081123082535657,
+     "beyond": [
+      "what: a noise that grows with the signal, excess 3.12",
+      "changes along: the core along temperature, excess 3.05",
+      "its line 3.04"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.2000694095098887,
+       "bar": 0.00033003582328985974,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.96)`",
+       "a periodic term of period 0.7728, `term = mechanisms.periodic(0.7728, \"cosine\")`",
+       "a tail on the upper side, 8 times wider, `term = mechanisms.tail(8, \"upper\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.70",
+       "more repeats, a better data collection: the error of the known parameters times 0.71"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0505698982006824,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.2000445099859123,
+       "bar": 0.0012791419947414686,
+       "coverage": 0.9333333333333333,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 2 widths away on both sides",
+       "a periodic term of period 1.035, `term = mechanisms.periodic(1.035, \"cosine\")`",
+       "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
+      ]
+     },
+     "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
+     "typed": "python -m twinfit thin DIR 15",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: the model is whole, width 1.2 pm, and the noise is white: nothing is missing, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0081101139527593,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.2002094616355306,
+       "bar": 0.0009903675268646648,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.98)`",
+       "a periodic term of period 0.7728, `term = mechanisms.periodic(0.7728, \"cosine\")`",
+       "a tail on the upper side, 8 times wider, `term = mechanisms.tail(8, \"upper\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.70",
+       "more repeats, a better data collection: the error of the known parameters times 0.71"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian dip of one width"
+     ],
+     "chi_square_per_degree": 1.0505257954461804,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.200111612067242,
+       "bar": 0.003847272717665653,
+       "coverage": 0.9333333333333333,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 2 widths away on both sides",
+       "a periodic term of period 1.035, `term = mechanisms.periodic(1.035, \"cosine\")`",
+       "width changes along the square of temperature, `term = mechanisms.along(\"width\", \"temperature\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
+      ]
+     },
+     "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
+     "typed": "python -m twinfit thin DIR 15",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 2.0
+ },
+ "fano": {
+  "field": "photoionization across an autoionizing resonance at four pressures",
+  "truth_in_words": "truth: a Fano profile, q = 3 and half width 2 meV at every pressure, its top near one, and the first model is a Lorentzian, which lacks the interference",
+  "truth": {
+   "half_width": 2.0,
+   "q": 3.0
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one half width"
+   ],
+   "chi_square_per_degree": 475.3753212667952,
+   "beyond": [
+    "what: a tail on one side, excess 1.29e+06",
+    "where: the asymmetry, excess 5.84e+05",
+    "what: a periodic function, excess 4.85e+05",
+    "its line 3.94"
+   ],
+   "parameters": {
+    "half_width": {
+     "value": 2.2253783681753165,
+     "bar": 0.0010827704052851156,
+     "coverage": 0.9,
+     "as": "half_width",
+     "quotable": false,
+     "theory": null
+    },
+    "q": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+     "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "more repeats, a better data collection: the error of the known parameters times 0.48",
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.58"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "one Fano profile"
+   ],
+   "chi_square_per_degree": 1.0005043247269974,
+   "beyond": [],
+   "parameters": {
+    "half_width": {
+     "value": 1.9996620224282124,
+     "bar": 0.0008827433320144504,
+     "coverage": 0.9,
+     "as": "half_width",
+     "quotable": true,
+     "theory": null
+    },
+    "q": {
+     "value": 2.997055898729269,
+     "bar": 0.001688734469668761,
+     "coverage": 0.9666666666666667,
+     "as": "q",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a periodic term of period 4.116, `term = mechanisms.periodic(4.116, \"cosine\")`",
+     "a slope of the level, its own in each record, `term = mechanisms.level(1)`",
+     "q changes along the square of pressure, `term = mechanisms.along(\"q\", \"pressure\", power=2)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.75",
+     "more repeats, a better data collection: the error of the known parameters times 0.77"
+    ]
+   },
+   "words": "the asymmetry is the line's own shape, which no term of the package holds: write the profile that the physics gives, a Fano profile, as the model",
+   "done": null,
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one half width"
+   ],
+   "chi_square_per_degree": 475.3753212667952,
+   "beyond": [
+    "what: a tail on one side, excess 1.29e+06",
+    "where: the asymmetry, excess 5.84e+05",
+    "what: a periodic function, excess 4.85e+05",
+    "its line 3.94"
+   ],
+   "parameters": {
+    "half_width": {
+     "value": 2.2253783681753165,
+     "bar": 0.0010827704052851156,
+     "coverage": 0.9,
+     "as": "half_width",
+     "quotable": false,
+     "theory": null
+    },
+    "q": null
+   },
+   "refused": [
+    "a tail on the upper side, 2 times wider"
+   ],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+     "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "more repeats, a better data collection: the error of the known parameters times 0.48",
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.58"
+    ]
+   },
+   "words": "a tail on one side, the generic term of an asymmetry",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: a Fano profile, q = 3 and half width 2 meV at every pressure, its top near one, and the first model is a Lorentzian, which lacks the interference, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 53.82065511736801,
+     "beyond": [
+      "what: a tail on one side, excess 1.4e+05",
+      "what: a periodic function, excess 7.32e+04",
+      "where: the asymmetry, excess 6.53e+04",
+      "its line 3.93"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 2.2254024239606247,
+       "bar": 0.003250550775045051,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+       "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "more repeats, a better data collection: the error of the known parameters times 0.48",
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.58"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Fano profile"
+     ],
+     "chi_square_per_degree": 1.0005039326923595,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 1.998984698194609,
+       "bar": 0.0026482915168863407,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": true,
+       "theory": null
+      },
+      "q": {
+       "value": 2.991188230157767,
+       "bar": 0.00505146067611192,
+       "coverage": 0.9666666666666667,
+       "as": "q",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 4.116, `term = mechanisms.periodic(4.116, \"cosine\")`",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`",
+       "q changes along the square of pressure, `term = mechanisms.along(\"q\", \"pressure\", power=2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: a Fano profile, q = 3 and half width 2 meV at every pressure, its top near one, and the first model is a Lorentzian, which lacks the interference, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 473.8692020781181,
+     "beyond": [
+      "what: a tail on one side, excess 1.29e+06",
+      "what: a periodic function, excess 5.9e+05",
+      "where: the asymmetry, excess 5.68e+05",
+      "its line 3.9"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 2.225366501443127,
+       "bar": 0.0010823963190431374,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+       "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "more repeats, a better data collection: the error of the known parameters times 0.48",
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.59"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Fano profile"
+     ],
+     "chi_square_per_degree": 5.204239606103358e-09,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 2.0000000011817587,
+       "bar": 0.0008827321519799257,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": {
+       "value": 2.999999904483284,
+       "bar": 0.0016912023533538947,
+       "coverage": 0.9666666666666667,
+       "as": "q",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 8 times wider than the curve, `term = mechanisms.pedestal(8)`",
+       "half_width changes along pressure, `term = mechanisms.along(\"half_width\", \"pressure\")`",
+       "a tail on the lower side, 8 times wider, `term = mechanisms.tail(8, \"lower\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a Fano profile, q = 3 and half width 2 meV at every pressure, its top near one, and the first model is a Lorentzian, which lacks the interference, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 476.4226945979716,
+     "beyond": [
+      "what: a tail on one side, excess 1.29e+06",
+      "where: the asymmetry, excess 5.8e+05",
+      "what: a periodic function, excess 4.69e+05",
+      "its line 3.94"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 2.2252249685060463,
+       "bar": 0.0010834274023703982,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+       "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "more repeats, a better data collection: the error of the known parameters times 0.48",
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.58"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Fano profile"
+     ],
+     "chi_square_per_degree": 1.000138298070619,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 65",
+      "what: a polynomial of the level, excess 16.6",
+      "what: a periodic function, excess 13.1",
+      "its line 2.73"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.9986950017106102,
+       "bar": 0.0008826250300701925,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": {
+       "value": 2.9911184143784277,
+       "bar": 0.0016837118662252654,
+       "coverage": 0.9666666666666667,
+       "as": "q",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a periodic term of period 4.116, `term = mechanisms.periodic(4.116, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a Fano profile, q = 3 and half width 2 meV at every pressure, its top near one, and the first model is a Lorentzian, which lacks the interference, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 54.16598904763496,
+     "beyond": [
+      "what: a tail on one side, excess 1.36e+05",
+      "where: the asymmetry, excess 6.27e+04",
+      "what: a periodic function, excess 5.84e+04",
+      "its line 3.77"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 2.2249488866210374,
+       "bar": 0.00325643140754215,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1 widths below the centre, `term = mechanisms.second(-4.22)`",
+       "a periodic term of period 6.493, `term = mechanisms.periodic(6.493, \"cosine\")`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "more repeats, a better data collection: the error of the known parameters times 0.48",
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.58"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Fano profile"
+     ],
+     "chi_square_per_degree": 1.0001690931189615,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 63.2",
+      "what: a polynomial of the level, excess 16.5",
+      "what: a periodic function, excess 14.7",
+      "its line 2.92"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.9960737294268835,
+       "bar": 0.0026471847837257426,
+       "coverage": 0.9,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      },
+      "q": {
+       "value": 2.9735478069149464,
+       "bar": 0.005006806363929319,
+       "coverage": 0.9666666666666667,
+       "as": "q",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a periodic term of period 4.116, `term = mechanisms.periodic(4.116, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 4.2
+ },
+ "counts": {
+  "field": "photon counts of an emission line at four powers of the pump",
+  "truth_in_words": "truth: the model is whole, half width 1.5 GHz, and the noise is that of a counter, the root of the counts, 6.3 on the background and 40 at the top of the strongest line",
+  "truth": {
+   "half_width": 1.5
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one half width"
+   ],
+   "chi_square_per_degree": 4.508931441941739,
+   "beyond": [
+    "what: a noise that grows with the signal, excess 323",
+    "what: glitches, excess 53.2",
+    "changes along: the core along power, excess 26.3",
+    "its line 2.76"
+   ],
+   "parameters": {
+    "half_width": {
+     "value": 1.5017944940727002,
+     "bar": 0.0009442360199055796,
+     "coverage": 0.9333333333333333,
+     "as": "half_width",
+     "quotable": false,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a periodic term of period 0.8074, `term = mechanisms.periodic(0.8074, \"cosine\")`",
+     "a second component 0.5 widths away on both sides",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.71",
+     "more repeats, a better data collection: the error of the known parameters times 0.75"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one half width"
+   ],
+   "chi_square_per_degree": 0.9841459613623257,
+   "beyond": [],
+   "parameters": {
+    "half_width": {
+     "value": 1.500887255989326,
+     "bar": 0.003201310458664816,
+     "coverage": 0.9333333333333333,
+     "as": "half_width",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-4.05)`",
+     "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+     "a tail on the lower side, 2 times wider, `term = mechanisms.tail(2, \"lower\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.70",
+     "more repeats, a better data collection: the error of the known parameters times 0.71"
+    ]
+   },
+   "words": "give each sample the noise of a counter, the root of the fitted counts, with `python -m twinfit counts DIR`, and run the loop on the copy",
+   "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one half width"
+   ],
+   "chi_square_per_degree": 4.508931441941739,
+   "beyond": [
+    "what: a noise that grows with the signal, excess 323",
+    "what: glitches, excess 53.2",
+    "changes along: the core along power, excess 26.3",
+    "its line 2.76"
+   ],
+   "parameters": {
+    "half_width": {
+     "value": 1.5017944940727002,
+     "bar": 0.0009442360199055796,
+     "coverage": 0.9333333333333333,
+     "as": "half_width",
+     "quotable": false,
+     "theory": null
+    }
+   },
+   "refused": [
+    "a pedestal 6 times wider than the curve"
+   ],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a periodic term of period 0.8074, `term = mechanisms.periodic(0.8074, \"cosine\")`",
+     "a second component 0.5 widths away on both sides",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.71",
+     "more repeats, a better data collection: the error of the known parameters times 0.75"
+    ]
+   },
+   "words": "hold the misfit at the top of the lines with a term of the curve, a pedestal",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "counts",
+    "truth_in_words": "truth: the model is whole, half width 1.5 GHz, and the noise is that of a counter, the root of the counts, 6.3 on the background and 40 at the top of the strongest line, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 4.628790991191461,
+     "beyond": [
+      "what: a noise that grows with the signal, excess 352",
+      "what: glitches, excess 91.8",
+      "what: a periodic function, excess 30.2",
+      "its line 3.13"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.4903005498746726,
+       "bar": 0.002793218004132397,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.06702, `term = mechanisms.periodic(0.06702, \"cosine\")`",
+       "a second component 0.35 widths above the centre, `term = mechanisms.second(0.997)`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.78"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 8.852823915289727,
+     "beyond": [
+      "what: glitches, excess 33.8",
+      "what: a periodic function, excess 20.3",
+      "what: a polynomial of the level, excess 15.8",
+      "its line 2.52"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.5029732179014414,
+       "bar": 0.0031974573970980314,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.2181, `term = mechanisms.periodic(0.2181, \"cosine\")`",
+       "a second component 2 widths above the centre, `term = mechanisms.second(5.72)`",
+       "a cubic term of the level, its own in each record, `term = mechanisms.level(3)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.73"
+      ]
+     },
+     "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
+     "typed": "python -m twinfit counts DIR",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "counts",
+    "truth_in_words": "truth: the model is whole, half width 1.5 GHz, and the noise is that of a counter, the root of the counts, 6.3 on the background and 40 at the top of the strongest line, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 7.811664478103622e-09,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 1.4999999802541923,
+       "bar": 0.0009427556172342808,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "half_width changes along power, `term = mechanisms.along(\"half_width\", \"power\")`",
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "a tail on the upper side, 8 times wider, `term = mechanisms.tail(8, \"upper\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.71",
+       "more repeats, a better data collection: the error of the known parameters times 0.75"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 3.802192766822411e-10,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 1.5000001518081751,
+       "bar": 0.003200091279483039,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "half_width changes along power, `term = mechanisms.along(\"half_width\", \"power\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.70",
+       "more repeats, a better data collection: the error of the known parameters times 0.71"
+      ]
+     },
+     "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
+     "typed": "python -m twinfit counts DIR",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "white",
+    "truth_in_words": "truth: the model is whole, half width 1.5 GHz, and the noise white, 6.3 at every sample as stated: nothing is missing",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 0.9612623843569602,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 1.5019204314509866,
+       "bar": 0.0009436818164377463,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-4.05)`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.78"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 0.4580814834206743,
+     "beyond": [
+      "what: a noise that grows with the signal, excess 8.44",
+      "its line 2.48"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.5007530461989804,
+       "bar": 0.003200258648878436,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "half_width changes along power, `term = mechanisms.along(\"half_width\", \"power\")`",
+       "a tail on the lower side, 2 times wider, `term = mechanisms.tail(2, \"lower\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.73"
+      ]
+     },
+     "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
+     "typed": "python -m twinfit counts DIR",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: the model is whole, half width 1.5 GHz, and the noise white, 6.3 at every sample as stated: nothing is missing, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 0.9612668151039745,
+     "beyond": [],
+     "parameters": {
+      "half_width": {
+       "value": 1.5057388263861249,
+       "bar": 0.00283654556083309,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-4.06)`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.78"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one half width"
+     ],
+     "chi_square_per_degree": 4.127429838867608,
+     "beyond": [
+      "what: a noise that grows with the signal, excess 85",
+      "what: glitches, excess 19.3",
+      "what: a periodic function, excess 17.8",
+      "its line 2.5"
+     ],
+     "parameters": {
+      "half_width": {
+       "value": 1.50225573083429,
+       "bar": 0.003200568709437299,
+       "coverage": 0.9333333333333333,
+       "as": "half_width",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.4157, `term = mechanisms.periodic(0.4157, \"cosine\")`",
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-4.06)`",
+       "a cubic term of the level, its own in each record, `term = mechanisms.level(3)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.73"
+      ]
+     },
+     "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
+     "typed": "python -m twinfit counts DIR",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 2.1
+ },
+ "clock": {
+  "field": "the resonance of an atomic clock read at five powers of the probe",
+  "truth_in_words": "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power",
+  "truth": {
+   "width": 1.5,
+   "clock frequency": 0.12,
+   "light shift": 0.025
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one width and one centre"
+   ],
+   "chi_square_per_degree": 31.812288375542717,
+   "beyond": [
+    "along: power, excess 5.23e+04",
+    "changes along: the asymmetry along power, excess 1.84e+04",
+    "changes along: the core along power, excess 1.49e+04",
+    "its line 2.48"
+   ],
+   "parameters": {
+    "width": {
+     "value": 1.5161356775082728,
+     "bar": 0.0005845119828522486,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "clock frequency": null,
+    "light shift": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "centre changes along power, `term = mechanisms.along(\"centre\", \"power\")`",
+     "a second component 0.35 widths away on both sides",
+     "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.66",
+     "more repeats, a better data collection: the error of the known parameters times 0.67"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line whose centre moves with the power"
+   ],
+   "chi_square_per_degree": 0.9720618653678371,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 1.4997048276157496,
+     "bar": 0.0005760691893791908,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": true,
+     "theory": 3.781606472408328e-09
+    },
+    "clock frequency": {
+     "value": 0.1199983063684052,
+     "bar": 0.00038444427977769386,
+     "coverage": 1.0,
+     "as": "clock frequency",
+     "quotable": true,
+     "theory": 6.923091315502727e-09
+    },
+    "light shift": {
+     "value": 0.025050520192781797,
+     "bar": 5.795052678912431e-05,
+     "coverage": 1.0,
+     "as": "light shift",
+     "quotable": true,
+     "theory": 0.0005012091360032719
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a tail on the lower side, 2 times wider, `term = mechanisms.tail(2, \"lower\")`",
+     "a second component 0.5 widths above the centre, `term = mechanisms.second(0.7)`",
+     "a periodic term of period 0.2157, `term = mechanisms.periodic(0.2157, \"cosine\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.63",
+     "more repeats, a better data collection: the error of the known parameters times 0.71",
+     "more samples, a better data collection: the error of the known parameters times 0.79"
+    ]
+   },
+   "words": "write the light shift that the physics gives, the centre moving in proportion to the power read through its calibration, which the description holds within 2 per cent, so that the model measures the frequency at no power and the light shift carries the bar of that calibration",
+   "done": null,
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 0",
+   "terms": [
+    "one Lorentzian line of one width, its centre its own in each curve"
+   ],
+   "chi_square_per_degree": 0.9720662267393098,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 1.4997048003908122,
+     "bar": 0.0005760691485263425,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": true,
+     "theory": null
+    },
+    "clock frequency": null,
+    "light shift": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 0.5 widths above the centre, `term = mechanisms.second(0.7)`",
+     "a periodic term of period 0.2157, `term = mechanisms.periodic(0.2157, \"cosine\")`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.63",
+     "more samples, a better data collection: the error of the known parameters times 0.74"
+    ]
+   },
+   "words": "free the centre of each curve: the fit is right, and the frequency of the clock is then in no parameter, the shift hidden in five centres",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width and one centre"
+     ],
+     "chi_square_per_degree": 4.423716235560442,
+     "beyond": [
+      "along: power, excess 5.86e+03",
+      "changes along: the asymmetry along power, excess 2.04e+03",
+      "changes along: the core along power, excess 1.7e+03",
+      "its line 2.48"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.5159940331875046,
+       "bar": 0.001754506722289757,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "clock frequency": null,
+      "light shift": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "centre changes along power, `term = mechanisms.along(\"centre\", \"power\")`",
+       "a second component 0.35 widths away on both sides",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose centre moves with the power"
+     ],
+     "chi_square_per_degree": 0.9720643457588755,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.4991148499362763,
+       "bar": 0.0017285811092237397,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": true,
+       "theory": 4.278932164147875e-08
+      },
+      "clock frequency": {
+       "value": 0.11999206523849969,
+       "bar": 0.0011539001151909885,
+       "coverage": 1.0,
+       "as": "clock frequency",
+       "quotable": true,
+       "theory": 1.4539854903405924e-08
+      },
+      "light shift": {
+       "value": 0.025152045301309767,
+       "bar": 0.00017389701052566555,
+       "coverage": 1.0,
+       "as": "light shift",
+       "quotable": true,
+       "theory": 0.0005032366468558386
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the lower side, 2 times wider, `term = mechanisms.tail(2, \"lower\")`",
+       "a second component 0.5 widths above the centre, `term = mechanisms.second(0.7)`",
+       "a periodic term of period 0.2157, `term = mechanisms.periodic(0.2157, \"cosine\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.62",
+       "more repeats, a better data collection: the error of the known parameters times 0.70",
+       "more samples, a better data collection: the error of the known parameters times 0.78"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width and one centre"
+     ],
+     "chi_square_per_degree": 30.728184012327656,
+     "beyond": [
+      "along: power, excess 5.2e+04",
+      "changes along: the asymmetry along power, excess 1.84e+04",
+      "changes along: the core along power, excess 1.46e+04",
+      "its line 2.48"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.5162086287030583,
+       "bar": 0.0005843509235523364,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "clock frequency": null,
+      "light shift": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "centre changes along power, `term = mechanisms.along(\"centre\", \"power\")`",
+       "a second component 1 widths away on both sides",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose centre moves with the power"
+     ],
+     "chi_square_per_degree": 8.962080127013042e-09,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.5000002724267587,
+       "bar": 0.0005760068585999435,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": 1.874833621684502e-12
+      },
+      "clock frequency": {
+       "value": 0.12000000004726202,
+       "bar": 0.00038434975667102144,
+       "coverage": 1.0,
+       "as": "clock frequency",
+       "quotable": false,
+       "theory": 3.557804989506863e-08
+      },
+      "light shift": {
+       "value": 0.02499999999245974,
+       "bar": 5.794293736312064e-05,
+       "coverage": 1.0,
+       "as": "light shift",
+       "quotable": false,
+       "theory": 0.0005001946997251969
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a pedestal 2 times wider than the curve, `term = mechanisms.pedestal(2)`",
+       "a tail on the upper side, 2 times wider, `term = mechanisms.tail(2, \"upper\")`",
+       "width changes along power, `term = mechanisms.along(\"width\", \"power\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.63",
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.79"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width and one centre"
+     ],
+     "chi_square_per_degree": 31.962916473641904,
+     "beyond": [
+      "along: power, excess 5.27e+04",
+      "changes along: the asymmetry along power, excess 1.83e+04",
+      "changes along: the core along power, excess 1.53e+04",
+      "its line 2.48"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.5157983190912048,
+       "bar": 0.0005848006603416846,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "clock frequency": null,
+      "light shift": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "centre changes along power, `term = mechanisms.along(\"centre\", \"power\")`",
+       "a second component 0.35 widths away on both sides",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose centre moves with the power"
+     ],
+     "chi_square_per_degree": 0.9301426263873703,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 51.8",
+      "what: a tail on one side, excess 21.4",
+      "changes along: the core along power, excess 15.2",
+      "its line 2.85"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.4990012908107817,
+       "bar": 0.0005761927565542855,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": 1.4337981246725917e-08
+      },
+      "clock frequency": {
+       "value": 0.12005935930018315,
+       "bar": 0.00038465028637714763,
+       "coverage": 1.0,
+       "as": "clock frequency",
+       "quotable": false,
+       "theory": 1.699636302532337e-08
+      },
+      "light shift": {
+       "value": 0.02513820940978087,
+       "bar": 5.796834851838058e-05,
+       "coverage": 1.0,
+       "as": "light shift",
+       "quotable": false,
+       "theory": 0.0005029650121212235
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a second component 0.5 widths away on both sides",
+       "a cubic term of the level, its own in each record, `term = mechanisms.level(3)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.63",
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.79"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line of one width and one centre"
+     ],
+     "chi_square_per_degree": 4.447317529777848,
+     "beyond": [
+      "along: power, excess 6.02e+03",
+      "changes along: the asymmetry along power, excess 2.02e+03",
+      "changes along: the core along power, excess 1.87e+03",
+      "its line 2.49"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.5150085892536995,
+       "bar": 0.0017571329176582053,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "clock frequency": null,
+      "light shift": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "centre changes along power, `term = mechanisms.along(\"centre\", \"power\")`",
+       "a second component 1 widths below the centre, `term = mechanisms.second(-1.42)`",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "one Lorentzian line whose centre moves with the power"
+     ],
+     "chi_square_per_degree": 0.9301361171631449,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 51.8",
+      "what: a tail on one side, excess 21.3",
+      "changes along: the core along power, excess 15.2",
+      "its line 2.85"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.4970074526929695,
+       "bar": 0.0017296866012893523,
+       "coverage": 1.0,
+       "as": "width",
+       "quotable": false,
+       "theory": 3.4271082638426265e-09
+      },
+      "clock frequency": {
+       "value": 0.12015187790354533,
+       "bar": 0.0011557539189205163,
+       "coverage": 1.0,
+       "as": "clock frequency",
+       "quotable": false,
+       "theory": 1.779040144367361e-09
+      },
+      "light shift": {
+       "value": 0.025419111945727477,
+       "bar": 0.00017405648869287543,
+       "coverage": 1.0,
+       "as": "light shift",
+       "quotable": false,
+       "theory": 0.0005085852514806147
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a second component 0.5 widths away on both sides",
+       "a cubic term of the level, its own in each record, `term = mechanisms.level(3)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.62",
+       "more repeats, a better data collection: the error of the known parameters times 0.70",
+       "more samples, a better data collection: the error of the known parameters times 0.78"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 2.1
+ },
+ "gel": {
+  "field": "a band of electrophoresis in a gel at four voltages",
+  "truth_in_words": "truth: a tail on the side of slower migration, a copy of the band three times wider below its place, of size 0.15 as the tail of the package counts it, beside a Gaussian band of standard deviation 1 mm",
+  "truth": {
+   "width": 1.0,
+   "tail lower 3": 0.15
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "one Gaussian band of one width"
+   ],
+   "chi_square_per_degree": 7.30434431919394,
+   "beyond": [
+    "what: a second component of the curve, excess 7.72e+03",
+    "what: a tail on one side, excess 7.55e+03",
+    "where: the flanks, excess 3.01e+03",
+    "its line 2.76"
+   ],
+   "parameters": {
+    "width": {
+     "value": 1.0212914429930224,
+     "bar": 0.0002367950636209732,
+     "coverage": 0.9666666666666667,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "tail lower 3": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.37)`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+     "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.67",
+     "more repeats, a better data collection: the error of the known parameters times 0.86"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 1",
+   "terms": [
+    "one Gaussian band of one width",
+    "a tail on the lower side, 3.03 times wider"
+   ],
+   "chi_square_per_degree": 0.9994095969955962,
+   "beyond": [],
+   "parameters": {
+    "width": {
+     "value": 1.0002345657720186,
+     "bar": 0.0002670747155350594,
+     "coverage": 0.9666666666666667,
+     "as": "width",
+     "quotable": true,
+     "theory": null
+    },
+    "tail lower 3": {
+     "value": 0.14918259240996007,
+     "bar": 0.0008626109119074194,
+     "coverage": 0.9666666666666667,
+     "as": "tail lower 3.03",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.37)`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+     "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.67",
+     "more repeats, a better data collection: the error of the known parameters times 0.86"
+    ]
+   },
+   "words": "scan the stretch of the tail on the side of slower migration that the report points to, and write the term at the top of the scan",
+   "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.29, and a finer scan about it, at 3.20106 3.23071 3.26035 3.29 3.31965 3.34929 3.37894, at 3.201, and a finer scan about it, at 3.11212 3.14177 3.17142 3.20106 3.23071 3.26035 3.29, at 3.112, and a finer scan about it, at 3.02318 3.05283 3.08248 3.11212 3.14177 3.17141 3.20106, at 3.023, and a finer scan about it, at 2.93424 2.96389 2.99354 3.02318 3.05283 3.08248 3.11212, at 3.03: the term file holds `term = mechanisms.tail(3.03, 'lower')`",
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 1",
+   "terms": [
+    "one Gaussian band of one width",
+    "a pedestal 3 times wider than the curve"
+   ],
+   "chi_square_per_degree": 5.371155076431102,
+   "beyond": [
+    "what: a tail on one side, excess 6.56e+03",
+    "what: a second component of the curve, excess 4.33e+03",
+    "where: the asymmetry, excess 2.53e+03",
+    "its line 2.97"
+   ],
+   "parameters": {
+    "width": {
+     "value": 0.9992596042820678,
+     "bar": 0.0003338153489539814,
+     "coverage": 1.0,
+     "as": "width",
+     "quotable": false,
+     "theory": null
+    },
+    "tail lower 3": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.37)`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+     "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.67",
+     "more repeats, a better data collection: the error of the known parameters times 0.86"
+    ]
+   },
+   "words": "a pedestal under the band, wider on both sides alike",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: a tail on the side of slower migration, a copy of the band three times wider below its place, of size 0.15 as the tail of the package counts it, beside a Gaussian band of standard deviation 1 mm, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian band of one width"
+     ],
+     "chi_square_per_degree": 1.6862503381816436,
+     "beyond": [
+      "what: a second component of the curve, excess 899",
+      "what: a tail on one side, excess 816",
+      "where: the flanks, excess 425",
+      "its line 2.72"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.0212328988616965,
+       "bar": 0.0007104045383225263,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian band of one width",
+      "a tail on the lower side, 3.06464 times wider"
+     ],
+     "chi_square_per_degree": 0.9994528194377521,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.0005427822857023,
+       "bar": 0.000799671823595143,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": true,
+       "theory": null
+      },
+      "tail lower 3": {
+       "value": 0.1477804526385743,
+       "bar": 0.0025821770327627415,
+       "coverage": 0.9666666666666667,
+       "as": "tail lower 3.06464",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.331, and a finer scan about it, at 3.06464 3.15343 3.24221 3.331 3.41979 3.50857 3.59736, at 3.065, and a finer scan about it, at 2.79828 2.88707 2.97585 3.06464 3.15343 3.24221 3.331, at 3.065: the term file holds `term = mechanisms.tail(3.06464, 'lower')`",
+     "typed": "term = mechanisms.tail(3.06464, 'lower')",
+     "range": [
+      3.064639,
+      3.153426
+     ]
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: a tail on the side of slower migration, a copy of the band three times wider below its place, of size 0.15 as the tail of the package counts it, beside a Gaussian band of standard deviation 1 mm, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian band of one width"
+     ],
+     "chi_square_per_degree": 6.368010986193586,
+     "beyond": [
+      "what: a tail on one side, excess 7.57e+03",
+      "what: a second component of the curve, excess 7.57e+03",
+      "where: the flanks, excess 3.2e+03",
+      "its line 2.67"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.0213198089857771,
+       "bar": 0.00023679155663475422,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.38)`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.84"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian band of one width",
+      "a tail on the lower side, 3 times wider"
+     ],
+     "chi_square_per_degree": 3.875270276320559e-09,
+     "beyond": [],
+     "parameters": {
+      "width": {
+       "value": 1.0000000268747975,
+       "bar": 0.0002675201950403285,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": {
+       "value": 0.14999993404389889,
+       "bar": 0.0008642361192244765,
+       "coverage": 0.9666666666666667,
+       "as": "tail lower 3",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.38)`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.84"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.27, and a finer scan about it, at 3.18097 3.21065 3.24032 3.27 3.29968 3.32935 3.35903, at 3.181, and a finer scan about it, at 3.09194 3.12162 3.15129 3.18097 3.21065 3.24032 3.27, at 3.092, and a finer scan about it, at 3.00291 3.03259 3.06226 3.09194 3.12162 3.15129 3.18097, at 3.003, and a finer scan about it, at 2.91388 2.94356 2.97323 3.00291 3.03259 3.06226 3.09194, at 3: the term file holds `term = mechanisms.tail(3, 'lower')`",
+     "typed": "term = mechanisms.tail(3, 'lower')",
+     "range": [
+      2.983264996206996,
+      3.017246148097743
+     ]
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a tail on the side of slower migration, a copy of the band three times wider below its place, of size 0.15 as the tail of the package counts it, beside a Gaussian band of standard deviation 1 mm, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian band of one width"
+     ],
+     "chi_square_per_degree": 7.189796650860545,
+     "beyond": [
+      "what: a second component of the curve, excess 8.19e+03",
+      "what: a tail on one side, excess 7.59e+03",
+      "where: the flanks, excess 3.38e+03",
+      "its line 2.79"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.0213344689812656,
+       "bar": 0.0002368289033449503,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian band of one width",
+      "a tail on the lower side, 3.101 times wider"
+     ],
+     "chi_square_per_degree": 0.9861556366242048,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 63.9",
+      "changes along: the core along voltage, excess 13.6",
+      "along: voltage, excess 13.6",
+      "its line 2.82"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.0009145240727053,
+       "bar": 0.00026605167604943665,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": {
+       "value": 0.14717320178476623,
+       "bar": 0.0008590331981890102,
+       "coverage": 0.9666666666666667,
+       "as": "tail lower 3.101",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.336, and a finer scan about it, at 3.24722 3.27681 3.30641 3.336 3.36559 3.39519 3.42478, at 3.247, and a finer scan about it, at 3.15843 3.18803 3.21762 3.24722 3.27681 3.30641 3.336, at 3.158, and a finer scan about it, at 3.06965 3.09924 3.12884 3.15843 3.18803 3.21762 3.24722, at 3.101: the term file holds `term = mechanisms.tail(3.101, 'lower')`",
+     "typed": "term = mechanisms.tail(3.101, 'lower')",
+     "range": [
+      3.0831713737845554,
+      3.119805412854668
+     ]
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a tail on the side of slower migration, a copy of the band three times wider below its place, of size 0.15 as the tail of the package counts it, beside a Gaussian band of standard deviation 1 mm, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "one Gaussian band of one width"
+     ],
+     "chi_square_per_degree": 1.6440394924665893,
+     "beyond": [
+      "what: a second component of the curve, excess 928",
+      "what: a tail on one side, excess 848",
+      "where: the flanks, excess 411",
+      "its line 2.7"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.0213481461475769,
+       "bar": 0.0007106965556562188,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 1",
+     "terms": [
+      "one Gaussian band of one width",
+      "a tail on the lower side, 3.37339 times wider"
+     ],
+     "chi_square_per_degree": 0.985917180797455,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 62.5",
+      "along: voltage, excess 14",
+      "changes along: the core along voltage, excess 13.4",
+      "its line 2.8"
+     ],
+     "parameters": {
+      "width": {
+       "value": 1.002979074075376,
+       "bar": 0.0007868650755009472,
+       "coverage": 0.9666666666666667,
+       "as": "width",
+       "quotable": false,
+       "theory": null
+      },
+      "tail lower 3": {
+       "value": 0.14231401828483622,
+       "bar": 0.0025493530248874683,
+       "coverage": 0.9333333333333333,
+       "as": "tail lower 3.37339",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 1.41 widths below the centre, `term = mechanisms.second(-3.36)`",
+       "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "more repeats, a better data collection: the error of the known parameters times 0.86"
+      ]
+     },
+     "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.462, and a finer scan about it, at 3.19618 3.28478 3.37339 3.462 3.55061 3.63922 3.72783, at 3.373: the term file holds `term = mechanisms.tail(3.37339, 'lower')`",
+     "typed": "term = mechanisms.tail(3.37339, 'lower')",
+     "range": [
+      3.284783,
+      3.373392
+     ]
+    }
+   }
+  ],
+  "minutes": 3.8
+ },
+ "transit": {
+  "field": "the transit of an exoplanet seen through four filters",
+  "truth_in_words": "truth: a star darker at its limb, by a coefficient u = 0.6 - 0.3 (wavelength - 450 nm) / 350 nm, 0.6 in the blue and 0.3 at 800 nm, under a planet of depth 0.010 and half duration 1.2 h",
+  "truth": {
+   "half_duration": 1.2,
+   "limb darkening at 450 nm": 0.6,
+   "its fall to 800 nm": 0.3
+  },
+  "first": {
+   "best": "model 0",
+   "terms": [
+    "the dip of a uniform star"
+   ],
+   "chi_square_per_degree": 2.397416365512705,
+   "beyond": [
+    "where: the core, excess 1.28e+03",
+    "what: a second component of the curve, excess 970",
+    "what: a periodic function, excess 735",
+    "its line 2.92"
+   ],
+   "parameters": {
+    "half_duration": {
+     "value": 1.1455764141386815,
+     "bar": 0.0005245621696911277,
+     "coverage": 0.9666666666666667,
+     "as": "half_duration",
+     "quotable": false,
+     "theory": null
+    },
+    "limb darkening at 450 nm": null,
+    "its fall to 800 nm": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 0.71 widths away on both sides",
+     "a periodic term of period 1.844, `term = mechanisms.periodic(1.844, \"cosine\")`",
+     "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.74",
+     "more repeats, a better data collection: the error of the known parameters times 0.76"
+    ]
+   }
+  },
+  "do": {
+   "best": "model 0",
+   "terms": [
+    "the dip of a star darker at its limb"
+   ],
+   "chi_square_per_degree": 0.9842066984382527,
+   "beyond": [],
+   "parameters": {
+    "half_duration": {
+     "value": 1.1997097251328428,
+     "bar": 0.0010840638330921865,
+     "coverage": 0.9666666666666667,
+     "as": "half_duration",
+     "quotable": true,
+     "theory": null
+    },
+    "limb darkening at 450 nm": {
+     "value": 0.596713669049165,
+     "bar": 0.007226322483659723,
+     "coverage": 0.9,
+     "as": "limb darkening at 450 nm",
+     "quotable": true,
+     "theory": null
+    },
+    "its fall to 800 nm": {
+     "value": 0.30914804723468964,
+     "bar": 0.00982299783533764,
+     "coverage": 0.9,
+     "as": "its fall to 800 nm",
+     "quotable": true,
+     "theory": null
+    }
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "half_duration changes along the square of wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\", power=2)`",
+     "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`",
+     "a tail on the lower side, 4 times wider, `term = mechanisms.tail(4, \"lower\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more repeats, a better data collection: the error of the known parameters times 0.72",
+     "more samples, a better data collection: the error of the known parameters times 0.74"
+    ]
+   },
+   "words": "write the darkening of the limb of the star that the physics gives, its coefficient falling with the wavelength, as the model",
+   "done": null,
+   "sets": 30
+  },
+  "dont": {
+   "best": "model 1",
+   "terms": [
+    "the dip of a uniform star",
+    "a power 2 of the abscissa under every curve"
+   ],
+   "chi_square_per_degree": 2.3415612999470197,
+   "beyond": [
+    "what: a second component of the curve, excess 1.6e+03",
+    "what: a periodic function, excess 1.11e+03",
+    "where: the core, excess 1.03e+03",
+    "its line 3.03"
+   ],
+   "parameters": {
+    "half_duration": {
+     "value": 1.1430411139850238,
+     "bar": 0.0005513699985434912,
+     "coverage": 0.9333333333333333,
+     "as": "half_duration",
+     "quotable": false,
+     "theory": null
+    },
+    "limb darkening at 450 nm": null,
+    "its fall to 800 nm": null
+   },
+   "refused": [],
+   "by_a_hair": false,
+   "proposals": {
+    "model": [
+     "a second component 0.71 widths away on both sides",
+     "a periodic term of period 1.844, `term = mechanisms.periodic(1.844, \"cosine\")`",
+     "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`"
+    ],
+    "experiment": [
+     "a quieter setup, a better setup: the error of the known parameters times 0.50",
+     "more samples, a better data collection: the error of the known parameters times 0.74",
+     "more repeats, a better data collection: the error of the known parameters times 0.76"
+    ]
+   },
+   "words": "a curvature of the baseline under every curve, the generic term of a round bottom",
+   "done": null,
+   "sets": 30
+  },
+  "variants": [
+   {
+    "level": 3.0,
+    "kind": "white",
+    "truth_in_words": "truth: a star darker at its limb, by a coefficient u = 0.6 - 0.3 (wavelength - 450 nm) / 350 nm, 0.6 in the blue and 0.3 at 800 nm, under a planet of depth 0.010 and half duration 1.2 h, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a uniform star"
+     ],
+     "chi_square_per_degree": 1.136615517423609,
+     "beyond": [
+      "what: a periodic function, excess 139",
+      "where: the core, excess 131",
+      "what: a second component of the curve, excess 105",
+      "its line 2.91"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.1480589711852185,
+       "bar": 0.0015701711996582734,
+       "coverage": 0.9333333333333333,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": null,
+      "its fall to 800 nm": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 1.796, `term = mechanisms.periodic(1.796, \"cosine\")`",
+       "a second component 0.71 widths away on both sides",
+       "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.74",
+       "more repeats, a better data collection: the error of the known parameters times 0.75"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a star darker at its limb"
+     ],
+     "chi_square_per_degree": 0.984026970177363,
+     "beyond": [],
+     "parameters": {
+      "half_duration": {
+       "value": 1.2007670911643167,
+       "bar": 0.003204944150718727,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": true,
+       "theory": null
+      },
+      "limb darkening at 450 nm": {
+       "value": 0.5914797064826502,
+       "bar": 0.021507534561878257,
+       "coverage": 0.9,
+       "as": "limb darkening at 450 nm",
+       "quotable": true,
+       "theory": null
+      },
+      "its fall to 800 nm": {
+       "value": 0.32387734587400807,
+       "bar": 0.02944648120499104,
+       "coverage": 0.9,
+       "as": "its fall to 800 nm",
+       "quotable": true,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.1137, `term = mechanisms.periodic(0.1137, \"cosine\")`",
+       "half_duration changes along the square of wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\", power=2)`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.73"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 0.0,
+    "kind": "white",
+    "truth_in_words": "truth: a star darker at its limb, by a coefficient u = 0.6 - 0.3 (wavelength - 450 nm) / 350 nm, 0.6 in the blue and 0.3 at 800 nm, under a planet of depth 0.010 and half duration 1.2 h, with no noise drawn",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a uniform star"
+     ],
+     "chi_square_per_degree": 1.4332667544152122,
+     "beyond": [
+      "where: the core, excess 1.23e+03",
+      "what: a second component of the curve, excess 985",
+      "what: a periodic function, excess 589",
+      "its line 2.91"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.144345070410854,
+       "bar": 0.0005251392270286399,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": null,
+      "its fall to 800 nm": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a second component 0.71 widths away on both sides",
+       "a periodic term of period 1.877, `term = mechanisms.periodic(1.877, \"cosine\")`",
+       "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a star darker at its limb"
+     ],
+     "chi_square_per_degree": 0.0005427983398094998,
+     "beyond": [],
+     "parameters": {
+      "half_duration": {
+       "value": 1.1991878621959147,
+       "bar": 0.0010920087838948835,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": {
+       "value": 0.5993235701665199,
+       "bar": 0.007255079281542595,
+       "coverage": 0.9,
+       "as": "limb darkening at 450 nm",
+       "quotable": false,
+       "theory": null
+      },
+      "its fall to 800 nm": {
+       "value": 0.30181539944419505,
+       "bar": 0.009826649126383782,
+       "coverage": 0.9,
+       "as": "its fall to 800 nm",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`",
+       "a pedestal 4 times wider than the curve, `term = mechanisms.pedestal(4)`",
+       "a tail on the upper side, 2 times wider, `term = mechanisms.tail(2, \"upper\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.72",
+       "more samples, a better data collection: the error of the known parameters times 0.75"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 1.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a star darker at its limb, by a coefficient u = 0.6 - 0.3 (wavelength - 450 nm) / 350 nm, 0.6 in the blue and 0.3 at 800 nm, under a planet of depth 0.010 and half duration 1.2 h, and the noise is correlated, 0.8 from one sample to the next, which its description does not say",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a uniform star"
+     ],
+     "chi_square_per_degree": 2.3562788738863816,
+     "beyond": [
+      "what: a periodic function, excess 1.22e+03",
+      "where: the core, excess 1.06e+03",
+      "what: a second component of the curve, excess 954",
+      "its line 2.94"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.147708316568954,
+       "bar": 0.000523478790643627,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": null,
+      "its fall to 800 nm": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 1.796, `term = mechanisms.periodic(1.796, \"cosine\")`",
+       "a second component 0.71 widths away on both sides",
+       "half_duration changes along wavelength, `term = mechanisms.along(\"half_duration\", \"wavelength\")`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.74",
+       "more samples, a better data collection: the error of the known parameters times 0.75"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a star darker at its limb"
+     ],
+     "chi_square_per_degree": 0.9969111608073735,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 71.9",
+      "what: a periodic function, excess 17.7",
+      "what: a second component of the curve, excess 6.1",
+      "its line 2.73"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.1999619551635186,
+       "bar": 0.0010662789426287187,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": {
+       "value": 0.5868913721894392,
+       "bar": 0.007176403231370287,
+       "coverage": 0.9,
+       "as": "limb darkening at 450 nm",
+       "quotable": false,
+       "theory": null
+      },
+      "its fall to 800 nm": {
+       "value": 0.31986175877922735,
+       "bar": 0.009828905413837668,
+       "coverage": 0.9,
+       "as": "its fall to 800 nm",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.2658, `term = mechanisms.periodic(0.2658, \"cosine\")`",
+       "a second component 1 widths away on both sides",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.74"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   },
+   {
+    "level": 3.0,
+    "kind": "correlated",
+    "truth_in_words": "truth: a star darker at its limb, by a coefficient u = 0.6 - 0.3 (wavelength - 450 nm) / 350 nm, 0.6 in the blue and 0.3 at 800 nm, under a planet of depth 0.010 and half duration 1.2 h, and the noise is correlated, 0.8 from one sample to the next, which its description does not say, at 3 times its noise",
+    "first": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a uniform star"
+     ],
+     "chi_square_per_degree": 1.1327513448476814,
+     "beyond": [
+      "where: the core, excess 138",
+      "what: a periodic function, excess 95.4",
+      "what: a second component of the curve, excess 86",
+      "its line 2.76"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.1545875643266683,
+       "bar": 0.0015600305447487834,
+       "coverage": 0.9333333333333333,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": null,
+      "its fall to 800 nm": null
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 1.673, `term = mechanisms.periodic(1.673, \"cosine\")`",
+       "a second component 0.71 widths away on both sides",
+       "a curvature of the level, its own in each record, `term = mechanisms.level(2)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.73",
+       "more repeats, a better data collection: the error of the known parameters times 0.74"
+      ]
+     }
+    },
+    "do": {
+     "best": "model 0",
+     "terms": [
+      "the dip of a star darker at its limb"
+     ],
+     "chi_square_per_degree": 0.996391428007959,
+     "beyond": [
+      "what: a noise correlated from sample to sample, excess 72",
+      "what: a periodic function, excess 10.3",
+      "what: a second component of the curve, excess 6.17",
+      "its line 2.78"
+     ],
+     "parameters": {
+      "half_duration": {
+       "value": 1.2014418515207521,
+       "bar": 0.003046364077379129,
+       "coverage": 0.9666666666666667,
+       "as": "half_duration",
+       "quotable": false,
+       "theory": null
+      },
+      "limb darkening at 450 nm": {
+       "value": 0.5614699060300828,
+       "bar": 0.021067299998351153,
+       "coverage": 0.9333333333333333,
+       "as": "limb darkening at 450 nm",
+       "quotable": false,
+       "theory": null
+      },
+      "its fall to 800 nm": {
+       "value": 0.35771349931203705,
+       "bar": 0.0295085984968086,
+       "coverage": 0.9,
+       "as": "its fall to 800 nm",
+       "quotable": false,
+       "theory": null
+      }
+     },
+     "refused": [],
+     "by_a_hair": false,
+     "proposals": {
+      "model": [
+       "a periodic term of period 0.2658, `term = mechanisms.periodic(0.2658, \"cosine\")`",
+       "a second component 1 widths away on both sides",
+       "a slope of the level, its own in each record, `term = mechanisms.level(1)`"
+      ],
+      "experiment": [
+       "a quieter setup, a better setup: the error of the known parameters times 0.49",
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.72"
+      ]
+     },
+     "done": null,
+     "typed": "the model.py of the gallery",
+     "range": null
+    }
+   }
+  ],
+  "minutes": 2.2
+ }
+}

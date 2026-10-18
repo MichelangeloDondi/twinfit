@@ -1,0 +1,37 @@
+# The description of the data collection, which `python -m twinfit loop` reads. Fill the places marked TO FILL.
+
+[problem]
+name = "my problem"                      # TO FILL: a short name
+what = "TO FILL: the physical problem in words: what was measured, how, and what the first model holds"
+abscissa = "x"                           # TO FILL: the name of the abscissa of the curves, and its unit below
+abscissa_unit = "s"                      # TO FILL: the unit of the abscissa
+# abscissa_offset = 587.6                # optional: taken from the abscissa of every curve, where the curves sit far from zero against their span
+value = "signal"                         # TO FILL: the name of what was measured, and its unit below
+value_unit = "V"                         # TO FILL: the unit of the value, or "1" where it has none
+
+[covariates.setting]                     # TO FILL: each setting under which a curve was taken, with its unit, one table each
+unit = "none"                            # TO FILL
+
+[[trace]]                                # TO FILL: one table a curve: its file in traces/, its two columns, its settings
+file = "traces/one.csv"
+columns = ["x", "signal"]
+setting = 1
+
+[noise]                                  # the standard deviation of the noise of each sample, given in one of three ways:
+from = "neighbours"                      # "neighbours": read from the differences of neighbouring samples, too large on a sharp curve: give the value where you know it
+                                         # "value", with a line value = 0.01: one number for every sample, in the unit of the value
+                                         # "column", with a line column = "sd": a third column of each file
+
+# [setup.detector]                       # optional, one table each: an instrument or a setting of the data collection, in words, with its value,
+# words = "the gain of the detector"     # its uncertainty and its unit where they are known, and how it is known: "measured", "set", "from its
+# value = 1e6                            # maker", "assumed" or "not recorded". The package reads no physics in it: whoever chooses the terms
+# unit = "V/A"                           # starts from it, and a lever of kind "setup" names one of them
+# known = "set"
+
+[addenda]                                # the first model is required, the rest optional
+model = "model.py"                       # the first model
+
+[addenda.lever.quieter]                  # optional: a change of the experiment, which the three proposals for the experiment weigh against the others
+kind = "noise"
+factor = 0.5
+words = "a quieter detector, which halves the noise of each sample"
