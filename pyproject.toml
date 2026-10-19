@@ -11,13 +11,14 @@ requires-python = ">=3.12"
 license = "MIT"
 license-files = ["twinfit/LICENSE"]          # the licence as an expression alone: setuptools 77 refuses a licence classifier beside it (PEP 639), and the build of 0.0.7 failed on one, 2026-10-18
 authors = [{name = "Michelangelo Dondi"}]
-# THE FLOOR IS DERIVED, NOT CHOSEN, as in the repository Rb-5S-6S-analysis, his messages 233 and 234. numpy 2.5 replaced
-# np.convolve, with which the term `widened` convolves each curve with its kernel, and is about ten times faster on it:
-# 9000 by 2001 points took 10.0 ms on numpy 1.26.4 and 0.80 ms on 2.5.2, one thread each on this Mac, 2026-10-18. So numpy
-# 2.5 is the floor. The rest follows: numpy 2.5 asks Python 3.12, and scipy before 1.16 refuses numpy 2.5. What the code
-# calls asks less, tomllib Python 3.11, default_rng numpy 1.17 and voigt_profile scipy 1.4, but a floor ten times slower is
-# no fair promise. Each floor is what a clean leg pins and runs: Python 3.12 with numpy 2.5.0 and scipy 1.16.0, beside
-# Python 3.14 with numpy 2.5.2 and scipy 1.18.0, each running the five minutes of the README and the whole gallery.
+# THE FLOOR OF NUMPY IS A CHOICE, MEASURED ON ONE MACHINE, his messages 233 and 234. np.convolve, with which the term
+# `widened` convolves each curve with its kernel, took 10.0 ms on numpy 1.26.4 and 0.80 ms on 2.5.2 for 9000 by 2001
+# points, one thread on a Mac with an arm64 processor, 2026-10-18. On Linux with an x86_64 processor review 39 measured
+# 1.74 ms on 1.26.4 and 2.11 ms on 2.5.0: the speed-up is the build of numpy on the Mac, not the call. numpy 2.5 is kept
+# as the floor for the Mac and because the clean legs below ran on it. The rest follows: numpy 2.5 asks Python 3.12, and
+# scipy before 1.16 refuses numpy 2.5. What the code calls asks less, tomllib Python 3.11, default_rng numpy 1.17 and
+# voigt_profile scipy 1.4. Each floor is what a clean leg pins and runs: Python 3.12 with numpy 2.5.0 and scipy 1.16.0,
+# beside Python 3.14 with numpy 2.5.2 and scipy 1.18.0, each running the five minutes of the README and the gallery.
 dependencies = ["numpy>=2.5", "scipy>=1.16"]
 classifiers = [
     "Programming Language :: Python :: 3",

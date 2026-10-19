@@ -2,7 +2,7 @@
 
 This tutorial takes you from nothing to the best model of a set of curves, with the uncertainty of each of its parameters and six proposals, three for the model and three for the experiment. It runs on two worked projects that the package writes, one of nuclear magnetic resonance and one of chromatography, so nothing of yours is needed to follow it. Their curves were drawn from a known truth, so you can see whether the package finds it.
 
-Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check` runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 90 seconds, on a machine at rest: one busy with other work takes two or three times as long.
+Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check` runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 101 seconds, on a machine at rest: one busy with other work takes two or three times as long.
 
 ## 1. What the package does
 
@@ -37,14 +37,14 @@ The words that the rest of this page uses, each once:
 
 ## 2. What you need
 
-Python 3.12 or later, with numpy 2.5 or later and scipy 1.16 or later: numpy 2.5 convolves about ten times faster than the versions before it, and the oldest versions that the package has run on are Python 3.12, numpy 2.5.0 and scipy 1.16.0. Where the Python of your machine is called `python3`, or lives at a path of its own, type that in the place of `python` in every command of this page. Install the package from PyPI, `pip install twinfit`, or from a folder that holds it, `pip install /the/folder/that/holds/twinfit`, or put that folder on the path of Python, `export PYTHONPATH=/the/folder/that/holds/twinfit`. Then this prints the version of the package:
+Python 3.12 or later, with numpy 2.5 or later and scipy 1.16 or later: numpy 2.5 convolves about ten times faster than numpy 1.26 on a Mac with an arm64 processor, and about as fast on Linux with an x86_64 processor, and the oldest versions that the package has run on are Python 3.12, numpy 2.5.0 and scipy 1.16.0. Where the Python of your machine is called `python3`, or lives at a path of its own, type that in the place of `python` in every command of this page. Install the package from PyPI, `pip install twinfit`, or from a folder that holds it, `pip install /the/folder/that/holds/twinfit`, or put that folder on the path of Python, `export PYTHONPATH=/the/folder/that/holds/twinfit`. Then this prints the version of the package:
 
 ```bash
 python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.0.7
+0.0.8
 ```
 
 ## 3. A worked project

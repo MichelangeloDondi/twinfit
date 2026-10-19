@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -227,6 +227,11 @@ VERSIONS = {
         "the opening of the README, which PyPI shows, written as one page that presents the package, how it works, what it gives and what it cannot do, for a reader who meets it first, his message 232. 0.0.6 was never uploaded, so the release is this number",
         "the floors of the versions derived from the speed of numpy, as the other repository of this work derives them, his messages 233 and 234: numpy 2.5, which convolves about ten times faster than numpy 1.26 on the convolution of the term widened, and so Python 3.12 and scipy 1.16, each run by a clean leg, Python 3.12 with numpy 2.5.0 and scipy 1.16.0 and Python 3.14 with numpy 2.5.2 and scipy 1.18.0. pip refuses a version under a floor. The import of the package keeps its check of Python 3.11, numpy and scipy, since every count of the toy reads the file that holds it",
         "the two figures of the README drawn on a blind run of an agent on eight synthetic curves of a two photon line, his messages 235, 237 and 238: every sample, and the sums of what a fit leaves in pairs of windows cut at six scales, each a number that is noise about zero when nothing is missing, read against the twin of the fit, turn by turn",
+    )},    "0.0.8": {"digest": "5c9aad8b6ad77819ff347bd96bb6b1b52ee00594d69dc37f92a9e5c6fb5ecd74", "changes": (
+        "repairs: review 39 of candidate 39: 0.0.7 was uploaded to PyPI on 2026-10-18 with the errors of its README that the review found, and a version is never replaced, so its repairs are this number",
+        "repairs of review 39, moderate 2: the floor of numpy said as a choice measured on one machine. On a Mac with an arm64 processor numpy 2.5.2 convolves 9000 by 2001 points in 0.80 ms against 10.0 ms for 1.26.4, and on Linux with an x86_64 processor the review measured 2.11 against 1.74 ms, so the speed-up is the build of numpy on the Mac, which the README, the tutorial and pyproject.toml now say",
+        "repairs of review 39, moderates 3, 4, 6 and 7: the opening of the README under 600 words from 1302, with the run of its figures said as the best of three on two draws of one synthetic model, which missed the smallest of the four terms and was stopped at two hours, the grid of the windows of its figure said as drawn for the figure where the report reads six bands, and turns counted from 1 and models from 0",
+        "repairs of review 39, moderate 5: the limit of the report said as a property of the method, which describes a miss by the shapes that it builds from the fitted model, without a nearest shape",
     )},
 }
 
