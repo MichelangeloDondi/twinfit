@@ -74,7 +74,7 @@ uv/uv venv --python 3.14 venv
 uv/uv pip install --python venv/bin/python "twinfit[log]"
 ```
 
-The last line installs the release from PyPI. For a candidate, install its wheel with `uv/uv pip install --python venv/bin/python "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`. On another machine, use the uv archive for that machine. `UV_PYTHON_INSTALL_DIR`, `UV_CACHE_DIR` and `MPLCONFIGDIR` move the caches of uv and matplotlib out of your home folder when it cannot be written. Then `source venv/bin/activate`, and start at the second line of the five minutes.
+The last line installs the release from PyPI. For a candidate, install its wheel with `uv/uv pip install --python venv/bin/python "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`. On another machine, use the uv archive for that machine. `UV_PYTHON_INSTALL_DIR`, `UV_CACHE_DIR` and `MPLCONFIGDIR` move the caches of uv and matplotlib out of your home folder when it cannot be written. uv also tries to link its Python under `~/.local/bin` and warns when it cannot. The install works regardless. Then `source venv/bin/activate`, and start at the second line of the five minutes.
 
 ## Five minutes: an atomic clock at five probe powers
 
@@ -152,7 +152,7 @@ python -m twinfit loop DIR [--n N] [--sets S] [--max-seconds T] [--workers W] [-
                                        on W cores, every core by default, with the same numbers
                                        With --dictionary, the package's own list of generic terms is set against the residuals beside
                                        your list, list_of_terms.py: asked by you alone, since the package is for the term nobody suspects
-python -m twinfit terms                lists the terms that a term file can name, the name that best.md gives each, and the form of a term file
+python -m twinfit terms                lists the terms of its table, the name that best.md gives each, and the form of a term file. The table lacks exponential_width until 0.1.1 (docs/ROADMAP.md, section 4)
 python -m twinfit card                 how to write a term file, of the package or of your own, in one page
 python -m twinfit log DIR              draws the visual log of the last run in DIR
 python -m twinfit wait DIR [--timeout S]  waits up to S seconds for the loop that runs in DIR, 540 by default, and prints its last page for an agent

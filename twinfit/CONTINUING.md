@@ -6,7 +6,7 @@ This page is written for a researcher who takes twinfit over from its author. It
 
 twinfit is a general purpose tool. A researcher fits one model to several curves, for example spectra at several temperatures. twinfit reads the residuals of that fit through families of statistics and compares each statistic with its value on a twin, that is, on synthetic curves drawn from the fitted model with the law of noise assigned to the records, fitted and read in the same way. It then states where the model misses, of which kind the miss is, and along which setting it varies. The physics enters after that reading: the researcher writes the term that accounts for it.
 
-The worked example, and the bench on which the package was measured, is a line of the author's own experiment. A model of that line in five terms draws synthetic curves whose truth is known. The figures of the README were counted on those curves, and on a gallery of eleven synthetic projects of other fields. Of the five values of the model, two were fitted to the author's recorded curves, two are held at their theoretical values with their uncertainties, and one is taken from the literature. The recorded curves are private, and the tool needs none of them. The model, its terms, their values and the source of each are given in `toy/README.md` of the repository. The condition of each value, the fit that gave it and its uncertainty are given in the `source` fields of `toy/config.toml`, `toy/const.toml` and `toy/twin.toml`.
+The worked example, and the bench on which the package was measured, is a line of the author's own experiment. A model of that line in five terms draws synthetic curves whose truth is known. The figures of the README were counted on those curves, and on a gallery of eleven synthetic projects of other fields. Of the five values of the model, two were fitted to the author's recorded curves, a constant width, 0.037 ± 0.015, and the spread of the frequency noise of the light source, 0.369 ± 0.028, both in the unit of the model's widths (`toy/config.toml`), two are held at their theoretical values with their uncertainties, and one is taken from the literature. The recorded curves are private, and the tool needs none of them. The model, its terms, their values and the source of each are given in `toy/README.md` of the repository. The condition of each value, the fit that gave it and its uncertainty are given in the `source` fields of `toy/config.toml`, `toy/const.toml` and `toy/twin.toml`.
 
 ## Where each part is
 
@@ -42,7 +42,7 @@ The package runs on Python 3.12 or later. The bench needs Python 3.14, because t
 
 1. Install the package with matplotlib, which the tutorial and the figures need: `pip install "twinfit[log]"`.
 2. Run the five minutes of the README, the clock at five probe powers.
-3. Run every command of the tutorial again, which takes one to five minutes:
+3. Run every command of the tutorial again, on a quiet machine, since a loaded one can make the check refuse. It takes one to five minutes:
 
 ```bash
 python -m twinfit.tutorial --check
@@ -63,7 +63,7 @@ python tools/met.py M456,M505,M457,M458,M441,M444,M459 --counted
 python toy/again.py "2 hidden under 1" 7
 ```
 
-Each of the first three commands compares the digest of its code with that of its table, sums again the rows that the table holds, and reports that its table was counted, or made, "from the files as they are". A pass means that the table matches the code. The kept rows of `runs/` are read by `toy/again.py` and by `toy/count.py`. The fourth command counts the kept fits of each model on its 100 synthetic draws, makes three of them again, and ends with "every model passes, and three fits of each were made again". `tools/met.py` prints the readings of `docs/VALIDATION.md`. `toy/again.py` makes draw 7 of that case again from its seed, in seconds, and ends with "the kept row, field for field".
+Each of the first three commands compares the digest of its code with that of its table, sums again the rows that the table holds, and reports that its table was counted, or made, "from the files as they are". A pass means that the table matches the code. The kept rows of `runs/` are read by `toy/again.py` and by `toy/count.py`. The fourth command counts the kept fits of each model on its 100 synthetic draws, makes three of them again, and ends with "every model passes, and three fits of each were made again". `tools/met.py` prints the readings of `docs/VALIDATION.md`. Each label of its command is a row of the author's plan and names the criteria whose `row` field in `toy/thresholds.toml` holds it. `toy/again.py` makes draw 7 of that case again from its seed, in seconds, and ends with "the kept row, field for field".
 
 ## Three lines of work
 

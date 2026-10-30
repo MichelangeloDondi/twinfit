@@ -30,13 +30,13 @@ The main fit frees the natural width in details 1 and 2, the gas width from 3 an
 
 ## 3. The eight traces
 
-The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep 70, 90, 110 and 130 °C at 225 mW, sharing the trace at 225 mW and 130 °C: 8 traces (`const.toml` [conditions]) of one hyperfine peak, 993.4192 nm in `config.toml` [recorded], each of 1177 points from $-25$ to $25$ MHz (`const.toml` [axis]).
+The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep 70, 90, 110 and 130 °C at 225 mW, sharing the trace at 225 mW and 130 °C: 8 traces (`const.toml` [conditions]) of one hyperfine peak, 993.4192 nm in `config.toml` [recorded], each of 1177 points from $-25$ to $25$ MHz (`const.toml` [axis]). Three heights of the trace at 225 mW and 130 °C appear in the files: 4.24 V, the model's reference (`const.toml` [reference_height]), 4.48 V, the first repetition fitted alone, and 4.277 V, fitted jointly under the fifth model (`twin.toml` [heights]), which `twin.py` draws with.
 
 ## 4. The twin and how a trace is drawn
 
 `traces.py` draws the model's own traces, which `pointing.py`, `power.py`, `draws.py` and the synthetic runs of `chosen.py` take through `fits.synthetic`: the signal of section 2 plus Gaussian noise of variance $a^2+bh+ch^2+ds^2$, with $h$ the signal in V and $s$ its slope in V per MHz. `scoreboard.py` adds noise of its own to its noiseless signal (seed $[2026,10,19]$ and the draw number), its field group and `gallery_count.py` draw the package's examples, and `benchmark.py` draws nothing. The 32 laws of $a$ (V), $b$ (V) and $c$, one for each peak and each of the 8 traces, and $d=0.00135\pm0.00026$ MHz², one for all, are in `../data/noise/noise_laws.json`. The seed of `traces.py` is $[2026,10,12]$ (`const.toml` [seed]), then the detail, the power, the temperature and, for a draw other than 0, its number.
 
-`twin.py` draws synthetic traces that follow the recorded traces in height and noise (`twin.toml`). This is not the twin of the package, and no count uses it. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
+`twin.py` draws synthetic traces that follow the recorded traces in height and noise (`twin.toml`). This is not the twin of the package, and no count uses it. `twin.toml` also holds a laser noise for each trace, 0.169 to 0.627 MHz, seven of them fitted alone and the one at 225 mW and 70 °C the joint value, and `twin.py` draws each trace with its own, while the model and its fits hold the one value of the joint fit, 0.369 ± 0.028 MHz. The author has since chosen the one value for all eight traces, which 0.1.1 carries. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
 
 ## 5. The counts
 
@@ -71,7 +71,7 @@ Each prints one line: five contain `from the files as they are`, that of `draws.
 python tools/met.py M456,M505,M457,M458,M441,M444,M459 --counted
 ```
 
-It prints the 23 readings of [`../docs/VALIDATION.md`](../docs/VALIDATION.md), the labels naming rows of the author's plan. Two end NOT MET:
+It prints the 23 readings of [`../docs/VALIDATION.md`](../docs/VALIDATION.md). Each label is a row of the author's plan and names the criteria whose `row` field in `thresholds.toml` holds it, so one label reads one group of criteria. Two end NOT MET:
 
 ```text
   C1, the place, collisions: 0.440 +- 0.050 on 100, at least 0.60: NOT MET

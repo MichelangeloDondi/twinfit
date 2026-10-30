@@ -20,6 +20,8 @@ This page is `docs/DECISIONS.md` of https://github.com/MichelangeloDondi/twinfit
 
 ## Thresholds, and which were set after tables were read
 
+The criteria are numbered C1 to C13. C3 and C8, of the dictionary, were taken out, C9 has no line, and C12 and C13 are proposed in `ROADMAP.md` and not yet written.
+
 Drafted on 2026-10-23 before any count at 0.1.0rc15, the lines of `toy/thresholds.toml` were written again on 2026-10-24, when the author delegated them. Set after tables were read:
 
 - C6, C7 and C10, after a review read the loop count's progress log, and C7's band after the tables of 0.1.0rc16.
@@ -41,7 +43,7 @@ Each draw against its own twin, the place first or tied reads 0.765 ± 0.030 of 
 
 **2. What should 0.1.1 do about C1 on the collisions?** They read 0.440 ± 0.050 of 100 against at least 0.60 (`toy/pointing.json`), the pooled place being met. At twice and three times the size of the twin, the true value of a term in `toy/config.toml`, the core comes first or tied on 0.610 ± 0.049 and 0.910 ± 0.029 of 100 draws (`runs/pointing_2_hidden_under_1_at_{2,3}_of_the_size_of_the_twin_*.jsonl`, in no table and remade by nothing here), but the transit's place is wrong on 100 of 100 draws at twice and the laser noise's at three times. Options: keep C1 as 0.1.0 does, move the line or `tools/met.py` to the pooled reading, redefine C1 before counting, or add a statistic of the small term, a broadening of the whole line. Counted by the author toward 0.1.1, by programs that are not in this release, that statistic sees the collisions on 100 of 100 draws and places nothing, so C1 would have to score it as a place.
 
-**3. In which order do the versions come?** `ROADMAP.md` gives one. The other puts the twin's noise first: the twin now draws each sample from a normal law of the description's deviation (`twinfit/TUTORIAL.md`, section 1), where that order would draw the noise of the records. An edit of `twinfit/twin.py` leaves every count stale.
+**3. In which order do the versions come?** `ROADMAP.md` gives one. The other puts the twin's noise first: the twin now draws each sample from a normal law of the description's deviation (`twinfit/TUTORIAL.md`, section 1), where that order would draw the noise of the records. An edit of `twinfit/twin.py` leaves every count stale. Until the author rules, the roadmap's order is followed.
 
 **4. When is the agentic version validated?** The README quotes the best of three early runs, 3 of 4 terms found, where one scored run, counted by the author outside this release, found 2 of 4. Three runs now give a gate, not a rate, with no pass criterion written. Or validate at 0.2.0, a criterion first.
 

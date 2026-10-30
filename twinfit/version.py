@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.0.post1.dev4"
+__version__ = "0.1.0.post1.dev5"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -410,6 +410,9 @@ VERSIONS = {
     )},
     "0.1.0.post1.dev4": {"digest": "1ce13e6689dfa528765ff7dc1fd8f39189c08c5916c9550635f89fcbb3f15425", "changes": (
         "the README, CONTINUING.md, RUBIDIUM.md and the pages of the public repository written again in plain prose for their reader, his messages 459 to 462: the Purpose says that the data are read first and the physics named after, its places and kinds examples of what the statistics read, the README marks the two shares outside their thresholds, names the kept rows of three counts and points to the real case of guide rubidium, and the repairs of the fourth blind researcher are in pages alone, among them the roadmap's symbol of the kernel's decay length, the program of the small term and the definition of α, the decisions page's laser noise values, and the files not shipped in the bench guide",
+    )},
+    "0.1.0.post1.dev5": {"digest": "23725def0dde950a84b79ac16a419dab383211a1384b691375a747d183c88652", "changes": (
+        "the repairs of the fifth blind researcher of the bus test, in pages alone: the example's description names the synthetic traces that follow the recorded ones without the word twin, the README's commands say that the table of terms lacks exponential_width until 0.1.1, the successor's page gives the two fitted values and the meaning of the labels of met.py, the bench guide names the three heights of one trace and the value of each trace fitted alone beside the one value, the decisions page numbers the criteria and says which order is followed, and the page of the real case says how the loop starts on its project and how long it takes",
     )},
 }
 
