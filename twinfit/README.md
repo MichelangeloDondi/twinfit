@@ -10,13 +10,13 @@ In five minutes, the clock below. In an hour, sections 1 to 6 of `twinfit/TUTORI
 
 A model fitted to measured curves can pass the usual test of fit and still lack an effect: a broadening, a background, a drift. The missing effect biases the fitted parameters while the reduced chi square stays near one.
 
-twinfit starts from the data alone. It computes statistics of the residuals and compares each with the same statistic on synthetic curves drawn from the fitted model, its twin. Where the residuals stand out, it reports what its statistics can read of them: in which region of the curve the excess lies (in the core or in the wings, for example, or as an asymmetry between the two sides), what structure they see (a slow trend or a periodic structure, for example, or a departure of the noise from its law), the size of the excess, the setting of the experiment along which it varies, and what each shared parameter would move by if the excess were a real term of that size. A structure that none of its statistics reads still shows as an excess, without a name. The physics comes next, and it is yours: you write the term that explains the structure, and twinfit keeps it if the records support it. It suggests no term of its own unless you ask for its generic list with `--dictionary`.
+twinfit starts from the data alone. It computes statistics of the residuals and compares each with the same statistic on synthetic curves drawn from the fitted model, its twin. Where the residuals stand out, it reports what its statistics can read of them: in which region of the curve the excess lies (in the core or in the wings, for example, or as an asymmetry between the two sides), what structure they see (a slow trend or a periodic structure, for example, or a departure of the noise from its law), the size of the excess, the setting of the experiment along which it varies, and what each shared parameter would move by if the excess were a real term of that size. A structure that none of its statistics reads still shows as an excess, without a name. The physics comes next, and it is yours: you write the term that explains the structure, and twinfit keeps it if the records support it. It suggests no term of its own unless you ask for its generic list, an option of the loop.
 
 Version 0.1.0 was measured on synthetic curves of the author's own experiment, the real case of `python -m twinfit guide rubidium`, and on eleven synthetic projects of other fields. The results are summarized below and given in full in `docs/VALIDATION.md` of the repository.
 
 ## Continuing this work
 
-The source and the bench on which the package was measured are public at https://github.com/MichelangeloDondi/twinfit: the model that drew the synthetic curves, the programs of the counts with their tables and, for three of the counts, their kept rows, and the pages of the validation, the roadmap and the decisions. `twinfit/CONTINUING.md`, in the folder that the last line of `python -m twinfit guide readme` names, is written for a researcher who takes the work over.
+The source and the bench on which the package was measured are public at https://github.com/MichelangeloDondi/twinfit: the model that drew the synthetic curves, the programs of the counts with their tables and, for three of the counts, their kept rows, and the pages of the validation, the roadmap and the decisions. `twinfit/CONTINUING.md`, beside the file that the last line of `python -m twinfit guide readme` names, is written for a researcher who takes the work over.
 
 ## Method
 
@@ -37,7 +37,7 @@ The best model and, for each parameter, its uncertainty in five parts kept separ
 
 *The same run, turn by turn. With model 1 the size of its term reads 31 bars too large at a chi square of 1.014. A width that varies along the density takes it to 6.9 bars, and a width of each curve to 0.7, within its bars. This was the best of three blind runs on two draws of one synthetic model. It found three of the four terms, missed the smallest, and was stopped after two hours.*
 
-## What was measured
+## Shares measured on the bench
 
 Each share is given with its standard error. Two stand outside their thresholds and are marked. The full table is in `docs/VALIDATION.md`.
 
@@ -130,7 +130,9 @@ The uncertainty from theory is the 2 per cent of the calibration, carried throug
 
 A term file `clock/terms/01.py` with `term = mechanisms.along("centre", "power")` would give the same light shift as the size of a term, but it names no clock frequency and reads no calibration. Where the physics gives the law, write it in `model.py`.
 
-Each run takes between ten seconds and a minute on a laptop. The loop writes `clock/loop/` again at each run, so copy it to keep a report. `best.md` may ask for `--sets 500` before a value is quoted. `python -m twinfit guide tutorial` prints the tutorial, `guide examples` the gallery, and `guide rubidium` a real case: recorded traces of the two photon line of rubidium, as plots, with what the package reads on them.
+Each run takes between ten seconds and a minute on a laptop. The loop writes `clock/loop/` again at each run, so copy it to keep a report. `best.md` may ask for `--sets 500` before a value is quoted. `python -m twinfit guide tutorial` prints the tutorial and `python -m twinfit guide examples` the gallery.
+
+`python -m twinfit guide rubidium` shows a real case: recorded traces of the two photon line of rubidium, as plots, with what the package reads on them.
 
 ## A project from measured curves
 
@@ -139,8 +141,12 @@ Each run takes between ten seconds and a minute on a laptop. The loop writes `cl
 ## Commands
 
 ```
+python -m twinfit example rubidium DIR  writes into DIR the synthetic traces of the real case of `guide rubidium`: eight
+                                            traces of the model of five terms whose values follow their joint fit, each with
+                                            the height and the noise of its recorded trace, their description and a first
+                                            model of one Lorentzian line
 python -m twinfit example NAME DIR [--noise L] [--kind K]
-                                       writes a worked project into DIR: chromatography or nmr, an example of twinfit/EXAMPLES.md, or rubidium, the case of `guide rubidium`,
+                                       writes a worked project into DIR: chromatography or nmr, or an example of twinfit/EXAMPLES.md,
                                        whose noise is L times its own, 0 for none drawn, and of kind K, white, correlated or counts
 python -m twinfit init DIR             writes the starting files of a project into DIR
 python -m twinfit loop DIR [--n N] [--sets S] [--max-seconds T] [--workers W] [--dictionary]

@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.0.post1"
+__version__ = "0.1.0.post2"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -416,6 +416,9 @@ VERSIONS = {
     )},
     "0.1.0.post1": {"digest": "0c31d394146bd022740ad29c8b63d08bbc4cffc51292d04e4d0ab16807316f23", "changes": (
         "the code of 0.1.0 with its pages written again for their reader after six blind researchers, his messages 441 to 466: a page for a successor, CONTINUING.md, the public repository named with its bench, the Purpose saying that the data are read first and the physics named after, the shares outside their thresholds marked, and the example's description kept as 0.1.0 wrote it, since the count of the gallery hashes it",
+    )},
+    "0.1.0.post2": {"digest": "c80855e044ab7754a05de3c23c7a0261749b071906c943e3f1def725e3b75ce7", "changes": (
+        "the code of 0.1.0 but one sentence of the tutorial's text in tutorial.py, his choice A of message 470 (the outflow example gave three of its four values back within their bars, not four), with the pages of 0.1.0.post1 written again for their reader after the seventh blind researcher and the readings of the day, his messages 465 to 471: the bus test shipped for a person and for an agent, docs/BUS_TEST.md with its brief and its scorer, RUBIDIUM.md saying one draw for the one-value twin, the successor's page and the decisions naming this one code sentence, and count C11 made again on the same seeds for its digest right after this stamp. 0.1.0.post1 was stamped and built on 2026-10-30 at 05:02, sent for his review at 05:04 and never uploaded",
     )},
 }
 

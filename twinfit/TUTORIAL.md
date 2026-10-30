@@ -6,7 +6,7 @@ It builds on the five minutes of the README and sets out the whole path of the p
 
 > Section 1 below defines every word that the package and its other pages use.
 
-Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 55 seconds. A machine busy with other work takes longer.
+Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 54 seconds. A machine busy with other work takes longer.
 
 ## 1. Purpose and vocabulary of the package
 
@@ -52,7 +52,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.0.post1
+0.1.0.post2
 ```
 
 ## 3. A worked project
@@ -1298,7 +1298,7 @@ def model(x, shared, own, design):
     return own[0] * (first + other) + own[2]
 ```
 
-with `start_own`, `CENTRE` and `centre` as in section 3. On spectra whose second component was two and a half times wider than the line, 120 km/s below it with a fifth of its area, this model gave each of the four values back within its bar of the fit.
+with `start_own`, `CENTRE` and `centre` as in section 3. On spectra whose second component was two and a half times wider than the line, 120 km/s below it with a fifth of its area, this model gave three of the four values back within their bars of the fit, and the velocity of the second component 1.1 bars from its truth.
 
 Where the second component has the width of the first, as the impurity of the chromatograms above, its own width cannot be told from its share and its distance, and the term `second` is the one to keep. Any function of the settings is written the same way, as a height that falls as the exponential of a radius or a place that follows the tanh of it, and not only a line.
 

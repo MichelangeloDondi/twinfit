@@ -18,7 +18,7 @@ The page of the package, with a first run of five minutes, is [`twinfit/README.m
 | [`toy/`](toy/README.md) | the bench of the package: a model of five terms of the author's own line, the two photon line of rubidium from 5S to 6S, from which synthetic traces of known truth are drawn, the programs that count what the package does on them, and their tables |
 | [`runs/`](runs/) | the kept row of each draw of three of the counts behind the shares of the README (the place and the setting, the right models, and the gallery), from which a table is counted again and a draw made again |
 | [`tools/met.py`](tools/met.py) | the reader of every criterion of `toy/thresholds.toml` on the tables |
-| [`docs/`](docs/) | [`VALIDATION.md`](docs/VALIDATION.md), what the package was measured to do, [`ROADMAP.md`](docs/ROADMAP.md), the versions that follow, and [`DECISIONS.md`](docs/DECISIONS.md), the decisions taken and the questions left open |
+| [`docs/`](docs/) | [`VALIDATION.md`](docs/VALIDATION.md), what the package was measured to do, [`ROADMAP.md`](docs/ROADMAP.md), the versions that follow, [`DECISIONS.md`](docs/DECISIONS.md), the decisions taken and the questions left open, and [`BUS_TEST.md`](docs/BUS_TEST.md), whether another researcher, a person or an agent, continues the work from PyPI and this repository alone |
 | [`data/noise/`](data/noise/) | the law of the noise of each recorded trace of the author, read from the traces, without any sample of them |
 
 The recorded traces of the author are not in this repository. The package does not need them, and the bench draws its traces from the model of five terms.

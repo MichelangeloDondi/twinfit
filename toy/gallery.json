@@ -1,6 +1,6 @@
 {
- "digest": "8b7f2ccd6d6af1700a315ac967634d98c0a2660e44a9a2dc91f484696ba4940c",
- "package": "0.1.0",
+ "digest": "2fcf9f2fd93f69998199cae44c08f3f627924f66ce870cb41113c7b2b54c1691",
+ "package": "0.1.0.post2",
  "key": {
   "pedestal": {
    "where": "the wings"

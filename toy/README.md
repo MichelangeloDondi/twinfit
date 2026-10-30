@@ -6,7 +6,7 @@ This folder holds the bench on which [`twinfit`](../twinfit/README.md) was measu
 
 The toy has five *details* (`const.toml` [details]): detail $k$ holds the first $k$ terms of section 2. A *trace* is the signal in V against the frequency $\nu$ in MHz at one power $P$ in mW and one temperature $T_\mathrm{C}$ in °C, a *draw* the 8 synthetic traces of one number. A *right model* is fitted to traces of its own detail. A *hidden term* is one the fitted model lacks: the model of detail $k-1$, keeping the free parameters of detail $k$ but the new term (none for $k=3$: `3 hidden under 2 with nothing free`), fitted to traces of detail $k$. [`TUTORIAL.md`](../twinfit/TUTORIAL.md) section 1 defines the package's words, except its *place*, where the report points: the core, the flanks, the wings or the asymmetry. A *set* is a synthetic copy of the traces from a twin, a *false alarm* some answer beyond the twin on a right model, a *share* the fraction of draws on which something happens. *The twin of a case* is made once from the case's first draw, *the twin of a draw's own fit* for each draw. A *unit* is a draw or a part of a twin, a *condition* a named group of units, a *row* one JSON line of [`../runs/`](../runs/) in a file named with the *digest*, a hash of the code and values it depends on. The author's *queue*, not public, ran units in *waves*.
 
-**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0. The wheel on PyPI holds `twinfit/` alone, so the bench is obtained by cloning https://github.com/MichelangeloDondi/twinfit and running from its root. The digest of a count hashes the syntax tree of its code, which differs between versions of Python, so under Python 3.12.13 every check but that of `gallery_count.py` reports that its table was made from other files.
+**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0, and every check passed again with Python 3.14.10, numpy 2.5.4 and scipy 1.18.1. The wheel on PyPI holds `twinfit/` alone, so the bench is obtained by cloning https://github.com/MichelangeloDondi/twinfit and running from its root. The digest of a count hashes the syntax tree of its code, which differs between versions of Python, so under Python 3.12.13 every check but that of `gallery_count.py` reports that its table was made from other files.
 
 ## 2. The line and its five terms
 
@@ -40,7 +40,7 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 
 ## 5. The counts
 
-`pointing.py` has 13 cases: for each of details 2 to 5 the term hidden at the size of the twin and at half of it, and a right model for each of details 1 to 5. `EXPECTED` says where: the core for collisions, gas and laser noise, the flanks for the transit, and a change along $T$ for collisions and transit.
+`pointing.py` has 13 cases: for each of details 2 to 5 the term hidden at the size of the twin and at half of it, and a right model for each of details 1 to 5. `EXPECTED` says where: the core for collisions, gas and laser noise, the flanks for the transit, and a change along $T$ for collisions and transit. That place is the package's own report on noiseless traces, `places.json`, and not a truth independent of the package: C1 scores whether the report finds on noisy traces what it found without noise.
 
 |program|what it counts, criteria of `thresholds.toml`|draws and sets|table, kept rows|cost|
 |---|---|---|---|---|
@@ -104,7 +104,7 @@ python toy/pointing.py table
 python toy/benchmark.py table .
 ```
 
-The first makes the 30 cut window draws that `../runs/` lacks (46 s, 79 s with the table) and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`.
+The first makes the 30 cut window draws that `../runs/` lacks (46 s, 79 s with the table) and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`, and the column `package` of each, which reads the version of the package at the remake and so differs from a table counted at an earlier version.
 
 ## 7. Adding a sixth term
 
