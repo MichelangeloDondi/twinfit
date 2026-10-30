@@ -6,7 +6,7 @@ This folder holds the bench on which [`twinfit`](../twinfit/README.md) was measu
 
 The toy has five *details* (`const.toml` [details]): detail $k$ holds the first $k$ terms of section 2. A *trace* is the signal in V against the frequency $\nu$ in MHz at one power $P$ in mW and one temperature $T_\mathrm{C}$ in °C, a *draw* the 8 synthetic traces of one number. A *right model* is fitted to traces of its own detail. A *hidden term* is one the fitted model lacks: the model of detail $k-1$, keeping the free parameters of detail $k$ but the new term (none for $k=3$: `3 hidden under 2 with nothing free`), fitted to traces of detail $k$. [`TUTORIAL.md`](../twinfit/TUTORIAL.md) section 1 defines the package's words, except its *place*, where the report points: the core, the flanks, the wings or the asymmetry. A *set* is a synthetic copy of the traces from a twin, a *false alarm* some answer beyond the twin on a right model, a *share* the fraction of draws on which something happens. *The twin of a case* is made once from the case's first draw, *the twin of a draw's own fit* for each draw. A *unit* is a draw or a part of a twin, a *condition* a named group of units, a *row* one JSON line of [`../runs/`](../runs/) in a file named with the *digest*, a hash of the code and values it depends on. The author's *queue*, not public, ran units in *waves*.
 
-**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0. The PyPI wheel holds `twinfit/` alone: clone https://github.com/MichelangeloDondi/twinfit and run from its root. A count's digest hashes the syntax tree of the code, which differs between versions of Python, so under 3.12.13 every count's check but that of `gallery_count.py` says its table was made from other files.
+**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0. The wheel on PyPI holds `twinfit/` alone, so the bench is obtained by cloning https://github.com/MichelangeloDondi/twinfit and running from its root. The digest of a count hashes the syntax tree of its code, which differs between versions of Python, so under Python 3.12.13 every check but that of `gallery_count.py` reports that its table was made from other files.
 
 ## 2. The line and its five terms
 
@@ -24,7 +24,7 @@ Here $T=T_\mathrm{C}+273.15$ is in kelvin. The density is $n(T)=p(T)/k_BT$ in cm
 |2|collisions between rubidium atoms, $\beta_\mathrm{self}$, `collisions`|3.50 ± 0.75 MHz per $10^{15}$ atoms per cm³|129 ± 13 kHz per mTorr on 7S, Zameroski and others 2014, carried to 6S (`config.toml`)|
 |3|permeated gas, $\beta$, `gas_width`|0.037 ± 0.015 MHz|joint fit of the 8 recorded traces (`config.toml`)|
 |4|laser noise, $\sigma_L$, `laser_noise`|0.369 ± 0.028 MHz|the same fit|
-|5|transit, $\Gamma_\mathrm{tr}$, `transit`|1.040 ± 0.024 MHz|$u/(2\pi w_0)$ at $T_0$, $u$ the most probable speed of $^{85}$Rb (`const.toml` [atom]), $w_0=43.0\pm1.0$ µm given by the author (`const.toml` [beam])|
+|5|transit, $\Gamma_\mathrm{tr}$, `transit`|1.040 ± 0.024 MHz|$u/(2\pi w_0)$ at $T_0$, $u$ the most probable speed of $^{85}$Rb (`const.toml` [atom]), $w_0=43.0\pm1.0$ µm adopted by the author in place of a fit of the recorded traces (`const.toml` [beam]), the bar from the waist's alone|
 
 The main fit frees the natural width in details 1 and 2, the gas width from 3 and the laser noise from 4, and holds collisions and the transit at theory, freeing them only in a fit beside it, as a test, on all 8 traces (`config.toml` [detail.N]). The uncertainty of $\beta_\mathrm{self}$ is the error of the carry from 7S to 6S alone: the carry is also off by a third on average, in one direction, which no uncertainty holds (`config.toml`). The gas width, constant to about 5 per cent in [`DERIVATION.md`](DERIVATION.md) section 3, is exactly constant here and absorbs every constant width the model lacks (`DERIVATION.md` section 6(b)). `DERIVATION.md` derives details 1 to 3 alone, and its section 7 lists what that model leaves out, among it the toy's transit and laser noise.
 
@@ -36,7 +36,7 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 
 `traces.py` draws the model's own traces, which `pointing.py`, `power.py`, `draws.py` and the synthetic runs of `chosen.py` take through `fits.synthetic`: the signal of section 2 plus Gaussian noise of variance $a^2+bh+ch^2+ds^2$, with $h$ the signal in V and $s$ its slope in V per MHz. `scoreboard.py` adds noise of its own to its noiseless signal (seed $[2026,10,19]$ and the draw number), its field group and `gallery_count.py` draw the package's examples, and `benchmark.py` draws nothing. The 32 laws of $a$ (V), $b$ (V) and $c$, one for each peak and each of the 8 traces, and $d=0.00135\pm0.00026$ MHz², one for all, are in `../data/noise/noise_laws.json`. The seed of `traces.py` is $[2026,10,12]$ (`const.toml` [seed]), then the detail, the power, the temperature and, for a draw other than 0, its number.
 
-`twin.py` draws *the twin of the recorded traces* (`twin.toml`), not the package's twin, and no count uses it. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
+`twin.py` draws synthetic traces that follow the recorded traces in height and noise (`twin.toml`). This is not the twin of the package, and no count uses it. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
 
 ## 5. The counts
 
@@ -51,7 +51,7 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 |`chosen.py`|the loop offered the toy's four terms in order, then a pedestal that the toy lacks and it should refuse: C6, C7|46 units in 8 conditions: 20 draws with the noise read from neighbouring samples, 20 with the toy's law, and 6 single runs on one draw or on the recorded traces. 30 sets|`chosen.json`. Units not shipped|11 waves, 43 of the 46 units, 21465.2 s in `chosen.json`|
 |`gallery_count.py`|another field, the 11 projects of [`../twinfit/examples`](../twinfit/examples): C11|20 draws a project, 30 sets|`gallery.json`. `../runs/gallery_count_*`|not recorded|
 
-The cost sums the seconds of the queue's waves, not elapsed time, and that of `pointing.json` also covers rows at sizes and sets that no table here counts. The author drafted the thresholds, some set again after tables were read. The 250 right draws read against their own twin stand beyond it 47 times at 30 sets (`pointing.json`) and 19 times at 100 sets (`../runs/pointing_own100_*`, counted by the author toward 0.1.1, by programs that are not in this release).
+The cost is the sum of the seconds of the queue's waves, not the elapsed time. The cost of `pointing.json` also covers rows at sizes and numbers of sets that no table here counts. The author drafted the thresholds, and some were set again after tables were read (`../docs/DECISIONS.md`). Of the 250 right draws read against their own twin, 47 stand beyond it at 30 sets (`pointing.json`) and 19 at 100 sets (`../runs/pointing_own100_*`, counted by the author toward 0.1.1 with programs that are not in this release).
 
 ## 6. Checking and reproducing
 
@@ -119,5 +119,5 @@ A missing `[detail.6]` raises `KeyError` at the first fit, a missing `EXPECTED` 
 ## 8. What is not shipped
 
 - `real.py` reads the author's recorded traces, which are private: the conditions `his`, `his law` and `his report` of `chosen.py` need them, so its table cannot be written.
-- Not here: `adopt.py`, `noise.py`, `build.py` and `pages.py` (they fit the recorded traces and build the author's pages), `noiseless.json` and `rehearsal.json`. `noiseless.py` refuses to run outside the author's queue.
+- Not here: `adopt.py`, `noise.py`, `build.py` and `pages.py` (they fit the recorded traces and build the author's pages), `noiseless.json`, `rehearsal.json` and `places.json`, the package's own report on noiseless traces, from which `EXPECTED` of `pointing.py` was read. `noiseless.py` refuses to run outside the author's queue.
 - The table of `scoreboard.py` needs no recorded trace, but 0 of its 72 reports are kept: `count.py` makes them when given `scoreboard`.

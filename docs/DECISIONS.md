@@ -11,7 +11,7 @@ This page is `docs/DECISIONS.md` of https://github.com/MichelangeloDondi/twinfit
 | **1. A general tool, rubidium its example:** no term of a field is named and the recorded traces are not needed. Absent: `toy/adopt.py`, `toy/noise.py`, `toy/build.py`, `toy/pages.py`, `toy/meeting.py`. Present but needing the absent `data/recorded/`: `toy/real.py`, `toy/noiseless.py make OUT --recorded`, the `his` units of `toy/chosen.py`. | None for counts on synthetic draws, but `runs/` holds no row of `toy/chosen.json`. |
 | **2. Blind:** since 0.1.0rc16 the report names no term, and the package's list of generic terms, its dictionary, is read only on `--dictionary` (`twinfit/loop.py`). | A table of another mode meets no criterion. The dictionary has no count. |
 | **3. Joint fits only,** the shared parameters being the quantities sought (`twinfit/fit.py`), **and the researcher writes each term** as `terms/NN.py` with `term` and `why`, six words or more (`twinfit/loop.py`). | A curve by curve mode is new code. Nothing tests `why` against the term. |
-| **4. A theory value is held with its bar and freed only as a test** (`theory_moves` in `twinfit/best.py`): adding the transit term at theory moved the laser noise of the recorded traces from 1.148 MHz, fitted by the author outside this release under the model without that term, to 0.369 ± 0.028 MHz (`toy/config.toml`, whose comment keeps 0.455 ± 0.039, the value that the toy held before). | C7 scores the fit that frees the held collisions and transit. |
+| **4. A theory value is held with its bar and freed only as a test** (`theory_moves` in `twinfit/best.py`): holding the transit at theory instead of fitting it moved the laser noise of the recorded traces from 0.455 ± 0.039 to 0.369 ± 0.028 MHz (the `source` fields of `toy/config.toml` and `toy/const.toml` [beam]). | C7 scores the fit that frees the held collisions and transit. |
 | **5. First order only where it agrees with the fit made again** within half a bar on 0.95 of the sets (`SHARE`, `SAME` in `twinfit/unsuspected.py`), and no bar for a parameter correlated beyond 0.999 with another, which the records fix only as a combination (`TOLD_APART` in `twinfit/best.py`). | A lower limit drops bars of strong correlations, a higher one prints bars the records do not fix. |
 | **6. Two places tie** where their excesses differ by under 1.96 standard deviations of their difference: the records cannot tell them apart (`TIE` in `twinfit/where.py`). | C1 rests on it: in `toy/pointing.json` the place first alone is 173 of 400, 0.432 ± 0.025, with the tie 312, 0.780 ± 0.021. |
 | **7. A term is kept** when its fit ends inside its bounds, the Bayesian criterion falls by more than 2 and the twin admits the larger model, so a term pays for its parameters (`TIED` in `twinfit/best.py`). The author has not ruled on the margin 2. | Every count goes stale (its `--check` says its table was made from other files), and C6 and C7, which run this rule, are counted again. |
@@ -28,7 +28,7 @@ Drafted on 2026-10-23 before any count at 0.1.0rc15, the lines of `toy/threshold
 
 ## Questions left open
 
-Until answered, keep what 0.1.0 does.
+Until they are answered, the behaviour of 0.1.0 stands.
 
 **1. Thirty sets or 100?** The default of 30 (`sets` in `twinfit/loop.py`) has no recorded reason, and the author has not ruled on it. C5c reads 0.188 ± 0.025 of 250 at 30 sets against at most 0.12 (`toy/pointing.json`), 0.076 ± 0.017 of 250 at 100, from rows no table holds. These print 47 and 19:
 

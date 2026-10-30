@@ -6,7 +6,7 @@ It builds on the five minutes of the README and sets out the whole path of the p
 
 > Section 1 below defines every word that the package and its other pages use.
 
-Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 70 seconds. A machine busy with other work takes longer.
+Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 114 seconds. A machine busy with other work takes longer.
 
 ## 1. Purpose and vocabulary of the package
 
@@ -52,7 +52,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.0.post1.dev3
+0.1.0.post1.dev4
 ```
 
 ## 3. A worked project

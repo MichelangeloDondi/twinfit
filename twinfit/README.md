@@ -1,85 +1,71 @@
 # twinfit
 
-Where a model lacks a term: the structure of the residuals of a fit, read against its twin.
+Find what your model is missing. twinfit reads the residuals of a fit and tells you where the model misses, what the miss looks like, and what it would do to the parameters you share across the curves.
 
-In five minutes, the clock below. In an hour, sections 1 to 6 of `twinfit/TUTORIAL.md`. Whole, that tutorial, `twinfit/EXAMPLES.md` and, for an agent, the card of `twinfit/agent/AGENT.md`.
+In five minutes, the clock below. In an hour, sections 1 to 6 of `twinfit/TUTORIAL.md`. The projects of other fields are in `twinfit/EXAMPLES.md`, and the protocol for an agent in `twinfit/agent/AGENT.md`.
 
-This page builds on a fit of curves that a researcher already makes, and sets out what the package reads in its residuals, how to install it and a first run. Not covered here: the method step by step, which the tutorial gives, and the projects of other fields, which `twinfit/EXAMPLES.md` gives.
-
-> Section 1 of `twinfit/TUTORIAL.md` defines every word of the package that this page uses.
+> Section 1 of `twinfit/TUTORIAL.md` defines the terms used on this page.
 
 ## Purpose
 
-A model fitted to measured curves can pass the usual test of fit and still miss an effect, a broadening, a background or a drift, which biases the quoted parameters while the chi square stays near one. twinfit finds the structure that the effect leaves, says what it looks like and measures what it does to the parameters. It names no term of a field. What it was measured to do, under its limits below, was measured on synthetic curves, the twin of one model of the author's own and eleven projects of other fields. Its code is that of version 0.1.0, whose wheel two blind agents used with no block, as two others had used its pre-release 0.1.0rc22. The author read it on his own recorded traces, and no other person has yet used it on curves of their own, nor has anyone outside validated it.
+A model fitted to measured curves can pass the usual test of fit and still lack an effect: a broadening, a background, a drift. The missing effect biases the fitted parameters while the reduced chi square stays near one.
+
+twinfit starts from the data alone. It computes statistics of the residuals and compares each with the same statistic on synthetic curves drawn from the fitted model, its twin. Where the residuals stand out, it reports what its statistics can read of them: in which region of the curve the excess lies (in the core or in the wings, for example, or as an asymmetry between the two sides), what structure they see (a slow trend or a periodic structure, for example, or a departure of the noise from its law), the size of the excess, the setting of the experiment along which it varies, and what each shared parameter would move by if the excess were a real term of that size. A structure that none of its statistics reads still shows as an excess, without a name. The physics comes next, and it is yours: you write the term that explains the structure, and twinfit keeps it if the records support it. It suggests no term of its own unless you ask for its generic list with `--dictionary`.
+
+Version 0.1.0 was measured on synthetic curves of the author's own experiment, the real case of `python -m twinfit guide rubidium`, and on eleven synthetic projects of other fields. The results are summarized below and given in full in `docs/VALIDATION.md` of the repository.
 
 ## Continuing this work
 
-The source and the bench on which every share below was counted are public, at https://github.com/MichelangeloDondi/twinfit. The bench holds the model of five terms whose synthetic curves gave the shares below, the programs of the counts with their tables and, for three of the five, the kept row of each draw, the reader of the criteria, and the pages of the validation, the roadmap and the decisions. The projects of the gallery are drawn by the package itself. `twinfit/CONTINUING.md`, beside this page in the folder that `python -m twinfit guide readme` names, is the page for a researcher who takes the work over: what is where and what to run first.
+The source and the bench on which the package was measured are public at https://github.com/MichelangeloDondi/twinfit: the model that drew the synthetic curves, the programs of the counts with their tables and, for three of the counts, their kept rows, and the pages of the validation, the roadmap and the decisions. `twinfit/CONTINUING.md`, in the folder that `python -m twinfit guide readme` names, is written for a researcher who takes the work over.
 
 ## Method
 
-1. It fits one model to every curve of a design at once, with parameters shared by all the curves and parameters of each curve.
-2. It reads what the fit leaves through families of statistics, generalized moments under many kernels, windows along the abscissa and along the value, and the same of transformations of the value, and sets each against a twin: synthetic curves drawn from the fitted model with the law of noise that the description gives the records, a normal law of each sample's deviation, fitted and read in the same way.
-3. Its report matches the residuals across every family against each shape built from the fitted model, widths among them, and says where the model misses and along which setting.
-4. A researcher, or an agent in the researcher's place, writes the physical effect as a term. twinfit keeps it only if the Bayesian criterion falls by more than 2 and the twin admits the new model, and ends each turn with three proposals for the model and three for the experiment.
+1. One model is fitted to all the curves at once, with parameters shared by the curves and parameters of each curve.
+2. The residuals are read through families of statistics: generalized moments under several kernels, sums over windows along the abscissa and along the value, and the same for transformations of the value. Each statistic is compared with its value on the twin, synthetic curves drawn from the fitted model with the law of noise of the records, fitted and read in the same way.
+3. The report reads, across all the families, what the residuals hold once what the model's own parameters can produce is removed, a slow trend or a periodic structure among them, and states where the model misses and along which setting.
+4. You, or an agent in your place, write the physical effect as a term. twinfit keeps it if the Bayesian information criterion falls by more than 2 and the twin admits the new model. Each turn ends with three proposals for the model and three for the experiment.
 
 ![A fit that looks right, read against its twin](https://raw.githubusercontent.com/MichelangeloDondi/twinfit/main/twinfit/examples/figures/against_the_twin.png)
 
-*A blind run of an agent on eight synthetic curves of the line of `RUBIDIUM.md`. (a, b) Turn 2, model 1, fits with a chi square of 1.014 a degree of freedom. (c, d) What it leaves, summed in pairs of windows at six scales along the density, a grid drawn for this figure where the report of the package reads six bands: noise about zero when nothing is missing, as on a set of the twin. (e, f) Model 1 stands beyond all 100 sets of its twin, and model 3 within them.*
+*A blind run of an agent on eight synthetic curves of the line of `RUBIDIUM.md`. (a, b) Turn 2, model 1, which fits with a chi square of 1.014 a degree of freedom. (c, d) The residuals, summed in pairs of windows at six scales along the density, on a grid drawn for this figure where the report reads six bands. When nothing is missing, as on a set of the twin, the sums are noise about zero. (e, f) Model 1 lies beyond all 100 sets of its twin, and model 3 within them.*
 
 ## Output
 
-The best model, and each parameter with five parts of its uncertainty, never folded into one number: the bar of the fit, its coverage on the twin with the bias of the estimate there, the bar of theory, the spread over models the records cannot tell apart, and none where they fix only a combination.
+The best model and, for each parameter, its uncertainty in five parts kept separate: the standard error of the fit, its coverage on the twin with the bias of the estimate there, the uncertainty carried from theory, the spread over the models that the records cannot tell apart, and no value where the records fix only a combination of parameters.
 
 ![Turn by turn](https://raw.githubusercontent.com/MichelangeloDondi/twinfit/main/twinfit/examples/figures/turn_by_turn.png)
 
-*The same run, turn by turn. With model 1 the size of its term reads 31 bars too large at a chi square of 1.014. The width along the density takes it to 6.9 bars, and the width of every curve to 0.7, within its bars. The best of three blind runs on two draws of one synthetic model: it found three of its four terms, missed the smallest, and was stopped at two hours.*
+*The same run, turn by turn. With model 1 the size of its term reads 31 bars too large at a chi square of 1.014. A width that varies along the density takes it to 6.9 bars, and a width of each curve to 0.7, within its bars. This was the best of three blind runs on two draws of one synthetic model. It found three of the four terms, missed the smallest, and was stopped after two hours.*
 
-## Its limits
+## What was measured
 
-An effect that a parameter of the model can take the place of leaves nothing in the residuals. The report says what a miss looks like, never what causes it. A model that its twin admits is not proven complete, and a term chosen after looking at the records keeps its stated level only once synthetic records with it have shown what the whole procedure returns.
+Each share is given with its standard error. Two stand outside their thresholds and are marked. The full table is in `docs/VALIDATION.md`.
 
-What it was measured to do, each ± the standard error of its share:
+- The place of a hidden term, put first or tied for first: 0.780 ± 0.021 of 400 draws, on a model of five terms fitted with one of four terms left out at its size. First alone: 0.432 ± 0.025. At half that size: 0.128 ± 0.017 of 400.
+- The setting along which the term varies, named first: 0.600 ± 0.035 of 200 draws.
+- The place of a width that grows steeply along a setting: 0.440 ± 0.050 of 100 draws, below its threshold of 0.60.
+- False alarms on a model with nothing missing, at the default of 30 sets: 0.188 ± 0.025 of 250 draws, above its ceiling of 0.12, and 0.076 ± 0.017 at 100 sets.
+- Eleven projects of other fields, pooled over every question: 0.759 ± 0.029 of 220 draws, the place of the misfit alone 0.588 ± 0.055 of 80.
 
-- On synthetic sets drawn from one model of five terms, two of whose values were fitted to the author's own recorded curves, two held at their theory and one taken from the literature, each draw fitted with one of four of its terms left out, at the size that this model gives it, the report puts first, or tied for first, the place that it gives for that term on the same records without noise, on 0.780 ± 0.021 of 400 draws. A tie counts as a hit. At half that size, on 0.128 ± 0.017 of 400 draws.
-- For the two of the four that change along a setting, it names that setting first on 0.600 ± 0.035 of 200 draws, at the floor of 0.60 that this version set itself.
-- For one of the four, a width that grows steeply along a setting, as a density does, the share of the place is 0.440 ± 0.050 of 100 draws, below that floor.
-- On a model with no term missing, read against the twin of each draw's own fit at the default of 30 synthetic sets, the report sees something beyond the twin, a false alarm, on 0.188 ± 0.025 of 250 draws, above the ceiling of 0.12 that this version set itself. At 100 sets, `python -m twinfit loop DIR --sets 100`, the same draws read 0.076 ± 0.017 of 250 draws.
-- On the eleven synthetic projects of other fields of the gallery, each drawn again with a misfit that its folder does not hold, the report puts first where the misfit shows on 0.588 ± 0.055 of 80 draws, the project pedestal on none of its 20 draws. It names along which setting it changes, of which kind it is and its shape on all of their 120 draws, and the shape of a noise with heavy tails on 0 of 20. Pooled over every question, 0.759 ± 0.029 of 220 draws.
+An effect that a parameter of the model can absorb leaves nothing in the residuals, and a model that its twin admits is not thereby complete.
 
-## By hand, or with an agent
+## By hand or with an agent
 
-`twinfit/TUTORIAL.md` takes a newcomer to the best model, and `twinfit/agent/TUTORIAL.md` is the same tutorial for an agent, its commands and its rules without the pictures. `twinfit/agent/AGENT.md` lets an agent, an AI assistant that runs commands, take the place of the researcher, from the card at its head. `twinfit/EXAMPLES.md` holds eleven projects of other fields.
+`twinfit/TUTORIAL.md` takes you from a first project to the best model. `twinfit/agent/TUTORIAL.md` is the same for an agent, and `twinfit/agent/AGENT.md` lets an agent take your place. `twinfit/EXAMPLES.md` holds eleven projects of other fields.
 
 ## Requirements and installation
 
-Python 3.12 or later, with numpy 2.5 or later and scipy 1.16 or later, and matplotlib for the visual log of a run. Nothing else. It has run on macOS, and it needs a system of the Unix kind: on Windows the loop cannot start, since it locks its files with the module `fcntl`, which Python holds on those systems alone.
-
-numpy 2.5 is the floor of the author's choice: on a Mac with an arm64 processor, one thread, it convolves a curve of 9000 points with a kernel of 2001 in 0.80 ms, against 10.0 ms for numpy 1.26.4, while on Linux with an x86_64 processor the two took about the same time, 2.1 and 1.7 ms. numpy 2.5 asks Python 3.12 and scipy 1.16.
-
-The package has run on Python 3.12 with numpy 2.5.0 and scipy 1.16.0, and on Python 3.14 with numpy 2.5.2 and scipy 1.18.0, each in a clean environment: on both the five minutes below and the whole gallery give the same numbers and the same words, all but their run times.
+Python 3.12 or later, numpy 2.5 or later, scipy 1.16 or later, and matplotlib for the visual log. On Windows the loop cannot start, because it locks its files with `fcntl`.
 
 ```
 pip install twinfit
 ```
 
-That installs the package from PyPI, with numpy and scipy. `pip install "twinfit[log]"` installs matplotlib with it, which the visual log, `python -m twinfit log DIR`, needs. A candidate of a release, before its upload, is not on PyPI: its wheel is installed with the same extra, `pip install "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`, `VERSION` its number. From a copy of its source:
+`pip install "twinfit[log]"` adds matplotlib. A candidate of a release is not on PyPI: install its wheel in its place, `pip install "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`. From a copy of the source, `pip install /path/to/the/source`, or set `PYTHONPATH` to that folder.
 
-```
-pip install numpy scipy
-pip install /path/to/the/source
-```
+numpy 2.5 is required because it convolves about ten times faster than numpy 1.26 on an arm64 Mac. pip replaces older versions of numpy and scipy, so a virtual environment of its own is advisable.
 
-where `/path/to/the/source` is the folder that holds `pyproject.toml` and `twinfit/`. The second line installs the package. Without it, the package is used from that folder by its path:
-
-```
-export PYTHONPATH=/path/to/the/source
-python -m twinfit guide
-```
-
-When pip installs the package it installs numpy 2.5 and scipy 1.16 or later in place of older ones, so a virtual environment of its own keeps other work apart, and on a Python under 3.12 it passes over this release and may take an older one of the name, where `pip install "twinfit>=0.1"` refuses. A source folder put on the path of Python passes no check of pip: there a Python under 3.11, or one without numpy or scipy, is refused by an ImportError whose last line says what is missing, and a numpy under 2.5 runs, on a Mac with an arm64 processor about ten times slower on a convolution and on Linux with an x86_64 processor about as fast.
-
-On a computer with no Python and no administrator password, the standalone `uv` installs both in folders of your own, with no password. These are the steps:
+On a computer with no Python and no administrator password, `uv` installs everything in your own folders:
 
 ```
 mkdir -p uv && curl -fsSL https://github.com/astral-sh/uv/releases/latest/download/uv-aarch64-apple-darwin.tar.gz | tar -xz -C uv --strip-components=1
@@ -88,9 +74,7 @@ uv/uv venv --python 3.14 venv
 uv/uv pip install --python venv/bin/python "twinfit[log]"
 ```
 
-The last line installs the release from PyPI. A candidate, before its upload, is not there: install its wheel in its place, `uv/uv pip install --python venv/bin/python "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`, or the line resolves an older release.
-
-On another machine, the file of uv's releases that names it. uv keeps its Python and its cache in your home folder: set `UV_PYTHON_INSTALL_DIR` and `UV_CACHE_DIR` to a folder of your own to keep them there, and `MPLCONFIGDIR` where matplotlib cannot write its cache in your home folder. uv may warn that it cannot create `~/.local/bin`: the Python still installs where `UV_PYTHON_INSTALL_DIR` says. Then `source venv/bin/activate` gives the Python that holds the package, and the five minutes below begin at their second line.
+The last line installs the release from PyPI. For a candidate, install its wheel with `uv/uv pip install --python venv/bin/python "/path/to/twinfit-VERSION-py3-none-any.whl[log]"`. On another machine, use the uv archive for that machine. `UV_PYTHON_INSTALL_DIR`, `UV_CACHE_DIR` and `MPLCONFIGDIR` move the caches of uv and matplotlib out of your home folder when it cannot be written. Then `source venv/bin/activate`, and start at the second line of the five minutes.
 
 ## Five minutes: an atomic clock at five probe powers
 
@@ -100,15 +84,15 @@ python -m twinfit example clock clock
 python -m twinfit loop clock
 ```
 
-The first line installs the package, and the second writes a project into the folder `clock`: five resonances of a clock transition against the detuning of the probe, at 2 to 10 uW, the powers read by a photodiode calibrated within 2 per cent, and a first model of one Lorentzian line of one width and one center, the same at every power. `clock/description.toml` holds that calibration as an ansatz, a value held before the fit with its uncertainty, on `power scale`, which `clock/model.py` keeps in its dictionary `HELD`. The truth of the project is in the gallery, `python -m twinfit guide examples`, and the folder does not hold it.
+The second line writes a project into `clock`: five resonances of a clock transition against the detuning of the probe, at 2 to 10 uW, with a first model of one Lorentzian line of one width and one center. The powers were read by a photodiode calibrated within 2 per cent, which `clock/description.toml` holds as an ansatz under `power scale`. The truth of the project is in the gallery, `python -m twinfit guide examples`.
 
-The loop fits the five curves at once, reads their residuals against 30 synthetic sets drawn from the fit, and writes `clock/loop/model_0.md`. Its section "Where to search" gives the first answer to each question, and several stand beyond the twin. The question seen by says how the misfit is read and names no part of the curves, so read first the largest excess of the others, here the question changes along:
+The loop fits the five curves at once, reads their residuals against 30 synthetic sets drawn from the fit, and writes `clock/loop/model_0.md`. Its section "Where to search" gives the first answer to each question. The largest excess that names a part of the curves is here the question `changes along`:
 
 ```
 | changes along | which part of the residuals changes from curve to curve along a setting, read on the residuals themselves | the asymmetry along power | 18388.1 |
 ```
 
-The report names no term: it says where the residuals are and how they change. The physics names the term. An asymmetry of a line that grows with the power of the probe is a center that moves with the power: a light shift, which the first model lacks. Write it into `clock/model.py`, whose whole text is then this, the center at a power P being the clock frequency plus the light shift times P, with P read through its calibration:
+The report names no term. The physics does: an asymmetry that grows with the power of the probe is a center that moves with the power, a light shift, which the first model lacks. Write it into `clock/model.py`. The center at a power P becomes the clock frequency plus the light shift times P:
 
 ```python
 """A model of one's own: the centre of the line moves with the power of the probe, the light shift, from the frequency of
@@ -135,24 +119,24 @@ def start_own(record):
     return [float(record.y.max() - base), base]
 ```
 
-Then `python -m twinfit loop clock` again. Its report finds nothing beyond the twin, and it prints "kept: nothing. Refused: nothing", since the model of the file is the one that it fits and no term file was written. `clock/loop/best.md` quotes:
+Run `python -m twinfit loop clock` again. The report finds nothing beyond the twin, and `clock/loop/best.md` reports:
 
 ```
 - clock frequency: 0.12000 ± 0.00038 of the fit
 - light shift: 0.025051 ± 0.000058 of the fit ± 0.00050 of theory
 ```
 
-The bar of theory is the 2 per cent of the calibration carried through the fit: the light shift is read against the power, so it carries the error of the scale of the power, and the clock frequency at no power carries none. Set both beside the truth in the gallery.
+The uncertainty from theory is the 2 per cent of the calibration, carried through the fit to the light shift and not to the clock frequency. Compare both with the truth in the gallery.
 
-A term file `clock/terms/01.py` that holds `term = mechanisms.along("centre", "power")` would give the same light shift as the size of a term, but names no clock frequency as a parameter and reads no calibration: where the physics gives the law, write it in `model.py`. The model names no `CENTRE`, since its center is no parameter of one curve, so the proposals that place a term about the center of a curve, a tail or a period, are not fitted, and the report says so.
+A term file `clock/terms/01.py` with `term = mechanisms.along("centre", "power")` would give the same light shift as the size of a term, but it names no clock frequency and reads no calibration. Where the physics gives the law, write it in `model.py`.
 
-Each run takes from ten seconds to a minute on a laptop, the first the longer while matplotlib builds its font cache. The loop writes `clock/loop/` again at each run, so copy it to keep a report. Before a value is quoted, `best.md` may ask for `--sets 500`, which takes minutes. `python -m twinfit guide tutorial` prints the tutorial, which goes through every page that the loop writes, and `python -m twinfit guide examples` the gallery, ten more projects of other fields. `python -m twinfit guide rubidium` shows a real case: recorded traces of the two photon line of rubidium, as plots, with what the package reads on them.
+Each run takes between ten seconds and a minute on a laptop. The loop writes `clock/loop/` again at each run, so copy it to keep a report. `best.md` may ask for `--sets 500` before a value is quoted. `python -m twinfit guide tutorial` prints the tutorial, `guide examples` the gallery, and `guide rubidium` a real case: recorded traces of the two photon line of rubidium, as plots, with what the package reads on them.
 
 ## A project from measured curves
 
-`python -m twinfit init DIR` writes the starting files of a project: its description, `description.toml`, and a first model, `model.py`. Each curve is one comma-separated file whose first line names its columns, with no line of comment and no byte order mark, which some spreadsheets write before the first column's name: a file of the lab written otherwise is converted first. The noise of the samples is one value, a column of each file, or read from neighboring samples. For a fraction of N atoms read by projection, the noise is a column of the root of p(1 - p)/N, p the fraction of the fit. Section 9 of the tutorial writes such a project whole.
+`python -m twinfit init DIR` writes the starting files of a project: `description.toml` and a first `model.py`. Each curve is one comma-separated file whose first line names its columns, without a comment line or a byte order mark. The noise of the samples is one value, a column of each file, or read from neighboring samples. Section 9 of the tutorial writes such a project in full.
 
-## Its commands
+## Commands
 
 ```
 python -m twinfit example NAME DIR [--noise L] [--kind K]
@@ -188,4 +172,4 @@ python -m twinfit walk [HIDDEN] [DIR]  walks one rung of that older manual path,
 python -m twinfit.tutorial --check     runs every command of the tutorial again, with matplotlib, and says whether an output changed
 ```
 
-The tutorial, from nothing to the best model, is `twinfit/TUTORIAL.md`. Its first project is `python -m twinfit example nmr my_nmr`.
+The tutorial, from a first project to the best model, is `twinfit/TUTORIAL.md`. Its first project is written by `python -m twinfit example nmr my_nmr`.

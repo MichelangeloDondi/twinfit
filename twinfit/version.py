@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.0.post1.dev3"
+__version__ = "0.1.0.post1.dev4"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -407,6 +407,9 @@ VERSIONS = {
     )},
     "0.1.0.post1.dev3": {"digest": "e66c855b65e43e300e6e5ab74feb9e6f88d20eea00d8955928146cd2082327ca", "changes": (
         "the repairs of the third blind researcher of the bus test, his message 442: in pages alone: the README says that the shares were counted on synthetic sets of a model of five terms, which the word twin no longer names, and which of its values were fitted, held or taken from the literature, the roadmap defines the statistic of the small term from `twinfit.linear.Linear` and carries the two code repairs to 0.1.1, and the pages say what each check of the bench compares",
+    )},
+    "0.1.0.post1.dev4": {"digest": "1ce13e6689dfa528765ff7dc1fd8f39189c08c5916c9550635f89fcbb3f15425", "changes": (
+        "the README, CONTINUING.md, RUBIDIUM.md and the pages of the public repository written again in plain prose for their reader, his messages 459 to 462: the Purpose says that the data are read first and the physics named after, its places and kinds examples of what the statistics read, the README marks the two shares outside their thresholds, names the kept rows of three counts and points to the real case of guide rubidium, and the repairs of the fourth blind researcher are in pages alone, among them the roadmap's symbol of the kernel's decay length, the program of the small term and the definition of α, the decisions page's laser noise values, and the files not shipped in the bench guide",
     )},
 }
 
