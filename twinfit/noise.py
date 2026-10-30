@@ -40,6 +40,75 @@ def flat(x, y) -> float:
     return float(1.4826 * np.median(np.abs(d - np.median(d))) / np.sqrt(2.0))
 
 
+def from_neighbours(values, span: int = 9) -> list:
+    """The standard deviation of each sample of each record from the samples themselves, before any fit: the law in the
+    height of `from_residuals`, read from the second differences of the samples, which a curve smooth over three samples
+    barely reaches, the height of each sample from the samples averaged over `span` of them. On 160 traces of the twin of
+    his 8, whose noise grows with the signal, it reads the noise 4.4 per cent off at the median and 5.2 at the peak, where
+    one value a record, `flat`, read it 32 and 70 per cent off, and left the bar of a width 2.4 times too narrow on the
+    draws of the loop (row M492, `runs/rc21/noise_neighbours.py` of the work copy it is made in)."""
+    ys, curves = [np.asarray(y, dtype=float) for y in values], []
+    for y in ys:
+        n = max(1, min(span, y.size))
+        n -= 1 - n % 2          # an odd window, centred on each sample
+        pad = np.pad(y, n // 2, mode="edge")
+        curves.append(np.convolve(pad, np.ones(n) / n, mode="valid"))
+    try:
+        return from_residuals(ys, curves)
+    except ValueError:          # samples whose second differences are all zero, as a straight line with no noise: one value a record, as before
+        return [np.full(y.shape, flat(None, y)) for y in ys]
+
+
+def from_residuals(residuals, curves, bins: int = 12) -> list:
+    """The standard deviation of each sample of each record from what a fit leaves, as a law of the variance in the
+    height h of the curve above its foot, a_k + b h + c h^2: a floor of each record k, and the terms of a noise of
+    counting and of a noise in proportion to the signal shared by every record, fitted on every record together. A trace
+    recorded at another gain has a floor of its own: on 400 traces of the twin of his eight, one law for every record
+    read the noise at their foot 43 per cent off at the median, a floor for each 4.1, and a whole law for each 3.9 (the
+    fresh red team of 0.1.0rc18, mislead 4, `runs/rc19/noise_per_record.py` of the work copy it is made in). The
+    variance at each height is read from the second differences of the residuals, (r[i-1] - 2 r[i] + r[i+1]) / sqrt(6),
+    whose square has the variance of the noise where it is independent from sample to sample and changes little over
+    three samples: a misfit of the model that is smooth over three samples does not reach them, so a missing term is not
+    read as noise. `[noise] from = "residuals"` in a description asks it, after the first fit (his message 316 of the
+    repository it is made in: the agent of a blind run built this law by hand). The law keeps the terms whose variance
+    stays above zero over the heights of every record: three, two or one. A noise correlated over neighbouring samples is
+    read too small, and `python -m twinfit thin` is then the way."""
+    levels, rows = [], []
+    for k, (r, c) in enumerate(zip(residuals, curves)):
+        r, c = np.asarray(r, dtype=float), np.asarray(c, dtype=float)
+        h = c - c.min()          # the height above the foot of the curve: above its median in absolute value, the foot of a curve that fills its window read as tall, and its noise as glitches (the blind red teams of 0.1.0rc13 and 0.1.0rc16)
+        levels.append(h)
+        if r.size < 3:
+            continue
+        hh, square = h[1:-1], ((r[:-2] - 2.0 * r[1:-1] + r[2:]) ** 2) / 6.0
+        edges = np.unique(np.quantile(hh, np.linspace(0.0, 1.0, bins + 1)))          # the bins of each record over its own heights
+        which = np.clip(np.searchsorted(edges, hh, side="right") - 1, 0, max(len(edges) - 2, 0))
+        for b in range(max(len(edges) - 1, 1)):
+            inside = which == b
+            if inside.sum() >= 5 and square[inside].mean() > 0.0:
+                rows.append((k, hh[inside].mean(), square[inside].mean(), inside.sum()))
+    if all(h.size < 3 for h in levels):
+        raise ValueError("the noise cannot be read from the residuals: no record holds three samples")
+    if not rows:
+        raise ValueError("the noise cannot be read from the residuals: they are zero")
+    k, m, v, n = (np.array(x, dtype=float) for x in zip(*rows))
+    own = sorted(set(k.astype(int).tolist()))          # the records that hold a bin, each with a floor of its own
+    at = {j: i for i, j in enumerate(own)}
+    floors = np.zeros((m.size, len(own)))
+    floors[np.arange(m.size), [at[j] for j in k.astype(int)]] = 1.0
+    weight = np.sqrt(n / 2.0) / v          # one over the standard deviation of a mean of n squares of variance v
+    for terms in (3, 2, 1):
+        if m.size < len(own) + terms - 1:
+            continue
+        coef = np.linalg.lstsq(np.column_stack([floors] + [m ** p for p in range(1, terms)]) * weight[:, None], v * weight, rcond=None)[0]
+        a, shared = coef[:len(own)], coef[len(own):]
+        heights = {j: np.linspace(0.0, float(levels[j].max()), 64) for j in own}
+        if all(np.all(a[at[j]] + sum(s * g ** (p + 1) for p, s in enumerate(shared)) > 0.0) for j, g in heights.items()):
+            break
+    floor, middle = 0.01 * float(v.min()), float(np.median(a))          # a record that holds no bin, of fewer than eight samples, takes the median floor
+    return [np.sqrt(np.maximum((a[at[j]] if j in at else middle) + sum(s * level ** (p + 1) for p, s in enumerate(shared)), floor)) for j, level in enumerate(levels)]
+
+
 def with_law(problem, result, variance: Callable):
     """The same problem with the standard deviation of every sample taken from the law at the fitted mean."""
     recs = []

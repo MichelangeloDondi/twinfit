@@ -47,6 +47,8 @@ from contextlib import contextmanager
 
 _JOBS = []           # what a forked process reads
 _READER = None       # how the sets of a twin are read, when a program reads them elsewhere
+_ASKED = None        # the workers that a run of the loop asks, by `asking`
+INSIDE = "TWINFIT_INSIDE_A_WORKER"         # set in each worker, so that no worker starts workers of its own
 LOST = []            # each pool whose workers were lost: why, and how many rows the calling process then computed
 
 
@@ -137,7 +139,22 @@ def _run(index: int):
 def _one_thread() -> None:
     """Run by each forked process before its first job: one thread for the linear algebra, where its library has a call
     for it. A forked process holds the one thread that forked it, and a library that hands a large matrix to threads
-    of its own then ends the process. Where the call is absent nothing is done, and a lost worker is met by `in_order`."""
+    of its own then ends the process. Where the call is absent nothing is done, and a lost worker is met by `in_order`.
+    A worker starts no workers of its own: `how_many` gives one inside it. And a worker ends once the process that started
+    it is gone: a run killed with ten workers left them computing for minutes, orphans whose rows nothing would read (his
+    message 316 of the repository it is made in, measured on the first timing of the twins side by side)."""
+    import os
+    import threading
+    import time
+    os.environ[INSIDE] = "1"
+    parent = os.getppid()
+
+    def orphaned():
+        while True:
+            time.sleep(1.0)
+            if os.getppid() != parent:
+                os._exit(1)
+    threading.Thread(target=orphaned, daemon=True).start()
     if sys.platform != "darwin":
         return
     try:
@@ -150,12 +167,66 @@ def _one_thread() -> None:
         pass
 
 
+def can_fork() -> bool:
+    """Whether this platform starts a process by fork."""
+    import multiprocessing
+    return "fork" in multiprocessing.get_all_start_methods()
+
+
+def cores() -> int:
+    """The cores that this process may use."""
+    import os
+    count = getattr(os, "process_cpu_count", os.cpu_count)()
+    return max(int(count or 1), 1)
+
+
+def how_many(asked: int | None, jobs: int) -> int:
+    """The workers for `jobs` jobs of `side_by_side`: TWINFIT_WORKERS where it is set, else `asked`, else what the run of
+    the loop asks by `asking`, else every core, and never more than the jobs, nor more than one inside a worker or where
+    the platform cannot fork. The queue of a count gives each of its units one core by TWINFIT_WORKERS=1."""
+    import os
+    if os.environ.get(INSIDE) or not can_fork():
+        return 1
+    if os.environ.get("TWINFIT_WORKERS"):
+        asked = int(os.environ["TWINFIT_WORKERS"])
+    elif asked is None:
+        asked = _ASKED
+    n = cores() if asked is None else int(asked)
+    return max(1, min(n, int(jobs)))
+
+
+@contextmanager
+def asking(n: int | None):
+    """The workers that a run of the loop asks for each `side_by_side` that it reaches: `python -m twinfit loop DIR
+    --workers N`."""
+    global _ASKED
+    before, _ASKED = _ASKED, n
+    try:
+        yield
+    finally:
+        _ASKED = before
+
+
+def side_by_side(fn, items, workers: int | None = None) -> list:
+    """fn of each item, in their order, on `how_many(workers, len(items))` forked workers: the twins of a model's
+    proposals, one for each term proposed and one for each change of the experiment, which were 845 of the 864 seconds
+    of a turn of the loop on one core (his message 316 of the repository it is made in: "change the package now"). Each
+    draws its sets from seeds of its own, so the numbers are those of one worker. A program that reads the sets of a
+    twin elsewhere, by `reading`, is not asked: these items are no sets."""
+    items = list(items)
+    return _pooled(fn, items, how_many(workers, len(items)))
+
+
 def in_order(fn, jobs: list, workers: int = 1) -> list:
     """fn(job) for each job, in the order of the list, whatever the number of workers. A pool whose worker ended with
     no result is closed and the missing rows are computed here, with a warning: the call does not wait for them."""
     if _READER is not None:
         return _READER(fn, jobs if hasattr(jobs, "__getitem__") else list(jobs))
-    jobs = list(jobs)
+    return _pooled(fn, list(jobs), workers)
+
+
+def _pooled(fn, jobs: list, workers: int) -> list:
+    """fn(job) for each job, in order, on `workers` forked processes: the pool of `in_order` and `side_by_side`."""
     if workers <= 1 or len(jobs) < 2:
         return [fn(j) for j in jobs]
     global _JOBS

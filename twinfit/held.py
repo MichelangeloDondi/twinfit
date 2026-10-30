@@ -26,4 +26,4 @@ def reading(make: Callable[[], Mechanism]) -> Mechanism:
         def new(x, shared, own, design):
             return make().wrap(model, problem, n)(x, shared, own, design)
         return new
-    return Mechanism(first.name, first.family, first.parameter, first.start, wrap, first.lower, first.upper, first.ground, first.theory)
+    return Mechanism(first.name, first.family, first.parameter, first.start, wrap, first.lower, first.upper, first.ground, first.theory, first.formula)

@@ -4,6 +4,8 @@
     python -m twinfit guide manual          prints the older manual path, for a model that one file model.py cannot hold
     python -m twinfit guide tutorial        prints the tutorial, twinfit/TUTORIAL.md, and `guide readme` the README, with
                                             the path of the file where the package is installed
+    python -m twinfit guide agent-tutorial  prints the tutorial for an agent, twinfit/agent/TUTORIAL.md, with its path
+    python -m twinfit --version             prints the number of the package
     python -m twinfit guide rubidium        prints a real case, recorded traces of a line of rubidium as plots, and where they are
     python -m twinfit guide examples        prints the gallery, twinfit/EXAMPLES.md: projects of other fields, what to do
                                             and what not to do on each, and what the loop gave beside their truth
@@ -11,6 +13,10 @@
     python -m twinfit init DIR              writes into DIR what a project needs to start: description.toml and model.py
                                             to fill, traces/ for the curves, terms/ for the terms, the rules of the
                                             folder and the skill for an agent
+    python -m twinfit example rubidium DIR  writes into DIR the twin of the recorded traces of `guide rubidium`: eight
+                                            synthetic traces of the model of five terms whose values follow their joint
+                                            fit, each with the height and the noise of its recorded trace, their
+                                            description and a first model of one Lorentzian line
     python -m twinfit example NAME DIR [--noise L] [--kind K]
                                             writes into DIR a worked project of another field: chromatography or nmr, or one
                                             of the gallery that `guide examples` prints, as clock or gel. Each
@@ -20,25 +26,49 @@
     python -m twinfit terms                 prints the terms that a term file can name, and the form of a term file
     python -m twinfit scan DIR TERM X...    fits TERM, a term with x in the place of its distance, stretch or period, as
                                             "second(x)", at each value X beside the model that the term files of DIR give
+    python -m twinfit matrix DIR            prints what every family of statistics reads on the model that the term files of
+                                            DIR give, the candidates that those readings point to, the kernel of a missing
+                                            width, the shape of the noise, and which family sees which systematic of
+                                            a line planted at five deviations of the fit, and which law of the noise
     python -m twinfit counts DIR [--floor F] writes a copy of DIR beside it whose curves carry the noise of a counter from
                                             the fitted values of the best model of the last run, the column sd
     python -m twinfit thin DIR N            writes three copies of DIR beside it, each keeping one sample in every N of each
                                             curve, from three first samples, for a noise correlated over N samples
-    python -m twinfit loop DIR [--n N] [--sets S] [--max-seconds T]
+    python -m twinfit loop DIR [--n N] [--sets S] [--max-seconds T] [--workers W] [--dictionary]
                                             the loop without an agent on the description in DIR and its term files, up
                                             to N of them, each twin on S synthetic sets (loop.py). With T, a run that
                                             passes T seconds of the clock stops at the end of the step in course and is
-                                            refused, and the last whole run stays in loop/
+                                            refused, and the last whole run stays in loop/. With W, the twins of
+                                            each model's proposals run side by side on W cores, on every core without
+                                            it, with the same numbers. Where matplotlib is installed, it then draws the
+                                            visual log of the run, as `log` does. With --dictionary, the package's
+                                            own list of generic terms is set against the residuals beside yours:
+                                            asked by you alone, never in a blind run
+    python -m twinfit wait DIR [--timeout S] waits up to S seconds, 540 by default, for the loop that runs in DIR to end,
+                                            and prints its last page for an agent, brief_K.md. A loop started a moment before
+                                            is given ten seconds to take its lock
+    python -m twinfit card                  how to write a term file, a term of the package or one of your own, in a page
+    python -m twinfit literature DIR        the brief of the search of the literature that [literature] of the
+                                            description asks, for an agent to run
+    python -m twinfit log DIR               draws the visual log of the last run of the loop in DIR: for each model, one
+                                            slide for each of the eight phases of its turn, with the equation of the model
+                                            and what each of its terms does to the curves, and the best model with the
+                                            parts of each bar, into DIR/loop/log.pdf, DIR/loop/log/ and DIR/loop/log.md.
+                                            It needs matplotlib, and fits nothing
     python -m twinfit.tutorial --check      runs every command of the tutorial again and says whether an output changed
 """
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+COMMAND_LOCK = ".twinfit.command"          # held by the loop command from its start to the end of its process, the drawing of its visual log included, which `wait` reads beside the loop's own lock
+START = 10.0          # the seconds that `wait` gives a loop started a moment before to take its lock
+_HELD: list = []          # the open lock of the loop command, released by the end of the process
 MARK = "{{WHERE_THE_PACKAGE_IS}}"      # in the three starting files: the place of the package, which `init` writes in
 PYTHON = "{{THE_PYTHON}}"               # in the rules and the skill of an agent: the Python that ran `init`, which has numpy and scipy, where the plain python of a machine may not (round 12 of the cold tests)
 
@@ -67,7 +97,7 @@ def thin(folder: Path, every: int) -> list:
         copy = folder.parent / f"{folder.name}_thin_{every}_{first}"
         if copy.exists():
             raise ValueError(f"{copy} is there already: thin writes new copies only")
-        shutil.copytree(folder, copy, ignore=shutil.ignore_patterns("loop", "loop.before", "agent", "__pycache__"))
+        shutil.copytree(folder, copy, ignore=shutil.ignore_patterns("loop", "loop.before", "agent", "__pycache__", ".twinfit.lock", COMMAND_LOCK))
         (copy / "agent").mkdir()
         for name in files:
             lines = (copy / name).read_text().splitlines()
@@ -85,6 +115,8 @@ def counts(folder: Path, floor: float = 1.0) -> Path:
     `agent/`. Refused with no run of the loop, or where a sample of a curve has no fitted value."""
     import csv
     import math
+
+    import numpy as np
     import shutil
     import tomllib
     folder = Path(folder)
@@ -96,26 +128,39 @@ def counts(folder: Path, floor: float = 1.0) -> Path:
         raise ValueError(f"{table} is not there: the loop writes the residuals of each model it fits")
     data = tomllib.loads((folder / "description.toml").read_text())
     offset = float(data.get("problem", {}).get("abscissa_offset", 0.0))
-    fitted = {}
+    from .description import ROUNDING
+    by_curve = {}
     with table.open() as fh:
         for row in csv.DictReader(fh):
-            fitted[(row["curve"], round(float(row["abscissa"]) + offset, 9))] = float(row["fitted"])
+            by_curve.setdefault(row["curve"], []).append((float(row["abscissa"]) + offset, float(row["fitted"])))
+    by_curve = {c: (np.array([a for a, _ in v]), np.array([f for _, f in v])) for c, v in by_curve.items()}
+
+    def fitted_at(curve: str, x: float):
+        """The fitted value at the sample of a file nearest x, within the part of a step by which the reader may have put
+        a rounded abscissa on its equal steps, description.ROUNDING: matched at nine decimals, a file rounded to a
+        millionth found no fitted value (the code review of 0.1.0rc2, moderate 4)."""
+        if curve not in by_curve:
+            return None
+        xs, fs = by_curve[curve]
+        j = int(np.argmin(np.abs(xs - x)))
+        step = float(np.median(np.diff(np.sort(xs)))) if xs.size > 1 else 0.0
+        return float(fs[j]) if abs(xs[j] - x) <= max(ROUNDING * step, 1e-9 * max(1.0, abs(x))) else None
     copy = folder.parent / f"{folder.name}_counts"
     if copy.exists():
         raise ValueError(f"{copy} is there already: counts writes a new copy only")
-    shutil.copytree(folder, copy, ignore=shutil.ignore_patterns("loop", "loop.before", "agent", "__pycache__", ".twinfit.lock"))
+    shutil.copytree(folder, copy, ignore=shutil.ignore_patterns("loop", "loop.before", "agent", "__pycache__", ".twinfit.lock", COMMAND_LOCK))
     (copy / "agent").mkdir()
     for trace in data.get("trace", []):
         name, (xcol, _) = trace["file"], trace["columns"][:2]
         with (copy / name).open() as fh:
             rows = list(csv.DictReader(fh))
         for row in rows:
-            key = (trace.get("name", name), round(float(row[xcol]), 9))
-            key = key if key in fitted else (name, key[1])
-            if key not in fitted:
+            value = fitted_at(trace.get("name", name), float(row[xcol]))
+            value = value if value is not None else fitted_at(name, float(row[xcol]))
+            if value is None:
                 shutil.rmtree(copy)
                 raise ValueError(f"the sample at {row[xcol]} of {name} has no fitted value in {table.name}: the run of the loop read other curves than these")
-            row["sd"] = f"{math.sqrt(max(fitted[key], floor)):.6g}"
+            row["sd"] = f"{math.sqrt(max(value, floor)):.6g}"
         with (copy / name).open("w", newline="") as fh:
             out = csv.DictWriter(fh, fieldnames=[k for k in rows[0] if k != "sd"] + ["sd"])
             out.writeheader()
@@ -128,6 +173,38 @@ def counts(folder: Path, floor: float = 1.0) -> Path:
     return copy
 
 
+FROM_A_COPY = "{{FROM_A_COPY}}"          # in the rules and the skill of an agent: what a copy of the package, which no Python has installed, asks
+
+
+def copy_said(where: str) -> str:
+    """What the rules of a project say of where the package is: nothing where a Python has it installed, and where it is a
+    copy, its folder and the PYTHONPATH that each command takes. The page named the Python and the folder of the machine
+    that made it, which did not exist on the machine that read it (the fresh red team of 0.1.0rc16, mislead 1)."""
+    if {"site-packages", "dist-packages"} & set(Path(where).parts):
+        return ""
+    return f" The package is a copy that no Python has installed, the folder `{where}/twinfit`: each command takes `PYTHONPATH={where}` in front of it, or runs from that folder."
+
+
+TWIN = Path(__file__).resolve().parent / "examples" / "rubidium_twin"          # the twin of the recorded traces of RUBIDIUM.md, the owner's message 366
+
+
+def the_twin(folder: Path) -> list:
+    """Writes the twin of the recorded traces of RUBIDIUM.md into `folder`: its eight synthetic traces in traces/, their
+    description, the first model, model.py, and an empty terms/. Their truth stays in the package, beside the project,
+    as the truth of a project of the gallery stays out of its folder. A file that is already there is refused, so that
+    no work is written over."""
+    folder = Path(folder)
+    plan = [(TWIN / "description.toml", folder / "description.toml"), (TWIN / "model.txt", folder / "model.py")] + [(f, folder / "traces" / f.name) for f in sorted((TWIN / "traces").glob("*.csv"))]
+    there = [str(dst) for _, dst in plan if dst.exists()]
+    if there:
+        raise ValueError(f"{', '.join(there[:3])} {'is' if len(there) == 1 else 'are'} already there: write the twin into a folder of its own")
+    (folder / "traces").mkdir(parents=True, exist_ok=True)
+    (folder / "terms").mkdir(exist_ok=True)
+    for src, dst in plan:
+        dst.write_text(src.read_text())
+    return [dst for _, dst in plan]
+
+
 def init(folder: Path) -> list:
     """Writes the starting files of a project, a folder that `loop` reads once it is filled: the description of the
     data collection, the first model, a folder for the curves and one for the terms, the rules of the folder and the
@@ -136,7 +213,7 @@ def init(folder: Path) -> list:
     folder.mkdir(parents=True, exist_ok=True)
     for name in ("traces", "terms", "agent"):          # agent/: the record of an agent's iterations, which the guide names
         (folder / name).mkdir(exist_ok=True)
-    plan = [(HERE / "agent" / "description_template.toml", folder / "description.toml"), (HERE / "agent" / "model_template.py", folder / "model.py"),
+    plan = [(HERE / "agent" / "description_template.toml", folder / "description.toml"), (HERE / "agent" / "model_template.py", folder / "model.py"), (HERE / "agent" / "list_of_terms_template.py", folder / "list_of_terms.py"),
             (HERE / "agent" / "CLAUDE_template.md", folder / "CLAUDE.md"), (HERE / "agent" / "skill" / "SKILL.md", folder / ".claude" / "skills" / "twinfit" / "SKILL.md")]
     out = []
     where = str(HERE.parent)                                   # the folder that holds the package: its path goes into each file
@@ -150,7 +227,7 @@ def init(folder: Path) -> list:
             out.append(f"kept as it is: {dst}")
             continue
         dst.parent.mkdir(parents=True, exist_ok=True)
-        dst.write_text(src.read_text().replace(MARK, where).replace(PYTHON, sys.executable))
+        dst.write_text(src.read_text().replace(FROM_A_COPY, copy_said(where)).replace(MARK, where).replace(PYTHON, sys.executable))
         out.append(f"written: {dst}")
     ready = all(line.startswith(("kept as it is", "not written")) for line in out)          # "Fill description.toml" said of a project whose files were all filled (round 12 of the cold tests)
     out.append(f"made: {', '.join(name + '/' for name in ('traces', 'terms', 'agent'))}, for the curves, the term files and the record of an agent")
@@ -162,8 +239,8 @@ def init(folder: Path) -> list:
 TERM_FILE = '''A term file is DIR/terms/01.py, then 02.py, and so on, one term each, read by the loop in that order:
 
     from twinfit import mechanisms
-    term = mechanisms.along("width", "temperature")
-    why = "the report: the core changes along temperature, and a width changes with the temperature of the sample"
+    term = mechanisms.along("width", "concentration")
+    why = "the report: the core changes along concentration, and a width grows with the concentration of the sample"
 
 `term` is one of the terms above, or a mechanism of your own, and `why` says why you add it, in six words or more. A
 file that is kept may be written again later: the loop fits every file again at each run. The loop fits the
@@ -178,8 +255,44 @@ hold = True in its file. The loop keeps it at that size whatever the criterion s
 theory of every other value.'''
 
 
+CARD = '''The card of a term file, terms/01.py, then 02.py, read by the loop in that order:
+
+    from twinfit import mechanisms
+    term = mechanisms.second(1.5)          # one of `python -m twinfit terms`, or a Mechanism of your own below
+    why = "six words or more: the physics that asks for the term"
+
+A term of the package by the name that a report gives it: `python -m twinfit terms` lists each with its call.
+
+A term of your own:
+
+    import numpy as np
+    from twinfit.mechanisms import Mechanism
+
+    def wrap(model, problem, n):
+        def new(x, shared, own, design):          # shared[n] is the parameter of the term, shared[:n] those before it
+            return model(x, shared[:n], own, design) + shared[n] * np.exp(-((x - own[1]) / 3.0) ** 2)
+        return new
+
+    term = Mechanism("a broad shoulder under the line", "shoulder", "size of the shoulder", 0.0, wrap,
+                     formula=r"$f(x) + a\\,e^{-(x - x_0)^2/9}$")
+    why = "the physics of the line gives it a broad shoulder"
+
+Mechanism(name, kind, parameter, start, wrap, lower=-inf, upper=inf, theory=None, formula=""): `kind` is any word,
+`formula` writes the term in LaTeX for the visual log, with f the model before it and a its parameter. `new` may add to
+the model, multiply it, or return a whole curve of its own with its baseline.
+
+A term that the physics asks and the records cannot show, held at its theory and not fitted:
+
+    term = mechanisms.pedestal(4.0, theory=(0.05, 0.01))          # its size and the bar of that size
+    hold = True
+    why = "the theory of the probe gives a pedestal of known size"
+
+The loop keeps a fitted term when its fit ends inside its bounds, the Bayesian criterion falls by more than 2, and the
+twin admits the larger model.'''
+
+
 NAMED = (("widened(0.5)", (lambda design: 0.5,)), ("displaced(0.5)", (lambda design: 0.5,)), ("pedestal(8)", (8,)), ("bent()", ()), ("second(1.5)", (1.5,)),
-         ("tail(2, 'upper')", (2, "upper")), ("level(1)", (1,)), ("periodic(3.0)", (3.0,)), ("periodic(3.0, 'sine')", (3.0, "sine")), ("along('width', 'temperature')", ("width", "temperature")))          # each term by the name that the reports print: a tester mapped "a kernel with exponential wings" to widened by hand (round 18 of the cold tests)
+         ("tail(2, 'upper')", (2, "upper")), ("level(1)", (1,)), ("periodic(3.0)", (3.0,)), ("periodic(3.0, 'sine')", (3.0, "sine")), ("along('width', 'concentration')", ("width", "concentration")), ("gaussian_width()", ()), ("lorentzian_width()", ()), ("exponential_width()", ()))          # each term by the name that the reports print: a tester mapped "a kernel with exponential wings" to widened by hand (round 18 of the cold tests)
 
 
 def terms() -> str:
@@ -188,10 +301,10 @@ def terms() -> str:
     from . import mechanisms
     blocks = mechanisms.__doc__.split("\n\n")
     table = next(b for b in blocks if "along(parameter, key" in b)
-    at = next(k for k, b in enumerate(blocks) if b.startswith("Which term answers"))
+    at = next(k for k, b in enumerate(blocks) if b.startswith("Glitches and a change"))
     from .best import TIED
     named = "The name that a report and best.md give a term, and the call of a term file that writes it:\n\n" + "\n".join(f"    {getattr(mechanisms, call.split('(')[0])(*args).name:<46}{call}" for call, args in NAMED)
-    return "\n\n".join(["The terms of the package, each with the one parameter a that it adds:", table] + blocks[at:at + 3] + [named, TERM_FILE.replace("{TIED}", f"{TIED:g}")])
+    return "\n\n".join(["The terms of the package, each with the one parameter a that it adds:", table] + blocks[at:at + 1] + [named, TERM_FILE.replace("{TIED}", f"{TIED:g}")])
 
 
 def _span(lo: float, hi: float) -> tuple:
@@ -205,7 +318,7 @@ def _span(lo: float, hi: float) -> tuple:
     return f"{lo:.{d}f}", f"{hi:.{d}f}"
 
 
-GUIDES = {"": ("agent", "AGENT.md"), "manual": ("agent", "MANUAL.md"), "examples": ("EXAMPLES.md",), "tutorial": ("TUTORIAL.md",), "readme": ("README.md",), "rubidium": ("RUBIDIUM.md",)}          # the pages that `guide` prints
+GUIDES = {"": ("agent", "AGENT.md"), "manual": ("agent", "MANUAL.md"), "agent-tutorial": ("agent", "TUTORIAL.md"), "examples": ("EXAMPLES.md",), "tutorial": ("TUTORIAL.md",), "readme": ("README.md",), "rubidium": ("RUBIDIUM.md",)}          # the pages that `guide` prints
 
 
 def guide_page(args: list) -> Path | None:
@@ -215,7 +328,172 @@ def guide_page(args: list) -> Path | None:
     return HERE.joinpath(*GUIDES[topic]) if topic in GUIDES else None
 
 
+def wait(args: list) -> int:
+    """`python -m twinfit wait DIR [--timeout S]`: waits, up to S seconds, 540 by default, under the ten minutes that the
+    shell of an agent gives a command, for the loop that runs in DIR to end, then prints its last page for an agent.
+    Exit 0 when no loop runs there, 2 when one still runs at the timeout, with the step that it is in. A loop started a
+    moment before, in the background, is given `START` seconds to take its lock."""
+    import fcntl
+    import json
+    import time
+    if not args or args[0].startswith("--") or len(args) not in (1, 3) or (len(args) == 3 and args[1] != "--timeout"):
+        print("REFUSED: python -m twinfit wait DIR [--timeout S]")
+        return 1
+    folder, timeout = Path(args[0]), float(args[2]) if len(args) == 3 else 540.0
+    if not folder.is_dir():          # a path that is no folder waited ten seconds and said that no loop ran (the critic of the red team of his message 436)
+        print(f"REFUSED: {folder} is no folder")
+        return 1
+    began = time.time()
+
+    def held(name: str) -> bool:
+        lock = folder / name
+        if not lock.is_file():
+            return False
+        with lock.open("a+") as fh:
+            try:
+                fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                return True
+            fcntl.flock(fh, fcntl.LOCK_UN)
+            return False
+
+    def running() -> bool:          # the loop's own lock, or that of the command, held to the end of its process, its visual log included
+        return held(".twinfit.lock") or held(COMMAND_LOCK)
+    while not running() and not log_pending(folder) and time.time() - began < min(START, timeout):          # a loop started a moment before, in the background, has not yet taken its lock
+        time.sleep(0.5)
+    if not running() and not log_pending(folder):
+        print(f"no loop runs in {folder}.")
+        if not (folder / "loop" / "best.md").is_file():          # a first run refused or stopped leaves no page and no REFUSED.md (the readers of the red team of his message 436, agents A3)
+            print("It holds no page of a run: a run started here and refused or stopped before it wrote one says why in its own output, where it was written.")
+    else:
+        while running() and time.time() - began < timeout:
+            time.sleep(5.0)
+        if running():
+            status = folder / "loop" / "STATUS.json"
+            step = json.loads(status.read_text()).get("step", "") if status.is_file() else ""
+            print(f"the loop still runs in {folder} after {time.time() - began:.0f} seconds" + (f", at: {step}" if step else "") + ". Run wait again.")
+            return 2
+        while log_pending(folder) and time.time() - began < timeout:
+            time.sleep(2.0)
+        if log_pending(folder):
+            print(f"the loop in {folder} ended, and its visual log is still being drawn after {time.time() - began:.0f} seconds. Run wait again.")
+            return 2
+        print(f"the loop in {folder} ended after {time.time() - began:.0f} seconds of waiting: " + ended(folder))
+    refused = folder / "loop" / "REFUSED.md"
+    briefs = sorted((folder / "loop").glob("brief_*.md"), key=lambda p: int(p.stem.split("_")[1])) if (folder / "loop").is_dir() else []
+    if refused.is_file():          # a refused run puts back the pages of the run before it: they are said to be so, not shown as its result
+        print("\n" + refused.read_text() + ("\nThe brief below is that of the run before it." if briefs else ""))
+    if briefs:
+        print("\n" + briefs[-1].read_text())
+    return 0
+
+
+def command_lock(folder: Path) -> bool:
+    """Takes the lock of the loop command on `folder` until its process ends, so that `wait` reads the run as running
+    between the release of the loop's own lock and the end of the drawing of its visual log, where it said the loop
+    ended (the red team of his message 434). A folder that does not exist is refused by the loop itself."""
+    import fcntl
+    try:
+        fh = (Path(folder) / COMMAND_LOCK).open("a+")
+    except OSError:
+        return False
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:          # another command holds it, and the loop's own lock refuses the second run
+        fh.close()
+        return False
+    _HELD.append(fh)
+    return True
+
+
+def ended(folder: Path) -> str:
+    """What the end of a run left in `folder`, read on the disk and never assumed: best.md and the visual log were said
+    written where a refused run, matplotlib missing or an output for agents alone left neither (the red team of his
+    message 434)."""
+    loop_dir = Path(folder) / "loop"
+    if (loop_dir / "REFUSED.md").is_file():
+        return "it was refused, and loop/REFUSED.md says why."
+    if not (loop_dir / "best.md").is_file():
+        return "it wrote no best.md, and its own output, where it was written, says why."
+    if (loop_dir / "log.pdf").is_file():
+        return "best.md and the visual log, loop/log.pdf, are written."
+    return "best.md is written, and no visual log: the description asks the output for agents alone, matplotlib is not installed, or its drawing failed, as the loop's own output says."
+
+
+def literature(args: list) -> int:
+    """`python -m twinfit literature DIR`: the brief of the search of the literature that `[literature]` of the
+    description asks, for an agent of its model and effort to run, which writes DIR/literature.md. The package runs no
+    agent: the data say what the records ask, and the papers what the physics may give them (his message 316: "the
+    package is either data-driven and physics driven")."""
+    from .description import read
+    if len(args) != 1:
+        print("REFUSED: python -m twinfit literature DIR")
+        return 1
+    try:
+        d = read(Path(args[0]) / "description.toml")
+    except ValueError as why:
+        print(f"REFUSED: {why}")
+        return 1
+    lit = d.literature
+    if lit["search"] == "none":
+        print("no search of the literature is set: write [literature] search = \"local\", \"online\" or \"both\" in the description to have one")
+        return 0
+    where = {"local": f"the papers held in {Path(args[0]) / lit['folder']}", "online": "online, the journals and the archives of preprints",
+             "both": f"the papers held in {Path(args[0]) / lit['folder']}, then online"}[lit["search"]]
+    print(f"A search of the literature, for one agent on the model {lit['model']} at the effort {lit['effort']}.\n\n"
+          f"Problem: {d.name}. {d.what}\nAbscissa: {d.abscissa[0]}, in {d.abscissa[1] or 'no unit'}. Value: {d.value[0]}, in {d.value[1] or 'no unit'}. Covariates: {', '.join(d.covariates) or 'none'}.\n"
+          + (f"Words of the researcher: {lit['words']}\n" if lit.get("words") else "")
+          + f"\nSearch {where}, for the terms that the physics of this problem gives its curves: each with its formula, the size "
+          "that the paper gives with its uncertainty, how it changes along each covariate, and the paper with its page. A term "
+          "that no paper held gives is not written as one. Write them to " + str(Path(args[0]) / "literature.md") + ", one heading a term, "
+          "and nothing else: the loop names that file in best.md, and the terms are written as term files by whoever reads it.")
+    return 0
+
+
+def log_pending(folder: Path) -> bool:
+    """Whether the loop command still draws the visual log of `folder` after its lock was released: the marker
+    loop/LOG_PENDING, written before the drawing and removed after it, with the process that draws. A loop killed while
+    it drew left the marker, and `wait` waited its nine minutes on every call: the marker counts only while its process
+    lives (the readers of the red team of his message 436)."""
+    marker = Path(folder) / "loop" / "LOG_PENDING"
+    if not marker.is_file():
+        return False
+    try:
+        pid = int(marker.read_text().split()[0])
+    except (ValueError, IndexError, OSError):          # a marker with no process in it
+        return True
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False          # its process is gone
+    except PermissionError:
+        return True
+    return True
+
+
+def visual_log(folder: Path, quiet: bool = False) -> str:
+    """Draws the visual log of the last run in `folder` and says where it is, or why it was not drawn: matplotlib absent,
+    or no run. `quiet`, after the loop: matplotlib absent is said in one line and is no refusal, since the loop ran."""
+    try:
+        import matplotlib  # noqa: F401
+    except ImportError:
+        return ("The visual log is not drawn: matplotlib is not installed where this ran. `pip install matplotlib`, then "
+                f"python -m twinfit log {folder}") if quiet else "REFUSED: the visual log needs matplotlib: pip install matplotlib"
+    from .log import log
+    try:
+        made = log(folder)
+    except ValueError as why:
+        return f"REFUSED: {why}"
+    turns = len({p.name[:2] for p in made if p.name[:2].isdigit() and p.name[:2] != "99"})
+    return (f"The visual log: {folder / 'loop' / 'log.pdf'}, {len(made)} slides, one for each phase of each of {turns} turn{'s' * (turns != 1)} with the equation of "
+            f"each model and what each term does, the pictures in {folder / 'loop' / 'log'} and their list in {folder / 'loop' / 'log.md'}.")
+
+
 def main(argv: list) -> int:
+    if argv in (["--version"], ["-V"]):          # printed the usage and ended 1 (the critic of the red team of his message 436)
+        from .version import __version__
+        print(__version__)
+        return 0
     if set(argv) & {"--help", "-h", "help"} or not argv:          # asked for help: the usage, and no command run on a folder named --help (the cold tests of row M169)
         print(__doc__)
         return 0
@@ -250,6 +528,21 @@ def main(argv: list) -> int:
         print(f"Run the loop on each copy. A term that one keeps and another refuses is not to be believed. Quote the values of one copy with the half range of the {len(made)} copies beside them: "
               f"each copy holds one sample in {argv[2]}, so its bars are about the root of {argv[2]} times those of the whole folder, which were too small.")
         return 0
+    if argv[:1] == ["matrix"]:          # what every family of statistics reads, and which sees which systematic (the owner's messages 262 to 267)
+        if len(argv) != 2 or argv[1].startswith("--"):
+            print("REFUSED: matrix takes the folder alone, as `python -m twinfit matrix DIR`: it reads the model that the term files of DIR give, as scan does, and runs no twin")
+            return 1
+        import warnings
+        from .loop import matrix, matrix_page
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", RuntimeWarning)
+                out = matrix(Path(argv[1]))
+        except ValueError as why:
+            print(f"REFUSED: {why}")
+            return 1
+        print(matrix_page(out), end="")
+        return 0
     if argv[:1] == ["scan"] and len(argv) in (2, 3):          # a scan with no values printed the whole usage (round 12 of the cold tests)
         print("REFUSED: scan takes the folder, the term with x in the place of the number scanned, and the values of x, as `python -m twinfit scan DIR \"second(x)\" 1 1.5 2`")
         return 1
@@ -268,7 +561,7 @@ def main(argv: list) -> int:
             print(f"REFUSED: {why}")
             return 1
         except TypeError as why:          # a term written with too few numbers ended in a traceback (round 12 of the cold tests)
-            print(f"REFUSED: {argv[2]} is not a term of the package with x in the place of one of its numbers: {why}. `python -m twinfit terms` lists each term with its numbers, as along(\"width\", \"temperature\", x), whose x is the power")
+            print(f"REFUSED: {argv[2]} is not a term of the package with x in the place of one of its numbers: {why}. `python -m twinfit terms` lists each term with its numbers, as along(\"width\", \"concentration\", x), whose x is the power")
             return 1
         print(f"{out['expression']} beside the model of {argv[1]}" + (f" with {', '.join(out['beside'])}" if out["beside"] else ", its first model") + ", at each x, in the unit that the term takes: "
               "a distance or a period in the unit of the abscissa, a stretch or a power as a number. The fall of the Bayesian criterion is from the model without the term, "
@@ -287,7 +580,9 @@ def main(argv: list) -> int:
         b = out["best"]
         from .best import TIED
         if b is None:
-            print("No fit ended inside its bounds.")
+            bound = ", ".join(f"{r['x']:g}" for r in out["rows"] if r["how"] == "at a bound of its size")
+            print("No fit ended inside its bounds" + (f": at x = {bound} the size of the term stood at a bound, so these records ask for none of it within its bounds. "
+                                                      "A bound is given in the term, as lower= or upper=, where the physics of the term allows the other side." if bound else "."))
         elif b["fall_of_the_criterion"] <= TIED:
             print(f"No value of x lowers the Bayesian criterion by more than {TIED:g}, the least that the loop keeps: these records do not ask for this term at any x scanned.")
         else:
@@ -326,7 +621,7 @@ def main(argv: list) -> int:
             print(f"REFUSED: no guide {' '.join(argv[1:])!r}: `python -m twinfit guide` takes nothing, or one of {', '.join(t for t in GUIDES if t)}", file=sys.stderr)
             return 2
         print(page.read_text())
-        if argv[1:] in (["tutorial"], ["readme"], ["examples"], ["rubidium"]):
+        if argv[1:] in (["tutorial"], ["readme"], ["examples"], ["rubidium"], ["agent-tutorial"]):
             print(f"This page is the file {page}.")          # where an installed package keeps it: a tester of round 21 found no twinfit/ folder beside the one that pip wrote
         if argv[1:] == ["rubidium"]:
             print(f"Its figures are the files of the folder {page.parent / 'examples' / page.stem.lower()}.")          # what the page and the README promise: until review 30 the command printed no folder of the figures
@@ -340,38 +635,56 @@ def main(argv: list) -> int:
             print(f"REFUSED: walk hides no term {why}: it hides one of {', '.join(repr(h) for h in HIDDEN)}")
             return 1
         return 0
+    if argv == ["card"]:          # how to write a term, in one page, his message 316: an agent read the source of the package to learn it
+        print(CARD)
+        return 0
+    if argv[:1] == ["wait"]:          # a command that waits for a running loop, his message 316: an agent spent a quarter of its tokens on steps that only waited
+        return wait(argv[1:])
+    if argv[:1] == ["literature"]:          # the brief of the search of the literature, his message 316
+        return literature(argv[1:])
+    if argv[:1] == ["log"]:          # the visual log of a run, his message 309
+        if len(argv) != 2 or argv[1].startswith("--"):
+            print("REFUSED: python -m twinfit log DIR, the folder of a project whose loop has run")
+            return 1
+        said = visual_log(Path(argv[1]))
+        print(said)
+        return 0 if not said.startswith("REFUSED") else 1
     if argv[:1] == ["loop"] and len(argv) >= 2 and argv[1].startswith("--"):
         print(f"REFUSED: the folder comes first, then the options: python -m twinfit loop DIR {' '.join(argv[1:])}")
         return 1
     if argv[:1] == ["loop"] and len(argv) >= 2:
+        command_lock(Path(argv[1]))          # first, before the imports of the loop, which a ten seconds' grace of `wait` must not wait out (the readers of the red team of his message 436)
         from . import loop as the_loop
         from .loop import run
         the_loop.TALK = lambda text: print(text, file=sys.stderr, flush=True)          # each step as it starts, on the error stream, so that the output stays the summary
+        dictionary = "--dictionary" in argv[2:]          # the package's own list, read only where the researcher asks it (the owner's messages 337 to 343)
+        argv = argv[:2] + [a for a in argv[2:] if a != "--dictionary"]
         opts = dict(zip(argv[2::2], argv[3::2]))
-        if len(argv[2:]) % 2 or set(opts) - {"--n", "--sets", "--max-seconds"}:
+        if len(argv[2:]) % 2 or set(opts) - {"--n", "--sets", "--max-seconds", "--workers"}:
             print(__doc__)
             return 1
         import warnings
         try:
             with warnings.catch_warnings():          # a start that a search leaves printed a warning of numpy before the refusal in words (round 5 of the cold tests)
                 warnings.simplefilter("ignore", RuntimeWarning)
-                out = run(Path(argv[1]), n=int(opts.get("--n", 10)), sets=int(opts.get("--sets", 30)), max_seconds=float(opts["--max-seconds"]) if "--max-seconds" in opts else None)          # a budget of seconds, his message 181
+                out = run(Path(argv[1]), n=int(opts.get("--n", 10)), sets=int(opts.get("--sets", 30)), max_seconds=float(opts["--max-seconds"]) if "--max-seconds" in opts else None,          # a budget of seconds, his message 181
+                          dictionary=dictionary, **({"workers": int(opts["--workers"])} if "--workers" in opts else {}))          # the twins of the proposals side by side, his message 316
         except KeyError as why:          # REFUSED: 'pressure', where a term of the researcher read a setting that the curves do not carry (round 7 of the cold tests)
             print(f"REFUSED: the model or a term reads {why} where it is not, most often from `design`, the settings of a curve: the settings are those that the description gives each trace")
             return 1
         except (ValueError, FileNotFoundError, ArithmeticError, RuntimeError, __import__('numpy').linalg.LinAlgError) as why:          # a refusal is said in its words, with no trace of the code (review 21), and a fault that the model raises too (round 3)
             print(f"REFUSED: {why}")
             return 1
-        kept = ", ".join(k["term"] + (", held at its theory" if "held_at" in k else "") + (", which no answer of the report before it asked for" if k.get("asked") is False and "held_at" not in k else "")
+        kept = "; ".join((f"{k['file']}, " if k.get("file") else "") + k["term"] + (", held at its theory" if "held_at" in k else "") + (", which no answer of the report before it asked for" if k.get("asked") is False and "held_at" not in k else "")
                          + (", of a negative size, which takes its shape away from the curve: best.md says what that asks" if (out.get("output") or {}).get("parameters", {}).get(k.get("parameter"), {}).get("value", 0.0) < 0.0 and k.get("parameter", "").startswith(("tail ", "pedestal ", "second component at ")) else "") for k in out["kept"]) or "nothing"          # outside the f-string: a line break inside one is the grammar of Python 3.12, and the package runs from 3.11
-        print(f"kept: {kept}. Refused: {', '.join(r['term'] for r in out['refused']) or 'nothing'}. The best model: {out['best']}."
+        print(f"kept: {kept}. Refused: {'; '.join((r['file'] + ', ' if r.get('file') else '') + r['term'] for r in out['refused']) or 'nothing'}. The best model: {out['best']}."          # each by its file: two widths of one kind read as one term kept and refused (the fresh red team of 0.1.0rc16, mislead 3)
               + (" best.md gives the reason of each refusal." if out["refused"] else "")
               + ((" The check of the noise of the best model fails with every band under 1: the noise is stated too large"
                   + (", as the differences of neighbouring samples give it on a sharp curve" if out.get("noise_from", "neighbours") == "neighbours" else f", as the description gives it from its {out.get('noise_from')}")          # a noise given as a value was said to come from neighbouring samples (round 19)
                   + ", so the bars are too large and the twin sees less than the records hold. "
                      "Estimate it again from the residuals of this model, as section 9 of the tutorial says, before a refusal is believed."
                      if all(r["mean_squared_residual"] < 1.0 for r in out["noise"].get("bands", [])) and out["noise"].get("bands") else
-                     " The check of the noise of the best model fails, which a missing term causes as well as a noise stated wrong, so what was kept is not to be believed before that is read: best.md says how.")
+                     " The check of the noise of the best model fails, which a missing term causes as well as a noise stated wrong, so what was kept is not to be believed before that is read: best.md gives each band outside with its standard error.")
                     if out["kept"] and not out["noise"]["right"] else "")          # too large said apart from too small, where neighbours stated it 1.2 times the truth (round 13 of the cold tests)
               + (f" A refusal by the twin on {out['sets']} sets can turn on more: run with --sets 100 before setting that term aside." if out.get("sets", 100) < 100 and any("the twin does not admit" in r["why"] or "synthetic sets, and a term is read on" in r["why"] for r in out["refused"]) else ""))          # the noise steered to, where a term was missing, and a refusal at 30 sets that 100 turned (round 8)          # a cosine kept on 16 spikes with no word (round 7)
         if out.get("own_trends"):          # the report reads the shared parameters alone, and said the records ask for no more beside a place that moved 400 bars (round 9)
@@ -382,13 +695,18 @@ def main(argv: list) -> int:
             nxt = (f" The first kind beyond the twin in the last report is {out['noise_leads']}, which a term file cannot hold: {out['report']} says what to do, in a copy of this folder,"
                    " and the loop is run on the copy.")
         elif out.get("nothing_beyond_the_twin"):
-            nxt = " No answer of where, what or along in the last report stands beyond its twin: the records ask for no more, and a further term rests on theory alone." + (
+            nxt = " No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone." + (
+                " But the twin of the best model does not admit its fit, so no value is to be quoted: best.md says why" if (out.get("output") or {}).get("admitted_on_the_twin") is False else "") + (
                 f" Families of statistics stand beyond it all the same, {', '.join(out['seen_by_beyond'][:3])}, which name no term: a noise taken from the records themselves, as the root of their counts, "
                 "moves with the noise of the records and is read so. Where the noise is so given, give it from the fitted values of the model, as section 9 of the tutorial says, before this is believed." if out.get("seen_by_beyond") else "")
         elif out.get("one_answer_just_past"):          # its words were the guide's, which a researcher of the loop had not met (round 3 of the cold tests)
-            nxt = (" Only one answer of where, what, along or changes along, the questions that name a term, stands beyond its twin in the last report, and just past its line: a model that lacks nothing shows one such answer on some of its synthetic sets, "
+            nxt = (" Only one answer of where, shape, what, changes along or matched, the questions that point to a term, stands beyond its twin in the last report, and just past its line: a model that lacks nothing shows one such answer on some of its synthetic sets, "
                    "so the records ask for no more here, and the loop stops." + (f" A term that the physics asks for and the records cannot show is held at its value of theory: "
                    f"{out['write_next']} would hold it, with hold = True and the term's theory, as `python -m twinfit terms` says." if out["write_next"] else ""))
+        elif out.get("no_term_worth"):          # the command asked for a next term where no answer left could be kept (the blind red team of 0.1.0rc16, mislead 6)
+            from .best import TIED
+            nxt = (f" The last term tried was refused, and no proposal of the last report beyond its twin gains in chi square what a term of one parameter pays to be kept, {TIED:g}, the margin of the Bayesian criterion, and the logarithm of the samples: no answer left is worth a term, and the loop asks for none."
+                   + (f" A term that the physics asks for and the records cannot show is held at its value of theory: {out['write_next']} would hold it, with hold = True." if out["write_next"] else ""))
         else:
             nxt = f" Write {Path(argv[1]) / out['write_next']} with the next term, then run the loop again." if out["write_next"] else ""          # a path of the project, read from the folder above it (round 16 of the cold tests)
         if out.get("seen_by_beyond") and out.get("noise_from_a_column") and not out.get("nothing_beyond_the_twin"):          # a column of the root of the observed counts, and the command said write the next term (round 17 of the cold tests)
@@ -403,12 +721,37 @@ def main(argv: list) -> int:
             nxt = (f" The twin refused {', '.join(hair)} by less than the standard error of the statistics that failed: run the loop again with --sets 500 before that term is set aside"
                    + (f" and before {out['write_next']} is written." if out["write_next"] else "."))
         print(f"The report of each model and the output are in {Path(argv[1]) / 'loop'}." + nxt + nxt_own)
+        from .description import read as described
+        try:
+            people = "people" in described(Path(argv[1]) / "description.toml").output
+        except (OSError, ValueError):          # a run that a program stands in for, with no description to read
+            people = True
+        if people:          # the visual log for people, his message 316
+            pending = Path(argv[1]) / "loop" / "LOG_PENDING"          # drawn after the lock of the loop is released: `wait` waits for it, since it said ended while the log was still drawn (the blind red teams of 0.1.0rc22)
+            pending.parent.mkdir(parents=True, exist_ok=True)          # a run of --n 0 on a folder with no loop yet has no loop/ to hold the marker (the whole run of 2026-10-27, rounds 7 to 9)
+            pending.write_text(f"{os.getpid()} the visual log is being drawn\n")          # its process, so that a loop killed while it draws leaves no marker that `wait` waits on (the readers of the red team of his message 436)
+            try:
+                print(visual_log(Path(argv[1]), quiet=True))
+            finally:
+                pending.unlink(missing_ok=True)
+        else:
+            print(f"For an agent: {Path(argv[1]) / 'loop'}/brief_K.md, one page a model. No visual log, since the description asks the output for agents alone.")
         if out.get("misnamed"):
             print(f"Not read: {', '.join('terms/' + n for n in out['misnamed'])}, since a term file is named with two digits, as terms/02.py.")
         if out.get("not_read_past_n"):
             print(f"Not read: {', '.join('terms/' + n for n in out['not_read_past_n'])}, since --n {out['n']} reads {out['n']} term files.")
         if out.get("not_read"):
             print(f"Not read: {', '.join(out['not_read'])}, since {Path(out['write_next']).name} is missing and the loop reads the term files in their order up to the first that is.")
+        return 0
+    if argv[:1] == ["example"] and argv[1:2] == ["rubidium"] and len(argv) == 3:          # the twin of the recorded traces of RUBIDIUM.md, the owner's message 366
+        try:
+            written = the_twin(Path(argv[2]))
+        except ValueError as why:
+            print(f"REFUSED: {why}")
+            return 1
+        curves = sum(1 for p in written if p.parent.name == "traces")
+        print(f"written into {argv[2]}: description.toml, model.py, an empty terms/ and {curves} synthetic curves in traces/, the twin of the recorded traces of RUBIDIUM.md. "
+              f"The values that drew them are in {TWIN / 'truth.json'}. Next: python -m twinfit loop {argv[2]}")
         return 0
     if argv[:1] == ["example"] and len(argv) in (3, 5, 7):
         from .examples import fields, gallery

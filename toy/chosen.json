@@ -1,0 +1,2522 @@
+{
+ "digest": "7c5737c1acd0b55505560b0c085c4c2717cf3fbb1f0883f98f2bdaf9cae1287f",
+ "package": "0.1.0",
+ "one": {
+  "kept": [
+   "01.py",
+   "02.py",
+   "03.py",
+   "04.py"
+  ],
+  "refused": {
+   "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+  },
+  "best": "model 4",
+  "parameters": {
+   "gas_width": {
+    "value": 0.016661547324922157,
+    "bar": 0.013914543113977128,
+    "bar_of_theory": 0.02924923693779194,
+    "of_the_twin": 0.037,
+    "from_the_twin_in_bars": -1.4616687381311075,
+    "from_the_twin_in_whole_bars": -0.6279177580305861
+   },
+   "laser_noise": {
+    "value": 0.38739507973672377,
+    "bar": 0.026120555265776963,
+    "bar_of_theory": 0.0329763562824818,
+    "of_the_twin": 0.369,
+    "from_the_twin_in_bars": 0.7042376989904547,
+    "from_the_twin_in_whole_bars": 0.4372692806748096
+   }
+  },
+  "freed": {
+   "collisions": {
+    "value": 3.614481767693067,
+    "bar": 0.6311224053043587,
+    "of_the_twin": 3.5,
+    "from_the_twin_in_bars": 0.18139392094289242
+   },
+   "transit": {
+    "value": 1.049224523631231,
+    "bar": 0.021857889539350635,
+    "of_the_twin": 1.0399981409634105,
+    "from_the_twin_in_bars": 0.42210766282857703
+   }
+  }
+ },
+ "his": {
+  "kept": [
+   "01.py",
+   "02.py",
+   "03.py",
+   "04.py",
+   "05.py"
+  ],
+  "refused": {},
+  "best": "model 5",
+  "parameters": {
+   "gas_width": {
+    "value": -0.058817527462143304,
+    "bar": 0.019341342380173612,
+    "bar_of_theory": 0.07218765274230726,
+    "of_the_twin": 0.037,
+    "from_the_twin_in_bars": -4.95402674637329,
+    "from_the_twin_in_whole_bars": -1.282117251585112
+   },
+   "laser_noise": {
+    "value": 0.4784880508429374,
+    "bar": 0.015969249748532373,
+    "bar_of_theory": 0.011784253164776298,
+    "of_the_twin": 0.369,
+    "from_the_twin_in_bars": 6.856180006390075,
+    "from_the_twin_in_whole_bars": 5.516729557389883
+   },
+   "pedestal 4": {
+    "value": 0.01698605625841656,
+    "bar": 0.004238133974369435,
+    "bar_of_theory": 0.0076550308862220525,
+    "of_the_twin": null,
+    "from_the_twin_in_bars": null,
+    "from_the_twin_in_whole_bars": null
+   }
+  },
+  "freed": {
+   "collisions": {
+    "value": 1.5032161319245205,
+    "bar": 0.26901700411894386,
+    "of_the_twin": 3.5,
+    "from_the_twin_in_bars": -7.42251916236721
+   },
+   "transit": {
+    "value": 0.9951395792389329,
+    "bar": 0.013112796527401735,
+    "of_the_twin": 1.0399981409634105,
+    "from_the_twin_in_bars": -3.4209759627350946
+   }
+  }
+ },
+ "draws": {
+  "draw 1": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.016661547324922157,
+     "bar": 0.013914543113977128,
+     "bar_of_theory": 0.02924923693779194,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.4616687381311075,
+     "from_the_twin_in_whole_bars": -0.6279177580305861
+    },
+    "laser_noise": {
+     "value": 0.38739507973672377,
+     "bar": 0.026120555265776963,
+     "bar_of_theory": 0.0329763562824818,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.7042376989904547,
+     "from_the_twin_in_whole_bars": 0.4372692806748096
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.614481767693067,
+     "bar": 0.6311224053043587,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.18139392094289242
+    },
+    "transit": {
+     "value": 1.049224523631231,
+     "bar": 0.021857889539350635,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.42210766282857703
+    }
+   }
+  },
+  "draw 2": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 9.05 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.0359939752300282,
+     "bar": 0.01411156878684147,
+     "bar_of_theory": 0.0291728968615367,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.07129078171024314,
+     "from_the_twin_in_whole_bars": -0.031043726502234
+    },
+    "laser_noise": {
+     "value": 0.3634029712899651,
+     "bar": 0.028437663222337928,
+     "bar_of_theory": 0.03507101846946922,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.1968174623306733,
+     "from_the_twin_in_whole_bars": -0.12396050025319574
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.2098231571775653,
+     "bar": 0.6536410312714993,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.44393914846191096
+    },
+    "transit": {
+     "value": 1.0430208738342654,
+     "bar": 0.022284012114536737,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.1356458098891054
+    }
+   }
+  },
+  "draw 3": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03809148783695164,
+     "bar": 0.014278682967225825,
+     "bar_of_theory": 0.028774606908881773,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.07644177263806179,
+     "from_the_twin_in_whole_bars": 0.03397885705428944
+    },
+    "laser_noise": {
+     "value": 0.3595241504779317,
+     "bar": 0.029335824448773137,
+     "bar_of_theory": 0.03650953698782075,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.32301289294307206,
+     "from_the_twin_in_whole_bars": -0.20232319958898143
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.2694457440274913,
+     "bar": 0.6605258662905742,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.3490465214742775
+    },
+    "transit": {
+     "value": 1.045619579201496,
+     "bar": 0.0225211856042048,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.24960667421682844
+    }
+   }
+  },
+  "draw 4": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.029804546327938747,
+     "bar": 0.014088150823669886,
+     "bar_of_theory": 0.029255388287250002,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.5107450766336185,
+     "from_the_twin_in_whole_bars": -0.22159757852589132
+    },
+    "laser_noise": {
+     "value": 0.3798475821785555,
+     "bar": 0.027108349359191465,
+     "bar_of_theory": 0.033682332618523075,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.4001564991959756,
+     "from_the_twin_in_whole_bars": 0.2508916617844162
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.322934674766219,
+     "bar": 0.63939229463331,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.27692752433829
+    },
+    "transit": {
+     "value": 1.0454179250664628,
+     "bar": 0.02224115657118997,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.2436826558773851
+    }
+   }
+  },
+  "draw 5": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 9.13 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.02268634027591581,
+     "bar": 0.014104023315174338,
+     "bar_of_theory": 0.029474600372381768,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.014863589220269,
+     "from_the_twin_in_whole_bars": -0.43805742078653886
+    },
+    "laser_noise": {
+     "value": 0.4029206254532157,
+     "bar": 0.025336362228689187,
+     "bar_of_theory": 0.031161381725753418,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 1.3388119867818395,
+     "from_the_twin_in_whole_bars": 0.8446011220116014
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.843805439324294,
+     "bar": 0.6495879980576895,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.010170388981586
+    },
+    "transit": {
+     "value": 1.0410138290719666,
+     "bar": 0.022339240404632314,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.04546654631755106
+    }
+   }
+  },
+  "draw 6": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.043084626508420744,
+     "bar": 0.01398234976952324,
+     "bar_of_theory": 0.029185104570994644,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.43516480482294606,
+     "from_the_twin_in_whole_bars": 0.18801965854643765
+    },
+    "laser_noise": {
+     "value": 0.3539462900594353,
+     "bar": 0.028881629522863782,
+     "bar_of_theory": 0.03620375563508499,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.5212209348730696,
+     "from_the_twin_in_whole_bars": -0.3250453993654855
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.8831792234906004,
+     "bar": 0.6378557314879371,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.6007302350278355
+    },
+    "transit": {
+     "value": 1.0545143730983044,
+     "bar": 0.021857026686713875,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.6641448694262637
+    }
+   }
+  },
+  "draw 7": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.018780572079325368,
+     "bar": 0.014481487646222662,
+     "bar_of_theory": 0.028976159327505465,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.2581185279971543,
+     "from_the_twin_in_whole_bars": -0.5624428805731231
+    },
+    "laser_noise": {
+     "value": 0.39319246320199736,
+     "bar": 0.02723665462036476,
+     "bar_of_theory": 0.03284323024033367,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.8882318162491488,
+     "from_the_twin_in_whole_bars": 0.5670001602954784
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.8058566024116893,
+     "bar": 0.6686669931879409,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.038100287078488
+    },
+    "transit": {
+     "value": 1.053413205625639,
+     "bar": 0.02275324614562257,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.5895890448497302
+    }
+   }
+  },
+  "draw 8": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 8.26 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.018222483579478744,
+     "bar": 0.014391799245247002,
+     "bar_of_theory": 0.028935177510069417,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.3047372396278156,
+     "from_the_twin_in_whole_bars": -0.5810470393264626
+    },
+    "laser_noise": {
+     "value": 0.40711093043282703,
+     "bar": 0.025878057881483597,
+     "bar_of_theory": 0.03178816899449677,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 1.4727121566605803,
+     "from_the_twin_in_whole_bars": 0.9297667873850023
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.8605184526721272,
+     "bar": 0.6554092175789501,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.9756981290102794
+    },
+    "transit": {
+     "value": 1.0048049049454115,
+     "bar": 0.02365518145307398,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -1.4877601377868783
+    }
+   }
+  },
+  "draw 9": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.05316799894279187,
+     "bar": 0.014288371829421281,
+     "bar_of_theory": 0.0288593581032962,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 1.1315494260514862,
+     "from_the_twin_in_whole_bars": 0.5020681607053457
+    },
+    "laser_noise": {
+     "value": 0.32950921840384173,
+     "bar": 0.03206335463918205,
+     "bar_of_theory": 0.03974473726070618,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -1.2316484672473962,
+     "from_the_twin_in_whole_bars": -0.7733332412209364
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.8200662918681054,
+     "bar": 0.6508997697442892,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.4917289984506306
+    },
+    "transit": {
+     "value": 1.045001023072363,
+     "bar": 0.02252114107484254,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.22214159097564634
+    }
+   }
+  },
+  "draw 10": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03937073042937526,
+     "bar": 0.014478326515026002,
+     "bar_of_theory": 0.02917669264377924,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.16374340134647816,
+     "from_the_twin_in_whole_bars": 0.0727854676475261
+    },
+    "laser_noise": {
+     "value": 0.3668298633422864,
+     "bar": 0.028778413019594863,
+     "bar_of_theory": 0.03475395128763059,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.07540848955903079,
+     "from_the_twin_in_whole_bars": -0.04809440433253444
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 4.968780884103799,
+     "bar": 0.6527623193189463,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 2.250100596548278
+    },
+    "transit": {
+     "value": 1.0513183924574423,
+     "bar": 0.022703120037037623,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.49862095939078344
+    }
+   }
+  },
+  "draw 11": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 8.23 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.05768295364131447,
+     "bar": 0.014049946960378043,
+     "bar_of_theory": 0.02956307746032697,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 1.472101901853582,
+     "from_the_twin_in_whole_bars": 0.6318900089023308
+    },
+    "laser_noise": {
+     "value": 0.2819458708191669,
+     "bar": 0.03598581337095001,
+     "bar_of_theory": 0.04434228937528614,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -2.419123566374871,
+     "from_the_twin_in_whole_bars": -1.5244019678802714
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.854317961473606,
+     "bar": 0.636822217326807,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.5563844222661216
+    },
+    "transit": {
+     "value": 1.0203854580290734,
+     "bar": 0.02242323767768411,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -0.8746588345649939
+    }
+   }
+  },
+  "draw 12": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.035077729378667724,
+     "bar": 0.013861957910503918,
+     "bar_of_theory": 0.028919491588775798,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.1386723746921545,
+     "from_the_twin_in_whole_bars": -0.05993966453035679
+    },
+    "laser_noise": {
+     "value": 0.37918674318477563,
+     "bar": 0.0268579840713009,
+     "bar_of_theory": 0.03412482576739784,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.37928174943184517,
+     "from_the_twin_in_whole_bars": 0.23457471848331213
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.7079901115623257,
+     "bar": 0.641223476349916,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.2351542288284436
+    },
+    "transit": {
+     "value": 1.0467457664831366,
+     "bar": 0.021845418618032936,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.3088805775576235
+    }
+   }
+  },
+  "draw 13": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 8.56 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.01678093310990918,
+     "bar": 0.01384265532268661,
+     "bar_of_theory": 0.029972210789037692,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.460635002372266,
+     "from_the_twin_in_whole_bars": -0.6124312147010323
+    },
+    "laser_noise": {
+     "value": 0.40031402572939334,
+     "bar": 0.024536028999220715,
+     "bar_of_theory": 0.030141177581524875,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 1.2762466872853757,
+     "from_the_twin_in_whole_bars": 0.805707653580243
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.74998309815749,
+     "bar": 0.6358879274480064,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.39312446009274166
+    },
+    "transit": {
+     "value": 1.0209042586963044,
+     "bar": 0.022220613178765353,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -0.8592869203696287
+    }
+   }
+  },
+  "draw 14": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03924150420805025,
+     "bar": 0.013740588994331423,
+     "bar_of_theory": 0.029842213498495137,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.16313014012535887,
+     "from_the_twin_in_whole_bars": 0.06822697221293678
+    },
+    "laser_noise": {
+     "value": 0.3491571200609439,
+     "bar": 0.0280297868956242,
+     "bar_of_theory": 0.03479948059807936,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.7079211844508818,
+     "from_the_twin_in_whole_bars": -0.4440698147870308
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.6879235474734293,
+     "bar": 0.6390705553596014,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.2940575901946942
+    },
+    "transit": {
+     "value": 1.0373767880660478,
+     "bar": 0.021607843084481777,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -0.12131488030127548
+    }
+   }
+  },
+  "draw 15": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 7.95 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03600422759201522,
+     "bar": 0.013823659431945152,
+     "bar_of_theory": 0.029734595310696384,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.07203392219600277,
+     "from_the_twin_in_whole_bars": -0.030367388037321613
+    },
+    "laser_noise": {
+     "value": 0.37393780017702744,
+     "bar": 0.026230484688745805,
+     "bar_of_theory": 0.032760365832953275,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.18824662356109662,
+     "from_the_twin_in_whole_bars": 0.11765742026661855
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.0875685092512466,
+     "bar": 0.6435962470548781,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.6408233308321114
+    },
+    "transit": {
+     "value": 1.0139165650624697,
+     "bar": 0.02227301799304631,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -1.17099424555233
+    }
+   }
+  },
+  "draw 16": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 9.15 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03076212406123819,
+     "bar": 0.013964798379144319,
+     "bar_of_theory": 0.02922649141545352,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.44668571427982395,
+     "from_the_twin_in_whole_bars": -0.19257809648123392
+    },
+    "laser_noise": {
+     "value": 0.3845187536476473,
+     "bar": 0.026378484734348392,
+     "bar_of_theory": 0.033113735188677856,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.5883110346910785,
+     "from_the_twin_in_whole_bars": 0.3665609235874958
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.4665517059766517,
+     "bar": 0.6409142050054157,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.6124596489706693
+    },
+    "transit": {
+     "value": 1.038588875645746,
+     "bar": 0.02213738984124038,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -0.06365995845811677
+    }
+   }
+  },
+  "draw 17": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.04321061641571144,
+     "bar": 0.014138714259742016,
+     "bar_of_theory": 0.028765897021469422,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.4392631678960575,
+     "from_the_twin_in_whole_bars": 0.1937622362264277
+    },
+    "laser_noise": {
+     "value": 0.36063650608695685,
+     "bar": 0.028840322658539766,
+     "bar_of_theory": 0.03623485275036917,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.2899930771255317,
+     "from_the_twin_in_whole_bars": -0.1805932679449413
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.181594366680711,
+     "bar": 0.6588688643239333,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.4832610107415009
+    },
+    "transit": {
+     "value": 1.0412489908014249,
+     "bar": 0.022362474875224945,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.05593521490772815
+    }
+   }
+  },
+  "draw 18": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 3.09 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.04526755997785791,
+     "bar": 0.014037621035179576,
+     "bar_of_theory": 0.029167229079080762,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.5889573423544234,
+     "from_the_twin_in_whole_bars": 0.2554123399354244
+    },
+    "laser_noise": {
+     "value": 0.334430049185019,
+     "bar": 0.030815637771479873,
+     "bar_of_theory": 0.03824487355322853,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -1.1218314244002363,
+     "from_the_twin_in_whole_bars": -0.7038586530502378
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 4.117591797029042,
+     "bar": 0.6537415869914786,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.9447032425628632
+    },
+    "transit": {
+     "value": 0.9882827461752746,
+     "bar": 0.023336314604353297,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -2.21609091516484
+    }
+   }
+  },
+  "draw 19": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03827529762960347,
+     "bar": 0.013817333764827475,
+     "bar_of_theory": 0.02990646746254519,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.09229694030043564,
+     "from_the_twin_in_whole_bars": 0.03871092492032955
+    },
+    "laser_noise": {
+     "value": 0.3772162257826005,
+     "bar": 0.025858923980580803,
+     "bar_of_theory": 0.032248381783674035,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.3177327018235801,
+     "from_the_twin_in_whole_bars": 0.19876815962433092
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.1302921474613115,
+     "bar": 0.6403828451872081,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.577323167410284
+    },
+    "transit": {
+     "value": 1.0720964451054702,
+     "bar": 0.021155363125581715,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 1.5172655723997224
+    }
+   }
+  },
+  "draw 20": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 8.75 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.031030148726574613,
+     "bar": 0.01424020282672631,
+     "bar_of_theory": 0.0292770783084186,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -0.41922515753926226,
+     "from_the_twin_in_whole_bars": -0.18336851924092618
+    },
+    "laser_noise": {
+     "value": 0.38911789507595773,
+     "bar": 0.026628384347189827,
+     "bar_of_theory": 0.03255462332480899,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.755505659436707,
+     "from_the_twin_in_whole_bars": 0.4783370779994724
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.9494119731038846,
+     "bar": 0.6552929341568497,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -0.8402166393027636
+    },
+    "transit": {
+     "value": 1.0195766757895035,
+     "bar": 0.0230107734437798,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -0.8874740879006499
+    }
+   }
+  }
+ },
+ "summary": {
+  "draws": 20,
+  "failed": [],
+  "kept": {
+   "collisions": 1.0,
+   "gas_width": 1.0,
+   "laser_noise": 1.0,
+   "transit": 1.0
+  },
+  "within_one_bar": {
+   "collisions": {
+    "share": 0.75,
+    "of": 20
+   },
+   "gas_width": {
+    "share": 0.65,
+    "of": 20
+   },
+   "laser_noise": {
+    "share": 0.7,
+    "of": 20
+   },
+   "transit": {
+    "share": 0.8,
+    "of": 20
+   }
+  },
+  "within_two_bars": {
+   "collisions": {
+    "share": 0.95,
+    "of": 20
+   },
+   "gas_width": {
+    "share": 1.0,
+    "of": 20
+   },
+   "laser_noise": {
+    "share": 0.95,
+    "of": 20
+   },
+   "transit": {
+    "share": 0.95,
+    "of": 20
+   }
+  },
+  "within_one_whole_bar": {
+   "collisions": null,
+   "gas_width": {
+    "share": 1.0,
+    "of": 20
+   },
+   "laser_noise": {
+    "share": 0.95,
+    "of": 20
+   },
+   "transit": null
+  },
+  "reached_the_fifth": 1.0,
+  "refused_the_absent": 1.0,
+  "refused_the_absent_by": {
+   "its_bound": 0.55,
+   "the_criterion": 0.45,
+   "another_reason": 0.0
+  }
+ },
+ "law": {
+  "one": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.017530542903981306,
+     "bar": 0.014609343920829916,
+     "bar_of_theory": 0.02896224958922372,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.3326715560620936,
+     "from_the_twin_in_whole_bars": -0.6001992396416912
+    },
+    "laser_noise": {
+     "value": 0.3857839766390761,
+     "bar": 0.027349094845820206,
+     "bar_of_theory": 0.03317568866723611,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.6136940448557923,
+     "from_the_twin_in_whole_bars": 0.3903673382172139
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.6315300035086233,
+     "bar": 0.6765217817955155,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.19442094408185573
+    },
+    "transit": {
+     "value": 1.0509631090851024,
+     "bar": 0.022819785158423665,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.48050268859101436
+    }
+   }
+  },
+  "his": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 2.65 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03827834812428945,
+     "bar": 0.014141280945285125,
+     "bar_of_theory": 0.028749475937563395,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.09039832595332667,
+     "from_the_twin_in_whole_bars": 0.03989954364591287
+    },
+    "laser_noise": {
+     "value": 0.36763164007569915,
+     "bar": 0.02791872975082736,
+     "bar_of_theory": 0.034746702551957886,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.049012255805094176,
+     "from_the_twin_in_whole_bars": -0.030699018728204013
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.2607383116740527,
+     "bar": 0.6218795724741187,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.9927679621242467
+    },
+    "transit": {
+     "value": 0.9825063297799752,
+     "bar": 0.023662487086460387,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -2.429660541318665
+    }
+   }
+  },
+  "draws": {
+   "draw 1": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.017530542903981306,
+      "bar": 0.014609343920829916,
+      "bar_of_theory": 0.02896224958922372,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -1.3326715560620936,
+      "from_the_twin_in_whole_bars": -0.6001992396416912
+     },
+     "laser_noise": {
+      "value": 0.3857839766390761,
+      "bar": 0.027349094845820206,
+      "bar_of_theory": 0.03317568866723611,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.6136940448557923,
+      "from_the_twin_in_whole_bars": 0.3903673382172139
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.6315300035086233,
+      "bar": 0.6765217817955155,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.19442094408185573
+     },
+     "transit": {
+      "value": 1.0509631090851024,
+      "bar": 0.022819785158423665,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.48050268859101436
+     }
+    }
+   },
+   "draw 2": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 9.05 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.03501794296954844,
+      "bar": 0.014606506860983654,
+      "bar_of_theory": 0.029258573390113337,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.13569685410178087,
+      "from_the_twin_in_whole_bars": -0.06060984612289368
+     },
+     "laser_noise": {
+      "value": 0.36560951578097245,
+      "bar": 0.028830384681290372,
+      "bar_of_theory": 0.03427804481733698,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.1176010745783707,
+      "from_the_twin_in_whole_bars": -0.07569675683128473
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.1733382214968926,
+      "bar": 0.677124704232375,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.48242484207311376
+     },
+     "transit": {
+      "value": 1.0424573279960565,
+      "bar": 0.022958148466169722,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.10711608718228273
+     }
+    }
+   },
+   "draw 3": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.03867917400942551,
+      "bar": 0.014574412221520072,
+      "bar_of_theory": 0.029049331405808607,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.1152138407987462,
+      "from_the_twin_in_whole_bars": 0.051666228663976556
+     },
+     "laser_noise": {
+      "value": 0.3571368692091562,
+      "bar": 0.029426859156049662,
+      "bar_of_theory": 0.03560871295643708,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.4031395511132869,
+      "from_the_twin_in_whole_bars": -0.25680897824606114
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.235169020501156,
+      "bar": 0.6742026301125422,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.3928062093952924
+     },
+     "transit": {
+      "value": 1.0419943698464487,
+      "bar": 0.022896998914170224,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.08718299243150089
+     }
+    }
+   },
+   "draw 4": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.02873243777327396,
+      "bar": 0.014582522693803524,
+      "bar_of_theory": 0.029010367812364882,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.5669500675791256,
+      "from_the_twin_in_whole_bars": -0.25462754181156133
+     },
+     "laser_noise": {
+      "value": 0.37801303817546705,
+      "bar": 0.027867082147745127,
+      "bar_of_theory": 0.03371324572081555,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.32342956207908374,
+      "from_the_twin_in_whole_bars": 0.20606103733658374
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.2365703001463837,
+      "bar": 0.6748635316416733,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.3903451401690014
+     },
+     "transit": {
+      "value": 1.0490463127013911,
+      "bar": 0.022816303871135455,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.3965660603524557
+     }
+    }
+   },
+   "draw 5": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 9.06 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.02216179688757296,
+      "bar": 0.014653733858020289,
+      "bar_of_theory": 0.029025362421300147,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -1.0125885495256068,
+      "from_the_twin_in_whole_bars": -0.45635414459013174
+     },
+     "laser_noise": {
+      "value": 0.4035840426455709,
+      "bar": 0.026313453495867428,
+      "bar_of_theory": 0.03154939637939172,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 1.3143102881194364,
+      "from_the_twin_in_whole_bars": 0.8418217145317656
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.7606604701025135,
+      "bar": 0.6794737668476225,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -1.0881060696833191
+     },
+     "transit": {
+      "value": 1.0386712795677582,
+      "bar": 0.023223466733422734,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.05713451014368624
+     }
+    }
+   },
+   "draw 6": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.043852864851114046,
+      "bar": 0.014611778391988102,
+      "bar_of_theory": 0.02909391304677207,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.46899594746602474,
+      "from_the_twin_in_whole_bars": 0.21048805770254606
+     },
+     "laser_noise": {
+      "value": 0.3534512486475464,
+      "bar": 0.02981401725293289,
+      "bar_of_theory": 0.03586969062428291,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.5215248659898061,
+      "from_the_twin_in_whole_bars": -0.33336111778953503
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.86942959195548,
+      "bar": 0.6746868230873814,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.5475571469811167
+     },
+     "transit": {
+      "value": 1.0557526267376487,
+      "bar": 0.02268440685147344,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.6945072832360568
+     }
+    }
+   },
+   "draw 7": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.017079539773733894,
+      "bar": 0.014628473333308401,
+      "bar_of_theory": 0.029240454672569707,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -1.3617593423715706,
+      "from_the_twin_in_whole_bars": -0.6092720310825167
+     },
+     "laser_noise": {
+      "value": 0.39771879366741475,
+      "bar": 0.026608851803555045,
+      "bar_of_theory": 0.03153241276201246,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 1.0792947354300275,
+      "from_the_twin_in_whole_bars": 0.6960574340018841
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.8249092042579176,
+      "bar": 0.6776716319807538,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.996191612402119
+     },
+     "transit": {
+      "value": 1.0505955833915106,
+      "bar": 0.0229015893236921,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.4627382963826393
+     }
+    }
+   },
+   "draw 8": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 8.27 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.01941817599967128,
+      "bar": 0.014655486935127493,
+      "bar_of_theory": 0.028923758071465876,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -1.1996751850112286,
+      "from_the_twin_in_whole_bars": -0.5422339944374499
+     },
+     "laser_noise": {
+      "value": 0.4041690612164273,
+      "bar": 0.026268927138902623,
+      "bar_of_theory": 0.03166394248976945,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 1.3388084344085815,
+      "from_the_twin_in_whole_bars": 0.8548219802165691
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.829327562392181,
+      "bar": 0.6794312073367693,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.9871086732043368
+     },
+     "transit": {
+      "value": 1.0043079623041544,
+      "bar": 0.024008693387447273,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -1.4865523118353596
+     }
+    }
+   },
+   "draw 9": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.0541354260860733,
+      "bar": 0.014545624772730852,
+      "bar_of_theory": 0.029125295996794198,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 1.1780467565888015,
+      "from_the_twin_in_whole_bars": 0.5263456682684847
+     },
+     "laser_noise": {
+      "value": 0.32753574350741177,
+      "bar": 0.03196230198977343,
+      "bar_of_theory": 0.038659827143345815,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -1.2972863001499397,
+      "from_the_twin_in_whole_bars": -0.8266160004415297
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.844303794890682,
+      "bar": 0.6747819567431483,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.5102445189146326
+     },
+     "transit": {
+      "value": 1.0478827472775762,
+      "bar": 0.022673629954507366,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.34774345043054555
+     }
+    }
+   },
+   "draw 10": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.04018208701149281,
+      "bar": 0.014621775135128613,
+      "bar_of_theory": 0.029118890078839034,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.21762658651806877,
+      "from_the_twin_in_whole_bars": 0.09765846668534836
+     },
+     "laser_noise": {
+      "value": 0.36652190893045045,
+      "bar": 0.028814735089017968,
+      "bar_of_theory": 0.034528598952321604,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.08600082776724928,
+      "from_the_twin_in_whole_bars": -0.05510253645514619
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 5.002618154033328,
+      "bar": 0.6728526315433825,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 2.2332054354705253
+     },
+     "transit": {
+      "value": 1.055250737890273,
+      "bar": 0.022751569591043914,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.670397568212901
+     }
+    }
+   },
+   "draw 11": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 8.37 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.059424108518469014,
+      "bar": 0.014501383838259848,
+      "bar_of_theory": 0.02940518328090927,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 1.5463426641605182,
+      "from_the_twin_in_whole_bars": 0.6839432332895546
+     },
+     "laser_noise": {
+      "value": 0.27996863830523283,
+      "bar": 0.03708004054758591,
+      "bar_of_theory": 0.044455067586318425,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -2.4010589087816827,
+      "from_the_twin_in_whole_bars": -1.5379562447561652
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 4.00063606280132,
+      "bar": 0.6733241582949233,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.7435290366962234
+     },
+     "transit": {
+      "value": 1.0209105780120196,
+      "bar": 0.02303043298112011,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.8287973989476671
+     }
+    }
+   },
+   "draw 12": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.03509951203526513,
+      "bar": 0.014638099313912998,
+      "bar_of_theory": 0.029060088499944615,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.12983160750443337,
+      "from_the_twin_in_whole_bars": -0.05840712217390354
+     },
+     "laser_noise": {
+      "value": 0.37874378057348723,
+      "bar": 0.0279474913669948,
+      "bar_of_theory": 0.03352056019310906,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.34864598205026615,
+      "from_the_twin_in_whole_bars": 0.22326226083749307
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.692711445161208,
+      "bar": 0.6795719143724392,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -1.1879369022839836
+     },
+     "transit": {
+      "value": 1.0478763782809357,
+      "bar": 0.022945554916844208,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.34334481541528844
+     }
+    }
+   },
+   "draw 13": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 8.66 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.016494414458967682,
+      "bar": 0.014640083749815125,
+      "bar_of_theory": 0.029148467389833652,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -1.4006467375086744,
+      "from_the_twin_in_whole_bars": -0.6286493383489262
+     },
+     "laser_noise": {
+      "value": 0.4024221907166145,
+      "bar": 0.026334897011516045,
+      "bar_of_theory": 0.03135295681749434,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 1.2691217551372707,
+      "from_the_twin_in_whole_bars": 0.8162602343290041
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.831139187966307,
+      "bar": 0.6755232875259171,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.4901965544061312
+     },
+     "transit": {
+      "value": 1.0213230805477387,
+      "bar": 0.023565656298863334,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.7924693536573632
+     }
+    }
+   },
+   "draw 14": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.039621653295219106,
+      "bar": 0.014601065624101657,
+      "bar_of_theory": 0.029290859836740415,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.17955218904650372,
+      "from_the_twin_in_whole_bars": 0.08010341023616767
+     },
+     "laser_noise": {
+      "value": 0.34928218447006554,
+      "bar": 0.03011552836367658,
+      "bar_of_theory": 0.03578133441201242,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.6547391528988354,
+      "from_the_twin_in_whole_bars": -0.4216088239938518
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.720579116584581,
+      "bar": 0.6769812848853172,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.32582749554435286
+     },
+     "transit": {
+      "value": 1.0375364840046253,
+      "bar": 0.023005965530847272,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.10700081052823075
+     }
+    }
+   },
+   "draw 15": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 8.04 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.03741324405572669,
+      "bar": 0.014625686469591585,
+      "bar_of_theory": 0.029002336439639325,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.02825467758972368,
+      "from_the_twin_in_whole_bars": 0.012722453480073795
+     },
+     "laser_noise": {
+      "value": 0.3699568852467609,
+      "bar": 0.028555491489815774,
+      "bar_of_theory": 0.03444053728665336,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.033509675261663,
+      "from_the_twin_in_whole_bars": 0.021388228974527607
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.065207592941188,
+      "bar": 0.6778843967461577,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.6413960981338611
+     },
+     "transit": {
+      "value": 1.0139116596780129,
+      "bar": 0.023639914553124877,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -1.103493044645938
+     }
+    }
+   },
+   "draw 16": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.031125119049571992,
+      "bar": 0.01463479109072247,
+      "bar_of_theory": 0.028955687967893714,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.4014325120194102,
+      "from_the_twin_in_whole_bars": -0.18107793612173304
+     },
+     "laser_noise": {
+      "value": 0.384019300557253,
+      "bar": 0.027562838631013692,
+      "bar_of_theory": 0.033309585197977665,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.5449112393073067,
+      "from_the_twin_in_whole_bars": 0.3473900258078572
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.4630511196715963,
+      "bar": 0.6800906334010955,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -1.5247216023880228
+     },
+     "transit": {
+      "value": 1.0394604968013177,
+      "bar": 0.02312095040785958,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.02325354938307485
+     }
+    }
+   },
+   "draw 17": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.043663340672255704,
+      "bar": 0.0146164975787761,
+      "bar_of_theory": 0.029027996509513633,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.45587806766589667,
+      "from_the_twin_in_whole_bars": 0.20502425743348363
+     },
+     "laser_noise": {
+      "value": 0.35871019692525,
+      "bar": 0.02940839071404336,
+      "bar_of_theory": 0.035479362291480465,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -0.3498934428205992,
+      "from_the_twin_in_whole_bars": -0.22328870695457717
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.1410901847797588,
+      "bar": 0.6765515283266017,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.530498861051984
+     },
+     "transit": {
+      "value": 1.0437565379765557,
+      "bar": 0.022945870128895908,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 0.16379405060835756
+     }
+    }
+   },
+   "draw 18": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 3.61 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.04518779801952755,
+      "bar": 0.014553224714069325,
+      "bar_of_theory": 0.02927268737999612,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": 0.5626105677879074,
+      "from_the_twin_in_whole_bars": 0.2504620573537056
+     },
+     "laser_noise": {
+      "value": 0.3368460308626945,
+      "bar": 0.031094156397195722,
+      "bar_of_theory": 0.037116941005289866,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": -1.0340839843529366,
+      "from_the_twin_in_whole_bars": -0.6640613244353031
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 4.1254409228892195,
+      "bar": 0.6734162929629961,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": 0.9287582278969112
+     },
+     "transit": {
+      "value": 0.9889365361610353,
+      "bar": 0.024030427055263648,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -2.1248729656342342
+     }
+    }
+   },
+   "draw 19": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.03615652355605517,
+      "bar": 0.014621577752964186,
+      "bar_of_theory": 0.028929147159554025,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.05768710177489791,
+      "from_the_twin_in_whole_bars": -0.02602174800146731
+     },
+     "laser_noise": {
+      "value": 0.37944487366793034,
+      "bar": 0.027870810312074192,
+      "bar_of_theory": 0.03382308611535362,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.3747603155766668,
+      "from_the_twin_in_whole_bars": 0.23832193411670627
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 3.1295185732386073,
+      "bar": 0.6768005777278062,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.547401168014948
+     },
+     "transit": {
+      "value": 1.0757871934680991,
+      "bar": 0.02239636946678752,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": 1.597984555387948
+     }
+    }
+   },
+   "draw 20": {
+    "kept": [
+     "01.py",
+     "02.py",
+     "03.py",
+     "04.py"
+    ],
+    "refused": {
+     "05.py": "the Bayesian criterion rises by 8.88 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+    },
+    "best": "model 4",
+    "parameters": {
+     "gas_width": {
+      "value": 0.031138095686870673,
+      "bar": 0.014632318262246886,
+      "bar_of_theory": 0.02903028423019273,
+      "of_the_twin": 0.037,
+      "from_the_twin_in_bars": -0.40061350553409797,
+      "from_the_twin_in_whole_bars": -0.18031404443228136
+     },
+     "laser_noise": {
+      "value": 0.38650985874621085,
+      "bar": 0.027390928108068185,
+      "bar_of_theory": 0.03289364157999003,
+      "of_the_twin": 0.369,
+      "from_the_twin_in_bars": 0.639257592043886,
+      "from_the_twin_in_whole_bars": 0.40906256041369726
+     }
+    },
+    "freed": {
+     "collisions": {
+      "value": 2.888453061795677,
+      "bar": 0.6773498595947286,
+      "of_the_twin": 3.5,
+      "from_the_twin_in_bars": -0.9028523879376354
+     },
+     "transit": {
+      "value": 1.0232416215701625,
+      "bar": 0.02348291853718196,
+      "of_the_twin": 1.0399981409634105,
+      "from_the_twin_in_bars": -0.7135620458213626
+     }
+    }
+   }
+  },
+  "summary": {
+   "draws": 20,
+   "failed": [],
+   "kept": {
+    "collisions": 1.0,
+    "gas_width": 1.0,
+    "laser_noise": 1.0,
+    "transit": 1.0
+   },
+   "within_one_bar": {
+    "collisions": {
+     "share": 0.8,
+     "of": 20
+    },
+    "gas_width": {
+     "share": 0.65,
+     "of": 20
+    },
+    "laser_noise": {
+     "share": 0.65,
+     "of": 20
+    },
+    "transit": {
+     "share": 0.8,
+     "of": 20
+    }
+   },
+   "within_two_bars": {
+    "collisions": {
+     "share": 0.95,
+     "of": 20
+    },
+    "gas_width": {
+     "share": 1.0,
+     "of": 20
+    },
+    "laser_noise": {
+     "share": 0.95,
+     "of": 20
+    },
+    "transit": {
+     "share": 0.95,
+     "of": 20
+    }
+   },
+   "within_one_whole_bar": {
+    "collisions": null,
+    "gas_width": {
+     "share": 1.0,
+     "of": 20
+    },
+    "laser_noise": {
+     "share": 0.95,
+     "of": 20
+    },
+    "transit": null
+   },
+   "reached_the_fifth": 1.0,
+   "refused_the_absent": 1.0,
+   "refused_the_absent_by": {
+    "its_bound": 0.6,
+    "the_criterion": 0.4,
+    "another_reason": 0.0
+   }
+  }
+ },
+ "report": {
+  "one": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "its fit ended at the bound of its own parameter, pedestal 4 at 0 from its start at 0, its bounds 0 and inf, where the term is absent or as large as it may be"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.017530542903981306,
+     "bar": 0.014609343920829916,
+     "bar_of_theory": 0.02896224958922372,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": -1.3326715560620936,
+     "from_the_twin_in_whole_bars": -0.6001992396416912
+    },
+    "laser_noise": {
+     "value": 0.3857839766390761,
+     "bar": 0.027349094845820206,
+     "bar_of_theory": 0.03317568866723611,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": 0.6136940448557923,
+     "from_the_twin_in_whole_bars": 0.3903673382172139
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 3.6315300035086233,
+     "bar": 0.6765217817955155,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": 0.19442094408185573
+    },
+    "transit": {
+     "value": 1.0509631090851024,
+     "bar": 0.022819785158423665,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": 0.48050268859101436
+    }
+   },
+   "report": {
+    "model 0": {
+     "first": {
+      "where": "the flanks",
+      "shape": "a slow trend over the span of each curve",
+      "what": "a noise that grows with the signal",
+      "changes along": "the flanks along temperature",
+      "seen by": "the exponential of the value: power kernels 0 to 8",
+      "noise": null
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the wings"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4118757692810299,
+      "gain": 0.5002831198780839,
+      "slower": 0.5721899152129963
+     }
+    },
+    "model 1": {
+     "first": {
+      "where": "the flanks",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "the square root of the value: power kernels 0 to 8",
+      "noise": null
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the wings"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4249805699187464,
+      "gain": 0.5002870624370468,
+      "slower": 0.6104056652064407
+     }
+    },
+    "model 2": {
+     "first": {
+      "where": "the flanks",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "the two sides added: pairs of intervals, the centre held",
+      "noise": null
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the wings",
+      "the shape that the residuals hold in the core"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4303898719256764,
+      "gain": 0.5002667780975132,
+      "slower": 0.6198014197712881
+     }
+    },
+    "model 3": {
+     "first": {
+      "where": "the core",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "Hermite functions about the centre: orders 3 to 8",
+      "noise": null
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the wings",
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core"
+     ],
+     "for_the_experiment": {
+      "gain": 0.49995808012524723,
+      "repetitions": 0.5567894040011879,
+      "slower": 0.8169303164700278
+     }
+    },
+    "model 4": {
+     "first": {
+      "where": null,
+      "shape": null,
+      "what": null,
+      "changes along": null,
+      "seen by": null,
+      "noise": null
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the asymmetry",
+      "a periodic structure of 242.5 cycles over the span",
+      "the shape that the residuals hold in the flanks, changing along power"
+     ],
+     "for_the_experiment": {
+      "transit measured better": 0.6501965931839362,
+      "gain": 0.9047372662329694,
+      "repetitions": 0.905513239436757
+     }
+    }
+   }
+  },
+  "his": {
+   "kept": [
+    "01.py",
+    "02.py",
+    "03.py",
+    "04.py"
+   ],
+   "refused": {
+    "05.py": "the Bayesian criterion rises by 2.65 with it, where it must fall by more than 2: these records do not tell the model with it from the model without it"
+   },
+   "best": "model 4",
+   "parameters": {
+    "gas_width": {
+     "value": 0.03827834812428945,
+     "bar": 0.014141280945285125,
+     "bar_of_theory": 0.028749475937563395,
+     "of_the_twin": 0.037,
+     "from_the_twin_in_bars": 0.09039832595332667,
+     "from_the_twin_in_whole_bars": 0.03989954364591287
+    },
+    "laser_noise": {
+     "value": 0.36763164007569915,
+     "bar": 0.02791872975082736,
+     "bar_of_theory": 0.034746702551957886,
+     "of_the_twin": 0.369,
+     "from_the_twin_in_bars": -0.049012255805094176,
+     "from_the_twin_in_whole_bars": -0.030699018728204013
+    }
+   },
+   "freed": {
+    "collisions": {
+     "value": 2.2607383116740527,
+     "bar": 0.6218795724741187,
+     "of_the_twin": 3.5,
+     "from_the_twin_in_bars": -1.9927679621242467
+    },
+    "transit": {
+     "value": 0.9825063297799752,
+     "bar": 0.023662487086460387,
+     "of_the_twin": 1.0399981409634105,
+     "from_the_twin_in_bars": -2.429660541318665
+    }
+   },
+   "report": {
+    "model 0": {
+     "first": {
+      "where": "the core",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "the exponential of the value: power kernels 0 to 8",
+      "noise": "a noise skewed to one side"
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the wings"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4378221007919449,
+      "gain": 0.5002666307342026,
+      "slower": 0.5475167610682266
+     }
+    },
+    "model 1": {
+     "first": {
+      "where": "the core",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "the exponential of the value: power kernels 0 to 8",
+      "noise": "a noise skewed to one side"
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the wings"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4667178728274876,
+      "gain": 0.5002938053126587,
+      "slower": 0.5782529822458904
+     }
+    },
+    "model 2": {
+     "first": {
+      "where": "the flanks",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the flanks along temperature",
+      "seen by": "Hermite functions about the centre: orders 3 to 8",
+      "noise": "a noise skewed to one side"
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the wings",
+      "the shape that the residuals hold in the core"
+     ],
+     "for_the_experiment": {
+      "repetitions": 0.4643673470923925,
+      "gain": 0.500353269384115,
+      "slower": 0.6439825925463484
+     }
+    },
+    "model 3": {
+     "first": {
+      "where": "the flanks",
+      "shape": "a slow trend over the span of each curve",
+      "what": null,
+      "changes along": "the core along power",
+      "seen by": "moments: negative orders of the distance",
+      "noise": "a noise skewed to one side"
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the flanks",
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the core, changing along power"
+     ],
+     "for_the_experiment": {
+      "gain": 0.5003129161832953,
+      "repetitions": 0.5233889733749519,
+      "slower": 0.8166310472397814
+     }
+    },
+    "model 4": {
+     "first": {
+      "where": "the core",
+      "shape": null,
+      "what": null,
+      "changes along": "the core along power",
+      "seen by": "moments: negative orders of the distance",
+      "noise": "a noise skewed to one side"
+     },
+     "for_the_model": [
+      "the shape that the residuals hold in the core",
+      "the shape that the residuals hold in the core, changing along power",
+      "the shape that the residuals hold in the wings, changing along power"
+     ],
+     "for_the_experiment": {
+      "transit measured better": 0.6450470811030085,
+      "repetitions": 0.905063795344657,
+      "gain": 0.9088163342841942
+     }
+    }
+   }
+  }
+ },
+ "queue": {
+  "recorded": true,
+  "waves": [
+   {
+    "wave": 2303,
+    "condition": "draws",
+    "units": 7,
+    "done": 7,
+    "lane": "performance",
+    "estimate": 1759.1,
+    "seconds": 2405.4,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2301,
+    "condition": "draws law",
+    "units": 7,
+    "done": 7,
+    "lane": "performance",
+    "estimate": 1775.5,
+    "seconds": 2426.1,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2302,
+    "condition": "draws law",
+    "units": 7,
+    "done": 7,
+    "lane": "performance",
+    "estimate": 1775.5,
+    "seconds": 2432.7,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2304,
+    "condition": "draws",
+    "units": 7,
+    "done": 7,
+    "lane": "performance",
+    "estimate": 1759.1,
+    "seconds": 2421.9,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2308,
+    "condition": "one law",
+    "units": 1,
+    "done": 1,
+    "lane": "performance",
+    "estimate": 253.6,
+    "seconds": 255.6,
+    "rc": 0,
+    "overrun": false,
+    "untimed": true
+   },
+   {
+    "wave": 2309,
+    "condition": "his law",
+    "units": 1,
+    "done": 1,
+    "lane": "performance",
+    "estimate": 253.6,
+    "seconds": 401.7,
+    "rc": 0,
+    "overrun": false,
+    "untimed": true
+   },
+   {
+    "wave": 2307,
+    "condition": "his",
+    "units": 1,
+    "done": 1,
+    "lane": "performance",
+    "estimate": 253.6,
+    "seconds": 487.1,
+    "rc": 0,
+    "overrun": false,
+    "untimed": true
+   },
+   {
+    "wave": 2306,
+    "condition": "draws",
+    "units": 5,
+    "done": 5,
+    "lane": "efficiency",
+    "estimate": 1256.5,
+    "seconds": 3220.0,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2305,
+    "condition": "draws law",
+    "units": 5,
+    "done": 5,
+    "lane": "performance",
+    "estimate": 1268.2,
+    "seconds": 1470.1,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2312,
+    "condition": "one report",
+    "units": 1,
+    "done": 1,
+    "lane": "performance",
+    "estimate": 7208.0,
+    "seconds": 2782.7,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   },
+   {
+    "wave": 2313,
+    "condition": "his report",
+    "units": 1,
+    "done": 1,
+    "lane": "performance",
+    "estimate": 7204.4,
+    "seconds": 3161.9,
+    "rc": 0,
+    "overrun": false,
+    "untimed": false
+   }
+  ],
+  "ended": 11,
+  "failed": 0,
+  "overrun": 0,
+  "untimed": 3,
+  "seconds": {
+   "performance": 18245.2,
+   "efficiency": 3220.0
+  }
+ }
+}

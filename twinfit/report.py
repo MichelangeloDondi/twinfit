@@ -3,7 +3,7 @@
 After each stage, and before any term is added, the report says five things, in this order:
 
     1  the results so far, each with two bars: the bar of the fit, checked on synthetic sets where they were run, and the
-       bias that a term of the dictionary could cause before the residuals show it
+       bias that a candidate of the list read could cause before the residuals show it
     2  the structure of the residuals: the chi square against its law, the residuals by position about the centre of
        the curves, even and odd, and the candidates that the residuals rank first
     3  the candidates that were developed as fitted models, three by default: what each gains, what its own parameter
@@ -127,7 +127,7 @@ def stage_report(problem, result, table: dict, developed: list | None = None, ch
     out = [f"# {title}: {problem.name}", ""]
     out += ["## 1. The results so far", ""]
     allow = table.get("bias_at_which_the_most_absorbed_candidate_is_seen", {})
-    out += ["| parameter | value | bar of the fit | its scatter on synthetic sets, over that bar | bias that a term of the dictionary could cause before half of the sets show it, in bars |", "|---|---|---|---|---|"]
+    out += ["| parameter | value | bar of the fit | its scatter on synthetic sets, over that bar | bias that a candidate of the list read could cause before half of the sets show it, in bars |", "|---|---|---|---|---|"]
     for j, name in enumerate(problem.shared):
         cell = (admission or {}).get("parameters", {}).get(name) if admission else None
         seen = ("none: held at a bound" if cell and cell.get("spread_over_bound") is None else f"{cell['spread_over_bound']:.2f}" if cell
@@ -168,7 +168,7 @@ def stage_report(problem, result, table: dict, developed: list | None = None, ch
         for r in by_block(problem, result, key):
             shown = f"{r['value']:.6g}" if isinstance(r["value"], float) else r["value"]          # a value of the design is shown to six digits: 403.15 as it is, 7 / 9 as 0.777778
             out.append(f"| {shown} | {r['records']} | {r['in_its_standard_deviations']:+.1f} |")
-    out += ["", "What the dictionary ranks first on these residuals, at first order and with no fit:", "", table_lines(table, top=6)]
+    out += ["", "What the list of candidates read ranks first on these residuals, at first order and with no fit:", "", table_lines(table, top=6)]
     out += ["", "## 3. The candidates developed as fitted models", ""]
     if developed:
         out += [developed_lines(developed), ""]
@@ -217,10 +217,10 @@ def stage_report(problem, result, table: dict, developed: list | None = None, ch
     else:
         out.append("No choice was made in this stage.")
     out += ["", "## 5. What this stage does not show", ""]
-    gone = [c["name"] for c in table["candidates"] if c["status"] != "ranked"]
+    gone = [c["name"] for c in table["candidates"] if c["status"] not in ("ranked", "of the sign that it cannot have")]          # a width refused for its sign is not absorbed (the code review of 0.1.0rc2, minor 7)
     out += ["- A term that the working model absorbs whole leaves no residual. No statistic of these records sees it, whatever its size"
             + (": " + ", ".join(gone[:4]) + (" and others" if len(gone) > 4 else "") + (" are such terms here." if len(gone) > 1 else " is such a term here.") if gone else "."),
-            "- A term that is in neither the dictionary nor the list of developed candidates is not named: the tables show its nearest relatives.",
+            "- A term that is in neither the list of candidates read nor the developed ones is not named: the tables show its nearest relatives.",
             "- Two candidates whose gains are close cannot be told apart by these records. Theory, or another design, can.",
             "- A candidate chosen for its gain was chosen after looking: an estimate made with it keeps the level of its bar only once synthetic records with the term have shown what the whole procedure returns.",
             "- The bars are those of the working model. If a term is missing, the bias that it causes is not in them."]

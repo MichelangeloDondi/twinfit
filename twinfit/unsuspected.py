@@ -7,8 +7,8 @@ answers four questions, each from the records, the model as it is, and synthetic
 
     level = level_for_all(problem, result, sets=200)        one level for all the readings together
     answer = missing(lin, level)                            is something missing: one answer, at that level
-    kinds = classes(propose(lin, dictionary(lin)))          of which kind: the generic terms that pass, in classes
-                                                            that these records cannot tell apart
+    kinds = classes(propose(lin, held_by_the_residuals(lin)))  of which kind: the shapes that the residuals hold,
+                                                            in classes that these records cannot tell apart
     known = known_parameters(problem, result, lin, ...)     what can be said of each shared parameter: its estimate by
                                                             the fit, with a generic term added, fitted and at first
                                                             order, and by the combination of the families that is
@@ -34,7 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from . import families
-from .candidates import covariates_of, dictionary
+from .candidates import covariates_of
 from .fit import fit
 from .linear import Linear
 from .mechanisms import along, pedestal, widened
@@ -110,10 +110,10 @@ def missing(lin, calibrated: dict) -> dict:
 
 
 def classes(table: dict) -> list:
-    """Of which kind is what the model lacks. The table of `propose` ranks the candidates of a dictionary and marks, for
+    """Of which kind is what the model lacks. The table of `propose` ranks the candidates of a list and marks, for
     each, the candidates whose visible parts are nearly the same curve: these records cannot tell those apart, nor a
     chain of such pairs. A class is such a chain. It leads when one of its members passes the threshold of the whole
-    dictionary. For each shared parameter a class gives the range of the bias, in standard deviations of the fit, over
+    list. For each shared parameter a class gives the range of the bias, in standard deviations of the fit, over
     its members: IF one of them is what the model lacks. A narrow range says that the correction is known though the
     member is not. A range that crosses zero says that the class does not even fix its sign. The classes come back
     with the one of the best member first."""
@@ -141,14 +141,16 @@ def classes(table: dict) -> list:
     return out
 
 
-def generic_terms(problem, lin) -> list:
-    """The generic terms that are fitted when none is given: a copy of each curve four times wider under it, a kernel
-    with exponential wings of half the median width of the fitted curves, where the abscissa has equal steps, and each
-    shared parameter along each numeric covariate of the design. `mechanisms.displaced` and `mechanisms.bent`, which
+def generic_terms(problem, lin, dictionary: bool = False) -> list:
+    """The generic terms that are fitted when none is given: each shared parameter of the researcher's model along each
+    numeric covariate of the design, which the model and the design alone give. With `dictionary`, the flag of the
+    researcher, the package's two named shapes beside them: a copy of each curve four times wider under it, and a kernel
+    with exponential wings of half the median width of the fitted curves, where the abscissa has equal steps (the
+    owner's messages 337 to 343: the dictionary only on a flag). `mechanisms.displaced` and `mechanisms.bent`, which
     lean a curve to one side, are not among them: they cost eight calls of the model for one, and are given by name
     when a lean is looked for."""
     width = float(np.median([lin.width_of(k) for k in range(len(problem.records))]))
-    out = [pedestal(4.0), widened(size=lambda design, w=width: 0.5 * w)]
+    out = [pedestal(4.0), widened(size=lambda design, w=width: 0.5 * w)] if dictionary else []
     for key in covariates_of(problem):
         out += [along(parameter, key) for parameter in problem.shared]
     return out
@@ -293,17 +295,30 @@ def known_parameters(problem, result, lin, kind: dict | None = None, candidates:
     return out
 
 
-def read(problem, result, calibrated: dict, candidates: list | None = None, names=None, terms: list | None = None, max_iter: int = 80) -> dict:
+def held_by_the_residuals(lin) -> list:
+    """The shapes that the residuals themselves hold, as candidates: what they hold in the core, the flanks, the wings
+    and the asymmetry, their slow trend and their periodic structure. Each is read from the data and names no term (the
+    owner's messages 337 and 340)."""
+    from .proposals import empirical
+    from .where import PLACES, periodic_best, slow_trend
+    out = [empirical(lin, place) for place, _ in PLACES] + [empirical(lin, "the asymmetry"), slow_trend(lin)]
+    dense = periodic_best(lin)
+    return out + ([dense[0]] if dense is not None else [])
+
+
+def read(problem, result, calibrated: dict, candidates: list | None = None, names=None, terms: list | None = None, max_iter: int = 80, dictionary: bool = False) -> dict:
     """The first four answers for one set of records: is something missing, at the one level of `calibrated`. Of which
-    kind, by the classes of the generic dictionary, or of the `candidates` that are given. And what can be said of the
+    kind, by the classes of the slow trend, the one basis fixed before the residuals are read, or of the `candidates` that are given. And what can be said of the
     shared parameters. Where nothing is missing the fit stands and no term is tried."""
     lin = Linear(problem, result)
     answer = missing(lin, calibrated)
-    candidates = dictionary(lin) if candidates is None else candidates
+    if dictionary:          # the package's own list, imported only on the researcher's flag: a blind folder holds no such file
+        from .dictionary import candidates as generic
+    candidates = ([c for c in held_by_the_residuals(lin) if c.family == "trend"] + (generic(lin, covariates=covariates_of(problem)) if dictionary else [])) if candidates is None else candidates          # by default the one basis fixed before the residuals are read: a shape built from them scores their own size there, and the best of a scan of periods pays nothing for the scan in this ranking, so either leads whatever is missing (on the toy of the repository that made the package, 2026-10-23, a missing width ranked fifth behind four such shapes)
     kinds = classes(propose(lin, candidates))
     leading = next((kind for kind in kinds if kind["leads"]), None)
     if answer["something_is_missing"]:
-        known = known_parameters(problem, result, lin, leading, candidates, names, calibrated["centre"], terms, max_iter)
+        known = known_parameters(problem, result, lin, leading, candidates, names, calibrated["centre"], generic_terms(problem, lin, dictionary) if terms is None else terms, max_iter)
     else:
         known = {"parameters": {name: {"the_fit": {"value": float(result.shared[j]), "bar": float(result.sd[j])}, "free_of_the_class": None, "with_a_generic_term": None, "with_that_term_at_first_order": None, "free_of_that_term": None}
                                 for j, name in enumerate(problem.shared)}, "class": None, "terms_tried": [], "term": None}

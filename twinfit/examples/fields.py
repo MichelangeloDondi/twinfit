@@ -36,6 +36,8 @@ START_SHARED = [1.0]
 BOUNDS_SHARED = ([0.05], [10.0])
 CENTRE = "place"
 NAME = "one Gaussian peak of one width"
+EQUATION = r"$h\\,e^{-(x - x_0)^2/(2 w^2)} + b$"          # the model in mathtext, which the visual log writes at each turn
+LETTERS = {"h": "the height", "x_0": "the place", "w": "the standard deviation", "b": "the baseline"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):
@@ -58,6 +60,8 @@ START_SHARED = [2.0]
 BOUNDS_SHARED = ([0.05], [20.0])
 CENTRE = "place"
 NAME = "one Lorentzian line of one width"
+EQUATION = r"$\\frac{h}{1 + (2\\,(x - x_0)/w)^2} + b$"          # the model in mathtext, which the visual log writes at each turn
+LETTERS = {"h": "the height", "x_0": "the place", "w": "the full width at half height", "b": "the baseline"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):

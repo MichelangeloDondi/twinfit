@@ -1,0 +1,72 @@
+# The values that the toy model holds fixed (the owner's message 114: "a const file (for the fixed ones)").
+# First written 2026-10-12 20:11:15 in the repository twin-moments, from its held values, and carried here on his message 117.
+# To make a value free in the fits, move its entry to config.toml. Each value: what it is, its uncertainty, its unit,
+# its kind (measured by him, theory, literature, adopted, guess) and its source.
+
+[axis]          # the frequency axis of a trace: the distance from the centre of the line, in MHz of the transition
+points = 1177
+half_window_MHz = 25.0
+
+[time]          # the time axis of C(t), the function whose Fourier transform is the line: microseconds
+step_us = 0.0005
+points = 32768
+
+[conditions]          # the 8 traces, as power in mW and temperature in C. The reference trace is in both sweeps
+power_sweep = [[25, 130], [75, 130], [125, 130], [175, 130], [225, 130]]
+temperature_sweep = [[225, 70], [225, 90], [225, 110], [225, 130]]
+reference = [225, 130]
+
+[details]          # the number of the detail at which each term enters the model
+natural_width = 1
+collisions = 2
+permeated_gas = 3
+laser_noise = 4
+transit = 5
+
+[seed]          # the noise of a synthetic trace is drawn from this seed, the number of its detail, its power and its temperature
+value = [2026, 10, 12]
+
+[units]
+boltzmann_J_per_K = 1.380649e-23
+celsius_to_kelvin = 273.15
+pascal_per_atmosphere = 101325.0
+cm3_per_m3 = 1.0e6
+MHz_for_one_over_a_ns = 1000.0          # a rate of one in each nanosecond is 1000 MHz
+density_of_the_collision_unit_per_cm3 = 1.0e15          # the collision coefficient is the width added for this many atoms per cm^3
+kg_per_atomic_mass_unit = 1.66053907e-27
+um_per_m = 1.0e6
+Hz_per_MHz = 1.0e6
+
+[density]          # the saturated vapour of rubidium: pressure in atmospheres = 10 ** (a - b / T), T in kelvin
+a = 4.312
+b = 4040.0
+uncertainty = 0.05
+unit = "of its value"
+kind = "literature"
+source = "the vapour pressure law of Alcock, Itkin and Horrigan 1984, as the analysis repository adopts it. The 5 per cent is the accuracy that Steck states for that law. It leaves out two things: two other published laws give up to 24 per cent less at 70 C, and the density follows the coldest spot of the cell"
+
+[lifetime]          # of the 6S state. The natural width of config.toml is not typed: it is 1 / (2 pi tau) of this value, with its uncertainty
+value_ns = 45.57
+uncertainty_ns = 0.17
+kind = "literature"
+source = "Gomez 2005, as the analysis repository holds it"
+
+[beam]          # the beam at the atoms. The rate of the transit of config.toml is not typed: it is u / (2 pi w) at the reference temperature
+waist_um = 43.0
+uncertainty_um = 1.0
+kind = "given"
+source = "his value, message 133 of 2026-10-14: For the waist use always w_0 = 43 +-1 um. No fit moves it. Before: 45.8 +- 1.1, from a fit of the recorded traces with the transit time free"
+
+[atom]          # the isotope of the line at 993.4192 nm
+mass_u = 84.912
+kind = "literature"
+source = "the mass of 85Rb in atomic mass units, as the first folder of the model holds it"
+
+[reference_height]
+value = 4.24
+unit = "V"
+kind = "adopted"
+source = "the height adopted for the reference trace in the repository twin-moments. The first repetition held here has a fitted height of 4.48 V at 225 mW and 130 C"
+
+[noise]          # the noise law of each peak at each condition is in data/noise/noise_laws.json: variance = a^2 + b h + c h^2 + d s^2
+file = "data/noise/noise_laws.json"

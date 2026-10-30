@@ -1,0 +1,102 @@
+# The free parameters of the toy model, and what the builder makes (the owner's message 114: "a config file (for the free
+# parameters)"). Written 2026-10-12 20:11:15. A parameter here has a true value, with which the synthetic traces are made, and may be free
+# in the fits of a detail: the list `free` of that detail says so. Where it is not free it is held at its true value.
+
+[folder]
+name = "Rb 5S-6S toy model"
+details = [1, 2, 3, 4, 5]
+example = 4          # the detail whose term the worked examples and the slides take as their example, under the model that lacks it
+frozen = ["machinery", "meeting"]          # documents that the builder makes no more: their last pages are in stored/, and words.toml says why. To make one again, take its name out
+
+[recorded]          # his recorded traces that each model is applied to (his message 115)
+peak = "993.4192"
+repetition = "first"
+
+[detail.1]
+name = "the natural width"
+free = ["natural_width"]
+
+[detail.2]
+name = "collisions between Rb atoms"
+free = ["natural_width"]          # what theory gives is held in the main fit: collisions between Rb atoms, and from detail 5 the transit time (his choice of 2026-10-14)
+freed = ["natural_width", "collisions"]          # the fit beside it, with the values of theory freed as a test
+
+[detail.3]
+name = "the permeated gas"
+free = ["gas_width"]
+freed = ["collisions", "gas_width"]
+
+[detail.4]
+name = "the laser noise"
+free = ["gas_width", "laser_noise"]
+freed = ["collisions", "gas_width", "laser_noise"]
+
+[detail.5]
+name = "the transit time"
+free = ["gas_width", "laser_noise"]
+freed = ["collisions", "gas_width", "laser_noise", "transit"]
+
+[parameter.natural_width]
+symbol = "\\Gamma_\\mathrm{nat}"          # its symbol of the literature, in LaTeX, which the pages write beside its words (his message 317)
+what = "the natural width of the line: the Lorentzian width that the lifetime of 6S gives"
+follows = "natural_width"          # its true value and its uncertainty are not typed here: they are 1 / (2 pi tau) of the lifetime of const.toml
+unit = "MHz"
+kind = "literature"
+source = "the lifetime of 6S of const.toml, from Gomez 2005 as the analysis repository holds it: the width is 1 / (2 pi tau)"
+enters = 1
+start = 3.0
+lower = 0.5
+upper = 10.0
+
+[parameter.collisions]
+symbol = "\\beta_\\mathrm{self}"          # its symbol of the literature, in LaTeX, which the pages write beside its words (his message 317)
+what = "collisions between Rb atoms: the Lorentzian width that they add for 1e15 atoms per cm^3"
+true = 3.5
+uncertainty = 0.75
+unit = "MHz for 1e15 atoms per cm^3"
+kind = "theory"
+source = "one measurement on the 7S line, 129 +- 13 kHz per mTorr by Zameroski and others 2014, carried to 6S by theory. The uncertainty is the error of that carry alone. The carry is also off by a third on average, in one direction, which no uncertainty holds. And the coefficient is taken as constant, where such a rate grows by 5 per cent from 70 to 130 C"
+enters = 2
+start = 1.0
+lower = 0.0
+upper = 100.0
+
+[parameter.gas_width]
+symbol = "\\beta"          # its symbol of the literature, in LaTeX, which the pages write beside its words (his message 317)
+what = "the permeated gas: one more Lorentzian width, the same for all 8 traces"
+true = 0.037
+uncertainty = 0.015
+unit = "MHz"
+kind = "measured"
+source = "the joint fit of all 8 recorded traces of the peak at 993.4192 nm under the model with the transit time, with collisions between Rb atoms, the transit time held at the value of theory: the permeated gas 0.037 +- 0.015, chi square 1.0681 for each degree of freedom. The uncertainty is the one that this fit prints, under this one model. Adopted on 2026-10-14. Before: true 0.11, uncertainty 0.03"
+enters = 3
+start = 0.0
+lower = -1.0          # an estimate of a small width may come out under zero: a bound at zero stops the fit there on 1 draw of 100 and biases the others
+upper = 2.0
+
+[parameter.laser_noise]
+symbol = "\\sigma_L"          # its symbol of the literature, in LaTeX, which the pages write beside its words (his message 317)
+what = "the laser noise: the standard deviation of a Gaussian spread of the frequency, the same for all 8 traces"
+true = 0.369
+uncertainty = 0.028
+unit = "MHz"
+kind = "measured"
+source = "the joint fit of all 8 recorded traces of the peak at 993.4192 nm under the model with the transit time, with collisions between Rb atoms, the transit time held at the value of theory: the laser noise 0.369 +- 0.028, chi square 1.0681 for each degree of freedom. The uncertainty is the one that this fit prints, under this one model. Adopted on 2026-10-14. Before: true 0.455, uncertainty 0.039"
+enters = 4
+effect = "square"          # the line changes as the square of this size: about zero it does not change at first order
+start = 0.5
+lower = 0.01          # a fit that reaches zero cannot leave it, since the line does not change there: the bound keeps it away
+upper = 5.0
+
+[parameter.transit]
+symbol = "\\Gamma_\\mathrm{tr}"          # its symbol of the literature, in LaTeX, which the pages write beside its words (his message 317)
+what = "the transit time: the rate b at which the line of an atom that crosses the beam falls on each side, at 130 C"
+follows = "transit"          # its true value and its uncertainty are not typed here: they are u / (2 pi w) of the radius of the beam of const.toml
+unit = "MHz"
+kind = "theory"
+source = "the radius of the beam that he gives, 43 +- 1 um, and the most probable speed of an atom of 85Rb at 130 C. A value of theory: it is held in the main fit and freed only as a test"
+enters = 5
+effect = "square"          # the line changes as the square of this rate: about zero it does not change at first order
+start = 0.5
+lower = 0.01          # a fit that reaches zero cannot leave it, since the line does not change there: the bound keeps it away
+upper = 5.0

@@ -20,7 +20,7 @@ import sys
 import numpy as np
 
 from .. import Linear, fit
-from ..candidates import dictionary
+from ..dictionary import candidates as dictionary          # the package's own list: this example walks the path that reads it
 from ..propose import propose
 from ..twin import admission, planted
 from . import two_scales as E

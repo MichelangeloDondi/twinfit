@@ -1,0 +1,208 @@
+# The twin of the recorded traces of RUBIDIUM.md: eight synthetic traces of the model of five terms whose values
+# follow the joint fit of the recorded ones, each with the height and the noise of its recorded trace, written by
+# `python -m twinfit example rubidium DIR`. Read by twinfit.description.read.
+
+[problem]
+name = "the synthetic traces of the model of detail 5, made as one hyperfine peak of the two photon line of rubidium from 5S to 6S, at 993.4192 nm"
+what = "A heated vapour cell of rubidium, crossed by one laser beam near 993.4 nm whose frequency is scanned across one hyperfine peak of the two photon transition from 5S to 6S. Each trace is the signal of the transition against the frequency of the laser, within 25 MHz of the top of the line. The traces were taken at four temperatures of the cell at one power, and at five powers at one temperature, the two sweeps sharing one trace. The beam has one radius at the atoms in every trace."
+abscissa = "frequency from the top of the line"
+abscissa_unit = "MHz"
+value = "signal"
+value_unit = "V"
+
+[covariates.temperature]
+unit = "C"
+
+[covariates.power]
+unit = "mW"
+
+[covariates.density]
+unit = "per cm3"
+
+[covariates.waist]
+unit = "um"
+
+[[trace]]
+file = "traces/trace_P225mW_T070C.csv"
+density = 7.39388e+11
+temperature = 70
+power = 225
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P225mW_T090C.csv"
+density = 3.10934e+12
+temperature = 90
+power = 225
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P225mW_T110C.csv"
+density = 1.12225e+13
+temperature = 110
+power = 225
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P225mW_T130C.csv"
+density = 3.55699e+13
+temperature = 130
+power = 225
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P175mW_T130C.csv"
+density = 3.55699e+13
+temperature = 130
+power = 175
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P125mW_T130C.csv"
+density = 3.55699e+13
+temperature = 130
+power = 125
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P075mW_T130C.csv"
+density = 3.55699e+13
+temperature = 130
+power = 75
+waist = 43.0
+
+[[trace]]
+file = "traces/trace_P025mW_T130C.csv"
+density = 3.55699e+13
+temperature = 130
+power = 25
+waist = 43.0
+
+[setup.oscilloscope]
+words = "an Agilent InfiniiVision DSO-X 3054A, 2000 points a trace over 1.000 s, in its mode of high resolution, 11.86 bits in the saved files, its vertical range changed at every power and not recorded"
+known = "set"
+
+[setup.photomultiplier]
+words = "a Hamamatsu R636-10 photomultiplier in a Thorlabs PXT1/M housing, whose gain and high voltage are not in the record"
+known = "not recorded"
+
+[setup.preamplifier]
+words = "the preamplifier after the photomultiplier, of a gain in volts for each ampere"
+value = 1e6
+unit = "V/A"
+known = "set"
+
+[setup.scan]
+words = "a triangular scan of the cavity of the laser, one side a trace, 85.2 MHz of the transition a trace"
+value = 0.085049
+uncertainty = 0.00010
+unit = "MHz of the transition for each ms"
+known = "measured"
+
+[setup.peaks]
+words = "one hyperfine peak a trace: the four sit at 0, 911.3, 3220.0 and 5225.0 MHz of the transition"
+known = "set"
+
+[setup.retroreflection]
+words = "a flat mirror that returns the beam through the cell, for an excitation free of Doppler: its efficiency at the atoms"
+value = 0.94
+uncertainty = 0.04
+unit = "1"
+known = "assumed"
+
+[setup.beam_radius]
+words = "the radius of the beam at its waist, at the atoms, his ansatz"
+value = 43.0
+uncertainty = 1.0
+unit = "um"
+known = "assumed"
+
+[setup.m_squared]
+words = "the M squared of the beam, its quality against a Gaussian beam"
+known = "not recorded"
+
+[setup.aperture]
+words = "the clear aperture of the electro-optic modulator, which can clip the beam"
+value = 3.0
+unit = "mm"
+known = "from its maker"
+
+[setup.temperature]
+words = "the temperature of the cell, read by thermocouples on a copper block, with no measured stability in the record"
+known = "measured"
+
+[setup.power]
+words = "the power of the beam, read after the modulator, to 0.5 per cent by the figure of its driver"
+known = "measured"
+
+[noise]
+from = "neighbours"
+
+[addenda.ansatz.waist]
+value = 43.0
+uncertainty = 1.0
+
+[addenda.lever.repetitions]
+kind = "repeats"
+factor = 5
+words = "five repetitions of each condition, as the experiment takes them, where one alone is read here"
+
+[addenda.lever.gain]
+kind = "noise"
+factor = 0.5
+words = "a higher gain of the photomultiplier, or another oscilloscope, which halves the noise of each sample"
+
+[addenda.lever.slower]
+kind = "samples"
+factor = 2.0
+words = "a scan twice as slow, with twice the samples over the same span"
+
+[addenda.lever.wider]
+kind = "span"
+factor = 2.0
+words = "a scan of twice the span about the top of the line"
+
+[addenda.lever.hotter]
+kind = "covariate"
+covariate = "temperature"
+values = [150]
+at = { power = 225 }
+words = "one more temperature of the cell, 150 C, at 225 mW"
+
+[addenda.lever.waist]
+kind = "covariate"
+covariate = "waist"
+values = [35.0, 51.0]
+at = { temperature = 130, power = 225 }
+words = "two more radii of the beam at the atoms, 35 and 51 um, at 130 C and 225 mW"
+
+[addenda.lever.stronger]
+kind = "covariate"
+covariate = "power"
+values = [300]
+at = { temperature = 130 }
+words = "one more power of the laser, 300 mW, at 130 C"
+
+[addenda.lever.beam]
+kind = "characterization"
+of = "waist"
+factor = 0.5
+words = "the radius of the beam at the atoms measured by a knife edge or a camera, to half its uncertainty"
+
+[addenda.lever.m_squared]
+kind = "setup"
+of = "m_squared"
+words = "the M squared of the beam measured with a camera along the focus"
+
+[addenda.lever.retroreflection]
+kind = "setup"
+of = "retroreflection"
+words = "the efficiency of the retro reflection measured with a pick-off"
+
+[addenda.lever.photomultiplier]
+kind = "setup"
+of = "photomultiplier"
+words = "the gain and the high voltage of the photomultiplier recorded at each power"
+
+[addenda]
+model = "model.py"

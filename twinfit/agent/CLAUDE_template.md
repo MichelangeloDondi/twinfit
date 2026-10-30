@@ -1,8 +1,8 @@
-# This project is analysed with twinfit
+# Analysis of this project with twinfit
 
-The rules below hold in this folder. They are short on purpose: the order of the work and its reasons are in the
-protocol of the package, which `PYTHONPATH={{WHERE_THE_PACKAGE_IS}} python -m twinfit guide` prints. Read it at the
-start of every session. The package is the folder `{{WHERE_THE_PACKAGE_IS}}/twinfit`, and it needs numpy and scipy, which `{{THE_PYTHON}}`, the Python that started this project, has: where `python` stands below and the python of this machine lacks them, type that path in its place.
+The rules below hold in this folder. They are short by design: the order of the work and its reasons are in the
+protocol of the package, which `python -m twinfit guide` prints. Read it at the start of every session. `python` here
+is a Python in which the package imports, with numpy and scipy: `python -c "import twinfit"` says whether it does.{{FROM_A_COPY}}
 
 1. **Small models first.** The analysis starts from `model.py`, the small model that the researcher understands in every
    part, and `python -m twinfit loop .` adds one term a rung, each written in `terms/` with the reason for it.

@@ -1,6 +1,6 @@
 """Terms that models of recorded curves often lack, each as the working model with one shared parameter more.
 
-A candidate of the dictionary (candidates.py) is a discrepancy of the mean at the fitted values: it is ranked with no fit,
+A candidate (candidates.py) is a discrepancy of the mean at the fitted values: it is ranked with no fit,
 at first order. A mechanism is the same guess made into a model. The working model is wrapped, whatever its formula, and
 gains one shared parameter, so the guess can be fitted, compared by a criterion and put into synthetic records. First
 order is not enough for a term that is not small: on a curve of width 3.7, a kernel of width 1.4 moved an estimate by
@@ -17,10 +17,20 @@ order is not enough for a term that is not small: on a curve of width 3.7, a ker
                              named as its [covariates] names it: p (1 + a z), z the setting less its mean over the
                              records, over its standard deviation over them, taken with their number, not one less.
                              power=2 takes z squared less its mean
-    pedestal(stretch)        a copy of the curve `stretch` times wider under it, of relative area a, stretch a number
+    gaussian_width(along=None)
+                             the curve convolved with a Gaussian of standard deviation a, in the unit of the abscissa, on
+                             the steps of the records, which need equal steps: a width that the line lacks, as the noise
+                             of a source or the response of an instrument. along, the name of a setting or a function of the settings of a curve, scales a in it
+    lorentzian_width(along=None)
+                             the same with a Lorentzian of full width a at half its height: a width of a lifetime, and
+                             along="concentration" makes it in proportion to that setting over its mean over the
+                             records, a the width at that mean, and names it
+    pedestal(stretch)        a copy of the curve `stretch` times wider under it, of relative area a, 0 or more unless
+                             `lower` says otherwise, stretch a number
     bent()                   the abscissa is not linear: x + a (x - middle)^2 / half its span
     second(distance)         a second copy of the curve, `distance` away along the abscissa, in its unit, after the curve
-                             where it is positive and before it where negative, of relative area a
+                             where it is positive and before it where negative, of relative area a, 0 or more unless
+                             `lower` says otherwise
     tail(stretch, side)      a copy of the curve `stretch` times wider on one side of its centre alone, of relative area a,
                              side "upper" or "lower". A wider copy, not the exponential tailing of a column or of a
                              detector, which a Mechanism of your own writes
@@ -33,25 +43,11 @@ order is not enough for a term that is not small: on a curve of width 3.7, a ker
                              etalon, is a Mechanism of your own with x in the place of x - centre:
                              section 11 of the tutorial writes one
 
-Which term answers which kind of the report of where to search:
-
-    a second component of the curve     second
-    a wider pedestal under the curve    pedestal
-    a tail on one side                  tail
-    a polynomial of the level           level
-    a periodic function                 periodic, twice, its cosine and its sine, since each term adds one parameter:
-                                        a scan of the cosine alone can find no period where the sine would
-    a setting along which it changes    along
-    the wings of the curves             widened, a kernel that widens the curve, beside a pedestal
-    the flanks of the curves            widened, a width of another shape beside the one of the model, as a Gaussian beside a
-                                        Lorentzian, where the misfit stands from half a width to two
-    an asymmetry that grows from it     displaced, a mixture of copies displaced to one side
-    an abscissa that is not straight    bent
-
 Glitches and a change of the noise are no term of the mean: they are read in the weights of the fit, the noise of each
 sample that the description gives. Each term here is made of copies of the curve, wider, displaced or on one side: a shape
-that the physics names otherwise, as the exponential tail of a detector or of a column, is a Mechanism of your own, and the
-report then gives its place and its kind, and not its form. A Mechanism is Mechanism(name, kind, parameter, start, wrap,
+that the physics names otherwise, as the exponential tail of a detector or of a column, is a Mechanism of your own. The report
+gives the place, the shape and the setting of a misfit, and never the name of a term: which term of physical origin fills it
+is the researcher's to say. A Mechanism is Mechanism(name, kind, parameter, start, wrap,
 lower=-inf, upper=inf): kind is a word that the package keeps with the term and reads in no result, lower and upper bound
 the new parameter, and wrap(model, problem, n) returns any curve, the line replaced as well as a term added to it.
 
@@ -114,17 +110,20 @@ class Mechanism:
     upper: float = np.inf
     ground: str = ""                     # the sentence of the theory that the term rests on. Empty: an educated guess
     theory: tuple | None = None          # (centre, standard deviation) of the new parameter where the theory gives them
+    formula: str = ""                    # what the term does to the model f before it, as mathtext, a its parameter: the equation of each turn in the visual log, his message 309
 
     def extend(self, problem: Problem, result=None) -> Problem:
         """The working model of `problem` with this term: one shared parameter more, started at the fit if one is given."""
-        if self.parameter in problem.shared:
-            raise ValueError(f"the model already holds a parameter named {self.parameter}")
+        name, k = self.parameter, 1          # his messages 283 and 284: several terms make one kind of width, two mechanisms that broaden a line each with a law of its own, and a further term with a physical ground is not refused a priori: it takes the next free name and the records judge it, or its theory holds it where they cannot
+        while name in problem.shared:
+            k += 1
+            name = f"{self.parameter} {k}"
         n = len(problem.shared)
         lo, hi = problem.bounds_shared
         start = list(problem.start_shared if result is None else result.shared) + [self.start]
         own = problem._start_own if result is None else [np.array(row, dtype=float) for row in result.own]
         centre = None if problem.centre is None else (lambda shared, own_k, design, c=problem.centre: c(shared[:n], own_k, design))
-        return Problem(problem.records, self.wrap(problem.model, problem, n), problem.shared + (self.parameter,), problem.own, start, own, centre,
+        return Problem(problem.records, self.wrap(problem.model, problem, n), problem.shared + (name,), problem.own, start, own, centre,
                        f"{problem.name} with {self.name}", (list(lo) + [self.lower], list(hi) + [self.upper]), problem._bounds_own)
 
 
@@ -155,14 +154,14 @@ def _line_under(model, shared, own, design, c: float, span: float):
     raise ValueError("the model gives no finite value at the ends of the record: its baseline cannot be read")
 
 
-def _equal_steps(problem: Problem) -> None:
+def _rising(problem: Problem) -> None:
+    """A kernel needs an abscissa that rises from point to point, and no more: on steps that are not equal the kernels of
+    this file are applied on a grid of equal steps and read back at the record's own points. Records of a scan calibrated
+    against a ruler stand on a step that drifts by a per cent or so along the scan, two steps from equal ones at the most,
+    and a kernel that asked equal steps refused every one of them (the owner's messages 294 to 296)."""
     for rec in problem.records:
-        d = np.diff(rec.x)
-        if not np.allclose(d, d[0], rtol=1e-6, atol=0.0) or d[0] <= 0:
-            flat = np.linspace(rec.x[0], rec.x[-1], rec.x.size)
-            off = float(np.max(np.abs(rec.x - flat)) / abs(flat[1] - flat[0])) if rec.x.size > 1 and flat[1] != flat[0] else float("inf")
-            raise ValueError(f"record {rec.name!r}: a kernel is applied on an abscissa of equal rising steps, and its points lie up to {off:.2g} of a step from equal steps. "
-                             "If that is the rounding of the file that the abscissa was read from, build the records with `twinfit.even(x)`")
+        if rec.x.size > 1 and not np.all(np.diff(rec.x) > 0.0):
+            raise ValueError(f"record {rec.name!r}: a kernel is applied on an abscissa that rises from point to point, and this one does not: give its points in the order of the abscissa")
 
 
 def _exponential_kernel(b2: float, step: float) -> np.ndarray:
@@ -183,6 +182,14 @@ def _exponential_kernel(b2: float, step: float) -> np.ndarray:
     half[0] -= 2.0 * lack
     half[1] += lack
     return np.concatenate([half[:0:-1], half])
+
+
+def _on_a_grid(x, step: float, curve) -> np.ndarray:
+    """A curve that a kernel makes on equal steps, read at points `x` that are not on equal steps: `curve` on a grid of
+    `step` that covers x with two points of room on each side, then the cubic of `_cubic` at x."""
+    first, last = int(np.floor(float(x.min()) / step)) - 2, int(np.ceil(float(x.max()) / step)) + 2
+    grid = step * np.arange(first, last + 1)
+    return _cubic(step * first, step, np.asarray(curve(grid), dtype=float), x)
 
 
 def _cubic(first: float, step: float, values: np.ndarray, x) -> np.ndarray:
@@ -212,12 +219,12 @@ def widened(size: Callable = lambda design: 1.0, name: str = "a kernel with expo
         size = lambda design, _size=_size: _size          # noqa: E731
 
     def wrap(model, problem, n):
-        _equal_steps(problem)
+        _rising(problem)
         tall = max(problem.records, key=lambda rec: float(np.max(rec.y) - np.median(rec.y)))      # the record whose curve stands highest gives the width of a curve
         up = tall.y - np.median(tall.y)
-        width = max(float(np.sum(up > 0.5 * up.max()) * (tall.x[1] - tall.x[0])), float(tall.x[1] - tall.x[0]))
-        fine = max(1, int(np.ceil(FINE * float(tall.x[1] - tall.x[0]) / width)))                   # the model is read on steps of at most a FINE-th of that width
-        base = float(tall.x[1] - tall.x[0])                                                        # the step of the records: an uneven abscissa is read on a grid of this step
+        base = float(np.median(np.diff(tall.x)))                                                   # the step of the records, the median where they are not equal: an uneven abscissa is read on a grid of this step
+        width = max(float(np.sum(up > 0.5 * up.max()) * base), base)
+        fine = max(1, int(np.ceil(FINE * base / width)))                                           # the model is read on steps of at most a FINE-th of that width
 
         def new(x, shared, own, design):
             b2 = float(shared[n]) * float(size(design)) ** 2
@@ -241,7 +248,8 @@ def widened(size: Callable = lambda design: 1.0, name: str = "a kernel with expo
             smooth = np.convolve(np.asarray(model(wide, shared[:n], own, design), dtype=float), kernel, mode="valid")
             return _cubic(step * first, step, smooth, x)
         return new
-    return Mechanism(name, "kernel", parameter, start, wrap, lower=0.0, upper=WIDEST, ground=ground, theory=theory)
+    return Mechanism(name, "kernel", parameter, start, wrap, lower=0.0, upper=WIDEST, ground=ground, theory=theory,
+                     formula=r"$f \ast \frac{e^{-|u|/b}}{2b},\ \ b^2 = a\,s^2$")
 
 
 def displaced(reach: Callable = lambda design: 1.0, name: str = "a displacement of linear density", parameter: str = "depth squared", start: float = 1.0,
@@ -263,7 +271,8 @@ def displaced(reach: Callable = lambda design: 1.0, name: str = "a displacement 
                 return np.asarray(model(x, shared[:n], own, design), dtype=float)
             return sum(w * np.asarray(model(x - d * (v - 2.0 / 3.0), shared[:n], own, design), dtype=float) for v, w in zip(V, WV))
         return new
-    return Mechanism(name, "displacement", parameter, start, wrap, lower=0.0, upper=WIDEST, ground=ground, theory=theory)
+    return Mechanism(name, "displacement", parameter, start, wrap, lower=0.0, upper=WIDEST, ground=ground, theory=theory,
+                     formula=r"$\int_0^1 2v\, f(x - d\,(v - 2/3))\, dv,\ \ d^2 = a\,r^2$")
 
 
 def along(parameter: str, key: str, power: int = 1, ground: str = "", theory: tuple | None = None) -> Mechanism:
@@ -289,14 +298,18 @@ def along(parameter: str, key: str, power: int = 1, ground: str = "", theory: tu
             return model(x, s, own, design)
         return new
     square = " the square of" if power == 2 else ""
-    return Mechanism(f"{parameter} changes along{square} {key}", "grows with a covariate", f"{parameter} along {key}" + ("^2" if power == 2 else ""), 0.0, wrap, ground=ground, theory=theory)
+    return Mechanism(f"{parameter} changes along{square} {key}", "grows with a covariate", f"{parameter} along {key}" + ("^2" if power == 2 else ""), 0.0, wrap, ground=ground, theory=theory,
+                     formula=r"$p \rightarrow p\,(1 + a\,z)$" if power == 1 else r"$p \rightarrow p\,(1 + a\,(z^2 - \overline{z^2}))$")
 
 
-def pedestal(stretch: float = 8.0, ground: str = "", theory: tuple | None = None, lower: float = -np.inf, upper: float = np.inf) -> Mechanism:
+def pedestal(stretch: float = 8.0, ground: str = "", theory: tuple | None = None, lower: float = 0.0, upper: float = np.inf) -> Mechanism:
     """A copy of the curve `stretch` times wider about the centre of the record, of area a times the area of the curve.
-    `lower` and `upper` bound that area. Give `lower=0.0` when the ground of the term says that it adds to the curve:
-    left free, a fit can return a negative pedestal, which stands for wings that the working model draws too high, and
-    a term on theory would then be added with a sign that its own ground forbids."""
+    `lower` and `upper` bound that area, at zero below unless `lower` says otherwise: a pedestal adds to the curve. Left
+    free, a fit returns a negative pedestal where the working model draws its wings too high, and keeps it: on eight
+    curves drawn with a kernel of exponential wings and fitted with a Gaussian in its place, a pedestal 3 times wider was
+    kept at -0.1347 +- 0.0082 and moved the width of the curve from 12 to 21 of its bars from its truth, where bounded at
+    zero it is refused at its bound (the blind red team of 0.1.0rc19, mislead 6). A dip that takes away from the curve
+    is written with `lower` below zero."""
     def wrap(model, problem, n):
         if problem.centre is None:
             raise ValueError("a pedestal is placed about the centre of a curve: the problem gives none")
@@ -309,7 +322,82 @@ def pedestal(stretch: float = 8.0, ground: str = "", theory: tuple | None = None
             t = c + (x - c) / stretch
             return f + float(shared[n]) * (np.asarray(model(t, shared[:n], own, design), dtype=float) - under(t)) / stretch
         return new
-    return Mechanism(f"a pedestal {stretch:g} times wider than the curve", "pedestal", f"pedestal {stretch:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory)
+    return Mechanism(f"a pedestal {stretch:g} times wider than the curve", "pedestal", f"pedestal {stretch:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory,
+                     formula=r"$f(x) + \frac{a}{s}\,[\,f(c + (x - c)/s) - \ell\,],\ \ s = %g$" % stretch)
+
+
+def _width(shape: str, along=None, name: str | None = None, parameter: str | None = None, ground: str = "", theory: tuple | None = None, start: float | None = None) -> Mechanism:
+    """A width of one value for every curve, of the shape `shape`, a Gaussian of standard deviation s, a Lorentzian of
+    full width g, or an exponential kernel exp(-|u| / b) / (2 b) of decay length b, convolved with the curve on the steps
+    of its records, each step of the kernel its area, so that a width under the step still adds its area right.
+    `along(design)` scales the width of each curve, or `along` the name of a setting, which the name of the term then says,
+    the width then in proportion to that setting over its mean over the records, so that its parameter is the width at
+    that mean, in the units of the abscissa: the raw setting, a density of 3.6e13, took the start of the width to a size
+    of the order of 1e12 and refused the term at its bound (the blind red team of 0.1.0rc18, block 1). The records need equal
+    steps. `start`, in the units of the abscissa, is where a search begins, 0.3 for a Gaussian and an exponential and 0.1
+    for a Lorentzian unless given: the change of the curve under a Gaussian or an exponential kernel grows as the square
+    of its width, since their variances are s^2 and 2 b^2, so a search started at zero has no slope and ends there,
+    refused at its bound. The owner's message 262: a blind run on a line that lacked a Gaussian width took it up in
+    another term for want of the candidate. The exponential kernel is the transform of a coherence that falls as
+    1 / (1 + (2 pi b t)^2), as that of an emitter crossing a narrow region does, and the owner's message 336 put it beside
+    the other two."""
+    from math import erf
+    from scipy.signal import fftconvolve
+    gauss, expo = shape == "gaussian", shape == "exponential"
+    key = along if isinstance(along, str) else None          # a setting by its name, which the name of the term then says: two widths of one kind, along two settings, read as one term (the fresh red team of 0.1.0rc16, mislead 3)
+
+    def wrap(model, problem, n):
+        _rising(problem)
+        scale = along
+        if key is not None:
+            missing = [rec.name for rec in problem.records if key not in rec.design]
+            if missing:
+                raise ValueError(f"the width along {key}: the records carry no setting {key!r}: the settings of the first are {', '.join(problem.records[0].design) or 'none'}")
+            mean = float(np.mean([float(rec.design[key]) for rec in problem.records]))
+            if mean <= 0.0:
+                raise ValueError(f"the width along {key}: the mean of the setting over the records is {mean:.4g}, and a width in proportion to it needs it above zero")
+            scale = lambda design: float(design[key]) / mean          # noqa: E731
+
+        def new(x, shared, own, design):
+            size, x = float(shared[n]) * (1.0 if scale is None else float(scale(design))), np.asarray(x, dtype=float)
+            if size <= 0.0:
+                return np.asarray(model(x, shared[:n], own, design), dtype=float)
+            gaps = np.diff(x)
+            if not np.all(np.abs(gaps - gaps[0]) <= 1e-9 * abs(gaps[0])):          # steps that are not equal: the kernel on a grid of the median step, read back at the record's points by the cubic
+                return _on_a_grid(x, float(np.median(gaps)), lambda grid: new(grid, shared, own, design))
+            step = float(x[1] - x[0])
+            m = min(int(np.ceil((6.0 if gauss else 36.0) * size / step)), x.size) if gauss or expo else x.size          # a Gaussian ends at six deviations, an exponential kernel at 36 decay lengths, under 1e-15 of its area; a Lorentzian's wings carry area over the whole record, so its kernel reaches as far as the record: a reach fixed in the unit of one problem cut them. No kernel reaches past the record: a search that wandered to a Gaussian far wider than it built arrays without end, 6.4 GB on one draw of the count of Mercury on 2026-10-20
+            edges = step * (np.arange(-m, m + 2) - 0.5)
+            cdf = (np.array([0.5 * (1.0 + erf(e / (size * np.sqrt(2.0)))) for e in edges]) if gauss
+                   else np.where(edges < 0.0, 0.5 * np.exp(np.minimum(edges, 0.0) / size), 1.0 - 0.5 * np.exp(-np.maximum(edges, 0.0) / size)) if expo
+                   else np.arctan(edges / (0.5 * size)) / np.pi)
+            kernel = np.diff(cdf)
+            kernel /= kernel.sum()
+            wide = float(x[0]) + step * np.arange(-m, x.size + m)
+            return fftconvolve(np.asarray(model(wide, shared[:n], own, design), dtype=float), kernel, mode="valid")
+        return new
+    kind = "Gaussian" if gauss else "exponential" if expo else "Lorentzian"
+    return Mechanism(name or f"a{'n' if expo else ''} {kind} width beside the line" + (f", in proportion to {key}" if key else ""), "kernel",
+                     parameter or ("gaussian standard deviation" if gauss else "exponential decay length" if expo else "lorentzian full width") + (f" at the mean of {key}" if key else ""),
+                     float((0.3 if gauss or expo else 0.1) if start is None else start), wrap, lower=0.0, upper=np.inf, ground=ground, theory=theory,
+                     formula=(r"$f \ast G_{\sigma},\ \ \sigma = a$" if gauss else r"$f \ast E_{b},\ \ b = a$" if expo else r"$f \ast L_{\Gamma},\ \ \Gamma = a$").replace("= a$", "= a$" if along is None else r"= a\,q$" if key else r"= a\,w(z)$"))
+
+
+def gaussian_width(along=None, name: str | None = None, parameter: str | None = None, ground: str = "", theory: tuple | None = None, start: float | None = None) -> Mechanism:
+    """A Gaussian width beside the line, its parameter the standard deviation in the units of the abscissa: see `_width`."""
+    return _width("gaussian", along, name, parameter, ground, theory, start)
+
+
+def lorentzian_width(along=None, name: str | None = None, parameter: str | None = None, ground: str = "", theory: tuple | None = None, start: float | None = None) -> Mechanism:
+    """A Lorentzian width beside the line, its parameter the full width at half maximum: see `_width`."""
+    return _width("lorentzian", along, name, parameter, ground, theory, start)
+
+
+def exponential_width(along=None, name: str | None = None, parameter: str | None = None, ground: str = "", theory: tuple | None = None, start: float | None = None) -> Mechanism:
+    """An exponential width beside the line, the curve convolved with exp(-|u| / b) / (2 b), its parameter the decay length
+    b in the units of the abscissa: see `_width`. The transform of a coherence that falls as 1 / (1 + (2 pi b t)^2) (the
+    owner's message 336)."""
+    return _width("exponential", along, name, parameter, ground, theory, start)
 
 
 def bent(ground: str = "", theory: tuple | None = None) -> Mechanism:
@@ -323,14 +411,16 @@ def bent(ground: str = "", theory: tuple | None = None) -> Mechanism:
             x = np.asarray(x, dtype=float)
             return model(x + float(shared[n]) * (x - mid) ** 2 / half, shared[:n], own, design)
         return new
-    return Mechanism("a quadratic map of the abscissa", "abscissa", "bend", 0.0, wrap, lower=-0.25, upper=0.25, ground=ground, theory=theory)
+    return Mechanism("a quadratic map of the abscissa", "abscissa", "bend", 0.0, wrap, lower=-0.25, upper=0.25, ground=ground, theory=theory,
+                     formula=r"$f(x + a\,(x - m)^2/h)$")
 
 
-def second(distance: float, ground: str = "", theory: tuple | None = None, lower: float = -np.inf, upper: float = np.inf) -> Mechanism:
+def second(distance: float, ground: str = "", theory: tuple | None = None, lower: float = 0.0, upper: float = np.inf) -> Mechanism:
     """A second copy of the curve, `distance` away along the abscissa, in the units of the abscissa, of a times the size
     of the curve: an impurity that elutes later, a line of another species or isotope beside the first. The copy is the
     curve less the straight line that the model draws far from it, so that it carries no share of the offset or the slope
-    of the record. A negative distance places it before."""
+    of the record. A negative distance places it before. Its size is bounded at zero unless `lower` says otherwise: a
+    second component adds to the curve, as a pedestal does (the blind red team of 0.1.0rc19, mislead 6)."""
     def wrap(model, problem, n):
         def new(x, shared, own, design):
             x = np.asarray(x, dtype=float)
@@ -339,7 +429,8 @@ def second(distance: float, ground: str = "", theory: tuple | None = None, lower
             t = x - distance
             return np.asarray(model(x, shared[:n], own, design), dtype=float) + float(shared[n]) * (np.asarray(model(t, shared[:n], own, design), dtype=float) - under(t))
         return new
-    return Mechanism(f"a second component {distance:g} away", "second component", f"second component at {distance:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory)
+    return Mechanism(f"a second component {distance:g} away", "second component", f"second component at {distance:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory,
+                     formula=r"$f(x) + a\,[\,f(x - D) - \ell\,],\ \ D = %g$" % distance)
 
 
 def tail(stretch: float = 2.0, side: str = "upper", ground: str = "", theory: tuple | None = None, lower: float = 0.0, upper: float = np.inf) -> Mechanism:
@@ -372,7 +463,8 @@ def tail(stretch: float = 2.0, side: str = "upper", ground: str = "", theory: tu
             rise = 0.5 * (1.0 + np.tanh(sign * (x - c) / (step or 1.0)))          # the side of the tail, smooth over one sample
             return f + float(shared[n]) * (wide - base) * rise
         return new
-    return Mechanism(f"a tail on the {side} side, {stretch:g} times wider", "tail", f"tail {side} {stretch:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory)
+    return Mechanism(f"a tail on the {side} side, {stretch:g} times wider", "tail", f"tail {side} {stretch:g}", 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory,
+                     formula=r"$f(x) + a\,[\,f(c + (x - c)/s)/s - \ell\,]\ \Theta(%s(x - c)),\ \ s = %g$" % ("" if side == "upper" else "-", stretch))
 
 
 def level(power: int = 2, ground: str = "", theory: tuple | None = None) -> Mechanism:
@@ -394,7 +486,8 @@ def level(power: int = 2, ground: str = "", theory: tuple | None = None) -> Mech
             return np.asarray(model(x, shared[:n], own, design), dtype=float) + float(shared[n]) * ((x - mid) / half) ** power
         new.middle, new.half = mid, half
         return new
-    return Mechanism(f"a power {power} of the abscissa under every curve", "baseline", f"level power {power}", 0.0, wrap, ground=ground, theory=theory)
+    return Mechanism(f"a power {power} of the abscissa under every curve", "baseline", f"level power {power}", 0.0, wrap, ground=ground, theory=theory,
+                     formula=r"$f(x) + a\,((x - m)/h)^{%d}$" % power)
 
 
 def periodic(period: float, part: str = "cosine", ground: str = "", theory: tuple | None = None) -> Mechanism:
@@ -414,5 +507,6 @@ def periodic(period: float, part: str = "cosine", ground: str = "", theory: tupl
             c = float(problem.centre(shared[:n], own, design))
             return np.asarray(model(x, shared[:n], own, design), dtype=float) + float(shared[n]) * wave(2.0 * np.pi * (x - c) / period)
         return new
-    return Mechanism(f"a {part} of period {period:g}", "periodic", f"{part} of period {period:g}", 0.0, wrap, ground=ground, theory=theory)
+    return Mechanism(f"a {part} of period {period:g}", "periodic", f"{part} of period {period:g}", 0.0, wrap, ground=ground, theory=theory,
+                     formula=r"$f(x) + a\,\%s(2\pi\,(x - c)/P),\ \ P = %g$" % ("cos" if part == "cosine" else "sin", period))
 

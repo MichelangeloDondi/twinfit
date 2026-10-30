@@ -6,12 +6,13 @@ improve the design of the experiment, each measured on the twin by the bias and 
 `report` is the report of where to search (where.py) on the same fit, and `levers` the levers of the description
 (description.py), each a dict with its name, its kind and its words.
 
-For the model. The classes and the covariates that the report puts beyond the twin, then the others, each by its
-excess, classes and covariates together: for each, the candidate of the dictionary that the residuals take most
-of, made into a term of one free size with the shape that the residuals give it (`term_of`). The term is fitted, and the
-twin is drawn from the model with the term at its fitted size: on each set the working model and the model with the term
-are fitted. Each proposal gives, for each known parameter, its bias and its scatter on those sets without the term and
-with it. The term is a shape and not a cause: which term of physical origin has that shape is the researcher's choice.
+For the model. The answers of the report on the mean, where, which place changes along which setting and how the
+residuals are shaped, those beyond the twin first and then by their excess: for each, a direction of search, measured
+with the shape that the residuals hold there (`empirical`, `shape_read`), made into a term of one free size
+(`term_of`). The term is fitted, and the twin is drawn from the model with the term at its fitted size: on each set the
+working model and the model with the term are fitted. Each proposal gives, for each known parameter, its bias and its
+scatter on those sets without the term and with it. No list of terms is read and no term file is written (the owner's
+messages 337 and 340): which term of physical origin fills a direction is the researcher's choice.
 
 For the experiment. The levers are those of the description, and beside them the package adds
 those that every design has, `DEFAULTS`, a quieter setup, more samples, more repeats and a wider span, of the kinds that
@@ -44,19 +45,19 @@ The package reads no physics in a lever: its words are the researcher's, and so 
 from __future__ import annotations
 
 import math
-import re
 
 import numpy as np
 
 from .best import theory_moves
-from .candidates import ALONG, ALONG_SQUARE, Candidate, dictionary
+from .candidates import Candidate, covariates_of, from_mechanism
 from .fit import fit
 from .linear import Linear
 from .mechanisms import Mechanism
+from .pool import side_by_side
 from .problem import Problem, Record
 from .propose import _one
 from .refine import develop_one, on_the_twin
-from .where import CLASSES
+from .where import CORE, PLACES, WINGS
 
 KINDS = {"noise": "the noise of every sample is multiplied by the factor",
          "samples": "each record has the factor times as many samples over the same span",
@@ -65,7 +66,6 @@ KINDS = {"noise": "the noise of every sample is multiplied by the factor",
          "covariate": "records are added at the new values of one covariate, each with the own parameters of the record nearest in that covariate",
          "characterization": "the uncertainty of a value held by the description is multiplied by the factor, and the records stay as they are",
          "setup": "a change of an item of the setup: where the model holds a value of that name, its uncertainty is multiplied by the factor, a half where none is given, and otherwise the change is named and not measured"}
-SHAPES = dict(CLASSES)
 HIS_KINDS = {"noise": "a better setup", "characterization": "a better characterization of the setup", "samples": "a better data collection",
              "span": "a better data collection", "repeats": "a better data collection", "covariate": "a better data collection", "setup": "a better setup"}          # the three ways of his message 142
 DEFAULTS = ({"name": "a quieter setup", "kind": "noise", "factor": 0.5, "words": "the noise of every sample halved: a better stabilisation, a better instrument or a better gain, or, for counts, four times the time of counting"},
@@ -76,85 +76,40 @@ NOISE_OF_THE_SAMPLES = ("glitches", "a noise that grows with the signal", "a noi
 TERM = "size of the term"          # what a lever is measured by where the working model shares no parameter
 
 
+def from_the_description(problem, setup: dict | None, levers: list) -> list:
+    """The levers that the description itself gives, where the researcher wrote none of them (row M251): for each setting
+    along which the records vary and that no lever of kind covariate names, records half its range past the largest
+    value measured, and past the smallest where that stays on the side of zero of the values measured; and for each item
+    of the setup known as "assumed" or "not recorded", a lever of kind setup that measures it, which the twin measures
+    where the model holds a value of that name and names otherwise. Each is marked as the package's."""
+    out = []
+    named = {lever.get("covariate") for lever in levers if lever["kind"] == "covariate"}
+    for key in covariates_of(problem):
+        values = sorted({float(rec.design[key]) for rec in problem.records if key in rec.design})
+        if key in named or len(values) < 2:
+            continue
+        low, high = values[0], values[-1]
+        new = [high + 0.5 * (high - low)] + ([low - 0.5 * (high - low)] if (low - 0.5 * (high - low)) * low > 0.0 else [])
+        out.append({"name": f"{key} past its range", "kind": "covariate", "covariate": key, "values": [float(f"{v:.4g}") for v in new], "from_the_package": True,
+                    "words": f"records at {key} {' and '.join(f'{v:.4g}' for v in new)}, half its range past the values measured, {low:g} to {high:g}"})
+    measured = {lever.get("of") for lever in levers if lever["kind"] in ("setup", "characterization")}
+    for name, item in (setup or {}).items():
+        if item.get("known") in ("assumed", "not recorded") and name not in measured:
+            out.append({"name": f"{name} measured", "kind": "setup", "of": name, "factor": 0.5, "from_the_package": True,
+                        "words": f"{item.get('words', name)}, known only as {item['known']}: measured"})
+    return out
+
+
 def by_gain(model: list) -> list:
-    """The proposals for the model by the gain in chi square that each brings, those beyond the twin first, then those
-    whose term of the package does not end at its bound when it is fitted, and those with no gain last: in the order of
-    the excess the first was an impostor that the loop kept (the cold tests of row M169, round 2), and a first proposal
-    whose term ended at its bound, the residuals asking its shape with a sign that it does not take, was refused by the
-    loop (round 3). A term whose search does not end at the distance or the stretch that the dictionary guessed keeps its
-    place: the class is right and the number is rough, and a scan finds it."""
-    def gain(r):          # the gain of the term of the package once fitted where it stands, else that of the shape that the residuals give: a periodic term of 78599 came first beside a second component of 2683953 (round 10 of the cold tests)
-        pk = r.get("the_term_of_the_package") or {}
-        return pk["gain_in_chi_square"] if pk.get("stands") and pk.get("gain_in_chi_square") is not None else r.get("gain_in_chi_square", -math.inf)
-    kinds = [r for r in model if r["beyond_the_twin"] and "excess_in_the_report" in r]
-    lead = max(kinds, key=lambda r: r.get("excess_in_the_report", -math.inf)) if kinds else None          # the proposal of the answer that leads the report comes first, of what or of along: a tail was put before the second component that the row of what named (round 11), and the width along the temperature of the worked spectra leads its report
-    return sorted(model, key=lambda r: (not r["beyond_the_twin"], bool((r.get("the_term_of_the_package") or {}).get("at_its_bound")), r is not lead, -gain(r)))
+    """The proposals for the model by the gain in chi square that the shape of each brings, those beyond the twin first
+    and those with no gain last: in the order of the excess alone the first was an impostor that the loop kept (the cold
+    tests of row M169, round 2)."""
+    return sorted(model, key=lambda r: (not r.get("beyond_the_twin"), not r.get("of_your_list"), -r.get("gain_in_chi_square", -math.inf)))          # a term of the researcher's list beyond the twin first: it is a term of physics, and a shape read on the residuals gains on their noise too
 
-
-def package_fit(problem, result, line: str, max_iter: int = 80) -> dict | None:
-    """The term that the line of a proposal writes, fitted beside the working model as the loop fits a term file: its
-    size and its bar, or why it does not stand. The proposal itself is the shape that the residuals give a candidate, of
-    either sign, and a term of the package may bound its size: a tail on the lower side, proposed with a gain in chi
-    square of 9230, ended at its bound of zero in the loop, which refused it, and the report had not said so (round 3 of
-    the cold tests). None where the line names a parameter that the model holds already."""
-    from . import mechanisms
-    space = {"mechanisms": mechanisms}
-    try:
-        exec(line, space)          # a line that this file wrote, of a term of mechanisms.py
-        term = space["term"]
-        if term.parameter in problem.shared:
-            return None
-        got = develop_one(problem, result, term, max_iter)
-    except (ValueError, KeyError, TypeError) as err:
-        return {"stands": False, "why_not": str(err)}
-    if got["ended"] and not got["at_its_bound"]:
-        return {"stands": True, "parameter": got["parameter"]["name"], "size": got["parameter"]["value"], "bar": got["parameter"]["bar"],
-                "gain_in_chi_square": got["criteria"]["gain_in_chi_square"]}
-    if got["ended"]:
-        return {"stands": False, "at_its_bound": True, "why_not": "its fit ends at the bound of its size, where the term is absent or as large as it may be: the residuals ask for this shape "
-                                                                  "with a sign that the term does not take, and the loop refuses it"}
-    chosen = re.match(r"term = mechanisms\.(second|pedestal|tail|periodic)\(", line)          # a term with a number that the dictionary guessed
-    return {"stands": False, "at_its_bound": False, "why_not": got.get("why_not", "its fit did not end")
-            + (f". Its {'distance' if chosen[1] == 'second' else 'period' if chosen[1] == 'periodic' else 'stretch'} is the rough guess of the dictionary: "
-               f"`python -m twinfit scan DIR \"{chosen[1]}(x{', ' + repr(line.split(',', 1)[1].strip(' )').strip(chr(34) + chr(39))) if chosen[1] == 'tail' else ''})\" ...` tries others" if chosen else "")}
-
-
-def as_a_term_file(name: str, unit: float, along: str | None = None) -> tuple:
-    """The line of a term file that writes a proposal for the model with a term of the package, and None with the reason
-    where no term of the package holds it. The dictionary counts a distance in widths, the full width of the fitted
-    curves at half their height, `unit`, and a term file takes it in the unit of the abscissa: "0.35 widths" was read as
-    0.35 standard deviations, and the scan took seconds (the cold tests of row M169). A background of its own size in
-    each record has no term of one parameter, and where the report names a setting `along` which the misfit changes,
-    the two term files that hold a background growing along it are said."""
-    import re
-    number = r"([-+0-9.e]+)"
-    if m := re.fullmatch(f"a second component {number} widths (above|below) the centre", name):
-        return f"term = mechanisms.second({float(m[1]) * unit * (1.0 if m[2] == 'above' else -1.0):.3g})", None
-    if m := re.fullmatch(f"a second component {number} widths away on both sides", name):
-        return None, f"two components, one each side: two term files, second({float(m[1]) * unit:.3g}) and second({-float(m[1]) * unit:.3g})"
-    if m := re.fullmatch(f"a pedestal {number} times wider than the curve", name):
-        return f"term = mechanisms.pedestal({float(m[1]):g})", None
-    if m := re.fullmatch(f"a tail on the (upper|lower) side, {number} times wider", name):
-        return f'term = mechanisms.tail({float(m[2]):g}, "{m[1]}")', None
-    if m := re.fullmatch(f"a periodic term of period {number}", name):
-        return f'term = mechanisms.periodic({float(m[1]):.3g}, "cosine")', None
-    if name in ("a slope of the level", "a curvature of the level", "a cubic term of the level"):
-        return f"term = mechanisms.level({1 if 'slope' in name else 2 if 'curvature' in name else 3})", None
-    if name.endswith(", its own in each record"):          # the term of one size for all is offered too: a curvature of one size in every record was read as one of its own in each, and no line was given (round 6 of the cold tests)
-        power = 1 if "slope" in name else 2 if "curvature" in name else 3
-        grows = (f". Where it grows along {along}, two term files hold it: term = mechanisms.level({power}), then term = mechanisms.along(\"level power {power}\", \"{along}\")"
-                 if along else "")
-        return f"term = mechanisms.level({power})", ("the term of this line holds it at one size in every record, where the residuals give each record its own. Where each record carries its own size, no term of one parameter holds it: "
-                                                     "a parameter of the model, own to each record, or a Mechanism of your own" + grows)
-    for joint, square in ((ALONG_SQUARE, True), (ALONG, False)):
-        if joint in name:
-            parameter, key = name.split(joint, 1)
-            return f'term = mechanisms.along("{parameter}", "{key}"' + (", power=2)" if square else ")"), None
-    return None, "no term of the package holds it: a Mechanism of your own, as section 11 of TUTORIAL.md shows"
 
 
 def term_of(problem, cand, amplitude) -> Mechanism:
-    """A candidate of the dictionary as a term of the model: the shape that the residuals give it, the sum of its columns
+    """A candidate as a term of the model: the shape that the residuals give it, the sum of its columns
     at their fitted amplitudes, with one free size that is one at that shape. The shape is known on the records that it
     was read from, by the design of each: between their samples it is interpolated, and outside their span it keeps its
     end values. On a record of another design it has no value, and is refused."""
@@ -184,41 +139,6 @@ def _shape(shapes, x, design):
         if d == design:
             return np.interp(np.asarray(x, dtype=float), xs, s)
     raise ValueError("the shape of a term is known on the records that it was read from: a record of another design has none")
-
-
-def period_of(problem, result, periods: int = 600) -> dict | None:
-    """The period of a ripple in what the fit leaves, read from a periodogram of the whitened residuals summed over the
-    records, on periods from three steps of the abscissa to half its span, and in which frame the ripple stands: the
-    coherence of the records at that period, the share of the summed power that stays when the records are added with
-    their phases, about the abscissa itself and about the centre of each curve. A ripple of the instrument, fixed to the
-    abscissa, agrees from curve to curve at equal abscissa, which the term of the package, placed about each centre, does
-    not hold. The proposal gave the width of the curves, 2.82, as the period of a ripple of 0.35 (round 14 of the cold
-    tests). None where the records are too short to read one."""
-    series = []
-    for k, rec in enumerate(problem.records):
-        x, r = np.asarray(rec.x, dtype=float), np.asarray(problem.whitened(k, result.shared, result.own[k]), dtype=float)
-        centre = problem.centre_of(k, result.shared, result.own[k]) if getattr(problem, "centre", None) is not None else None
-        if x.size >= 8:
-            series.append((x, r - r.mean(), centre))
-    if not series:
-        return None
-    step = float(np.median([np.median(np.abs(np.diff(np.sort(x)))) for x, _, _ in series]))
-    span = float(max(np.ptp(x) for x, _, _ in series))
-    if not (step > 0 and span > 6.0 * step):
-        return None
-    grid = np.exp(np.linspace(np.log(3.0 * step), np.log(0.5 * span), periods))
-    power, phasors = np.zeros(grid.size), []
-    for x, r, _ in series:
-        z = np.exp(-2j * np.pi * np.outer(1.0 / grid, x)) @ r
-        power += np.abs(z) ** 2
-        phasors.append(z)
-    best = int(np.argmax(power))
-    period, at = float(grid[best]), np.array([z[best] for z in phasors])
-    out = {"period": period, "coherence_about_the_abscissa": float(abs(at.sum()) ** 2 / (len(at) * float(np.sum(np.abs(at) ** 2))))}
-    if all(c is not None for _, _, c in series):
-        turned = at * np.exp(2j * np.pi * np.array([c for _, _, c in series]) / period)
-        out["coherence_about_the_centres"] = float(abs(turned.sum()) ** 2 / (len(turned) * float(np.sum(np.abs(turned) ** 2))))
-    return out
 
 
 def held_near(parameter: str | None, shared, unit: float) -> bool:
@@ -260,6 +180,90 @@ def refused_before(line: str | None, refused) -> str | None:
     return f"{before[-1]['file']}: {before[-1]['why']}" if before else None
 
 
+NO_LINE = "the package names no term: a term of physical origin with this place, shape and setting is the researcher's choice, written in a term file"
+
+
+def empirical(lin, place: str, along: str | None = None) -> Candidate:
+    """A direction of search as a candidate, with no shape of the package: the residuals of each record, smoothed over an
+    eighth of the width of its curve, kept in `place`, the core within CORE widths of the centre, the flanks from there
+    to WINGS, the wings beyond, or the asymmetry, the part of the residuals that is odd about the centre, and with `along`
+    times the covariate centred and scaled over the records, so that the shape changes along it. Its size is one at the
+    residuals: a model proposal of the default is measured with it (the owner's message 337)."""
+    pr = lin.problem
+    unit = float(np.median([lin.width_of(k) for k in range(len(pr.records))]))
+    z = None
+    if along is not None:
+        z = np.array([float(rec.design[along]) for rec in pr.records])
+        z = (z - z.mean()) / (z.std() or 1.0)
+    cols = []
+    for k, rec in enumerate(pr.records):
+        x = np.asarray(rec.x, dtype=float)
+        r = np.asarray(rec.y, dtype=float) - np.asarray(pr.predict(k, lin.fit.shared, lin.fit.own[k]), dtype=float)
+        n = max(1, int(round(unit / 8.0 / max(float(np.median(np.abs(np.diff(x)))), 1e-300))))
+        r = np.convolve(r, np.ones(n) / n, mode="same")
+        c = lin.centre_of(k)
+        u = np.abs(x - c) / unit
+        if place == "the asymmetry":
+            order = np.argsort(x)
+            col = 0.5 * (r - np.interp(2.0 * c - x, x[order], r[order]))
+        else:
+            pick = dict(PLACES).get(place)
+            if pick is None:
+                raise ValueError(f"no place {place!r}: the places are {', '.join(n for n, _ in PLACES)} and the asymmetry")
+            band = (u <= CORE) if place == "the core" else (u > CORE) & (u <= WINGS) if place == "the flanks" else (u > WINGS)
+            col = r * band
+        cols.append(col * (1.0 if z is None else z[k]))
+    return Candidate(f"the shape that the residuals hold in {place}" + (f", changing along {along}" if along else ""), "empirical", [cols],
+                     "odd" if place == "the asymmetry" else "even")
+
+
+def shape_read(lin, said: str) -> Candidate | None:
+    """The shape that the report read as `said`, a slow trend or a periodic structure, as the candidate that read it."""
+    from .where import SHAPES_READ, periodic_best, slow_trend
+    kind = dict((answer, kind) for kind, answer in SHAPES_READ).get(said)
+    if kind == "trend":
+        return slow_trend(lin)
+    if kind == "periodic":
+        dense = periodic_best(lin)
+        return dense[0] if dense is not None else None
+    return None
+
+
+def period_of(problem, result, periods: int = 600) -> dict | None:
+    """The period of a ripple in what the fit leaves, read from a periodogram of the whitened residuals summed over the
+    records, on periods from three steps of the abscissa to half its span, and in which frame the ripple stands: the
+    coherence of the records at that period, the share of the summed power that stays when the records are added with
+    their phases, about the abscissa itself and about the centre of each curve. A ripple of the instrument, fixed to the
+    abscissa, agrees from curve to curve at equal abscissa, which the term of the package, placed about each centre, does
+    not hold. The proposal gave the width of the curves, 2.82, as the period of a ripple of 0.35 (round 14 of the cold
+    tests). None where the records are too short to read one."""
+    series = []
+    for k, rec in enumerate(problem.records):
+        x, r = np.asarray(rec.x, dtype=float), np.asarray(problem.whitened(k, result.shared, result.own[k]), dtype=float)
+        centre = problem.centre_of(k, result.shared, result.own[k]) if getattr(problem, "centre", None) is not None else None
+        if x.size >= 8:
+            series.append((x, r - r.mean(), centre))
+    if not series:
+        return None
+    step = float(np.median([np.median(np.abs(np.diff(np.sort(x)))) for x, _, _ in series]))
+    span = float(max(np.ptp(x) for x, _, _ in series))
+    if not (step > 0 and span > 6.0 * step):
+        return None
+    grid = np.exp(np.linspace(np.log(3.0 * step), np.log(0.5 * span), periods))
+    power, phasors = np.zeros(grid.size), []
+    for x, r, _ in series:
+        z = np.exp(-2j * np.pi * np.outer(1.0 / grid, x)) @ r
+        power += np.abs(z) ** 2
+        phasors.append(z)
+    best = int(np.argmax(power))
+    period, at = float(grid[best]), np.array([z[best] for z in phasors])
+    out = {"period": period, "coherence_about_the_abscissa": float(abs(at.sum()) ** 2 / (len(at) * float(np.sum(np.abs(at) ** 2))))}
+    if all(c is not None for _, _, c in series):
+        turned = at * np.exp(2j * np.pi * np.array([c for _, _, c in series]) / period)
+        out["coherence_about_the_centres"] = float(abs(turned.sum()) ** 2 / (len(turned) * float(np.sum(np.abs(turned) ** 2))))
+    return out
+
+
 def follows(problem, result, amplitude, bars) -> dict | None:
     """Whether the size of a shape that each record carries at its own size, one a record, is a share of one own
     parameter of the model, the same share in every record, within the bars of the sizes: the share with its bar and
@@ -288,35 +292,64 @@ def follows(problem, result, amplitude, bars) -> dict | None:
     return best
 
 
-def model_terms(problem, result, report, most: int = 3, exclude=()) -> list:
-    """The candidates of the model proposals, in the order of the report, at most `most`: each with the class that it
-    stands for and why the report names it. A candidate named as a term that the model holds, in `exclude`, is left out:
-    the report proposed again a tail that the loop had kept (the cold tests of row M169, round 2)."""
+def sizes_apart(lin, cand) -> tuple | None:
+    """The size of a direction in each record against one shape common to all records, with its bar: the mean of the
+    records' shapes on the abscissa counted in widths from each centre. A shape built from the residuals of each record
+    has a size of one in every record by construction, so its sizes say nothing of what they follow: against the common
+    shape, a misfit in proportion to an own value of the model has sizes in that proportion (round 8 of the cold tests).
+    None where the records share no span or the common shape is nought."""
+    pr = lin.problem
+    us = [(np.asarray(rec.x, dtype=float) - lin.centre_of(k)) / lin.width_of(k) for k, rec in enumerate(pr.records)]
+    low, high = max(float(u.min()) for u in us), min(float(u.max()) for u in us)
+    if not high > low:
+        return None
+    grid = np.linspace(low, high, 801)
+    shapes = []
+    for k, col in enumerate(cand.columns[0]):
+        order = np.argsort(us[k])
+        shapes.append(np.interp(grid, us[k][order], np.asarray(col, dtype=float)[order]))
+    common = np.mean(shapes, axis=0)
+    if not np.any(common):
+        return None
+    sizes, bars = [], []
+    for k, (rec, col) in enumerate(zip(pr.records, cand.columns[0])):
+        shape, w = np.interp(us[k], grid, common), 1.0 / np.asarray(rec.sd, dtype=float) ** 2
+        norm = float(np.sum(w * shape * shape))
+        if norm <= 0.0:
+            return None
+        sizes.append(float(np.sum(w * shape * np.asarray(col, dtype=float)) / norm))
+        bars.append(1.0 / math.sqrt(norm))
+    return sizes, bars
+
+
+def model_terms(problem, result, report, most: int = 3, exclude=(), terms=()) -> list:
+    """The directions of the model proposals, in the order of the report, at most `most`: the answers on the mean, where,
+    which place changes along which setting, and how the residuals are shaped, those beyond the twin first and then by
+    their excess, each measured with the shape that the residuals hold there. No list of terms is read (the owner's
+    messages 337 and 340): the term of physical origin that fills a direction is the researcher's. `exclude` is kept
+    for the callers that name the terms of the model. `terms`: the researcher's list, whose terms beyond the twin in the
+    question matched come first, each under its own name, since the researcher wrote it (the owner's message 342)."""
     lin = Linear(problem, result)
-    best = {}
-    unit = float(np.median([lin.width_of(k) for k in range(len(problem.records))]))
-    along = (report.get("first_of_each_question") or {}).get("along")
-    for cand in dictionary(lin, covariates=[a["answer"] for a in report["answers"] if a["question"] == "along"]):
-        named = line_parameter(as_a_term_file(cand.name, unit, along)[0])
-        if cand.name in exclude or named in problem.shared or held_near(named, problem.shared, unit):          # a term that the model holds, by the parameter of its line: kept terms are named by their term and not by the candidate, and level(2) was proposed beside a kept level(2) (round 8)
-            continue
-        entry = _one(lin, cand)
-        if entry["status"] == "ranked" and (cand.family not in best or entry["score"] > best[cand.family][1]["score"]):
-            best[cand.family] = (cand, entry)
-        if entry["status"] == "ranked" and cand.family == "grows with a covariate":
-            key = cand.name.split(ALONG_SQUARE)[-1] if ALONG_SQUARE in cand.name else cand.name.split(ALONG)[-1]
-            if ("along", key) not in best or entry["score"] > best[("along", key)][1]["score"]:
-                best[("along", key)] = (cand, entry)
-    family_of = {said: kind for kind, said in CLASSES}
-    order = sorted([a for a in report["answers"] if (a["question"] == "what" and a["answer"] in family_of) or a["question"] == "along"],
-                   key=lambda a: (not a["beyond_the_twin"], -a["excess"]))
+    places = {name for name, _ in PLACES} | {"the asymmetry"}
+    mine = {m.name: m for m in terms if m.name not in exclude}
+    order = sorted([a for a in report["answers"] if a["question"] in ("where", "shape") or (a["question"] == "changes along" and a["answer"].split(" along ", 1)[0] in places)
+                    or (a["question"] == "matched" and a["answer"] in mine and a["beyond_the_twin"])],
+                   key=lambda a: (a["question"] != "matched", not a["beyond_the_twin"], -a["excess"]))
     out = []
     for a in order:
-        key = family_of[a["answer"]] if a["question"] == "what" else ("along", a["answer"])
-        if key in best and all(o["candidate"] is not best[key][0] for o in out):
-            cand, entry = best[key]
-            out.append({"candidate": cand, "entry": entry, "stands_for": a["answer"] if a["question"] == "what" else f"a change along {a['answer']}",
-                        "beyond_the_twin": a["beyond_the_twin"], "excess": a["excess"]})
+        if a["question"] == "matched":
+            m = mine[a["answer"]]
+            cand, stands = from_mechanism(lin, m, float(m.start) if m.start else 0.1), f"{a['answer']}, a term of your list, which accounts for most of what the families read"
+        elif a["question"] == "shape":
+            cand, stands = shape_read(lin, a["answer"]), a["answer"]
+        else:
+            place, _, key = a["answer"].partition(" along ")
+            cand, stands = empirical(lin, place, key or None), (a["answer"] if a["question"] == "where" else f"the residuals in {place} change along {key}")
+        if cand is None:
+            continue
+        entry = _one(lin, cand)
+        if entry["status"] == "ranked" and all(o["candidate"].name != cand.name for o in out):
+            out.append({"candidate": cand, "entry": entry, "stands_for": stands, "beyond_the_twin": a["beyond_the_twin"], "excess": a["excess"], "of_your_list": a["question"] == "matched"})
         if len(out) == most:
             break
     return out
@@ -417,7 +450,34 @@ def theory_of(moved: dict, j: int, narrowed: str | None = None, factor: float = 
     return float(np.sqrt(sum((v[j] * (factor if name == narrowed else 1.0)) ** 2 for name, v in moved.items())))
 
 
-def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41, max_iter: int = 80, held: dict | None = None, exclude=(), refused=()) -> dict:
+MEAN = ("where", "shape", "changes along", "matched")          # the questions whose answers are a misfit of the mean
+
+
+def noise_leads(answers: list) -> str | None:
+    """The kind read in the noise of each sample, glitches, a noise that grows with the signal or a noise correlated
+    from sample to sample, where it is the first answer of what beyond the twin and its excess passes that of every
+    answer of the mean beyond the twin, else None. A term file cannot hold it, and the loop said write the next term
+    file all the same, so a blind agent kept a cosine that fitted 16 spikes (round 7 of the cold tests). A misfit of the
+    mean far larger than the noise reading leaves part of itself in that reading: on the worked clock the asymmetry
+    changed along the power at an excess of 18388 and a noise that grows with the signal stood at 9.3, so the term comes
+    first and the noise is read again once the mean holds."""
+    kinds = sorted([a for a in answers if a["question"] == "what" and a["beyond_the_twin"]], key=lambda a: -a["excess"])
+    if not kinds or kinds[0]["answer"] not in NOISE_OF_THE_SAMPLES:
+        return None
+    mean = max((a["excess"] for a in answers if a["question"] in MEAN and a["beyond_the_twin"]), default=0.0)
+    return kinds[0]["answer"] if kinds[0]["excess"] > mean else None
+
+
+def leads_with_noise(report: dict) -> str | None:
+    """The kind of noise that leads the report, by the one rule of the page, `noise_leads`: the first kind of the
+    question what beyond the twin, where its excess passes every answer of the mean. The proposals for the experiment read
+    the first kind alone, whatever the misfit of the mean, so that they said the noise leads under a page that put a term
+    first (the blind red team of 0.1.0rc19, misleads 7 and 3). The rule stands here, where the loop reads it, so that a
+    counted row reads no file of the loop through it."""
+    return noise_leads(report["answers"])
+
+
+def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41, max_iter: int = 80, held: dict | None = None, exclude=(), refused=(), setup: dict | None = None, workers: int | None = None, terms=()) -> dict:
     """Three proposals for the model and three for the experiment, each measured on the twin. Fewer are given where the
     report or the description holds fewer, and the output says so. `held`: the values that the description holds,
     {name: (centre, bar, at)}. Their bar of theory is added in squares to the error of each known parameter under each
@@ -426,43 +486,30 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
     for every lever: a lever that adds records at other values of a held covariate would move it, and that is not
     measured here (review 22, minor 15). `refused`: the terms that the loop refused, each with its file, its parameter and
     why: a proposal of a term refused before says so, since level(1) was proposed again after its refusal with no word
-    (round 8 of the cold tests)."""
-    model = []
+    (round 8 of the cold tests). `setup`: the items of the description's setup, from which `from_the_description` draws
+    levers that no lever of the description names (row M251). `workers`: the twins of the proposals side by side, as
+    `twinfit.pool.how_many` reads it, with the same numbers as on one worker (his message 316). A proposal is a direction
+    of search and writes no term file (the owner's messages 337 and 340)."""
     lin = Linear(problem, result)
-    unit = float(np.median([lin.width_of(k) for k in range(len(problem.records))]))          # the width in which the dictionary counts its distances
-    for c in model_terms(problem, result, report, exclude=exclude):
-        along = (report.get("first_of_each_question") or {}).get("along")
-        line, no_line = as_a_term_file(c["candidate"].name, unit, along)
-        ripple = period_of(problem, result) if line and line.startswith("term = mechanisms.periodic(") else None
-        if ripple:          # the period of the residuals, where the dictionary counts it in widths of the curves: 2.82 for a ripple of 0.35 (round 14 of the cold tests)
-            period = float(f"{ripple['period']:.4g}")
-            centre = [lin.centre_of(k) for k in range(len(problem.records))]
-            found = Candidate(f"a periodic term of period {period:g}", "periodic",
-                              [[np.cos(2.0 * np.pi * (rec.x - centre[k]) / period) for k, rec in enumerate(problem.records)],
-                               [np.sin(2.0 * np.pi * (rec.x - centre[k]) / period) for k, rec in enumerate(problem.records)]], "any")
-            entry = _one(lin, found)
-            if entry.get("amplitude") is not None:
-                c = dict(c, candidate=found, entry=entry)
-            line = f'term = mechanisms.periodic({period:g}, "cosine")'
+    unit = float(np.median([lin.width_of(k) for k in range(len(problem.records))]))
+
+    def measured(c):
+        """One proposal for the model, measured on its own twin: run side by side with the others (his message 316)."""
         mechanism = term_of(problem, c["candidate"], c["entry"]["amplitude"])
         developed = develop_one(problem, result, mechanism, max_iter)
-        row = {"term": c["candidate"].name, "stands_for": c["stands_for"], "beyond_the_twin": c["beyond_the_twin"], "excess_in_the_report": c["excess"],
-               "as_a_term_file": line, "no_term_of_the_package": no_line}
-        if ripple:
-            row["ripple"] = ripple
-        said = refused_before(line, refused)
-        if said:
-            row["refused_before"] = said
-        if c["candidate"].name.endswith(", its own in each record"):
-            got = follows(problem, result, c["entry"]["amplitude"], c["entry"]["amplitude_standard_deviation"])
+        row = {"term": c["candidate"].name, "stands_for": c["stands_for"], "direction": c["stands_for"], "beyond_the_twin": c["beyond_the_twin"],
+               "excess_in_the_report": c["excess"], "as_a_term_file": None, "no_term_of_the_package": NO_LINE, "of_your_list": c.get("of_your_list", False),
+               "cost_is_a_lower_bound": c["candidate"].family == "empirical"}          # a shape read on the residuals holds none of what the fit absorbed: on planted wings it cost the width 0.27 scatters where a slow trend cost 9.3
+        if len(problem.records) >= 3 and len(c["candidate"].columns) == 1:          # the size of the direction in each record: a size in proportion to an own value of the model, as a step under a peak in proportion to its height, follows every setting that value follows (round 8 of the cold tests)
+            apart = sizes_apart(lin, c["candidate"])
+            got = follows(problem, result, *apart) if apart else None
             if got:
                 row["follows"] = got
-        if line:
-            row["the_term_of_the_package"] = package_fit(problem, result, line, max_iter)
+        if c["candidate"].family == "periodic":          # the period read from the residuals and the frame of the ripple, fixed to the abscissa as an instrument's or about each curve (round 14 of the cold tests)
+            row["ripple"] = period_of(problem, result)          # where to search, how the residuals are shaped there and along which setting: the term is the researcher's
         if not developed["ended"]:
             row["why_not_measured"] = developed.get("why_not", "its fit did not end")
-            model.append(row)
-            continue
+            return row
         twin = on_the_twin(problem, result, developed, sets=sets, seed=seed, max_iter=max_iter)
         row.update({"size": developed["parameter"]["value"], "bar_of_the_size": developed["parameter"]["bar"],
                     "gain_in_chi_square": developed["criteria"]["gain_in_chi_square"], "sets_of_the_twin": twin["read"]})
@@ -473,20 +520,24 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
                                               "the_records_in_scatters": shows[name]["the_records_in_scatters_from_that_mean"]}          # where the working model reads the records far from what it reads on this twin, the twin of the term does not make the records, and the cost is not the term's (round 20 of the tests of the tutorial)
                                        for name in problem.shared}
         row["_term"] = (shapes_of(problem, c["candidate"], c["entry"]["amplitude"]), developed["parameter"]["value"])
-        model.append(row)
-    model = by_gain(model)
+        return row
+    model = by_gain(side_by_side(measured, model_terms(problem, result, report, exclude=exclude, terms=terms), workers))
     leading = sorted([a for a in report["answers"] if a["question"] == "what" and a["beyond_the_twin"]], key=lambda a: -a["excess"])
-    noisy = bool(leading) and leading[0]["answer"] in NOISE_OF_THE_SAMPLES          # a second component measured in the twin of the levers, under a report that led with a correlated noise (round 15 of the cold tests)
+    noisy = bool(leading) and leads_with_noise(report) is not None          # a second component measured in the twin of the levers, under a report that led with a correlated noise (round 15 of the cold tests)
     chosen = None if noisy else next((r for r in model if "_term" in r and r["beyond_the_twin"]), None)
     term = chosen["_term"] if chosen else None          # a proposal within the twin is not put into the twin of the levers: the report does not ask for it
-    here = _on_design(problem, result, _designed(problem, result, {"kind": "noise", "factor": 1.0}), term, sets, seed, max_iter)
     moved = theory_moves(result, held, max_iter)
     levers = list(levers)
     kinds = {lever["kind"] for lever in levers}          # the levers of the design that every problem has, of each kind that the description does not name: three named levers left none of them, against the guide (round 16 of the cold tests)
     levers += [dict(d, from_the_package=True) for d in DEFAULTS if d["kind"] not in kinds]
+    levers += from_the_description(problem, setup, levers)          # the covariates past their range and the items of the setup that are only assumed, row M251
     named = {lever.get("of") for lever in levers if lever["kind"] in ("characterization", "setup")}
     levers += [{"name": f"{name} measured better", "kind": "characterization", "of": name, "factor": 0.5, "words": "its uncertainty halved", "from_the_package": True} for name in moved if name not in named]
     names = list(problem.shared) or [TERM]          # where the model shares no parameter, a lever is measured by the size of the term that the report proposes first
+    on_its_design = [lever for lever in levers if not (lever["kind"] in ("characterization", "setup"))]          # a characterization leaves the records as they are, and reads the twin under them
+    twins = side_by_side(lambda lever: _on_design(problem, result, _designed(problem, result, lever), term, sets, seed, max_iter),
+                         [{"kind": "noise", "factor": 1.0}] + on_its_design, workers)          # the twin under the records and that of each design, side by side (his message 316)
+    here, of = twins[0], {id(lever): got for lever, got in zip(on_its_design, twins[1:])}
     experiment = []
     for lever in levers:
         row = {"lever": lever["name"], "kind": lever["kind"], "his_kind": HIS_KINDS[lever["kind"]], "words": lever.get("words", ""), "how_it_enters_the_twin": KINDS[lever["kind"]],
@@ -500,7 +551,7 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
                                        if lever["kind"] == "setup" else f"the model holds no value {narrowed!r} from the description: a better characterization of it narrows nothing here")          # a lever of the setup that no term reads, named and not measured (his message 184, row M216)
             experiment.append(row)
             continue
-        got = here if narrowed is not None else _on_design(problem, result, _designed(problem, result, lever), term, sets, seed, max_iter)          # a characterization leaves the records as they are
+        got = here if narrowed is not None else of[id(lever)]          # a characterization leaves the records as they are
         if got is None or here is None:
             row["why_not_measured"] = "fewer than half of the fits of its twin ended"
         else:
@@ -529,6 +580,7 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
     return {"for_the_model": model, "for_the_experiment": ranked[:3], "every_lever": experiment, "width_of_the_curves": unit,
             "the_term_in_the_twin_of_the_levers": first, "the_noise_leads": leading[0]["answer"] if noisy else None,
             "under_the_records": None if here is None else {k: v for k, v in here.items() if k != "sets"},
-            "fewer_than_three": [f"{len(model)} for the model: the report and the dictionary hold no more"] * (len(model) < 3)
+            "mode": "default",
+            "fewer_than_three": [f"{len(model)} for the model: the report holds no more"] * (len(model) < 3)
             + [f"{len(ranked[:3])} for the experiment: the description holds {sum(not r['from_the_package'] for r in experiment)} levers and the package added {sum(r['from_the_package'] for r in experiment)}, of which {len(ranked)} were measured"] * (len(ranked) < 3),
             "kinds_proposed": sorted({r["his_kind"] for r in ranked[:3]})}

@@ -32,8 +32,8 @@ KEPT = HERE / "gallery.json"
 PAGE = HERE.parent / "EXAMPLES.md"
 SETS = 30          # the synthetic sets of each twin of a run of the gallery
 LEVELS = (1.0, 3.0, 0.0)          # his message 194: each project at its own noise, at three times it, and with no noise drawn
-RHO = 0.8          # the correlation of neighbouring samples of a noise of the kind "correlated", as the filter of a detector gives it
-KINDS = ("white", "correlated", "counts")          # the kinds of noise that a project draws: independent and normal, normal and correlated over neighbouring samples, or that of a counter
+RHO = 0.8          # the correlation of neighboring samples of a noise of the kind "correlated", as the filter of a detector gives it
+KINDS = ("white", "correlated", "counts")          # the kinds of noise that a project draws: independent and normal, normal and correlated over neighboring samples, or that of a counter
 WORKERS = 6          # the examples run side by side by --write
 
 SATURATION_MODEL = '''"""A model of one's own: the width of the line grows with the power by the law of saturation, its two numbers shared."""
@@ -45,6 +45,8 @@ START_SHARED = [1.5, 30.0]
 BOUNDS_SHARED = ([0.05, 1.0], [20.0, 1000.0])
 CENTRE = "place"
 NAME = "one Lorentzian line whose width saturates with the power"
+EQUATION = r"$\\frac{h}{1 + (2\\,(x - x_0)/w)^2} + b,\\quad w = w_0\\,\\sqrt{1 + P/P_s}$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"h": "the height", "x_0": "the place", "w_0": "the width at no power", "P": "the power", "P_s": "the power of saturation", "b": "the background"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):
@@ -71,6 +73,8 @@ START_SHARED = [1.5, 2.0]
 BOUNDS_SHARED = ([0.05, 0.1], [20.0, 50.0])
 CENTRE = "place"
 NAME = "one Fano profile"
+EQUATION = r"$h\\,\\frac{(q + \\epsilon)^2}{(1 + \\epsilon^2)(1 + q^2)} + b,\\quad \\epsilon = (x - x_0)/\\Gamma$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"h": "the height", "q": "the asymmetry", "x_0": "the place", r"\\Gamma": "the half width", "b": "the background"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):
@@ -99,6 +103,8 @@ START_SHARED = [1.0, 0.0, 0.0]
 BOUNDS_SHARED = ([0.05, -3.0, -1.0], [10.0, 3.0, 1.0])
 HELD = {"power scale": 1.0}                              # the powers read times this, calibrated within 2 per cent, which description.toml holds
 NAME = "one Lorentzian line whose centre moves with the power"
+EQUATION = r"$\\frac{h}{1 + (2\\,(x - \\nu_0 - \\delta\\,P)/w)^2} + b$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"h": "the height", r"\\nu_0": "the clock frequency", r"\\delta": "the light shift for each microwatt", "P": "the power", "w": "the width", "b": "the background"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):
@@ -122,6 +128,8 @@ BOUNDS_SHARED = ([0.05], [10.0])
 HELD = {"power scale": 1.0}                 # held by description.toml, and read by no line of this model
 CENTRE = "centre"
 NAME = "one Lorentzian line of one width, its centre its own in each curve"
+EQUATION = r"$\\frac{h}{1 + (2\\,(x - x_0)/w)^2} + b$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"h": "the height", "x_0": "the centre of each curve", "w": "the width", "b": "the background"}          # each letter of EQUATION, which the visual log writes under it
 
 
 def model(x, shared, own, design):
@@ -146,6 +154,8 @@ START_SHARED = [1.0, 0.4, 0.1]
 BOUNDS_SHARED = ([0.2, -1.0, -1.0], [2.5, 1.5, 1.5])
 CENTRE = "centre"
 NAME = "the dip of a star darker at its limb"
+EQUATION = r"$b - d\\,\\frac{1 - u\\,(1 - \\mu)}{1 - u/3},\\quad u = u_{450} - \\Delta u\\,\\frac{\\lambda - 450}{350}$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"b": "the baseline", "d": "the depth", "u": "the darkening of the limb", r"\\mu": "the cosine at the limb", r"\\lambda": "the wavelength, nm"}          # each letter of EQUATION, which the visual log writes under it
 EDGE = 0.05                                 # the time over which the planet enters the disc of the star, in hours
 
 
@@ -167,22 +177,78 @@ def centre(shared, own, design):
     return own[1]
 '''
 
+RETURNS_MODEL = '''"""A model of one's own: a Student law of the daily returns, the fat tails of a market, its standard deviation a fraction of the quoted volatility and its tail index shared by all the periods."""
+import numpy as np
+from scipy.special import gammaln
+
+SHARED = ("volatility ratio", "tail index")             # the standard deviation of the returns over the volatility that the options quoted, and the tail index of the law, its degrees of freedom: the fewer, the fatter the tails
+OWN = ("returns", "mean")                               # of each record
+START_SHARED = [0.9, 8.0]
+BOUNDS_SHARED = ([0.2, 2.5], [3.0, 200.0])
+CENTRE = "mean"
+NAME = "a Student law of the returns"
+EQUATION = r"$N\\,\\frac{\\Gamma((\\nu + 1)/2)}{\\Gamma(\\nu/2)\\,\\sqrt{\\nu\\pi}\\,s}\\,(1 + t^2/\\nu)^{-(\\nu + 1)/2},\\quad t = (x - m)/s$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"N": "the count", r"\\nu": "the tail index", "s": "the scale", "m": "the mean"}          # each letter of EQUATION, which the visual log writes under it
+BIN = 0.2                                               # the width of a bin of the histogram, in per cent
+
+
+def model(x, shared, own, design):
+    nu = shared[1]
+    scale = shared[0] * design["volatility"] / np.sqrt(nu / (nu - 2.0))          # the scale that gives the law the standard deviation of the model
+    t = (x - own[1]) / scale
+    log = gammaln(0.5 * (nu + 1.0)) - gammaln(0.5 * nu) - 0.5 * np.log(nu * np.pi) - 0.5 * (nu + 1.0) * np.log1p(t ** 2 / nu)
+    return own[0] * BIN * np.exp(log) / scale
+
+
+def start_own(record):
+    return [float(record.y.sum()), float(np.average(record.x, weights=np.maximum(record.y, 0.0)))]
+
+
+def centre(shared, own, design):
+    return own[1]
+'''
+
+FRINGES_MODEL = '''"""A model of one's own: a cosine fringe whose mirror displacement is the scan times a calibration of the piezo, bent by a square of the position."""
+import numpy as np
+
+SHARED = ("piezo scale", "scan bend")      # the displacement of the mirror for each nm of the scan, and the bend of the response: the displacement is scale (x + bend x^2 / HALF)
+OWN = ("mean", "visibility", "phase")       # of each record
+START_SHARED = [1.0, 0.0]
+BOUNDS_SHARED = ([0.9, -0.05], [1.1, 0.05])
+NAME = "one cosine fringe of period half the wavelength, the scan bent"
+EQUATION = r"$m\\,(1 + v\\cos(4\\pi d/\\lambda + \\phi)),\\quad d = k\\,(x + c\\,x^2/H)$"          # the model in LaTeX, which the visual log typesets
+LETTERS = {"m": "the mean", "v": "the visibility", "d": "the displacement", r"\\lambda": "the wavelength", r"\\phi": "the phase", "k": "the scale of the piezo", "c": "the bend", "H": "half the scan"}          # each letter of EQUATION, which the visual log writes under it
+HALF = 2000.0                               # half the span of the scan, in nm
+
+
+def model(x, shared, own, design):
+    displacement = shared[0] * (x + shared[1] * x ** 2 / HALF)
+    return own[0] * (1.0 + own[1] * np.cos(4.0 * np.pi * displacement / design["wavelength"] + own[2]))
+
+
+def start_own(record):
+    k = 4.0 * np.pi / record.design["wavelength"]
+    basis = np.column_stack([np.ones_like(record.x), np.cos(k * record.x), np.sin(k * record.x)])
+    a, b, c = np.linalg.lstsq(basis, record.y, rcond=None)[0]
+    return [float(a), float(np.hypot(b, c) / a), float(np.arctan2(-c, b))]
+'''
+
 EXAMPLES = {
     "pedestal": {
         "source": "cold",
-        "field": "absorption lines of a gas cell at five pressures",
+        "field": "gas cell absorption lines at five pressures",
         "truth": {"width": 4.0, "pedestal 6": 0.04},
-        "do": {"words": "scan the stretch of the shape that the report names first, a wider pedestal under the line, and write the term at the top of the scan", "scan": ("pedestal(x)", [3.0, 4.0, 6.0, 8.0, 12.0])},
+        "do": {"words": "the report puts the misfit in the wings and the flanks: in a gas cell, wings that the line lacks are a wider component under it, a pedestal, so scan its stretch and write the term at the top of the scan", "scan": ("pedestal(x)", [3.0, 4.0, 6.0, 8.0, 12.0])},
         "dont": {"words": "make the width change along the pressure, a setting that the report does not name", "term": 'term = mechanisms.along("width", "pressure")'}},
     "satellite": {
         "source": "cold",
-        "field": "absorption lines of a gas cell with a weak line beside each",
+        "field": "gas cell absorption lines with weak satellites",
         "truth": {"width": 4.0, "second component at 12": 0.08},
-        "do": {"words": "scan the distance of a second component, `python -m twinfit scan DIR \"second(x)\" ...`, and write the term at the top of the scan", "scan": ("second(x)", [6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0])},
+        "do": {"words": "the report puts the misfit in the asymmetry: in a gas cell, a weak line beside each line is a second component, so scan its distance, `python -m twinfit scan DIR \"second(x)\" ...`, and write the term at the top of the scan", "scan": ("second(x)", [6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0])},
         "dont": {"words": "widen the line with a kernel, as if the satellite were wings of the line", "term": "term = mechanisms.widened(lambda design: 1.0)"}},
     "saturation": {
         "source": "cold",
-        "field": "fluorescence of a resonance driven at five powers of a laser",
+        "field": "laser-driven resonance fluorescence at five powers",
         "truth": {"width at no power": 1.0, "saturation power": 50.0},
         "do": {"words": "write the law that the physics gives, the width saturating with the power, as shared parameters that read the power, in model.py", "model": SATURATION_MODEL},
         "dont": {"words": "a width that grows in proportion to the power, the generic term where the physics gives a law", "term": 'term = mechanisms.along("width", "power")'}},
@@ -190,7 +256,7 @@ EXAMPLES = {
         "source": "cold",
         "kinds": ("correlated", "white"),
         "white truth": "truth: the model is whole, width 1.2 pm, and the noise is white: nothing is missing",
-        "field": "absorption dips recorded behind the low-pass filter of a detector",
+        "field": "absorption dips behind a detector's low-pass filter",
         "truth": {"width": 1.2},
         "do": {"words": "read the correlated noise as noise: keep one sample in every few with `python -m twinfit thin DIR N`, at the span that the report gives, and run the loop on the copy", "thin": 15},
         "dont": {"words": "hold the correlation with a term of the curve, a pedestal", "term": "term = mechanisms.pedestal(6.0)"}},
@@ -204,28 +270,42 @@ EXAMPLES = {
         "source": "cold",
         "kinds": ("counts", "white"),
         "white truth": "truth: the model is whole, half width 1.5 GHz, and the noise white, 6.3 at every sample as stated: nothing is missing",
-        "field": "photon counts of an emission line at four powers of the pump",
+        "field": "emission-line photon counts at four pump powers",
         "truth": {"half_width": 1.5},
         "do": {"words": "give each sample the noise of a counter, the root of the fitted counts, with `python -m twinfit counts DIR`, and run the loop on the copy", "counts": True},
         "dont": {"words": "hold the misfit at the top of the lines with a term of the curve, a pedestal", "term": "term = mechanisms.pedestal(6.0)"}},
     "clock": {
         "source": "gallery",
-        "field": "the resonance of an atomic clock read at five powers of the probe",
+        "field": "atomic clock resonance at five probe powers",
         "truth": {"width": 1.5, "clock frequency": 0.12, "light shift": 0.025},
-        "do": {"words": "write the light shift that the physics gives, the centre moving in proportion to the power read through its calibration, which the description holds within 2 per cent, so that the model measures the frequency at no power and the light shift carries the bar of that calibration", "model": CLOCK_MODEL},
-        "dont": {"words": "free the centre of each curve: the fit is right, and the frequency of the clock is then in no parameter, the shift hidden in five centres", "model": OWN_CENTRE_MODEL}},
+        "do": {"words": "write the light shift that the physics gives, the center moving in proportion to the power read through its calibration, which the description holds within 2 per cent, so that the model measures the frequency at no power and the light shift carries the bar of that calibration", "model": CLOCK_MODEL},
+        "dont": {"words": "free the center of each curve: the fit is right, and the frequency of the clock is then in no parameter, the shift hidden in five centers", "model": OWN_CENTRE_MODEL}},
     "gel": {
         "source": "gallery",
-        "field": "a band of electrophoresis in a gel at four voltages",
+        "field": "gel electrophoresis band at four voltages",
         "truth": {"width": 1.0, "tail lower 3": 0.15},
-        "do": {"words": "scan the stretch of the tail on the side of slower migration that the report points to, and write the term at the top of the scan", "scan": ("tail(x, 'lower')", [2.0, 3.0, 4.0, 5.0, 6.0])},
+        "do": {"words": "the report puts the misfit in the flanks and the asymmetry: in a gel a band trails on the side of slower migration, a tail, so scan its stretch and write the term at the top of the scan", "scan": ("tail(x, 'lower')", [2.0, 3.0, 4.0, 5.0, 6.0])},
         "dont": {"words": "a pedestal under the band, wider on both sides alike", "term": "term = mechanisms.pedestal(3.0)"}},
     "transit": {
         "source": "gallery",
-        "field": "the transit of an exoplanet seen through four filters",
+        "field": "transit of an exoplanet in four filters",
         "truth": {"half_duration": 1.2, "limb darkening at 450 nm": 0.6, "its fall to 800 nm": 0.3},
         "do": {"words": "write the darkening of the limb of the star that the physics gives, its coefficient falling with the wavelength, as the model", "model": TRANSIT_MODEL},
         "dont": {"words": "a curvature of the baseline under every curve, the generic term of a round bottom", "term": "term = mechanisms.level(2)"}},
+    "fringes": {
+        "source": "gallery",
+        "field": "piezo-scanned Michelson interferometer at five wavelengths",
+        "truth": {"piezo scale": 1.012, "scan bend": 0.003},
+        "do": {"words": "read the first answers, a noise correlated from sample to sample with the asymmetry, as the smooth ripple that a fringe leaves where its phase drifts, and write the physics of the instrument that makes it drift, a piezo that does not move the mirror in proportion to the scan: its displacement bent by a square of the position, as the model", "model": FRINGES_MODEL},
+        "dont": {"words": "let the calibration of the piezo change with the wavelength, a setting that the report does not name", "term": 'term = mechanisms.along("piezo scale", "wavelength")'}},
+    "returns": {
+        "source": "gallery",
+        "kinds": ("counts", "white"),
+        "white truth": "truth: the returns follow a Student law whose tail index, its degrees of freedom, is 4: fat tails, with a standard deviation 0.9 of the quoted volatility of the period, and the noise is normal, of the standard deviation that the description states for each bin, the root of the counts expected there, one at least",
+        "field": "daily stock index returns in five volatility periods",
+        "truth": {"volatility ratio": 0.9, "tail index": 4.0},
+        "do": {"words": "write the law that the market gives for returns, a Student law whose tail index, its degrees of freedom, is shared by the periods and whose standard deviation stays a fraction of the quoted volatility, as the model", "model": RETURNS_MODEL},
+        "dont": {"words": "let the ratio of the standard deviation to the quoted volatility change along the volatility, the generic term where the law of the market gives the shape of every period", "term": 'term = mechanisms.along("volatility ratio", "volatility")'}},
 }
 
 
@@ -300,7 +380,7 @@ def _act(home: Path, act: dict) -> Path:
         act["typed"] = "the model.py of the gallery"
         (home / "model.py").write_text(act["model"])
         return home
-    if "scan" in act:          # as the command of the scan says: its top through three neighbours, and a finer scan about it where it asks for one. Until round 19 the best value of the grid was written, which no researcher is told to write
+    if "scan" in act:          # as the command of the scan says: its top through three neighbors, and a finer scan about it where it asks for one. Until round 19 the best value of the grid was written, which no researcher is told to write
         expression, values = act["scan"]
         got = loop.scan(home, expression, values)
         said = [f"`python -m twinfit scan DIR \"{expression}\" {' '.join(format(v, 'g') for v in values)}` puts its top at {got['best']['x']:.4g}"]
@@ -370,7 +450,7 @@ def run(name: str, folder, sets: int = SETS) -> dict:
             there = _act(folder / "first", act)
         else:
             home = folder / move
-            shutil.copytree(folder / "first", home, ignore=shutil.ignore_patterns("loop", "loop.before", ".twinfit.lock"))
+            shutil.copytree(folder / "first", home, ignore=shutil.ignore_patterns("loop", "loop.before", ".twinfit.lock", ".twinfit.command"))
             there = _act(home, act)
         loop.run(there, n=1, sets=sets)
         out[move] = dict(_read(there, spec["truth"]), words=spec[move]["words"], done=act.get("done"), sets=sets)
@@ -398,18 +478,25 @@ def variant(name: str, folder: Path, level: float, kind: str | None, sets: int =
     if act.get("counts"):
         there = _act(here / "first", act)
     else:
-        shutil.copytree(here / "first", here / "do", ignore=shutil.ignore_patterns("loop", "loop.before", ".twinfit.lock"))
+        shutil.copytree(here / "first", here / "do", ignore=shutil.ignore_patterns("loop", "loop.before", ".twinfit.lock", ".twinfit.command"))
         there = _act(here / "do", act)
     loop.run(there, n=1, sets=sets)
     return {"level": level, "kind": kind or kinds_of(name)[0], "truth_in_words": truth, "first": _read(here / "first", spec["truth"]), "do": dict(_read(there, spec["truth"]), done=act.get("done"), typed=act.get("typed"), range=act.get("range"))}
 
 
-KIND_WORDS = {"white": "white", "correlated": "correlated over neighbouring samples", "counts": "that of a counter"}
+KIND_WORDS = {"white": "white", "correlated": "correlated over neighbouring samples", "counts": "that of a counter"}          # printed by `example --kind`: the program's words keep their spelling, the language pass of his message 432
 
 
 def said_noise(level: float, kind: str) -> str:
     """A level and a kind of noise in words."""
     return "no noise drawn" if level == 0 else f"{KIND_WORDS[kind]}, " + ("as large as its own noise" if level == 1 else f"{level:g} times as large as its own noise")          # "its level" read as the baseline, which every report calls the level of a curve (round 20 of the tests of the tutorial)
+
+
+def _pair(value: float, bar: float) -> tuple:
+    """A value and its bar as the page prints them, the bar at two significant digits and the value at its decimals. The bar is
+    rounded first: `loop._pm` takes the decimals from the bar before it rounds, so a bar of 0.00998 read 0.0100, three digits."""
+    from ..loop import _pm
+    return _pm(value, float(f"{bar:.2g}") if bar > 0.0 and math.isfinite(bar) else bar)
 
 
 def _value(cell, name: str = "") -> str:
@@ -418,9 +505,8 @@ def _value(cell, name: str = "") -> str:
     named = (f", as {cell['as']}" if cell.get("as") and cell["as"] != name else "") + (", not yet to be quoted" if cell.get("quotable") is False else "")          # the parameter of a term written at a scanned value, beside the truth's name, and the output's verdict
     if not cell.get("bar"):
         return f"{cell['value']:.4g}{named}"
-    from ..loop import _pm
-    theory = f" ± {_pm(cell['value'], cell['theory'])[1]} of theory" if (cell.get("theory") or 0.0) >= 0.01 * cell["bar"] else ""          # the bar of a held value beside that of the fit, as best.md quotes them, where it is not lost in the bar of the fit: the clock frequency at no power read 7e-9 from the calibration of the power
-    return " ± ".join(_pm(cell["value"], cell["bar"])) + theory + named
+    theory = f" ± {_pair(cell['value'], cell['theory'])[1]} of theory" if (cell.get("theory") or 0.0) >= 0.01 * cell["bar"] else ""          # the bar of a held value beside that of the fit, as best.md quotes them, where it is not lost in the bar of the fit: the clock frequency at no power read 7e-9 from the calibration of the power
+    return " ± ".join(_pair(cell["value"], cell["bar"])) + theory + named
 
 
 def told(cold: list, written: list) -> str:
@@ -435,10 +521,12 @@ def told(cold: list, written: list) -> str:
 def page(kept: dict) -> str:
     """The page twinfit/EXAMPLES.md, drawn from what the runs gave."""
     lines = ["# Examples of the package", "",
-             f"{len(kept)} projects of other fields, each written by `python -m twinfit example NAME DIR`, each drawn with a truth that its folder does not hold. "
-             + told([n for n in kept if EXAMPLES.get(n, {}).get("source") == "cold"], [n for n in kept if EXAMPLES.get(n, {}).get("source") != "cold"]) + " "
+             (f"{len(kept)} projects of other fields, each written by `python -m twinfit example NAME DIR`, each drawn with a truth that its folder does not hold. "
+              + told([n for n in kept if EXAMPLES.get(n, {}).get("source") == "cold"], [n for n in kept if EXAMPLES.get(n, {}).get("source") != "cold"])).rstrip(), "",          # the head of the page, which a test reads as its third line
+             "This page builds on sections 1 to 6 of `TUTORIAL.md` and sets out what the loop finds on each project against its truth, at its own noise and at four others. Not covered here: the run of a project of one's own, which section 9 of the tutorial gives.", "",
+             "> Section 1 of `TUTORIAL.md` defines every word of the package that this page uses.", "",
              "For each the loop ran three times: on the first model alone, after what to do, and after what not to do. Then at four other noises, on the first model and after what to do: three times its own, none drawn, and a second kind of noise as large as its own and three times as large. "
-             "`python -m twinfit example NAME DIR --noise L --kind K` writes each: L is a multiple of the example's own noise, 0 for none drawn, and K one of `white`, `correlated` and `counts`, the example's own kind where K is not given. "
+             "`python -m twinfit example NAME DIR --noise L --kind K` writes each: `L` is a multiple of the example's own noise, 0 for none drawn, and `K` one of `white`, `correlated` and `counts`, the example's own kind where `K` is not given.", "",
              "Every number below is read from those runs, which `python -m twinfit.examples.gallery --write` makes again for those who build the package.", "",
              "Find the example whose first report leads as yours does, and read what to do there. Each answer of a report is given with its excess, 0 at the median of its statistic over the synthetic sets of the twin and 1 at their 95th percentile, "
              "and each report with its line, the excess that the largest answer of a synthetic set passes on 5 sets of 100: an answer past it stands beyond the twin. "
@@ -446,9 +534,9 @@ def page(kept: dict) -> str:
              "| example | the field | what the first report puts first beyond its twin |", "|---|---|---|"]
     for name, e in kept.items():
         lines.append(f"| {name} | {e['field']} | {' · '.join(e['first']['beyond']) or 'nothing'} |")
-    lines += ["", "## How to read the tables at other noises", "",
+    lines += ["", "## The tables at other noises", "",
               "Each row is the project written with `--noise L --kind K`, its first model run, and then what to do, whose term the third column gives. For a term written at the top of a scan, it gives the range of the scan too: the values whose fall is within 1 of its top.", "",
-              "At L times its noise the description states L times the noise, so the bars grow about L times. With none drawn it states the example's own noise: the bars stay those of the own row, the chi square falls near 0, "
+              "At `L` times its noise the description states `L` times the noise, so the bars grow about `L` times. With none drawn it states the example's own noise: the bars stay those of the own row, the chi square falls near 0, "
               "and the check of the noise says that the noise is stated too large, which is why those values are not yet to be quoted.", "",
               "The rows of white and of correlated noise draw one stream of random numbers, scaled: a row at three times its noise holds the draw of the row at its own noise, three times larger. "
               "Their chi squares are then equal, unless the project also draws something of a fixed size, as the glitches of the saturation, and the two rows are not independent experiments.", "",          # the saturation read 1.1558 against 1.0062 (review 29, moderate 8)
@@ -468,7 +556,9 @@ def page(kept: dict) -> str:
         props = e["first"].get("proposals") or {}
         if props.get("model") or props.get("experiment"):          # the end of an iteration, the owner's messages 142 and 191: three proposals for the model and three for the experiment, each measured on the twin
             lines += ["", "The first report proposes for the model: " + " · ".join(props.get("model") or ["nothing"]) + ". And for the experiment: " + " · ".join(props.get("experiment") or ["nothing"]) + "."]
-        lines += ["", f"**What to do**: {e['do']['words']}." + (f" Here {e['do']['done']}." if e["do"].get("done") else "")]
+        lines += ["", f"**What to do**: {e['do']['words']}."]
+        if e["do"].get("done"):          # the run of the move in a paragraph of its own: with a scan that asks for a finer one, the two held 132 words
+            lines += ["", f"Here {e['do']['done']}."]
         if EXAMPLES.get(name, {}).get("do", {}).get("model"):          # the model that what to do writes, which the page named and did not show (round 21 of the tests of the tutorial)
             lines += ["", "The `model.py` that it writes in the place of the first:", "", "```python", EXAMPLES[name]["do"]["model"].rstrip("\n"), "```"]
         lines += ["", f"**What not to do**: {e['dont']['words']}."]

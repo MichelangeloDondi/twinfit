@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import fcntl
 import importlib.util
+import inspect
 import json
 import math
 import os
@@ -44,7 +45,7 @@ from pathlib import Path
 import numpy as np
 
 from .best import TIED, TOLD_APART, best, own_bars
-from .candidates import ALONG, dictionary
+from .candidates import ALONG
 from .description import read as read_description
 from .fit import fit
 from .identify import identify
@@ -52,19 +53,22 @@ from .linear import Linear
 from .noise import check as noise_check
 from .notebook import FIT, MIN_SETS, Notebook
 from .problem import Problem, Record
-from .propose import propose
-from .proposals import proposals
+from .proposals import noise_leads, proposals
+from .pool import asking, how_many
 from .refine import carried, develop_one, held_on_the_twin, on_the_twin
 from .twin import ENDED, admission, bands
-from .where import where
+from .where import TIE as TIE_PLACES, where
 
 NEEDED = ("model", "SHARED", "OWN", "START_SHARED", "start_own")
 GENERIC = Path(__file__).resolve().parent / "agent" / "model_template.py"          # the first model where the description names none: one peak or dip of one width, on its own height, place and baseline
-ACTIONABLE = ("where", "what", "along", "changes along")          # the questions whose answer points to a term: seen by says how a misfit is read, and names none
-NOISE_KINDS = {"a noise that grows with the signal": "Give the noise of each sample as a column of the curves, `[noise]` with from = \"column\" and column = its name, "
-                                                     "where you know it. For a counter that is the root of the fitted counts and not of the counts of the records, which move with their own noise: section 9 of the tutorial gives the steps and the keys.",
-               "glitches": "A glitch is a sample far from the curve in one record alone. Look at the samples of largest whitened residual, which the report of the model names, and where the instrument explains them, "
-                           "give those samples a larger noise in a column of the curves, or leave them out of the files.",
+ACTIONABLE = ("where", "shape", "what", "changes along", "matched")          # the questions whose answer points to where a term is missing: seen by says how a misfit is read, and the noise is a question of its own
+NOISE_KINDS = {"a noise that grows with the signal": "Where the description gives no `[noise]`, the package reads its law in the height of the curve from neighbouring samples, the default, from = \"neighbours\". On a curve sharper than three samples read it from what the first model leaves, from = \"residuals\", and compare the chi square a degree of freedom of the two. "
+                                                     "Where you know it, give it as a column of the curves, from = \"column\" and column = its name, or as a law of your own in model.py, from = \"model\". "
+                                                     "For a counter it is the root of the fitted counts and not of the counts of the records, which move with their own noise: section 9 of the tutorial gives the five ways and their keys.",          # the page named a column and a counter alone, and the way that held on a trace of a photomultiplier was in the tutorial alone (the fresh-machine red team of 0.1.0rc14)
+               "glitches": "The residuals hold samples far from the curve, more than the noise allows. A glitch is such a sample alone, in one record and among its neighbours: "
+                           "where they stand at one abscissa in several records, or in one band of the height of the curve, they are no glitches, and the law of the noise there is too small or the model misses there, "
+                           "which the check of the noise by bands of the height tells. Look at the samples of largest whitened residual, which the report of the model names with how many share their abscissa with another record, and where the instrument explains them, "
+                           "give those samples a larger noise in a column of the curves, or leave them out of the files.",          # the report named as glitches 20 samples at the same abscissas in four records, where the fitted law of the noise dipped (the blind red team of 0.1.0rc13)
                "a noise correlated from sample to sample": "The package draws the noise of each sample apart from the others, so the bars of the fit are too small where it is "
                                                            "correlated, as a filter of the detector leaves it. Keep one sample in every few, as many as the correlation spans, "
                                                            "so that the noise of those kept is apart, or read the bars as too small."}          # the kinds of the report that are read in the noise and not in the mean
@@ -74,7 +78,7 @@ UNTESTED = ("The twin draws its synthetic sets at the noise that the description
             "stated wrong. The residuals against the height of the fitted curve say whether it is.")
 
 
-def glitch_samples(problem, result, beyond: float = 5.0, most: int = 20) -> list:
+def glitch_samples(problem, result, beyond: float = 5.0, most: int | None = 20) -> list:
     """The samples whose whitened residual, the residual over the noise of its sample, is beyond `beyond` in size, the
     largest first and at most `most`: each with its curve, its abscissa and that residual. The report named glitches
     and told the researcher to look at the samples of largest residual, and a blind agent found its 16 with numpy of
@@ -83,7 +87,15 @@ def glitch_samples(problem, result, beyond: float = 5.0, most: int = 20) -> list
     for k, rec in enumerate(problem.records):
         r = (rec.y - problem.predict(k, result.shared, result.own[k])) / rec.sd
         out += [(rec.name, float(x), float(v)) for x, v in zip(rec.x, r) if abs(v) > beyond]
-    return sorted(out, key=lambda s: -abs(s[2]))[:most]
+    return sorted(out, key=lambda s: -abs(s[2]))[:most]          # `most` None: every one
+
+
+def shared_abscissas(problem, far: list) -> int:
+    """How many of the samples of `far`, as glitch_samples gives them, stand within one step of the samples of an
+    abscissa where a sample of another record is in `far` too: a glitch is alone, and samples far from the curve at one
+    place in several records say that the noise or the model misses there (the blind red team of 0.1.0rc13)."""
+    step = min((float(np.median(np.diff(np.sort(rec.x)))) for rec in problem.records if len(rec.x) > 1), default=0.0)
+    return sum(any(other != name and abs(x - y) <= step for other, y, _ in far) for name, x, _ in far)
 
 
 def correlation_span(problem, result, under: float = 0.05, most: int = 200) -> tuple:
@@ -107,13 +119,6 @@ def correlation_span(problem, result, under: float = 0.05, most: int = 200) -> t
     return float(np.median(first)), (found[len(found) // 2] if len(found) == len(spans) else None)
 
 
-def noise_leads(answers: list) -> str | None:
-    """The kind read in the noise of each sample, glitches, a noise that grows with the signal or a noise correlated
-    from sample to sample, where it is the first answer of what beyond the twin, else None. A term file cannot hold
-    it, and the loop said write the next term file all the same, so a blind agent kept a cosine that fitted 16 spikes
-    (round 7 of the cold tests)."""
-    kinds = sorted([a for a in answers if a["question"] == "what" and a["beyond_the_twin"]], key=lambda a: -a["excess"])
-    return kinds[0]["answer"] if kinds and kinds[0]["answer"] in NOISE_KINDS else None
 
 
 THIN_KEPT = 10          # the fewest samples of a curve that a copy of thin keeps: thin refuses fewer, and the report does not advise it
@@ -171,16 +176,110 @@ def noise_said(problem, result) -> dict:
     said = (f"The mean squared whitened residual, the residual over the noise of its sample squared, in {len(rows)} bands of the height of the fitted curve above its lowest value, from low to high: "
             + ", ".join(f"{r['mean_squared_residual']:.2f}" for r in rows) + ", where 1 is right. " + fewer
             + ("Each is 1 within three standard errors." if right else "Not every band is 1 within three standard errors: there the noise that the description gives is not that of "
-               "the records, or the model misses. Where the report finds an answer beyond the twin, read it first as the model that misses, and read this check again once the term "
-               "is in. Where nothing stands beyond the twin and a band still is not 1, the noise is wrong there: a band above 1 says that the stated noise is too small at that height, "
-               "and the bars of the fit too small by about the square root of the band, and a band under 1 the reverse. Estimate the noise again from the residuals of the model with its terms in, "
-               "since those of a model that lacks a term carry its misfit."))
+               "the records, or the model misses. Where the report finds an answer of the curve beyond the twin, a place, a kind or a setting, read it first as the model that misses, and read this check again once the term "
+               "is in. Where the answer that leads is one of the noise, a noise that grows with the curve or glitches, the noise comes first, as the section of the proposals says. Where nothing stands beyond the twin and a band still is not 1, the noise is wrong there: a band above 1 says that the stated noise is too small at that height, "
+               "and the bars of the fit too small by about the square root of the band, and a band under 1 the reverse. `[noise] from = \"residuals\"` in the description reads it from the second "
+               "differences of what the first model leaves, which a term that the model lacks, smooth over three samples, does not reach, or give a law of your own."))          # the sentence asked a reading that no key gave (the blind red team of 0.1.0rc16, mislead 5)
+    if not right:          # each band outside with its standard error: "best.md says how" stood over the general paragraph alone, and bands of 1.11 to 1.14 read as a failure with no measure of how far (the fresh red team of 0.1.0rc19, mislead 6)
+        out = [r for r in rows if abs(r["mean_squared_residual"] - 1.0) > 3.0 * r["standard_error"]]
+        said += " The bands outside: " + ", ".join(f"{r['mean_squared_residual']:.2f} +- {r['standard_error']:.2f}, {abs(r['mean_squared_residual'] - 1.0) / r['standard_error']:.1f} of its standard errors from 1" for r in out) + "."
     if not right:          # bands read as independent while the same report measured a correlation of 0.70 at one sample (round 15 of the cold tests)
         rho, span = correlation_span(problem, result)
         if rho is not None and abs(rho) > 0.3:
             said += (f" The whitened residuals of neighbouring samples correlate at {rho:.2f}, so the standard errors of these bands, which take the samples apart, are too small"
                      + (f" by about the root of {span}, the samples over which the correlation falls" if span else "") + ": read them again on the samples thinned, and not as a noise stated wrong.")
     return {"bands": rows, "right": right, "said": said}
+
+
+def equation_of(source) -> str:
+    """The equation of the first model: EQUATION of its file, in mathtext, or else the expression that its function
+    `model` returns, as it is written. The visual log writes it at each turn, his message 309."""
+    said = getattr(source, "EQUATION", "")
+    if said:
+        return str(said)
+    try:
+        lines = inspect.getsource(source.model).splitlines()
+    except (OSError, TypeError, AttributeError):
+        return ""
+    back = [line.strip()[len("return "):] for line in lines if line.strip().startswith("return ")]
+    return back[-1] if back else ""
+
+
+def effects_of(iterations: list, index: int) -> tuple:
+    """What each term of model `index` does to its curves at its fit: the model at the fit less the same model with the
+    parameter of that term at 0, where every term of the package is absent, all else held. The first model has no term,
+    and each of its shared parameters is moved by one bar of its fit instead. Returns the rows that name each effect and
+    the arrays, x{r} the abscissa of record r and e{j}_{r} effect j on it, in the units of the values."""
+    it = iterations[index]
+    problem, result = it["problem"], it["result"]
+    held = it.get("held") or {}          # a term held at its theory adds no shared parameter: its cell is set to 0 and back (the cold round 22: a held term had no panel)
+    by = {row["model"]: row for row in iterations}
+    chain, at = [], it
+    while at.get("after"):
+        if at.get("parameter") in problem.shared or (at.get("parameter") in held and callable(held[at["parameter"]][2])):
+            chain.insert(0, at)
+        at = by.get(at["after"], {})
+    shared, own = np.asarray(result.shared, dtype=float), [np.asarray(row, dtype=float) for row in result.own]
+    bars = result.sd
+    moves = [(row["added"], row["parameter"], problem.shared.index(row["parameter"]) if row["parameter"] in problem.shared else None, "at zero") for row in chain] or \
+            [(name, name, j, "one bar") for j, name in enumerate(problem.shared)]
+    rows, arrays = [], {f"x{r}": np.asarray(rec.x, dtype=float) for r, rec in enumerate(problem.records)}
+
+    def change(place, how, value):
+        """The change of every curve when the parameter at `place` is moved: at zero, or by one bar."""
+        moved = shared.copy()
+        moved[place] = value
+        out = {}
+        for r in range(len(problem.records)):
+            fitted = np.asarray(problem.predict(r, shared, own[r]), dtype=float)
+            out[r] = fitted - np.asarray(problem.predict(r, moved, own[r]), dtype=float) if how == "at zero" else np.asarray(problem.predict(r, moved, own[r]), dtype=float) - fitted
+        return out
+    for j, (label, name, place, how) in enumerate(moves):
+        try:
+            if place is None:          # a held term: the cell of its theory at 0, then back at its centre
+                centre, bar, setting = held[name]
+                fitted = [np.asarray(problem.predict(r, shared, own[r]), dtype=float) for r in range(len(problem.records))]
+                setting(0.0)
+                try:
+                    got = {r: fitted[r] - np.asarray(problem.predict(r, shared, own[r]), dtype=float) for r in range(len(problem.records))}
+                finally:
+                    setting(centre)
+                value, spread, how = float(centre), float(bar), "held"
+            else:
+                value, spread = float(shared[place]), float(bars[place])
+                got = change(place, how, 0.0 if how == "at zero" else value + spread)
+                if how == "at zero" and not all(np.all(np.isfinite(v)) for v in got.values()):          # a term whose parameter at zero leaves no curve, as a tail of scale 0 that replaces the line: moved by one bar instead (the cold round 22: a panel of nan)
+                    got, how = change(place, "one bar", value + spread), "one bar"
+            if not all(np.all(np.isfinite(v)) for v in got.values()):
+                continue
+        except (ValueError, FloatingPointError, IndexError, ZeroDivisionError):
+            continue
+        arrays.update({f"e{j}_{r}": v for r, v in got.items()})
+        rows.append({"name": label, "parameter": name, "value": value, "bar": spread, "how": how, "key": j})
+    return rows, arrays
+
+
+def write_equations(out_dir: Path, iterations: list) -> Path:
+    """equations.json of a run: for each model of the loop, the model it extends, the term it adds, the formula of that
+    term, mathtext with f the model before it and a its parameter, the names of its shared and own parameters, its
+    records with the median noise of each, and what each of its terms does to its curves, whose arrays are
+    effects_{k}.npz beside it. Written after each model, so that the visual log of a run that was stopped still has the
+    models it reached."""
+    out_dir = Path(out_dir)
+    k = len(iterations) - 1
+    rows_of_effects, arrays = effects_of(iterations, k)
+    np.savez(out_dir / f"effects_{k}.npz", **arrays)
+    path = out_dir / "equations.json"
+    rows = json.loads(path.read_text()) if path.is_file() and k else []
+    it = iterations[k]
+    at = (it.get("held") or {}).get(it.get("parameter"))          # a term held at its theory: its centre and bar, for its line of the equation (the cold round 22)
+    rows = rows[:k] + [{"model": it["model"], "after": it.get("after"), "added": it["added"], "formula": it.get("formula", ""), "parameter": it.get("parameter"),
+                        "held_at": [float(at[0]), float(at[1])] if at is not None and it.get("parameter") not in it["problem"].shared else None,
+                        "file": it.get("file"), "letters": it.get("letters") or {}, "shared": list(it["problem"].shared), "own": list(it["problem"].own),
+                        "records": [rec.name for rec in it["problem"].records], "noise": [float(np.median(rec.sd)) for rec in it["problem"].records],
+                        "effects": rows_of_effects}]
+    path.write_text(json.dumps(rows, indent=1) + "\n")
+    return path
 
 
 def _module(path: Path, label: str, held: dict | None = None, names=None):
@@ -202,6 +301,28 @@ def _module(path: Path, label: str, held: dict | None = None, names=None):
                 else ". A term file reads the names of model.py, its functions and its constants, by their names and with no import: write them so" if isinstance(err, ImportError) and getattr(err, "name", None) == "model" else "")
         raise ValueError(f"{Path(path).name} could not be read: {type(err).__name__}: {err}{hint}") from None
     return module
+
+
+def list_of_terms(d, source=None) -> tuple:
+    """The researcher's list of terms: the file that `list_of_terms` names under [addenda] of the description, whose
+    `TERMS` is a list of terms written as a term file writes one, Mechanisms of the package or of one's own. `init`
+    writes it empty, and the package holds none: with no list the report reads the residuals alone (the owner's message
+    342: "For the list of terms, allow the user to define it, but keep it empty at the beginning"). A file that is
+    missing, or that holds anything but terms, or two terms of one name, is refused."""
+    named = d.addenda.get("list_of_terms")
+    if not named:
+        return ()
+    path = d.home / str(named)
+    if not path.is_file():
+        raise ValueError(f"the description names {named} as the list of terms, and the folder holds no such file: write it with TERMS = [], or take the line out of [addenda]")
+    from .mechanisms import Mechanism
+    got = getattr(_module(path, "list_of_terms", getattr(source, "HELD", None), source), "TERMS", None)
+    if not isinstance(got, (list, tuple)) or not all(isinstance(m, Mechanism) for m in got):
+        raise ValueError(f"{named} must hold TERMS, a list of terms written as a term file writes one, Mechanisms of the package or of your own: it holds {type(got).__name__}")
+    names = [m.name for m in got]
+    if len(set(names)) < len(names):
+        raise ValueError(f"{named} names {sorted({n for n in names if names.count(n) > 1})[0]} twice: the report tells the terms of the list by their names")
+    return tuple(got)
 
 
 def initial(folder: Path, with_module: bool = False):
@@ -377,8 +498,12 @@ def residuals(problem, result, path: Path) -> None:
             out.writerows([rec.name, f"{x:.10g}", f"{y:.10g}", f"{m:.10g}", f"{y - m:.6g}", f"{s:.6g}"] for x, y, m, s in zip(rec.x, rec.y, fitted, rec.sd))
 
 
-def _rung(book, rung, by, problem, result, d, sets, folder, k, centre, report: bool = True, held: dict | None = None, exclude=(), refused=()) -> dict:
-    """One model as a rung of the notebook: its fit, its twin, its report of where to search and its six proposals."""
+def _rung(book, rung, by, problem, result, d, sets, folder, k, centre, report: bool = True, held: dict | None = None, exclude=(), refused=(), reuse=None, code: str = "", terms=(), dictionary: bool = False) -> dict:
+    """One model as a rung of the notebook: its fit, its twin, its report of where to search and its six proposals. With
+    `reuse`, a `twinfit.reuse.Reuse`, each costly step is read back where a run before computed it from the same `code`,
+    the digest of the files that make the model, and the same records and fit."""
+    def again(label, compute, *parts):
+        return compute() if reuse is None else reuse(label, compute, code, problem, result, sets, *parts)
     residuals(problem, result, folder / f"residuals_{k}.csv")
     lin = Linear(problem, result)
     book.open_rung(rung, by=by)
@@ -387,36 +512,175 @@ def _rung(book, rung, by, problem, result, d, sets, folder, k, centre, report: b
     stamp = f"twin of {rung}"
     book.stamp(stamp, "The fit of this model returns, on its own synthetic sets at the noise of the records, the values that made them, "
                       "within the bands of the rule of the twin: its bias, its spread and its coverage.", rung)          # a name of the code in a page for the researcher (round 9)
-    adm = admission(problem, result, sets=sets, start="fit")
+    adm = again("the twin of a model", lambda: admission(problem, result, sets=sets, start="fit", workers=how_many(None, sets)))          # the sets of the twin side by side, as the proposals
     book.step("twin", rung, {"admission": adm}, stamp=stamp)
     book.grade(stamp, holds=adm["admitted"], what_came=adm["rule"] + (". Admitted" if adm["admitted"] else ". Not admitted"))
     book.admit(FIT, rung)
     book.step("fit", rung, {"shared": dict(zip(problem.shared, result.shared.tolist())), "standard_deviations": dict(zip(problem.shared, result.sd.tolist()))})
-    book.step("read", rung, {"chi_square": result.chi2, "degrees_of_freedom": result.dof})
+    rho, span = correlation_span(problem, result)          # the bar of the chi square where neighbouring samples correlate: the visual log gave that of independent samples alone, 0.015 where the guide gave 0.096 (the blind red teams of 0.1.0rc19, mislead 2 and mislead 1)
+    book.step("read", rung, {"chi_square": result.chi2, "degrees_of_freedom": result.dof, "correlation_of_neighbours": rho, "samples_of_the_correlation": span})
     if not report:
         book.step("propose", rung, {"candidates": [], "leading_set": {}, "not_read": "the loop was run for a count, with no report of where to search and no proposals"})
         table = {"model": rung, "terms_by": by, "chi_square": result.chi2, "degrees_of_freedom": result.dof, "criterion": _criterion(problem, result), "admitted_on_the_twin": adm["admitted"],
-                 "rule_of_the_twin": adm["rule"], "measured_on_the_twin": adm["measured"], "bands_are_wider_than_stated": adm["bands_are_wider_than_stated"], "noise": noise_said(problem, result)}
+                 "rule_of_the_twin": adm["rule"], "measured_on_the_twin": adm["measured"], "bands_are_wider_than_stated": adm["bands_are_wider_than_stated"], "noise": noise_said(problem, result),
+                 "parameters": _values(problem, result)}
         book.step("report", rung, {"what_it_does_not_show": "where to search and the proposals: this run reads only what keeps or refuses a term", "default_choice": None})
         (folder / f"model_{k}.json").write_text(json.dumps(table, indent=1, default=float) + "\n")
         return table
-    report = where(problem, result, sets=sets, fixed=d.fixed(), centre=centre)
-    six = proposals(problem, result, report, d.levers(), sets=sets, held=held, exclude=exclude, refused=refused)          # no proposal of a term that the model holds, and one refused before says so
+    listed = "blind" if not terms and not dictionary else "the researcher's list: " + "; ".join(m.name for m in terms) + ("; the package's dictionary" if dictionary else "")          # the key of the reuse names the list, whose file the code digest holds too
+    report = again("the report of a model", lambda: where(problem, result, sets=sets, fixed=d.fixed(), centre=centre, terms=terms, dictionary=dictionary), d.fixed(), centre, listed)
+    six = again("the proposals of a model", lambda: proposals(problem, result, report, d.levers(), sets=sets, held=held, exclude=exclude, refused=refused, setup=d.setup, terms=terms),
+                report, d.levers(), held, exclude, refused, d.setup, listed)          # no proposal of a term that the model holds, and one refused before says so
     book.step("propose", rung, {"candidates": six["for_the_model"], "leading_set": report["first_of_each_question"], "where": report, "proposals": six})
     book.step("report", rung, {"what_it_does_not_show": "the cause of what is missing: the report names a place, a class, a covariate and a family of statistics, "
                                                       "and the term of physical origin that fills them is the researcher's choice", "default_choice": None})
     table = {"model": rung, "terms_by": by, "chi_square": result.chi2, "degrees_of_freedom": result.dof, "criterion": _criterion(problem, result),
              "admitted_on_the_twin": adm["admitted"], "rule_of_the_twin": adm["rule"], "measured_on_the_twin": adm["measured"], "bands_are_wider_than_stated": adm["bands_are_wider_than_stated"], "noise": noise_said(problem, result),
-             "where": report, "proposals": six}
+             "where": report, "proposals": six, "parameters": _values(problem, result), "mode": report["mode"]}
     (folder / f"model_{k}.json").write_text(json.dumps(table, indent=1, default=float) + "\n")
-    (folder / f"model_{k}.md").write_text(_page(table, problem, result))
+    if "people" in d.output:
+        (folder / f"model_{k}.md").write_text(_page(table, problem, result))
+    if "agents" in d.output:          # the output for agents, his message 316: `[output] for` in the description
+        (folder / f"brief_{k}.md").write_text(brief(table, problem, result, k, folder))
     return table
 
 
-ASKS = {"where": "the core of the curves, their flanks, their wings or their asymmetry", "what": "the class of the missing term",
-        "along": "the setting along which a shared parameter of the model would change, read on the fit of each curve",
+ASKS = {"where": "the core of the curves, their flanks, their wings or their asymmetry",
+        "shape": "how the residuals are shaped: a slow trend over the span of each curve, or a periodic structure",
+        "what": "glitches, a noise that grows with the signal, or a noise correlated from sample to sample",
         "changes along": "which part of the residuals changes from curve to curve along a setting, read on the residuals themselves",
-        "seen by": "the family of statistics that sees the misfit most"}          # the questions of the report, as the page defines them (row M167)
+        "seen by": "the family of statistics that sees the misfit most",
+        "noise": "the shape of the noise: skewed to one side, or with heavy tails",
+        "matched": "which term of your list accounts for most of what every family reads, asked only where the description names a list"}          # the questions of the report, as the page defines them (row M167). The report holds no list of terms (the owner's messages 337 and 340)
+
+
+def noise_from_residuals(problem, result, passes: int = 2):
+    """The first model fitted again with the noise of each sample from the law that `twinfit.noise.from_residuals` reads
+    in what the fit leaves, twice, from the fit before: `[noise] from = "residuals"` in the description. The records of
+    every later model carry that noise, and the twin draws its sets with it."""
+    from .noise import from_residuals
+    for _ in range(passes):
+        curves = [np.asarray(problem.predict(k, result.shared, result.own[k]), dtype=float) for k in range(len(problem.records))]
+        sds = from_residuals([rec.y - c for rec, c in zip(problem.records, curves)], curves)
+        problem = problem.with_records([Record(rec.x, rec.y, sd, rec.design, rec.name) for rec, sd in zip(problem.records, sds)])
+        result = fit(problem, result.shared, result.own)
+        if not result.converged:
+            raise ValueError("the fit of the first model with the noise read from its residuals did not end: give the noise as a column or a value")
+    return problem, result
+
+
+def after_the_run(folder, out: dict) -> Path | None:
+    """The page for an agent of the last model, brief_K.md, made right at the end of the run: written when its model was
+    fitted, it could not know that a term tried after it was refused, and it named the next file by the model's number,
+    so that an agent that read it alone wrote again a file already refused (the blind red team of 0.1.0rc13). It now
+    names each file refused after that model with its reason, and the next free number of terms/."""
+    loop_dir = Path(folder) / "loop"
+    briefs = sorted(loop_dir.glob("brief_*.md"), key=lambda p: int(p.stem.split("_")[1]))
+    if not briefs:
+        return None
+    last = briefs[-1]
+    taken = [int(p.stem) for p in (Path(folder) / "terms").glob("[0-9][0-9].py")] if (Path(folder) / "terms").is_dir() else []
+    free = f"terms/{max(taken, default=0) + 1:02d}.py"
+    text = re.sub(r"terms/\d\d\.py", free, last.read_text())
+    gone = [r for r in out.get("refused") or [] if r.get("file")]
+    if gone:
+        said = "Tried after this model and refused, not to be written again: " + "; ".join(f"terms/{r['file']}, {r['why']}" for r in gone) + "."
+        text = text.replace("\nNext:", "\n" + said + "\n\nNext:", 1)
+    last.write_text(text)
+    return last
+
+
+def _values(problem, result) -> dict:
+    """The shared parameters of a fit, each with its value and its bar, as model_K.json keeps them."""
+    return {n: [float(v), float(s)] for n, v, s in zip(problem.shared, result.shared, result.sd)}
+
+
+def moved(folder, k: int, names) -> list:
+    """How each parameter of model `k` stood at every model before it, read from the model_J.json of `folder`: a value
+    that falls where a term enters is a share that the term took. A fresh agent a turn read only the last model, and one
+    Gaussian width of 2.7 took two widths of the model together where the first alone is 0.87 (the attempts
+    of his message 316 of the repository it is made in). A line a parameter that some earlier model holds."""
+    if folder is None:
+        return []
+    past = {}
+    for j in range(k):
+        path = Path(folder) / f"model_{j}.json"
+        held = json.loads(path.read_text()).get("parameters") if path.exists() else None
+        for name, (v, s) in (held or {}).items():
+            past.setdefault(name, []).append((j, v, s))
+    return [f"- {name}: " + ", ".join(f"{' ± '.join(_pm(v, s))} at model {j}" for j, v, s in past[name]) for name in names if name in past]
+
+
+def chi_bar(chi: float, dof: int, rho, span) -> str:
+    """The chi square for each degree of freedom with the bar of a right model, as the visual log gives it, `log.chi_said`:
+    that of independent samples, and where neighbouring residuals correlate, that bar times the root of the samples over
+    which they correlate (the blind red teams of 0.1.0rc19, mislead 2 and mislead 1)."""
+    alone = math.sqrt(2.0 / max(dof, 1))
+    wide = f", ± {alone * math.sqrt(span):.2g} if its noise correlates over {span} samples as these residuals do" if rho is not None and abs(rho) > 0.3 and span and span > 1 else ""
+    return f"chi square per degree of freedom {chi / max(dof, 1):.3f}, a right model gives 1 ± {alone:.2g} if its samples are independent{wide}."          # one standard deviation, the ± of every bar, where best.md gives three: "within" read as a tolerance (the readers of the red team of his message 434, agents R10), and a longer line cut the slide's first sentence (review 141)
+
+
+def noise_first(table: dict) -> str:
+    """The sentence that says the noise comes first, or nothing, by the rule of `noise_leads`, at the head of where to
+    search and in the brief. The page said it only under the list of every answer, after a table that put the core
+    first, and the brief said write terms/01.py with proposal 1, while the proposals for the experiment read another
+    rule, the first kind of the question what whatever the misfit of the mean (the blind red team of 0.1.0rc19, misleads
+    7 and 3)."""
+    answers = (table.get("where") or {}).get("answers", [])
+    noise = noise_leads(answers)
+    if not noise:
+        return ""
+    got = next((a for a in answers if a.get("question") == "what" and a.get("answer") == noise), None)
+    excess = f", excess {got['excess']:.3g} above every answer of the mean," if got and got.get("excess") is not None else ","
+    return f"The noise comes first: the first kind beyond the twin of the question what is {noise}{excess} which no term file holds."
+
+
+def brief(table: dict, problem, result, k: int, folder=None) -> str:
+    """The page of one model for an agent, brief_K.md, his messages 315 and 316 of the repository it is made in: an
+    attempt of an agent read 9.1 million tokens, most of them its own conversation read again at each step, and model_K.md
+    read whole was a sixth of them. Under 400 words: the fit, the twin, the parameters, the answers beyond the twin, the
+    three proposals for the model with their term files, the three for the experiment, and the next step by the rule of
+    the loop, with how each value stood at the models before, read from the model_J.json of `folder`. model_K.md stays
+    the page for people, and model_K.json holds everything."""
+    dof = max(int(table.get("degrees_of_freedom") or 1), 1)
+    lines = [f"# Model {k}, for an agent", "",
+             f"Fit: {chi_bar(table['chi_square'], dof, *correlation_span(problem, result))} Bayesian criterion {table['criterion']:.1f}, lower is better.",
+             ("Twin: admitted on the synthetic sets of this report. best.md reads the best model again on other sets: quote a value only where best.md says that it may be quoted." if table.get("admitted_on_the_twin")
+              else "Twin: NOT admitted on the synthetic sets of this report: quote no value of this model.")]          # "admitted" read as quotable, while best.md refused the same model on its own sets (the fresh red team of 0.1.0rc20, mislead 5)
+    if problem.shared:
+        lines.append("Parameters: " + "; ".join(f"{n} {' ± '.join(_pm(float(v), float(s)))}" for n, v, s in zip(problem.shared, result.shared, result.sd)) + ".")
+        if history := moved(folder, k, problem.shared):
+            lines += ["How each value stood at the models before, where a fall is a share that a later term took:"] + history
+    where = table.get("where") or {}
+    beyond = [a for a in where.get("answers", []) if a.get("beyond_the_twin")]
+    lines.append("Answers beyond the twin: " + ("; ".join(f"{a['question']}: {a['answer']}, excess {a['excess']:.2g}" for a in beyond[:4]) if beyond
+                                         else "none, so the records ask for no more term") + ".")
+    tie = (where.get("tied_with_the_first") or {}).get("where") or []
+    if tie:          # two places that the records do not tell apart, named as one answer (his messages 388 and 389)
+        lines.append(f"The first place, {(where.get('first_of_each_question') or {}).get('where')}, is tied with {' and '.join(tie)}: the records do not tell which leads, so a term of either place is as asked.")
+    lead = noise_first(table)
+    if lead:
+        kind = noise_leads(where.get("answers", []))
+        lines.append(lead + " It is read in the noise of each sample, in a copy of the folder made without loop/ and agent/. " + NOISE_KINDS.get(kind, f"model_{k}.md says how under its list of every answer."))          # the page sent to model_K.md, which the card says is for people, for the key of the copy (the blind red team of 0.1.0rc20, mislead 4)
+    props = table.get("proposals") or {}
+    if props.get("for_the_model"):
+        lines += ["", "Proposals for the model, each measured on the twin:"]
+        for i, r in enumerate(props["for_the_model"][:3]):
+            said = f"{i + 1}. {r['term']}: `{r.get('as_a_term_file') or r.get('no_term_of_the_package') or 'no term file'}`, {'beyond' if r.get('beyond_the_twin') else 'within'} the twin"
+            if r.get("gain_in_chi_square") is not None:
+                said += f", fall of chi square {r['gain_in_chi_square']:.1f}"
+            if r.get("refused_before"):
+                said += f", refused before: {r['refused_before']}"
+            lines.append(said)
+    if props.get("for_the_experiment"):
+        lines += ["", "Proposals for the experiment, the error of the known values with the change over that under the records: "
+                  + "; ".join(f"{r['lever']} {r['error_over_that_under_the_records']:.2f}" for r in props["for_the_experiment"][:3]) + "."]
+    nxt = f"terms/{k + 1:02d}.py"
+    lines += ["", ("Next: the noise first, in a copy of the folder, then " + nxt + " there from the proposals of its report." if lead and beyond else
+                   "Next: write " + nxt + " with proposal 1, or the term of physics that it stands for, its reason in `why`, then run the loop again." if beyond else
+                   "Next: stop. A term that the physics asks and the records cannot show is held at its theory in " + nxt + " with hold = True."),
+              f"model_{k}.md is the page for people, model_{k}.json holds everything."]
+    return "\n".join(lines) + "\n"
 
 
 def _pm(value: float, bar: float) -> tuple:
@@ -436,6 +700,23 @@ def _two(x: float) -> str:
     return f"{x:.{d}f}"
 
 
+TERM_WORDS = (("second component", "- **A second component**: a copy of the curve displaced along the abscissa, of a size of its own, a term that a term file may write. A second shape of its own width or of its own law, as a second decay of another lifetime, is written in `model.py` or as a Mechanism, as sections 10 and 11 of the tutorial show."),
+              ("size", "- **The size** of a term: the one parameter that it adds, which `python -m twinfit terms` defines for each. For a term that adds a part of the curve it is the area of that part over that of the curve without it, so that its share of the whole is a / (1 + a), and never a distance."),
+              ("of the level", "- **The level** of a curve is its baseline."))          # the words of the terms that a researcher writes, defined on a page that uses them: the report names none (the owner's message 340), and a kept term may
+
+
+def used_words(lines: list) -> list:
+    """The page with the words of TERM_WORDS that it uses defined in its list of words, after the others: a kept second
+    component read as a second lifetime, and its size read as the distance it was written at (rounds 12 and 13 of the
+    cold tests), while a page that holds no term defines none of them."""
+    at = next((k for k, line in enumerate(lines) if line == "## The words of this page"), None)
+    if at is None:
+        return lines
+    end = next((k for k in range(at + 2, len(lines)) if not lines[k].startswith("- **") and not lines[k].startswith("  ")), len(lines))
+    body = "\n".join(lines[end:]).lower()
+    return lines[:end] + [entry for word, entry in TERM_WORDS if word in body] + lines[end:]
+
+
 def _words(sets: int, beyond: float) -> list:
     """The words of the page, defined before it uses them (row M167): a researcher who opens the report cold reads what
     a twin, a bar, an excess, a level, beyond the twin and a scatter are before the first number that uses them."""
@@ -449,8 +730,6 @@ def _words(sets: int, beyond: float) -> list:
             f"- **The chance** of an answer: the share of the synthetic sets on which its statistic is as large as on the records. With {sets} sets the smallest chance is {1.0 / (sets + 1):.3f}, "
             "and the answers that share it are ordered by their excess.",
             "- **The level** of a curve, in a polynomial of the level, is its baseline.",
-            "- **A second component**: a copy of the curve displaced along the abscissa, of a size of its own. A second shape of its own width or of its own law, as a second decay of another lifetime, is no term of the package: write it in `model.py` or as a Mechanism, as sections 10 and 11 of the tutorial show.",          # a second component kept as a second lifetime, at 3.5 of chi square a degree of freedom (round 14 of the cold tests)
-            "- **The size** of a term: the one parameter that it adds, which `python -m twinfit terms` defines for each. For a second component, a pedestal or a tail it is its area over that of the curve without it, so that its share of the whole is a / (1 + a), and never a distance.",          # the size of a second component read as the distance that it was written at (round 12 of the cold tests)
             "- **A search**: the fit of one synthetic set, which ends when its steps no longer lower its chi square. A **Mechanism** is a term written in Python, as section 11 of the tutorial shows.",
             "- **Seen by**: the family of statistics that sees the misfit most. It says how the misfit is read, and not which term to add.",
             "- **The known parameters**: the shared parameters of the model, those of every curve. **The rule of the twin**: the bands within which the fit of this model must give back, "
@@ -459,21 +738,32 @@ def _words(sets: int, beyond: float) -> list:
             "Some answer is beyond it on 5 of 100 sets where the model lacks nothing. The line is read on the twin of this model, so it differs a little from one model to the next.", ""]
 
 
-def per_degree(chi2: float, dof: int, noise_right: bool = True) -> str:
+def _span_of(problem, result):
+    """The samples over which neighbouring whitened residuals correlate, where they correlate at more than 0.3, else None,
+    and None where the records give no residuals to read, as a page made from a table alone."""
+    try:
+        rho, span = correlation_span(problem, result)
+    except (AttributeError, TypeError, IndexError):
+        return None
+    return span if rho is not None and abs(rho) > 0.3 else None
+
+
+def per_degree(chi2: float, dof: int, noise_right: bool = True, span=None) -> str:
     """The chi square of a fit per degree of freedom, with what it says: near 1 within three of its standard deviations,
     the root of 2 over the degrees of freedom, where the model and the stated noise are right. The page gave the chi
     square and its degrees of freedom alone, and 18881 on 3592 read as approval beside "the twin admits the fit" (round 3
     of the cold tests)."""
     ratio = chi2 / max(dof, 1)
     sd = math.sqrt(2.0 / max(dof, 1))
+    each = f"{sd:.2g} each" + (f", or {sd * math.sqrt(span):.2g} where the noise correlates over {span} samples as the residuals do" if span and span > 1 else "")          # the bar of correlated neighbours, as the visual log and the page for an agent give it (the blind red teams of 0.1.0rc19, mislead 2 and mislead 1)
     if abs(ratio - 1.0) <= 3.0 * sd:          # a sum near 1 where the bands of the noise below are not: a noise stated too large at some heights and too small at others balances in the sum (round 6 of the cold tests)
-        return (f"{ratio:.3g} a degree of freedom, 1 within three of its standard deviations, {sd:.2g} each: " + ("the model and the stated noise agree with the records in the sum, which sums away what the table of where to search reads, so a chi square near 1 does not say that the model lacks nothing" if noise_right else
+        return (f"{ratio:.3g} a degree of freedom, 1 within three of its standard deviations, {each}: " + ("the model and the stated noise agree with the records in the sum, which sums away what the table of where to search reads, so a chi square near 1 does not say that the model lacks nothing" if noise_right else
                 "the sum agrees with the records, but the check of the noise below does not: the noise is stated wrong at some heights, and the errors balance in the sum"))
     if ratio > 100.0:          # 9130 a degree of freedom from a start seven widths from the line read as a term missing (round 9 of the cold tests)
-        return f"{ratio:.3g} a degree of freedom, above 1 by more than three of its standard deviations, {sd:.2g} each: the model lacks something large, or its fit began far from the curves, so look at the fitted curves beside the records before a term is written"          # starts first misled where a shape was missing whole, 475 a degree of freedom (round 10 of the cold tests, before its launch)
+        return f"{ratio:.3g} a degree of freedom, above 1 by more than three of its standard deviations, {each}: the model lacks something large, or its fit began far from the curves, so look at the fitted curves beside the records before a term is written"          # starts first misled where a shape was missing whole, 475 a degree of freedom (round 10 of the cold tests, before its launch)
     if ratio > 1.0:
-        return f"{ratio:.3g} a degree of freedom, above 1 by more than three of its standard deviations, {sd:.2g} each: the model lacks something, or the noise is stated too small"
-    return f"{ratio:.3g} a degree of freedom, below 1 by more than three of its standard deviations, {sd:.2g} each: the noise is stated too large"
+        return f"{ratio:.3g} a degree of freedom, above 1 by more than three of its standard deviations, {each}: the model lacks something, or the noise is stated too small"
+    return f"{ratio:.3g} a degree of freedom, below 1 by more than three of its standard deviations, {each}: the noise is stated too large"
 
 
 def _scatters(part: dict) -> str:
@@ -498,7 +788,7 @@ def _page(table, problem, result) -> str:
     rep = table["where"]
     lines = [f"# {table['model']}", ""] + _words(rep["sets"], rep["largest_excess_on_the_twin"])
     lines += ["## The fit", "",
-              f"- **Chi square**: {table['chi_square']:.1f} on {table['degrees_of_freedom']} degrees of freedom, {per_degree(table['chi_square'], table['degrees_of_freedom'], table['noise'].get('right', True))}.",
+              f"- **Chi square**: {table['chi_square']:.1f} on {table['degrees_of_freedom']} degrees of freedom, {per_degree(table['chi_square'], table['degrees_of_freedom'], table['noise'].get('right', True), _span_of(problem, result))}.",
               f"- **The twin {'admits' if table['admitted_on_the_twin'] else 'does not admit'} the fit**: the fit of this model "
               + ("gives back, on synthetic sets drawn from it, the values that made them, within the bands of its rule. That says the fit can be read, and not that the model is right."
                  if table['admitted_on_the_twin'] else "does not give back, on synthetic sets drawn from it, the values that made them within the bands of its rule: its bars are not to be read."),
@@ -516,25 +806,26 @@ def _page(table, problem, result) -> str:
         if max(places) - min(places) > unit:          # each spectrum of a doublet started on a line that its noise chose, and no page said so (round 12 of the cold tests)
             lines += [f"The places of the curves differ by {max(places) - min(places):.3g}, more than a width of the curves, while the fit leaves {table['chi_square'] / max(table['degrees_of_freedom'], 1):.3g} of chi square "
                       "a degree of freedom: the starts may sit on different lines of a multiplet, or on different features. Start every curve on the same feature, in `start_own`, before a term is read."]
-    lines += ["", "## Where to search", "", f"Read on {rep['sets']} synthetic sets. The first answer beyond the twin of each question, beyond meaning an excess above {rep['largest_excess_on_the_twin']:.2f} here:", "",
+    lines += ["", "## Where to search", ""] + ([noise_first(table) + " The table orders the answers by their excess, and a term of the curve is read once the noise holds it, as the end of this section says.", ""] if noise_first(table) else []) + [f"Read on {rep['sets']} synthetic sets. The first answer beyond the twin of each question, beyond meaning an excess above {rep['largest_excess_on_the_twin']:.2f} here:", "",
               "| question | what it asks | first answer beyond the twin | its excess |", "|---|---|---|---|"]
-    kinds = sorted([a for a in rep["answers"] if a["question"] == "what" and a["beyond_the_twin"]], key=lambda a: -a["excess"])
+    kinds = sorted([a for a in rep["answers"] if a["question"] == "shape" and a["beyond_the_twin"]], key=lambda a: -a["excess"])          # the shapes beyond the twin: a slow trend and two cycles over the span can tie
     tied = [a for a in kinds if a["excess"] >= kinds[0]["excess"] / 1.5] if kinds else []
     six = table["proposals"]
     for q, asks in ASKS.items():
+        if q == "matched" and q not in rep["first_of_each_question"]:
+            continue          # no list of terms: the question is not asked
         mine = [a for a in rep["answers"] if a["question"] == q]
         first = rep["first_of_each_question"].get(q) or next((a["answer"] for a in sorted(mine, key=lambda a: -a["excess"]) if a["beyond_the_twin"]), None)          # the row and the list of every answer say one verdict (round 4 of the cold tests)
         if first is not None:
-            got = next(a for a in mine if a["answer"] == first)
+            got = next((a for a in mine if a["answer"] == first), None)
             said = first
-            if q == "what" and len(tied) > 1:          # the row named one kind and the proposals put another first (round 3 of the cold tests)
-                said = (f"{first}, tied with {', '.join(a['answer'] for a in tied if a['answer'] != first)} within a factor of 1.5 of its excess: the proposals below put the kind of the largest excess first, then the others by the gain of their term"
-                        + (". A tail and a second component tied may be one component of its own width at its own distance, which no term of the package writes alone: "
-                           "write it in `model.py`, its share, its distance and its width as shared parameters, as section 10 of the tutorial shows"
-                           if {"a tail on one side", "a second component of the curve"} <= {a["answer"] for a in tied} else ""))          # "rank them by their fit" above a tail whose fit gained less, and a broad outflow that no term held (round 13 of the cold tests)
-            if q == "along":          # the row named a setting and not the parameter, and a model with two shared parameters left it to a guess (round 3)
-                named = [r["term"].split(ALONG)[0] for r in six["for_the_model"] if r["stands_for"] == f"a change along {first}" and ALONG in r["term"]]
-                said = f"{first}, read on {named[0]}" if named else first
+            if q == "where" and rep.get("where_read_along"):          # the place of a part that changes along a setting, where no place stands beyond the twin alone (row M485)
+                said, got = f"{first}, read along a setting, {rep['where_read_along']}: no place stands beyond the twin alone", next(a for a in rep["answers"] if a["question"] == "changes along" and a["answer"] == rep["where_read_along"])
+            places = (rep.get("tied_with_the_first") or {}).get("where") or []
+            if q == "where" and places and not rep.get("where_read_along"):          # a hidden term's misfit read 21.5 in the flanks and 21.1 in the core, and the row named the core alone (his messages 388 and 389)
+                said = f"{first}, tied with {' and '.join(places)}: their excesses differ by less than {TIE_PLACES:g} standard deviations of their difference as the records scatter them, so the records do not tell which of these places leads"
+            if q == "shape" and len(tied) > 1:          # the row named one shape and the proposals put another first (round 3 of the cold tests)
+                said = (f"{first}, tied with {', '.join(a['answer'] for a in tied if a['answer'] != first)} within a factor of 1.5 of its excess: the proposals below put the kind of the largest excess first, then the others by the gain of their term")
             lines.append(f"| {q} | {asks} | {said} | {_one(got['excess'])} |")
         elif mine:
             top = max(mine, key=lambda a: a["excess"])
@@ -546,7 +837,7 @@ def _page(table, problem, result) -> str:
                   "and their order then says little: try each, with `python -m twinfit scan` where a number of the term is chosen, and read what each does to the known parameters."]
     if not any(a["beyond_the_twin"] for a in rep["answers"] if a["question"] in ACTIONABLE):
         unread = [q for q in ACTIONABLE if not any(a["question"] == q for a in rep["answers"])]
-        lines += ["", "No answer of where, what, along or changes along stands beyond the twin: on these records the model leaves nothing that its own synthetic sets do not leave"
+        lines += ["", "No answer of where, shape, what or changes along, nor of a term of your list, stands beyond the twin: on these records the model leaves nothing that its own synthetic sets do not leave"
                   + (f", though no answer of {' or '.join(unread)} was read" if unread else "")
                   + (", and the families of statistics that stand past their line name no term" if any(a["beyond_the_twin"] for a in rep["answers"]) else "")
                   + ". A term much smaller than the noise can still be missing, and more sets, or records of more samples, read smaller ones."]
@@ -567,40 +858,43 @@ def _page(table, problem, result) -> str:
                 lines += ["", f"The correlation of neighbouring whitened residuals is {rho:.2f} at one sample, the median over the curves, and "
                           + (thin_said(problem, span, "so keep one sample in every {span}, which `python -m twinfit thin DIR {span}` does in three copies") if span else "does not fall under 0.05 within 200 samples. ")
                           + "Run the loop on several such copies, each from another first sample: a term that one keeps and the others refuse is not to be believed."]
-        far = glitch_samples(problem, result) if noisy[0] == "glitches" else []
+        every = glitch_samples(problem, result, most=None) if noisy[0] == "glitches" else []          # every sample beyond 5, of which 20 are shown: the page gave the number shown for the number beyond, 20 for 46 (the blind red team of 0.1.0rc18, mislead 10)
+        far = every[:20]
         if far:          # the samples named, which a blind agent found by numpy of its own (round 7)
-            lines += ["", f"The samples whose whitened residual, the residual over the noise of its sample, is beyond 5 in size: {len(far)}, the largest first, and at most 20 are shown.", "",
+            lines += ["", f"The samples whose whitened residual, the residual over the noise of its sample, is beyond 5 in size: {len(every)}, the largest first, of which {len(far)} are shown.", "",
                       "| curve | abscissa | whitened residual |", "|---|---|---|"]
             lines += [f"| {name} | {x + 0.0:.6g} | {v:.1f} |" for name, x, v in far]          # -0 for an abscissa of zero (round 9)
+            shared = shared_abscissas(problem, every)
+            lines += ["", f"Of these {len(every)}, {shared} stand at an abscissa where a sample of another record is far from the curve too, within one step of the samples: "
+                      + ("no glitches, but a place where the law of the noise is too small or the model misses." if shared else "each alone, as a glitch is.")]
     lines += ["", "## Three proposals for the model", ""]
     if noisy:          # a cosine of period 4.68 that fitted 16 spikes was ranked first and kept (round 7 of the cold tests)
         lines += [f"{noisy[0][0].upper() + noisy[0][1:]} leads, and the proposals below are read on residuals that it leads: a term kept on them may fit it and not a part of the curve, "
-                  "and is not to be believed before the noise holds it. The proposals for the experiment are measured with such a term too.", ""]
-    lines += ["Each is a term that the package can fit, for an answer of what or of along, and none that the model holds: "
-              "those beyond the twin first, then those whose term of the package stands when it is fitted, then by the gain in chi square that the term of its line brings once fitted, or the shape where no term stands. "
-              "Each proposal is the shape that the residuals give it, and beside it the term of its line is fitted as the loop fits a term file."
+                  "and is not to be believed before the noise holds it. So here the noise comes first, and a term only where an answer of the curve leads. The proposals for the experiment are measured with such a term too.", ""]          # one order where the page gave two (the blind red team of 0.1.0rc13)
+    lines += ["Each is a direction read on the residuals, for an answer of where, of shape or of what changes along a setting: "
+              "those beyond the twin first, then by the gain in chi square that the shape that the residuals hold there brings when it is fitted beside the model. "
+              "The package names no term: which term of physical origin has that place, shape and setting is the researcher's to say, in a term file."
               + (" On its twin, synthetic curves drawn with the term at its fitted size are fitted without it and with it: the bias without it is what the term would cost the known "
                  "parameters if it were real, and says nothing of whether it is." if problem.shared else ""), ""]
     if six.get("width_of_the_curves") is not None:
         lines += [f"In the names of the proposals a width is the full width of the fitted curves at half their height above their median value, here {six['width_of_the_curves']:.3g} in the unit of the abscissa: "
-                  "where the wings of a curve fill its window, it is narrower than the width at half its peak, and it is the unit of the distances below, not a parameter of the model. "
-                  "Above the centre is toward larger abscissa. Each proposal gives the line of a term file that writes it, "
-                  "with its distance in the unit of the abscissa, or says that no term of the package holds it.", ""]
+                  "where the wings of a curve fill its window, it is narrower than the width at half its peak, and it is not a parameter of the model. "
+                  "Above the centre is toward larger abscissa.", ""]
     for m in six["for_the_model"]:
         lines.append(f"- {m['term']}, for {m['stands_for']}, {'beyond' if m['beyond_the_twin'] else 'within'} the twin at an excess of {m['excess_in_the_report']:.1f}"
                      + ((f": a gain in chi square of {m['gain_in_chi_square']:.1f}" if m["gain_in_chi_square"] >= 0 else f": at its rough number the shape raises the chi square by {-m['gain_in_chi_square']:.1f}, so its number is far off: scan it")
                         if "gain_in_chi_square" in m else f": {m.get('why_not_measured', '')}"))          # a gain of -1089128.4 for the right term, unread (round 11 of the cold tests)
         if m.get("as_a_term_file") and " changes along " in m["term"]:          # the square of the quencher proposed for a lifetime of 1/(1 + K Q), 36 bars off (round 14 of the cold tests)
             lines.append("  - a polynomial of the setting about its mean, which no law of the physics need be: where the physics gives one, as 1/(1 + K Q) or the root of 1 + P/P0, write that law in `model.py`, as section 9 of the tutorial shows")
+        ripple = m.get("ripple")
+        if ripple:          # a period of 2.82, the width of the curves, for a ripple of 0.35, and no word of its frame (round 14 of the cold tests)
+            lines.append(f"  - its period, {ripple['period']:.4g} in the unit of the abscissa, is read from the residuals, a periodogram summed over the curves: scan about it to fix it")
+            about = ripple.get("coherence_about_the_centres")
+            if about is not None and ripple["coherence_about_the_abscissa"] > about + 0.2:
+                lines.append(f"  - the curves agree at that period at equal abscissa, a coherence of {ripple['coherence_about_the_abscissa']:.2f} of 1, more than about their centres, {about:.2f}: "
+                             "a ripple fixed to the abscissa, as of the instrument, which a term placed about the centre of each curve does not hold. Write it as a Mechanism with x in the place of x - centre, as section 11 of the tutorial shows")
         if m.get("as_a_term_file"):
             lines.append(f"  - as a term file: `{m['as_a_term_file']}`")
-            ripple = m.get("ripple")
-            if ripple:          # a period of 2.82, the width of the curves, for a ripple of 0.35, and no word of its frame (round 14 of the cold tests)
-                lines.append(f"  - its period, {ripple['period']:.4g} in the unit of the abscissa, is read from the residuals, a periodogram summed over the curves: scan about it to fix it")
-                about = ripple.get("coherence_about_the_centres")
-                if about is not None and ripple["coherence_about_the_abscissa"] > about + 0.2:
-                    lines.append(f"  - the curves agree at that period at equal abscissa, a coherence of {ripple['coherence_about_the_abscissa']:.2f} of 1, more than about their centres, {about:.2f}: "
-                                 "a ripple fixed to the abscissa, as of the instrument, which this term, placed about the centre of each curve, does not hold. Write it as a Mechanism with x in the place of x - centre, as section 11 of the tutorial shows")
             pk = m.get("the_term_of_the_package")
             if pk and pk["stands"]:
                 lines.append(f"  - that term, fitted beside the model: its size, {pk['parameter']}, is {' ± '.join(_pm(pk['size'], pk['bar']))}, a gain in chi square of {pk['gain_in_chi_square']:.1f}"
@@ -609,7 +903,7 @@ def _page(table, problem, result) -> str:
                 lines.append(f"  - that term, fitted beside the model, does not stand: {pk['why_not']}")
             if m.get("no_term_of_the_package"):          # a line with a word on what it does not hold, as a background of one size where each record may carry its own (round 6)
                 lines.append(f"  - {m['no_term_of_the_package'][0].upper() + m['no_term_of_the_package'][1:]}")
-        elif m.get("no_term_of_the_package"):
+        elif m.get("no_term_of_the_package") and not m["no_term_of_the_package"].startswith("the package names no term"):          # the line above the list says it once for every direction
             lines.append(f"  - as a term file: none, {m['no_term_of_the_package']}")
         if m.get("refused_before"):          # level(1) proposed again after its refusal, with no word (round 8 of the cold tests)
             lines.append(f"  - refused before, in {m['refused_before']}")
@@ -622,17 +916,19 @@ def _page(table, problem, result) -> str:
             lines.append(f"  - if the term were real at that size, {name} would be biased on its twin by {_scatters(v['without_the_term'])} without it and by "
                          f"{_scatters(v['with_the_term'])} with it: what the term would cost, and not a sign that it is real. A scatter of a model that lacks a term can be many bars of its fit"
                          + (f". But the working model reads {name} on the records {abs(v['the_records_in_scatters']):.0f} scatters from what it reads on this twin, so the term in this shape and at this size "
-                            "does not make the records, and what it would cost there may be far larger: fit it, and read how far the values move" if abs(v.get("the_records_in_scatters") or 0.0) > 3.0 else ""))          # read as an argument to add a term that moved a shared width by 15 bars (round 7)
+                            "does not make the records, and what it would cost there may be far larger: fit it, and read how far the values move" if abs(v.get("the_records_in_scatters") or 0.0) > 3.0 else "")
+                         + (". This shape is read on the residuals, which hold none of what the fit took into its own parameters, so this cost is a lower bound: "
+                            "a term of the physics in this place may cost far more" if m.get("cost_is_a_lower_bound") else ""))          # read as an argument to add a term that moved a shared width by 15 bars (round 7)
     lines += [f"- Fewer than three: {f}" for f in six["fewer_than_three"] if f.split(" ")[2:4] == ["the", "model:"]]
     if rep["first_of_each_question"].get("where") == "the asymmetry" and any(a["question"] == "where" and a["answer"] == "the asymmetry" and a["beyond_the_twin"] for a in rep["answers"]):
-        lines += ["", "The asymmetry leads. Where no proposal above holds it once fitted, a shape that no term of the package writes may be missing: an exponential tail of the line itself, "
-                  "as a column or a detector leaves, which `tail` does not write, the dispersive share of a line, its height times x over one plus x squared, x the distance from its place in its widths, "
-                  "or the derivative of the line. A Mechanism of your own writes it, as section 11 of the tutorial shows."]          # a Fano line led by the asymmetry, and no proposal named a shape for it (round 10 of the cold tests)
+        lines += ["", "The asymmetry leads. Where no proposal above holds it once fitted, a shape that no term of the package writes may be missing, asymmetric about the place of the line: "
+                  "an exponential fall of the line on one side, its height times x over one plus x squared, x the distance from its place in its widths, "
+                  "or the derivative of the line. A Mechanism of your own writes it, as section 11 of the tutorial shows, and the physics of the records says which."]          # no cause named, which the package never names (the readers of the red team of his message 434, tutorial R3)          # a Fano line led by the asymmetry, and no proposal named a shape for it (round 10 of the cold tests)
     term = six.get("the_term_in_the_twin_of_the_levers")
     lines += ["", "## Three proposals for the experiment", "",
               "Each is of one of three kinds: a better setup, a better characterization of the setup, or a better data collection. Each is measured on the twin"
               + (f", with the first proposal for the model that stands beyond the twin in it, {term}" if term
-                 else f", with the model as it is, since the report leads with {six['the_noise_leads']}, which no term holds: read them again once the noise holds it"
+                 else f", with the model as it is, since the largest answer beyond the twin of the question what is {six['the_noise_leads']}, a noise of the samples that no term holds: read them again once the noise holds it"          # it said the report leads with it, under a table that put the core first (the fresh red team of 0.1.0rc18, mislead 3)
                  + (", and more samples over the same span buy less than the twin says, since it draws them apart where the records hold them correlated" if six["the_noise_leads"] == "a noise correlated from sample to sample" else "")
                  if six.get("the_noise_leads") else ", with the model as it is, since no proposal for the model stands beyond the twin")
               + ("" if problem.shared else ". The model shares no parameter, so what a change buys is read on the size of that term") + ". The error of a value is the root of its squared bias and its squared scatter "
@@ -650,6 +946,119 @@ def _page(table, problem, result) -> str:
               + (f", known within about {e['known_within']:.2f}" if e.get("known_within") else "") for e in six.get("every_lever", [])
               if e["lever"] not in shown and e.get("error_over_that_under_the_records") is not None]          # a lever of the researcher that ranks out is said, not dropped (round 2)
     lines += [f"- Fewer than three: {f}" for f in six["fewer_than_three"] if f.split(" ")[2:4] == ["the", "experiment:"]]
+    return "\n".join(used_words(lines)) + "\n"
+
+
+def noise_settled(d, problem, result, source):
+    """The first model fitted again with the noise that the description asks: read from its residuals, `[noise] from =
+    "residuals"`, or from the researcher's law of model.py, `from = "model"`, and as it stands otherwise. The loop and
+    `scan` and `matrix` read the first model through it alike: `model_of` left the noise as the records gave it, so that
+    on a folder whose noise is read from the residuals `scan` gave a fall of 21.7 to a term that the loop refused, and
+    636 to a pedestal that the loop kept at a fall of 222 (the blind red team of 0.1.0rc19, mislead 5)."""
+    if d.noise["from"] == "residuals":          # the law of the noise read from what the first model leaves, his message 316: the agent of a blind run built it by hand
+        return noise_from_residuals(problem, result)
+    if d.noise["from"] == "model":          # the researcher's law, `variance(mean, record, own)` of model.py, settled at the fit of the first model, his message 316
+        if not callable(getattr(source, "variance", None)):
+            raise ValueError("the description gives the noise from the model, and model.py defines no variance(mean, record, own): the variance of each sample from the fitted mean of its curve, the curve and its own parameters")
+        from .noise import with_law
+        for _ in range(2):          # from the fit that the search found, as twinfit.noise.settle does from a fit of its own
+            problem = with_law(problem, result, source.variance)
+            result = fit(problem, result.shared, result.own)
+        if not result.converged:
+            raise ValueError("the fit of the first model with the noise of its law did not end: look at the law, or give the noise as a column")
+    return problem, result
+
+
+def model_of(folder, skip=None) -> tuple:
+    """The model that the term files of a folder give, fitted as `scan` and `matrix` read it: the first model with the noise
+    that the description asks, `noise_settled`, then each term file in turn, kept by the Bayesian criterion alone, a term that gives its theory and says `hold` held at it,
+    and the file `skip` left out. No twin is run. Returns the problem, the fit, the name of the centre, the files used,
+    the dictionary HELD of model.py with the ansatz of the description in it, and model.py's module."""
+    if not (Path(folder) / "description.toml").is_file():          # a folder that is not a project ended in a traceback
+        raise ValueError(f"{folder} holds no description.toml: give the folder of a project, as `python -m twinfit init DIR` writes it")
+    d, problem, centre, source = initial(Path(folder), with_module=True)
+    held = getattr(source, "HELD", None)
+    for name, a in (d.addenda.get("ansatz") or {}).items():          # the values of the ansatz in HELD, as the loop sets them
+        if held is not None and name in held:
+            held[name] = float(a["value"])
+    result = searched(problem)
+    problem, result = noise_settled(d, problem, result, source)          # the noise of the loop: without it `scan` read another criterion than the loop's (the blind red team of 0.1.0rc19, mislead 5)
+    used = []
+    for path in sorted((Path(folder) / "terms").glob("[0-9][0-9].py")):          # the model that the term files give, by the criterion alone
+        if skip is not None and path.resolve() == Path(skip).resolve():
+            continue
+        term = getattr(_module(path, f"term_{path.stem}", held, source), "term", None)
+        if term is None:
+            continue
+        if term.theory is not None and getattr(_module(path, f"term_{path.stem}", held, source), "hold", False):
+            problem, result = held_term(problem, result, term)[:2]
+            used.append(f"{path.name}, held")
+            continue
+        try:
+            got = develop_one(problem, result, term)
+        except ValueError:          # a term that builds on one that the criterion left out, which stopped the scan whole (round 3 of the cold tests)
+            continue
+        if got["ended"] and not got["at_its_bound"] and _criterion(problem, result) - _criterion(got["_problem"], got["_fit"]) > TIED:
+            problem, result = got["_problem"], got["_fit"]
+            used.append(path.name)
+    return problem, result, centre, used, held, source
+
+
+def matrix(folder, top: int = 5) -> dict:
+    """What every family of statistics says on the records of a folder, for a researcher at the command line (the owner's
+    messages 262 to 267: the clues of the generalised moments, the windows, the transformations of the value and the
+    chi functions as the pillars of the decision). On the model that the term files give, fitted as `scan` fits it: the
+    reading of each family on the residuals, a chi square with its degrees of freedom and its level under a right model
+    at first order, the shape of the noise, `where.noise_shape`, and the noise matrix, `families.noise_matrix`, which
+    statistic sees which law of the noise by simulation. No list of terms is read (the owner's messages 337 and 340). No
+    twin is run: the loop's report gives the twin's levels, and a reading here is the evidence beside them."""
+    from .families import catalogue, family, noise_matrix
+    from .where import noise_shape
+    problem, result, centre, used, _, _ = model_of(folder)
+    lin = Linear(problem, result)
+    readings = {}
+    for name in catalogue(centre):
+        try:
+            readings[name] = family(lin, name, centre).reading()
+        except (ValueError, np.linalg.LinAlgError) as why:
+            readings[name] = {"refused": str(why)}
+    r = np.asarray(lin.r, dtype=float)
+    ordered = [r[lin.rows_of(k)][np.argsort(np.asarray(rec.x, dtype=float), kind="stable")] for k, rec in enumerate(problem.records)]
+    return {"folder": str(folder), "beside": used, "readings": readings, "noise": noise_shape(ordered), "noises": noise_matrix(lin, centre)}
+
+
+def matrix_page(out: dict) -> str:
+    """The page that `python -m twinfit matrix DIR` prints from `matrix`: what each family reads, the shape of the noise,
+    and which statistic sees which law of the noise."""
+    beside = f"with {', '.join(out['beside'])}" if out["beside"] else "its first model"
+    lines = [f"The families of statistics on the model of {out['folder']}, {beside}, each term file kept by the Bayesian criterion alone. No twin is run: a level here is that of a chi square "
+             "under a right model at first order, which the families of many statistics do not reach, and the report of the loop gives the levels of the twin.", "",
+             "## What each family reads", "",
+             "Each family turns the residuals into a few statistics. Its reading is their chi square in the covariance that they have under a right model, "
+             "with as many degrees of freedom as the family has directions that the model does not hold. The smallest levels first.", "",
+             "| family | chi square | degrees of freedom | level |", "|---|---|---|---|"]
+    read = {n: r for n, r in out["readings"].items() if "refused" not in r}
+    for name, r in sorted(read.items(), key=lambda kv: kv[1]["level"]):
+        lines.append(f"| {name} | {r['chi_square']:.1f} | {r['degrees_of_freedom']} | {r['level']:.2g} |")
+    lines += [f"- Not read: {name}, {r['refused']}" for name, r in out["readings"].items() if "refused" in r]
+    lines += ["", "## The shape of the noise", "",
+              "The whitened residuals of every curve as they stand, their skewness over its standard error under a normal law and their excess kurtosis over its own, "
+              "each a standard normal deviate at first order where the noise is normal. A misfit of the mean leaves tails of its own, and the report reads them once the shape "
+              "that leads is taken out: " + ", ".join(f"{name} {v:.2f}" for name, v in out["noise"].items()) + "."]
+    nm = out.get("noises")
+    if nm:
+        from .families import NOISE_WORDS
+        kinds = list(nm["chance"])
+        lines += ["", "## Which statistic sees which law of the noise", "",
+                  f"Each law of the noise is drawn {nm['draws']} times on these records, whitened and of unit variance on every sample, so that the noise that the description states "
+                  "stays right on average and only its law is wrong, and taken through the fit as the residuals take it. The line of each statistic is where it stands on 95 of 100 "
+                  f"draws of a normal noise of the same design, so each cell is a chance by simulation at the level {nm['level']:g}, and owes nothing to first order. "
+                  "After the families come the five readings of the noise that the report gives, the records together, and two opponents that practitioners read, the runs test and Durbin and Watson, which the report does not read. The last row reads every other statistic at one line, "
+                  "as the report reads its answers: the chance that the largest excess of them all passes where a normal noise stands on 95 of 100 draws. The laws:", ""]
+        lines += [f"- {kind}: {NOISE_WORDS[kind]}" for kind in kinds]
+        lines += ["", "| statistic | " + " | ".join(kinds) + " |", "|---|" + "---|" * len(kinds)]
+        for name in nm["statistics"]:
+            lines.append(f"| {name} | " + " | ".join(f"{nm['chance'][k][name]:.2f}" for k in kinds) + " |")
     return "\n".join(lines) + "\n"
 
 
@@ -667,37 +1076,14 @@ def scan(folder, expression: str, values) -> dict:
     own = (folder / expression if (folder / expression).is_file() or not Path(expression).is_file() else Path(expression)) if expression.strip().endswith(".py") else None          # a path from DIR or from where the command runs: my_nmr/terms/04.py was refused as no term_at (round 6)          # a term file of the researcher's own, which defines term_at(x): a blind agent could not scan the scale of its own tail (round 4 of the cold tests)
     if own is None and "x" not in expression:
         raise ValueError(f"the term {expression!r} holds no x: write x where the scanned value goes, as second(x)" + (". along has no number to choose: write it in a term file, and the loop fits its size" if expression.strip().startswith("along(") else ""))
-    d, problem, centre, source = initial(folder, with_module=True)
-    held = getattr(source, "HELD", None)
-    for name, a in (d.addenda.get("ansatz") or {}).items():          # the values of the ansatz in HELD, as the loop sets them
-        if held is not None and name in held:
-            held[name] = float(a["value"])
+    if own is not None and not own.is_file():
+        raise ValueError(f"{expression}: no such file, from {folder} or from where the command runs")
+    problem, result, centre, used, held, source = model_of(folder, skip=own)
     made = None          # the term of a file of one's own at the number x, where one is scanned
     if own is not None:
-        if not own.is_file():
-            raise ValueError(f"{expression}: no such file, from {folder} or from where the command runs")
         made = getattr(_module(own, "term_scanned", held, source), "term_at", None)
         if made is None:
             raise ValueError(f"{expression}: a term file of your own is scanned when it defines term_at(x), the term at the number x, beside term = term_at(...) for the loop")
-    result = searched(problem)
-    used = []
-    for path in sorted((folder / "terms").glob("[0-9][0-9].py")):          # the model that the term files give, by the criterion alone
-        if own is not None and path.resolve() == own.resolve():
-            continue
-        term = getattr(_module(path, f"term_{path.stem}", held, source), "term", None)
-        if term is None:
-            continue
-        if term.theory is not None and getattr(_module(path, f"term_{path.stem}", held, source), "hold", False):
-            problem, result = held_term(problem, result, term)[:2]
-            used.append(f"{path.name}, held")
-            continue
-        try:
-            got = develop_one(problem, result, term)
-        except ValueError:          # a term that builds on one that the criterion left out, which stopped the scan whole (round 3 of the cold tests)
-            continue
-        if got["ended"] and not got["at_its_bound"] and _criterion(problem, result) - _criterion(got["_problem"], got["_fit"]) > TIED:
-            problem, result = got["_problem"], got["_fit"]
-            used.append(path.name)
     rows = []
 
     def line_of(v: float) -> str:
@@ -739,7 +1125,7 @@ def profile_top(rows: list, values, line_of) -> tuple:
     within, parabola = ((near[0], near[-1]) if near else None), False
     every = sorted(rows, key=lambda r: r["x"])
     at = next((i for i, r in enumerate(every) if r is top), None)
-    beside = [every[i]["x"] for i in (at - 1, at + 1) if at is not None and 0 <= i < len(every) and not every[i]["ended"]]
+    beside = [every[i]["x"] for i in ((at - 1, at + 1) if at is not None else ()) if 0 <= i < len(every) and not every[i]["ended"]]          # with no top, nothing beside it: `at - 1` on None stopped a scan of a pedestal bounded at zero whose every fit stood at its bound (review 108, moderate 1)
     if near and near[0] == near[-1] and at is not None and 0 < at < len(every) - 1 and not beside:          # the range under the step of the values: a parabola through the three falls about the largest gives it, where a finer scan asked for a finer one again (round 5 of the cold tests)
         xs, fs = [every[i]["x"] for i in (at - 1, at, at + 1)], [every[i]["fall_of_the_criterion"] for i in (at - 1, at, at + 1)]
         a, b, _ = np.polyfit(xs, fs, 2)
@@ -850,12 +1236,14 @@ def term_file(path: Path, m) -> None:
         raise ValueError(f"{path.name}: `why`, the reason of the researcher for the term, holds {words} words, and it takes six or more")
 
 
-def run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: float | None = None) -> dict:
+def run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: float | None = None, workers: int | None = None, dictionary: bool = False) -> dict:
     """The loop on a folder, with the output of the last run kept until this one ends: a run that stops on a fault puts
     the last `loop/` back, so that its best.md is not lost (the cold tests of row M169). One run at a time in a folder,
     by a lock, and the last whole run kept through a kill too: two runs in one folder destroyed each other's output, and
     a run killed before it ended left the last good one where the next run removed it (the red team of the package, his
-    message 181). `max_seconds` ends the run between two of its steps once that many seconds have passed. See `_run`."""
+    message 181). `max_seconds` ends the run between two of its steps once that many seconds have passed. `workers`: the
+    twins of each model's proposals side by side on that many cores, every core where it is None, one with
+    TWINFIT_WORKERS=1, and the same numbers whatever it is (`twinfit.pool.side_by_side`). See `_run`."""
     folder = Path(folder)
     if not folder.is_dir():
         near = sorted(p.name for p in folder.parent.glob(folder.name.split("_thin_")[0] + "_thin_*") if p.is_dir()) if "_thin_" in folder.name and folder.parent.is_dir() else []
@@ -874,13 +1262,45 @@ def run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: f
     lock.truncate()
     lock.write(f"{os.getpid()}\n")
     lock.flush()
+    began, cpu, ended = time.time(), _cpu_seconds(), "a fault"
     try:
-        return _kept_through(folder, n, sets, report, max_seconds)
+        with asking(workers):
+            out = _kept_through(folder, n, sets, report, max_seconds, dictionary)
+            ended = "ended"
+            after_the_run(folder, out)
+            return out
     finally:
-        lock.close()
+        try:
+            cost(folder, began, _cpu_seconds() - cpu, how_many(workers, 10 ** 6), ended)
+        finally:
+            lock.close()
 
 
-def _kept_through(folder: Path, n: int, sets: int, report: bool, max_seconds: float | None) -> dict:
+COSTS = "loop.costs.tsv"          # beside loop/: a line a run of the loop, what it cost
+
+
+def _cpu_seconds() -> float:
+    """The CPU of this process and of the workers it has waited for, in seconds."""
+    import resource
+    return sum(getattr(resource.getrusage(who), f) for who in (resource.RUSAGE_SELF, resource.RUSAGE_CHILDREN) for f in ("ru_utime", "ru_stime"))
+
+
+def cost(folder: Path, began: float, cpu: float, workers: int, ended: str) -> Path:
+    """A line of `loop.costs.tsv` in the folder for a run of the loop: when it began, its seconds, the CPU of the run and
+    of its workers in seconds, the workers it could use, the version of the package and how it ended. The cost of an
+    analysis is then read from the folder, whoever started the run: an agent that starts the loop in the background
+    leaves its CPU out of its own count (the red team of his message 319, S3)."""
+    from .version import __version__
+    path = Path(folder) / COSTS
+    new = not path.exists()
+    with path.open("a") as f:
+        if new:
+            f.write("began\tseconds\tcpu_seconds\tworkers\tversion\tended\n")
+        f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(began))}\t{time.time() - began:.1f}\t{cpu:.1f}\t{workers}\t{__version__}\t{ended}\n")
+    return path
+
+
+def _kept_through(folder: Path, n: int, sets: int, report: bool, max_seconds: float | None, dictionary: bool = False) -> dict:
     """run, in a folder that this process holds alone."""
     out_dir, kept = folder / "loop", folder / "loop.before"
     if kept.exists():
@@ -896,7 +1316,7 @@ def _kept_through(folder: Path, n: int, sets: int, report: bool, max_seconds: fl
         out_dir.rename(kept)
     try:
         try:
-            out = _run(folder, n, sets, report, max_seconds)
+            out = _run(folder, n, sets, report, max_seconds, dictionary)
         except ValueError as err:          # any refusal of a run on an abscissa far from zero names that cause too: the twin's fits fail on it as the first fit does (round 5)
             try:
                 hint = "" if "abscissa_offset" in str(err) else far_from_zero(initial(folder)[1])
@@ -925,7 +1345,7 @@ def seen_by_beyond(answers: list) -> list:
 
 
 def asks_no_term(answers: list) -> bool:
-    """Whether a report asks for no term: no answer of where, what, along or changes along stands beyond the twin. A
+    """Whether a report asks for no term: no answer of where, shape, what or changes along stands beyond the twin. A
     family of statistics past its line, an answer of seen by, names no term, and the loop said write the next file where
     only those stood past it (round 4 of the cold tests)."""
     return not any(a["beyond_the_twin"] for a in answers if a["question"] in ACTIONABLE)
@@ -1013,7 +1433,7 @@ def dropped(problem, result, larger, bigger) -> list:
     return out
 
 
-def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: float | None = None) -> dict:
+def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: float | None = None, dictionary: bool = False) -> dict:
     """The loop on a folder, up to `n` term files. Returns what was kept, what was refused, the file to write next, and
     the output of best.py. Fewer than 30 synthetic sets are refused: the notebook asks that many of a twin."""
     if sets < 30:
@@ -1027,11 +1447,16 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
     global _STATUS
     _STATUS = (out_dir / "STATUS.json", began)          # what the run is doing, after each of its steps, for whoever waits on it (the red team of the package, his message 181)
 
-    def budget(step: str) -> None:
-        if max_seconds is not None and time.time() - began > max_seconds:
+    from .reuse import Reuse, code_of
+    reuse = Reuse(folder)          # what the runs before computed from the same files, read back (the red team of his message 327)
+    code = code_of(folder)
+
+    def budget(step: str) -> None:          # a run stops at its budget only once it has computed a step anew, so the next run reads it back and goes further
+        if max_seconds is not None and time.time() - began > max_seconds and reuse.computed:
             raise ValueError(f"the run stopped at its budget of {max_seconds:g} seconds, {step}, after {time.time() - began:.0f}: a larger `--max-seconds`, fewer term files or fewer sets end it")
     book = Notebook(out_dir / "notebook")
     d, problem, centre, source = initial(folder, with_module=True)
+    terms = list_of_terms(d, source)          # the researcher's, empty by default (his message 342)
     ansatz = d.addenda.get("ansatz") or {}
     if not d.addenda.get("model"):          # row M205: the description alone, as his message 140 gives the input
         _say("the description names no first model: the loop starts from the generic one of the package, one peak or dip of one width on its own height, place and baseline, "
@@ -1070,10 +1495,14 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
         raise ValueError(f"the fit of the initial model did not end in {AGAIN + 1} searches of {SEARCH} steps at most"
                          + (f", the last of which stopped after {result.iterations} step{'s' * (result.iterations != 1)}, where no step lowered its chi square any more" if result.iterations < SEARCH else "")
                          + f", its chi square {result.chi2 / max(result.dof, 1):.4g} for each degree of freedom: look at its starts and its bounds before the loop" + far_from_zero(problem) + why_no_end(problem))
+    problem, result = noise_settled(d, problem, result, source)
     rung = "model 0"
     _say(f"model 0: the first model is fitted, and its twin and its report are read on {sets} synthetic sets")
-    _rung(book, rung, "the initial model of the description, from its addenda", problem, result, d, sets, out_dir, 0, centre, report, held_of(ansatz, problem, values))
-    iterations = [{"model": rung, "problem": problem, "result": result, "added": problem.name, "tried": [], "refused": [], "held": held_of(ansatz, problem, values)}]
+    _rung(book, rung, "the initial model of the description, from its addenda", problem, result, d, sets, out_dir, 0, centre, report, held_of(ansatz, problem, values), reuse=reuse, code=code, terms=terms, dictionary=dictionary)
+    budget(f"after {rung}")
+    iterations = [{"model": rung, "problem": problem, "result": result, "added": problem.name, "tried": [], "refused": [], "held": held_of(ansatz, problem, values), "formula": equation_of(source),
+                   "letters": {str(k): str(v) for k, v in (getattr(source, "LETTERS", None) or {}).items()}}]          # each letter of EQUATION with its meaning, which the visual log writes under it (the blind red team of 0.1.0rc12)
+    write_equations(out_dir, iterations)
     kept, refused, nxt, holding, made = [], [], None, {}, {}
     for i in range(1, n + 1):
         path = folder / "terms" / f"{i:02d}.py"
@@ -1081,6 +1510,7 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             nxt = str(path.relative_to(folder))
             break
         budget(f"before {path.name}")
+        code = code_of(folder, *(folder / "terms" / f"{j:02d}.py" for j in range(1, i + 1)))          # the term files read so far make every model from here
         m = _module(path, f"term_{i:02d}", values, source)
         term_file(path, m)
         term = m.term
@@ -1100,7 +1530,9 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
                 continue
             stamp = f"{term.name} held on the twin of {rung}"
             book.stamp(stamp, f"Synthetic sets drawn with {term.name} at sizes from its theory, its centre and its bar, and fitted with it held at the centre, give back the other values.", rung)
-            twin = held_on_the_twin(problem, result, told, sets=sets, max_iter=STEPS, table_of=(lambda lin: propose(lin, dictionary(lin), draws=1000)) if report else None)
+            twin = reuse("the twin of a held term", lambda: held_on_the_twin(problem, result, told, sets=sets, max_iter=STEPS, table_of=None, workers=how_many(None, sets)),
+                         code, problem, result, told, sets, report)
+            budget(f"after the twin of {path.name}")
             twin.setdefault("share_of_sets_in_which_something_is_seen", None)          # not read in a count, as for a fitted term
             if twin["read"] < MIN_SETS:
                 book.note(stamp, too_few(twin))
@@ -1114,8 +1546,10 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             problem, result = larger, bigger
             before, rung = rung, f"model {len(iterations)}"
             now = held_of(ansatz, problem, values) | held_terms(holding, problem)
-            _rung(book, rung, str(m.why), problem, result, d, sets, out_dir, len(iterations), centre, report, now, [k["term"] for k in kept] + [term.name], refused)
-            iterations.append({"model": rung, "problem": problem, "result": result, "added": term.name, "after": before, "tried": [], "refused": [], "held": now})
+            _rung(book, rung, str(m.why), problem, result, d, sets, out_dir, len(iterations), centre, report, now, [k["term"] for k in kept] + [term.name], refused, reuse=reuse, code=code, terms=terms, dictionary=dictionary)
+            budget(f"after {rung}")
+            iterations.append({"model": rung, "problem": problem, "result": result, "added": term.name, "after": before, "tried": [], "refused": [], "held": now, "formula": term.formula, "parameter": term.parameter, "file": path.name})
+            write_equations(out_dir, iterations)
             kept.append({"term": term.name, "file": path.name, "model": rung, "held_at": entry[term.parameter][0], "bar_of_the_theory": entry[term.parameter][1], "why": str(m.why)})
             continue
         _say(f"{path.name}: {term.name} is fitted, and read on {sets} synthetic sets: each term costs more than the one before it, since the model grows")
@@ -1123,9 +1557,11 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             developed = develop_one(problem, result, term)
         except (ValueError, IndexError) as err:          # REFUSED: record '': a value or an abscissa is not a number, with no file named (round 10), and a trace of the code for own[k] out of range (round 11)
             raise _named(path, err) from None
-        why_not, hair = None, False
+        why_not, hair, fall = None, False, None
         if not developed["ended"] or developed["at_its_bound"]:
-            why_not = developed.get("why_not") or "its fit ended at the bound of its own parameter, where the term is absent or as large as it may be"
+            got = developed.get("parameter") or {}          # the value, its start and the bounds: a width refused so at its bound gave none of them, and a researcher read the source to find that its setting was taken raw (the blind red team of 0.1.0rc18, block 1)
+            said = f", {got['name']} at {got['value']:.4g} from its start at {got['started_at']:.4g}, its bounds {term.lower:.4g} and {term.upper:.4g}" if "value" in got else ""
+            why_not = developed.get("why_not") or f"its fit ended at the bound of its own parameter{said}, where the term is absent or as large as it may be"
             if "moves no curve" in why_not and kept:          # a term that replaces the line, after a kept term, was sent to its starts and its bounds (round 10)
                 why_not += ". A term that replaces the line and calls no `model` drops the terms kept before it, whose parameters then move no curve: such a term goes first, as 01.py, in a copy without the files before it"
             if "does not give a number at the start" in why_not:          # a tail of 1/t started at 0, refused with no word of its start (round 14 of the cold tests)
@@ -1136,7 +1572,7 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             stamp = f"{term.name} on the twin of {rung}"
             book.stamp(stamp, f"Synthetic sets drawn from the model with {term.name} at its fitted size give back that size within its bar, and the working model is moved by it.", rung)
             try:
-                twin = on_the_twin(problem, result, developed, sets=sets, max_iter=STEPS, table_of=(lambda lin: propose(lin, dictionary(lin), draws=1000)) if report else None)
+                twin = reuse("the twin of a term", lambda: on_the_twin(problem, result, developed, sets=sets, max_iter=STEPS, table_of=None, workers=how_many(None, sets)), code, problem, result, developed, sets, report)          # the twin of a term on every core: one of 30 sets ran 58 minutes on one core in a blind run of 0.1.0rc12
             except ValueError as err:          # the value that is not a number met where the twin drew its sets (round 10)
                 raise _named(path, err) from None
             twin.setdefault("share_of_sets_in_which_something_is_seen", None)          # not read in a count, where no table of candidates is made on its sets
@@ -1150,7 +1586,8 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             book.grade(stamp, holds=bool(back) and abs(back.get("bias_in_scatters", 99.0)) < 1.0, what_came=f"its size comes back {back.get('bias_in_scatters', float('nan')):.2f} scatters from what was put in")
             larger, bigger = developed["_problem"], developed["_fit"]
             gain = _criterion(problem, result) - _criterion(larger, bigger)
-            adm = admission(larger, bigger, sets=sets, start="fit")
+            adm = reuse("the twin of a larger model", lambda: admission(larger, bigger, sets=sets, start="fit"), code, larger, bigger, sets)
+            budget(f"after the twin of {path.name}")
             lost = dropped(problem, result, larger, bigger)
             if lost:
                 why_not = (f"with it, the curve reads no {', '.join(lost)}, which the model before it read: a term that returns a curve of its own and does not call `model` "
@@ -1160,7 +1597,9 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
                 why_not = f"the Bayesian criterion {moved} with it, where it must fall by more than {TIED:g}: these records do not tell the model with it from the model without it"
             elif not adm["admitted"]:
                 why_not = "the twin does not admit the fit of the model with it: " + "; ".join(adm.get("why_not", []) + adm["failed"] or [adm["rule"]])
-                hair = by_a_hair(adm)
+                hair, fall = by_a_hair(adm), float(gain)          # what the records say of the model that the twin alone refused, which best.md names (the blind red team of 0.1.0rc18, mislead 13)
+                got = developed.get("parameter") or {}
+                why_not += f". With it the Bayesian criterion falls by {gain:.1f}" + (f", and {got['name']} is fitted at {' ± '.join(_pm(got['value'], got['bar']))}" if math.isfinite(got.get("bar", math.nan)) and "name" in got else "")          # a refusal with no size and no fall, so that nothing said whether 60 minutes at 100 sets were worth it (the blind red team of 0.1.0rc20)
                 if hair:          # a right term refused at 100 sets alone by 0.005 of coverage, and the command said write the next term (round 13 of the cold tests)
                     why_not += (f". Each statistic that fails misses its band by less than its own standard error on these {sets} sets, so the refusal is a draw of the twin as much as a verdict on the term: "
                                 "run the loop again on another number of sets, 200 or 500, before the term is set aside")          # the statistic that failed, with its value and its band
@@ -1172,7 +1611,7 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
                 if sets < 100:          # a true step refused at 30 sets and kept at 50, 70 and 100, with no word (round 8 of the cold tests)
                     why_not += f". Read on {sets} sets, a refusal by the twin can turn on more: `--sets 100` reads it again before the term is set aside"
         if why_not is not None:
-            refused.append({"term": term.name, "file": path.name, "why": why_not, "parameter": term.parameter, "by_a_hair": hair, "on": rung}
+            refused.append({"term": term.name, "file": path.name, "why": why_not, "parameter": term.parameter, "by_a_hair": hair, "on": rung} | ({"criterion_falls": fall} if fall is not None else {})
                            | ({"size": developed["parameter"]["value"], "bar": developed["parameter"]["bar"]}
                               if developed.get("ended") and not developed.get("at_its_bound") and math.isfinite(developed.get("parameter", {}).get("bar", math.nan)) else {}))          # what the records say of its size (round 3)
             iterations[-1]["refused"].append({"term": term.name, "why": why_not, "by_a_hair": hair})          # into best.json: the gallery said "refused" of a term refused by a hair on 30 sets and kept on 100 (round 19)
@@ -1183,8 +1622,10 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
         problem, result = developed["_problem"], developed["_fit"]
         before, rung = rung, f"model {len(iterations)}"
         now = held_of(ansatz, problem, values) | held_terms(holding, problem)
-        _rung(book, rung, str(m.why), problem, result, d, sets, out_dir, len(iterations), centre, report, now, [k["term"] for k in kept] + [term.name], refused)
-        iterations.append({"model": rung, "problem": problem, "result": result, "added": term.name, "after": before, "tried": [], "refused": [], "held": now})
+        _rung(book, rung, str(m.why), problem, result, d, sets, out_dir, len(iterations), centre, report, now, [k["term"] for k in kept] + [term.name], refused, reuse=reuse, code=code, terms=terms, dictionary=dictionary)
+        budget(f"after {rung}")
+        iterations.append({"model": rung, "problem": problem, "result": result, "added": term.name, "after": before, "tried": [], "refused": [], "held": now, "formula": term.formula, "parameter": problem.shared[-1], "file": path.name})
+        write_equations(out_dir, iterations)
         kept.append({"term": term.name, "file": path.name, "model": rung, "parameter": term.parameter, "why": str(m.why), "asked": asked})
     try:
         held_models = {k["model"] for k in kept if "held_at" in k}          # a term held at its theory stays in the model: the best was once chosen among models that lacked it (round 5 of the cold tests)
@@ -1192,7 +1633,8 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
         budget("before best.md")
         _say(f"best.md: the five parts of each value of the best model, on {max(sets, 30)} synthetic sets")
         swapped = [s for s in in_place(iterations, refused, made, kept) if s["after"] in {it["model"] for it in iterations[first:]}]
-        output = best(iterations[first:] + swapped, sets=max(sets, 30), start="fit")          # each held value carries its bar of theory: the fit made again at the value less and more one bar
+        output = reuse("the best model", lambda: best(iterations[first:] + swapped, sets=max(sets, 30), start="fit", workers=how_many(None, max(sets, 30))),
+                       code, [(it["model"], it["problem"], it["result"], it.get("held"), it.get("added"), it.get("after"), it.get("aside")) for it in iterations[first:] + swapped], max(sets, 30))          # each held value carries its bar of theory: the fit made again at the value less and more one bar
         by, at, chain = {it["model"]: it for it in iterations}, iterations[first].get("after"), []
         while at:          # the terms of the models before the held one: "Its terms" named the held term alone (round 11 of the cold tests)
             chain.insert(0, by[at]["added"])
@@ -1227,16 +1669,21 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
     leads = noise_leads(last["where"]["answers"]) if last else None
     past = [a for a in last["where"]["answers"] if a["beyond_the_twin"] and a["question"] in ACTIONABLE] if last else []
     weak = len(past) == 1 and past[0]["excess"] < 1.5 * last["where"]["largest_excess_on_the_twin"]
-    plain["quoted_with_that_said"] = bool(weak and sets >= 500 and not leads)          # "these values are quoted with that said" over lines that each said not yet to be quoted (round 16 of the cold tests)          # one answer just past its line: the guide stops there, and the command said write the next file (round 2)
+    plain["quoted_with_that_said"] = with_caution(weak, sets, leads)          # "these values are quoted with that said" over lines that each said not yet to be quoted (round 16 of the cold tests)          # one answer just past its line: the guide stops there, and the command said write the next file (round 2)
     first_past = None if quiet or not last else next((f"{a['question']}: {a['answer']}" for a in sorted(last["where"]["answers"], key=lambda a: -a["excess"]) if a["beyond_the_twin"] and a["question"] in ACTIONABLE), None)
     lacks = (f"the last report leads with {leads}, which the noise of the samples must hold before this value is read" if leads
              else (f"the last report has one answer just past its line, {first_past}, as a model that lacks nothing shows on some of its synthetic sets: `--sets 100` reads it again before these values are quoted" if sets < 100
-                   else f"the last report has one answer just past its line on {sets} sets, {first_past}, as a model that lacks nothing shows on some of its synthetic sets: where it stays past on 500 sets the model lacks a term, which its proposals name, and these values are quoted with that said")
+                   else f"the last report has one answer just past its line on {sets} sets, {first_past}, as a model that lacks nothing shows on some of its synthetic sets: `--sets 500` is the check that may follow, and where it stays past there, the model may lack a term, which its proposals name" if sets < 500
+                   else f"the last report has one answer just past its line on {sets} sets, {first_past}, which a model that lacks nothing shows on few of them: the model may lack a term, which its proposals name")
                    if weak and first_past
              else f"the last report still has an answer beyond its twin, {first_past}, so the model may lack a term, and a term kept in its place can move this value" if first_past else None)          # the command said the loop stops and best.md said write the next file and quote nothing (round 9)
     plain["one_answer_just_past"] = weak
+    plain["no_term_worth"] = no_term_worth(last, kept, refused)
     plain["seen_by_beyond"] = seen_by_beyond(last["where"]["answers"] if last else [])          # a noise of the root of the counts of the records, read beyond the twin by three families, and the command said the records ask for no more (round 15 of the cold tests)
     plain["noise_leads"], plain["the_last_report_asks"] = leads, lacks
+    stop = stop_sentence(leads, weak, plain["no_term_worth"], quiet, f"terms/{len(iterations):02d}.py", sets)
+    if report and stop:          # the brief of the last model says of the end of the path what best.md and the console say (the blind red teams of 0.1.0rc22)
+        agree_brief(out_dir / f"brief_{len(iterations) - 1}.md", stop)
     plain["noise_from"] = d.noise.get("from")          # where the description takes the noise: the command named the differences of neighbouring samples beside a noise given as a value (round 19)
     plain["noise_from_a_column"] = d.noise.get("from") == "column"          # a column of the root of the observed counts raised families of statistics to hundreds beyond the twin while the check of the noise passed (round 17 of the cold tests)
     hidden = sorted(p.name for p in (folder / "terms").glob("[0-9][0-9].py") if nxt and p.name > Path(nxt).name)          # files after the first number missing, which the loop does not read
@@ -1249,14 +1696,68 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
         output["parameters"] = {name: dict(c, admitted_on_the_twin=False, refused_by="its report" if by_its_report else "this page") for name, c in output["parameters"].items()}
     plain["quotable"] = {name: not not_quoted(dict(c, sets=max(sets, 30)), noise["right"], None if plain["quoted_with_that_said"] else lacks) for name, c in output["parameters"].items()}          # a verdict that a program reads, where it parsed the prose of best.md (the red team of the package, his message 181)
     (out_dir / "best.json").write_text(json.dumps(plain, indent=1, default=float) + "\n")
-    (out_dir / "best.md").write_text(_best_page(output, noise, plain, refused, nxt, max(sets, 30), kept, quiet))
+    page = _best_page(output, noise, plain, refused, nxt, max(sets, 30), kept, quiet)
+    if (Path(folder) / "literature.md").is_file():          # the search of the literature that [literature] asks, physics beside the data (his message 316)
+        page += "\nThe literature: `literature.md` beside the description holds the terms that the papers give, each with its size and its paper, from the search that `[literature]` asks. A term of it enters as a term file, its paper in `why`.\n"
+    (out_dir / "best.md").write_text(page)
     misnamed = sorted(p.name for p in (folder / "terms").glob("*.py") if not (len(p.stem) == 2 and p.stem.isdigit()))
-    return {"kept": kept, "refused": refused, "write_next": nxt, "best": output["best"], "terms": output["terms"], "output": output, "noise": noise, "notebook": str(book.folder), "noise_from": plain["noise_from"],
+    reuse.prune()          # a whole run: what the files of the folder no longer make goes
+    return {"steps_read_back": reuse.read, "steps_computed": reuse.computed, "kept": kept, "refused": refused, "write_next": nxt, "best": output["best"], "terms": output["terms"], "output": output, "noise": noise, "notebook": str(book.folder), "noise_from": plain["noise_from"],
             "not_read": hidden, "not_read_past_n": beyond, "n": n, "nothing_beyond_the_twin": quiet, "one_answer_just_past": weak, "misnamed": misnamed, "noise_leads": leads,
             "the_last_report_asks": lacks, "report": f"model_{len(iterations) - 1}.md", "sets": sets, "own_trends": plain["own_trends"], "seen_by_beyond": plain["seen_by_beyond"],
-            "noise_from_a_column": plain["noise_from_a_column"],
+            "noise_from_a_column": plain["noise_from_a_column"], "no_term_worth": plain["no_term_worth"],
             "ties": [f"{r['file']} in the place of {r['in_place']['of']}" for r in refused if r.get("in_place") and abs(r["in_place"]["criterion_less"]) < TIED],
             "better_set_aside": [f"{r['file']} in the place of {r['in_place']['of']}" for r in refused if r.get("in_place") and r["in_place"]["criterion_less"] >= TIED]}
+
+
+def stop_sentence(leads: str | None, weak: bool, no_term_worth: bool, quiet: bool, nxt: str, sets: int = 30) -> str | None:
+    """The one sentence of the end of a path, for the brief of the last model, in the order of best.md: the noise first,
+    one answer just past its line, no answer left worth a term, nothing beyond the twin. None where the path goes on.
+    One answer just past its line is read again on 100 sets below 100, and on 500 at 100 or more, where the sentence
+    advised `--sets 100` after a run of 100 (the readers of the red team of his message 434, agents R3)."""
+    if leads:
+        return f"Next: stop, the noise first. The first kind beyond the twin is {leads}, which a term file cannot hold: a copy of the folder whose noise holds it, then the loop on the copy."
+    if weak and sets < 100:
+        return "Next: stop. One answer stands just past its line in the last report, as a model that lacks nothing shows on some of its synthetic sets: `--sets 100` reads it again before a term is written."
+    if weak and sets < 500:
+        return f"Next: stop. One answer stands just past its line in the last report, read on {sets} sets, as a model that lacks nothing shows on some of its synthetic sets: `--sets 500` is the check that may follow, and where it stays past there, the model may lack a term, which its proposals name."          # from 100 sets the next step is named (the readers of the red team of his message 436)
+    if weak:
+        return f"Next: stop. One answer stands just past its line in the last report, read on {sets} sets, which a model that lacks nothing shows on few of them: the model may lack a term, which its proposals name, and a term is written from its physics."          # at 500 sets the sentence sent to 500 sets (review 141)
+    if no_term_worth:
+        return f"Next: stop. The last term tried was refused, and no proposal beyond the twin gains in chi square what a term of one parameter pays to be kept: no answer left is worth a term. A term that the physics asks for is held at its theory, in {nxt} with hold = True."
+    if quiet:
+        return f"Next: stop. No answer of where, what or along stands beyond the twin: the records ask for no more term. A term that the physics asks for is held at its theory, in {nxt} with hold = True."
+    return None
+
+
+def agree_brief(path, sentence: str) -> bool:
+    """Writes `sentence` in the place of the line of the brief that begins with Next, and says whether it did."""
+    path = Path(path)
+    if not path.is_file():
+        return False
+    lines = path.read_text().split("\n")
+    at = [k for k, line in enumerate(lines) if line.startswith("Next: ")]
+    if not at:
+        return False
+    lines[at[-1]] = sentence
+    path.write_text("\n".join(lines))
+    return True
+
+
+def no_term_worth(last: dict | None, kept: list, refused: list) -> bool:
+    """Whether no answer left is worth a term: the last term file tried was refused, and no proposal for the model of the
+    last report that stands beyond its twin gains in chi square more than a term of one parameter must pay to be kept,
+    TIED and the logarithm of the samples, which the degrees of freedom bound from below. The command asked for a next
+    term there (the blind red team of 0.1.0rc16, mislead 6), and asked it four times where the proposals beyond the twin
+    gained 0.2 and 0.1 and one within it 9.7 (the blind red teams of 0.1.0rc18, mislead 4, and of 0.1.0rc19, mislead 7).
+    A proposal of an older report, with no word of its twin, is read as beyond it."""
+    if not last or not refused or (kept and kept[-1]["file"] > refused[-1]["file"]):
+        return False
+    props = (last.get("proposals") or {}).get("for_the_model") or []
+    dof = last.get("degrees_of_freedom")
+    cost = TIED + (math.log(int(dof) + 1) if dof else 0.0)
+    gains = [p.get("gain_in_chi_square") for p in props if p.get("beyond_the_twin", True)]
+    return bool(props) and all(g is not None and g < cost for g in gains)
 
 
 def own_trends(own_rows: list) -> list:
@@ -1477,6 +1978,29 @@ def not_quoted(c: dict, noise_right: bool, lacks: str | None = None) -> list:
     return why
 
 
+def with_caution(weak: bool, sets: int, leads) -> bool:
+    """Whether the values of best.md are quoted with the answer just past its line said beside them: one answer just
+    past its line, read on 100 sets or more, where the noise does not lead. The loop stops there, and best.md quoted
+    nothing before 500 sets, hours more, so that a researcher who followed the rule of stopping ended with no number to
+    write (the fresh red team of 0.1.0rc20, mislead 6)."""
+    return bool(weak and sets >= 100 and not leads)
+
+
+def twin_alone(refused) -> list:
+    """The refused terms that the twin alone refused while the Bayesian criterion falls by more than TIED with them, fitted
+    on the model before them or in the place of the term kept before them: the records prefer the model with such a term."""
+    return [r for r in refused if str(r.get("why", "")).startswith("the twin does not admit")
+            and max(r.get("criterion_falls") or 0.0, (r.get("in_place") or {}).get("criterion_less", 0.0)) > TIED]
+
+
+def _alone_said(r) -> str:
+    """A term that the twin alone refused, in words: how far the criterion falls with it, and the statistic of its twin."""
+    falls, place = r.get("criterion_falls") or 0.0, r.get("in_place") or {}
+    how = ([f"lowers the Bayesian criterion of {r['on']} by {falls:.1f}"] if falls > TIED else []) + ([f"lowers it by {place['criterion_less']:.1f} in the place of {place['of']}"] if place.get("criterion_less", 0.0) > TIED else [])
+    reason = r["why"].split(": ", 1)[-1].split(". ", 1)[0]
+    return f"{r['term']}, of {r['file']}, " + " and ".join(how) + (", refused by a hair" if r.get("by_a_hair") else "") + f", where its twin reads {reason}"
+
+
 def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quiet: bool = False) -> str:
     """The output of the loop for the researcher: the best model, the words of its table defined before the table, and
     the five parts of the uncertainty of each parameter, never folded into one (row M168: a newcomer met five headings
@@ -1486,6 +2010,13 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
         lines += ["", "The description names no first model, so the loop started from the generic one of the package, one peak or dip of one width on its own height, place and baseline, `twinfit/agent/model_template.py`: "
                   "where the physics gives another curve, write it as `model.py`, name it under [addenda] and run the loop again."]
     lines += [""] + [f"- {k['term']}, in {k['file']}" + (f", {k['parameter']}" if k.get("parameter") else "") + f": {k['why']}" for k in kept if k.get("why")] if any(k.get("why") for k in kept) else []          # a term of one's own was quoted with no word of what it is: its reason travels with it (round 10 of the cold tests)
+    alone = twin_alone(refused)
+    if alone:          # the best model named 4347 of the criterion above a rival of its own table, which the twin refused by a hair, and the page said to run more sets, which did not end in 1 h 40 (the blind red team of 0.1.0rc18, mislead 13)
+        lines += ["", "The records prefer a model that its twin refused, so the model named here is the best of those that their twin admits, and not the one that fits best: "
+                  + ". ".join(_alone_said(r) for r in alone) + ". "
+                  "Where each statistic that fails misses its band by less than its own standard error, the twin does not choose between the two models and the criterion does. "
+                  "Where it misses by more, the bars of the model with the term are too narrow or its values biased on its own twin. "
+                  "Quote no value below as that of the line without saying beside it that a model which fits better was refused by the twin alone."]
     left = plain.get("chi_square_per_degree")
     if left is not None and left > 10.0:          # 299 a degree of freedom after a kept tail of the package, and no word that a term of one's own was needed (round 10 of the cold tests)
         lines += ["", f"The best model leaves {left:.3g} of chi square a degree of freedom. Where the kept terms of the package do not bring it near 1, the shape may be one that no term of the package writes, "
@@ -1506,7 +2037,7 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
         lines += ["", "Two causes fit alike: " + ". ".join(f"{r['term']}, of {r['file']}, fitted in the place of {r['in_place']['term']}, of {r['in_place']['of']}, gives a criterion {abs(r['in_place']['criterion_less']):.2f} "
                                                         + ("lower" if r["in_place"]["criterion_less"] > 0 else "higher") + f" than the model with {r['in_place']['term']}" for r in ties)
                   + ". The records do not tell them apart: each model is in the spread over the models below, and the physics, or a design that moves one cause and not the other, chooses between them."]
-    better = [r for r in refused if r.get("in_place") and r["in_place"]["criterion_less"] >= TIED]
+    better = [r for r in refused if r.get("in_place") and r["in_place"]["criterion_less"] >= TIED and r not in alone]          # a term that the twin alone refused is said above: in a copy its twin reads it again
     if better:
         lines += ["", "A refused term is better in the place of a kept one: " + ". ".join(f"{r['term']}, of {r['file']}, fitted in the place of {r['in_place']['term']}, of {r['in_place']['of']}, lowers the criterion by {r['in_place']['criterion_less']:.2f}" for r in better)
                   + ". Take the kept term out in a copy of the folder and write this one as its file, then run the loop on the copy."]
@@ -1577,7 +2108,7 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
                                                                           "Try the model without it, in a copy, as the section of the refused terms says, and keep the one of the smaller Bayesian criterion." for k in small]
     unasked = [k for k in kept if k.get("asked") is False and "held_at" not in k and k["term"] in output["terms"]]
     if unasked:          # a cosine that the report put at an excess of 0.7 was kept, and its size quoted with no caution (round 12 of the cold tests)
-        lines += ["", "## Kept terms that no report asked for", ""] + [f"- {k['term']}, kept in {k['file']}: the report of the model before it put no answer of where, what, along or changes along beyond its twin, "
+        lines += ["", "## Kept terms that no report asked for", ""] + [f"- {k['term']}, kept in {k['file']}: the report of the model before it put no answer of where, what, along, changes along or matched beyond its twin, "
                                                                       "so the records did not ask for it, and the fall of the Bayesian criterion alone kept it. A term chosen after looking at such a report fits what the twin also shows on some of its sets: "
                                                                       "quote the values of the model without it beside these, and its size as what the records allow and not as a finding." for k in unasked]
     lines += setup_said(plain.get("setup") or {})
@@ -1644,8 +2175,12 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
         lines += ["", f"The loop stops here: the first kind beyond the twin in the last report is {leads}, which a term file cannot hold. {NOISE_KINDS[leads]} "
                   "Do it in a copy of this folder and run the loop on the copy. Until then, a term kept here may fit it and not a part of the curve."]
     elif nxt and plain.get("one_answer_just_past"):          # the command said the loop stops, the page said write the next file (round 9 of the cold tests)
-        lines += ["", "The loop stops here: one answer of where, what, along or changes along, the questions that name a term, stands just past its line in the last report, as a model that lacks nothing shows on some of its synthetic sets. "
-                  "`--sets 100` reads it again before a term is written."]
+        lines += ["", "The loop stops here: one answer of where, what, along, changes along or matched, the questions that name a term, stands just past its line in the last report, as a model that lacks nothing shows on some of its synthetic sets. "
+                  + ("`--sets 100` reads it again before a term is written." if sets < 100 else f"It was read on {sets} sets: `--sets 500` is the check that may follow, and where it stays past there, the model may lack a term, which its proposals name." if sets < 500
+                     else f"It was read on {sets} sets: the model may lack a term, which its proposals name, and a term is written from its physics.")]
+    elif nxt and plain.get("no_term_worth"):          # the page asked for a next term where no answer left could be kept (the blind red team of 0.1.0rc16, mislead 6)
+        lines += ["", f"The loop stops here: the last term tried was refused, and no proposal of the last report beyond its twin gains in chi square what a term of one parameter pays to be kept, {TIED:g}, the margin of the Bayesian criterion, and the logarithm of the samples, so no answer left is worth a term. "
+                  f"A term that the physics asks for is held at its value of theory, in {nxt}, with hold = True."]
     elif nxt and quiet:          # the page said write the next file where the command said the records ask for no more (round 4 of the cold tests)
         lines += ["", f"The loop stops here: no answer of where, what or along stands beyond the twin, so the records ask for no more term. A term that the physics asks for is held at its value of theory, in {nxt}, with hold = True."]
     elif nxt:

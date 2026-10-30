@@ -1,0 +1,115 @@
+# The thresholds of 0.1.0, written 2026-10-23 at 03:06, before any count at 0.1.0rc15: drafts that are his to change,
+# from the twelve criteria of the red team of his message 331, reviews/REDTEAM_331.md. tools/met.py reads a table of the
+# counting copy against them, and a row of section B of PLAN.md is met when every criterion that names it is met. A
+# share is met where it lies at or above `at_least`, at or under `at_most`, or within `errors` standard errors of its draws
+# about `around`. A table
+# made at another version than `release` meets nothing, and a criterion with no bound meets nothing. A reading on fewer
+# draws than `min_of`, the draws that its count asks less a tenth, is not counted: a parameter that the table does not
+# score, or draws that failed, leave it short (review 92, moderates 1 and 9).
+# Each criterion has a mode, "default", the package blind, with no dictionary (his messages 337 and 340). A table names
+# its mode, a table that names none was counted with the dictionary on, and a table of another mode meets nothing. The
+# criteria of the dictionary, C3 and C8, were taken out on his message 340, which asks no count of a dictionary.
+
+# Written again 2026-10-24 at 02:05 on his message 352, which left them to the session. C6, C7 and C10 were set again at
+# 03:40 and 04:44 on reviews 98 and 99, after review 98 had named shares of the loop count on its progress log, and
+# C2's min_of moved from 30 to 36 after tables of the bench were on disk. C7 was set again at 12:49 and 14:10 on
+# reviews 103 and 104, after the tables of 0.1.0rc16 were read: its band follows the draws of each reading. C5c was
+# added on 2026-10-27, its 0.12 that of C5, set from 30 sets with its reading of 0.188 beside it. So these
+# thresholds are not blind to the tables, and the page says each reading with its draws. A threshold is set where a
+# package that does what is asked passes on 95 cases of 100 at the count's own draws. A rate that a right package has
+# by construction, a false alarm or a coverage, is its nominal value widened by two standard errors of the count's
+# draws, and where several readings must hold together, by the standard errors that give 95 cases of 100 to all of
+# them. A share of usefulness lies well above what chance gives. Not repaired: min_of = 18 of C6 and C7, at which
+# the four bars of an arm pass together on 0.925, and C6's refused_at_least, fixed at any count of draws.
+
+release = "0.1.0"          # moved from 0.1.0rc22 on 2026-10-28, 0.1.0 being the code of 0.1.0rc22 under its number, his message 430, its tables written again from the rows of that code in `~/twinfit-copies/r010`, no threshold changed. It moved from 0.1.0rc21 on 2026-10-26, its counts on the stamp of 0.1.0rc22, row M494, no threshold changed. It moved from 0.1.0rc20 on 2026-10-25, its counts on the stamp of 0.1.0rc21, row M490, no threshold changed. It moved from 0.1.0rc17 on 2026-10-25, its counts on the stamp of 0.1.0rc19, rows M485 and M486, no threshold changed. It moved from 0.1.0rc16 on 2026-10-24, its counts on the stamp of 0.1.0rc17, row M482 (review 103, moderate 2). It moved from 0.1.0rc15 on 2026-10-23, before any count at 0.1.0rc16: the package blind, his messages 337 and 340, moves the report
+
+[C1]
+row = "M456"
+mode = "default"
+what = "the place of each term of tiers 2 to 5, hidden at the size of the twin, put first by the report"
+table = "pointing"
+at_least = 0.60
+min_of = 27
+
+[C2]
+row = "M457"
+mode = "default"
+what = "what the blind report puts first on the bench of planted shapes at the toy's noise, the place, the shape, the noise and the setting pooled over its questions, against keys that name no term"
+table = "scoreboard"
+at_least = 0.50
+min_of = 36          # the 40 draws of the bench less a tenth (review 99)
+
+[C2b]
+row = "M457"
+mode = "default"
+what = "the same on the held-out questions, at most 0.20 under the bench"
+table = "scoreboard"
+within = 0.20
+min_of = 54
+
+[C4]
+row = "M456"
+mode = "default"
+what = "the setting along which the hidden term changes, named first where it changes along one"
+table = "pointing"
+at_least = 0.60
+min_of = 54
+
+[C5]
+row = "M456"
+mode = "default"
+what = "a right model read against the twin of its case: some answer beyond the twin, a false alarm"
+table = "pointing"
+at_most = 0.12          # the twin of a case has 100 sets (toy/pointing.py): a new draw passes the 95th percentile of 100 sets on 0.059 by construction and of 30 sets on 0.076, two standard errors of 250 draws add 0.030, so 0.09 is the sum at 100 sets (runs/pages/c5_construction.py). The 0.12 was set from 30 sets and stands until your word. At 0.05 a right package fails
+min_of = 225
+
+[C5c]
+row = "M505"
+mode = "default"
+what = "a right model read against the twin of its own fit at the loop's default of 30 sets, as a researcher runs it: some answer beyond the twin, the false alarm the default gives"
+table = "pointing"
+at_most = 0.12          # the line of C5, the level the package claims: 0.1.0rc22 reads 0.188 +- 0.025 of 250 at the default (RED_TEAM.md). Row M509 counted it: at 100 sets the same draws read 0.076 +- 0.017 of 250 (runs/reports/release-0.1.0rc22/OWN_100_SETS.md), under this line, so the default of sets is his decision 13 of PLAN.md. Whether another making of the twin of a draw's own fit does the same is a hypothesis with no count planned. The line of 0.12 was written on 2026-10-27 before any count of 0.1.1 and not moved after
+min_of = 225
+
+[C5b]
+row = "M458"
+mode = "default"
+what = "a right model: the package says that something is missing, a false alarm of toy/power.py"
+table = "power"
+at_most = 0.08          # its own level, 5 per cent, and two standard errors of 200 draws. At 0.05 a right package fails half the time
+min_of = 180
+
+[C6]
+row = "M441"
+mode = "default"
+what = "the loop with the researcher's choices reaches the fifth model, and refuses the term that the toy lacks"
+table = "chosen"
+at_least = 0.80
+refused_at_least = 0.85          # a refusal at the level of 5 per cent, less two standard errors of 20 draws, 0.10. At 0.95 a right loop failed one time in four (reviews 98 and 99)
+min_of = 18
+
+[C7]
+row = "M441"
+mode = "default"
+what = "one bar of each parameter of the final model holds its truth, on each arm of the loop count apart, the noise read from neighbouring samples and the toy's law of the noise: the collisions and the transit, held at theory, by the fit that frees them as a test, his message 340, row M480"
+table = "chosen"
+around = 0.683          # one bar holds its truth on 68.3 per cent of draws
+errors = 2.73          # standard errors of the draws of each reading on either side: the eight bars of both arms met together on 95 cases of 100 ask each at 99.4, exactly 0.978 together at 20 draws and 0.960 at 100 (review 104, moderate 1). 2.49 was set for four, and a band fixed at 20 draws read 5.5 standard errors wide at 100 (review 103, moderate 1)
+parameters = ["collisions", "gas_width", "laser_noise", "transit"]
+min_of = 18
+
+[C10]
+row = "M444"
+mode = "default"
+what = "the package sees a hidden term more often than the best usual check of an analyst by two standard errors of their difference, each usual check set at a false alarm of 5 per cent on the right model of its case and the package at its own, pooled over the terms at the size of the twin, on the draws of toy/power.py"
+table = "benchmark"
+min_of = 108
+
+[C11]
+row = "M459"
+mode = "default"
+what = "another field: place, shape of the residuals and setting pooled over the projects of the gallery, against keys that name no term"
+table = "gallery"
+at_least = 0.50
+min_of = 198

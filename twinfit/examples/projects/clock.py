@@ -49,4 +49,4 @@ def start_own(record):
 
 ''')
 
-TRUTH = "truth: the centre moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power"
+TRUTH = "truth: the center moves with the power of the probe, 0.12 Hz from the nominal frequency at no power and 0.025 Hz for each microwatt, the light shift, and the width is 1.5 Hz at every power"

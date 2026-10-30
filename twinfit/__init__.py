@@ -1,8 +1,8 @@
 """twinfit: where a model lacks a term. A model is fitted to curves recorded across a design, the structure of what
 the fit leaves is read curve by curve with families of statistics, of the curve, of its values and of their
 transformations, and how that structure changes along each setting of the design is set against a twin of the fit.
-The package says where a term is missing, of which kind and along which setting, fits the terms that a researcher or
-an agent writes, and gives the best model with the uncertainty of each parameter and three proposals for the model and
+The package says where a term is missing, how the residuals are shaped and along which setting, and names no term: it
+fits the terms that a researcher or an agent writes, with the researcher's own list of suspected terms empty at the start, and gives the best model with the uncertainty of each parameter and three proposals for the model and
 three for the experiment at each iteration. It knows nothing of any field.
 
 The path of a researcher:
@@ -14,6 +14,7 @@ The path of a researcher:
     proposals.py   three proposals for the model and three for the experiment, each measured on the twin
     best.py        the best model after the iterations, and five parts of the uncertainty of each parameter
     unsuspected.py what can be said of the known parameters before the missing term is known
+    dictionary.py  the package's own list of generic terms, read only on a flag of the researcher, and never in a blind run
     agent/         the protocol for an agent that drives the package, and what a project needs to start
     examples/      worked projects of other fields, and the gallery, EXAMPLES.md: projects with their truth, what to do and
                    what not to do on each, and what the loop gave. `python -m twinfit example NAME DIR`
@@ -33,7 +34,7 @@ What lies under it:
     losses.py      chi functions: the fit under a cost of the residual that is not its square, with its first order factor, and
                    the windows along both axes of the residuals under each cost
     matched.py     statistics that are formed on the noisy values of a record, and matched to synthetic records of the model
-    candidates.py  a dictionary of terms that a model may lack, each as a discrepancy of the mean
+    candidates.py  the form of a candidate term, a discrepancy of the mean, that a researcher writes
     propose.py     the candidates ranked on the residuals, with the bias that each would mean and what cannot be told apart
     twin.py        synthetic records from a model, to give every reading its law before it is read on the records
     mechanisms.py  a guessed term as the working model with one parameter more, or held at the size that theory gives
@@ -49,13 +50,26 @@ What lies under it:
     standard.py    the standard checks of the residuals, beside the readings of the package
     notebook.py    the record of an analysis: its steps, its predictions stamped before the runs, its refusals
     version.py     the number of the package, and for each version the digest of its code and what it changed
-    notebook.py    the record of an analysis: its steps, its stamped predictions, and what it refuses
+    log.py         the visual log of a run: a slide for each phase of each turn, the equation of each model and what each
+                   term does, `python -m twinfit log DIR`
+    reuse.py       the steps of a run kept by the files, records and fit that made them, and read back by the next run
     agent/         the protocol for an agent that drives the package, and what a project needs to start
 
-The procedure and its limits are in agent/AGENT.md. This is a first version. Its table of candidates is first order, and a
-candidate that is not small must be fitted to be judged: refine.py does that.
+The procedure and its limits are in agent/AGENT.md.
 """
+import os
 import sys
+
+
+
+def _no_fft_threads() -> None:
+    """scipy's FFT keeps no thread of its own: the twins run side by side in forked workers, and a fork after an FFT hung
+    for ever, waiting in the library's fork handler to join a thread that was never woken (0.1.0rc12, measured on its own
+    tests). Set before any FFT, which reads it once, and left as the researcher sets it."""
+    os.environ.setdefault("DUCC0_NUM_THREADS", "1")
+
+
+_no_fft_threads()
 
 if sys.version_info < (3, 11):          # the description is read with tomllib, of Python 3.11
     raise ImportError(f"twinfit needs Python 3.11 or later, and this is Python {sys.version_info.major}.{sys.version_info.minor}")

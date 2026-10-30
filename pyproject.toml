@@ -21,12 +21,23 @@ authors = [{name = "Michelangelo Dondi"}]
 # beside Python 3.14 with numpy 2.5.2 and scipy 1.18.0, each running the five minutes of the README and the gallery.
 dependencies = ["numpy>=2.5", "scipy>=1.16"]
 classifiers = [
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.14",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
 ]
+
+[project.urls]
+Source = "https://github.com/MichelangeloDondi/twinfit"
+Documentation = "https://github.com/MichelangeloDondi/twinfit/blob/main/twinfit/CONTINUING.md"
+Changelog = "https://github.com/MichelangeloDondi/twinfit/blob/main/twinfit/version.py"
+
+[project.optional-dependencies]
+log = ["matplotlib"]          # the visual log of a run, `python -m twinfit log DIR`, and the picture of the residuals of a report: no floor is stated, since none was measured
 
 [project.scripts]
 twinfit = "twinfit.__main__:entry"
@@ -35,7 +46,7 @@ twinfit = "twinfit.__main__:entry"
 packages = ["twinfit", "twinfit.examples", "twinfit.examples.projects"]
 
 [tool.setuptools.package-data]
-twinfit = ["agent/*.md", "agent/*.py", "agent/*.toml", "agent/skill/*.md", "TUTORIAL.md", "README.md", "EXAMPLES.md", "RUBIDIUM.md", "LICENSE", "examples/gallery.json", "examples/rubidium/*.png", "examples/figures/*.png"]
+twinfit = ["agent/*.md", "agent/*.py", "agent/*.toml", "agent/skill/*.md", "TUTORIAL.md", "README.md", "EXAMPLES.md", "RUBIDIUM.md", "CONTINUING.md", "LICENSE", "examples/gallery.json", "examples/rubidium/*.png", "examples/rubidium_twin/*.toml", "examples/rubidium_twin/*.json", "examples/rubidium_twin/model.txt", "examples/rubidium_twin/traces/*.csv", "examples/figures/*.png"]
 
 [tool.setuptools.dynamic]
 version = {attr = "twinfit.version.__version__"}

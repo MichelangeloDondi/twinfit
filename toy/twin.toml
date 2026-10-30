@@ -1,0 +1,21 @@
+# What his 8 recorded traces measure of each trace, which the digital twin draws with and the model of the toy does not
+# hold: his messages 305 and 307. Written by `python toy/adopt.py heights --write` and `python toy/adopt.py laser-noise FILE
+# --write`, read by toy/twin.py, and apart from const.toml and config.toml, so that the counts of the toy, which read
+# those two, stay as they are.
+
+[heights]          # the height of his trace at each condition, in V: the twin's line has it at its top
+kind = "measured"
+unit = "V"
+power_mW = [25, 75, 125, 175, 225, 225, 225, 225]
+temperature_C = [130, 130, 130, 130, 130, 70, 90, 110]
+height_V = [0.04221, 0.4279, 1.176, 2.442, 4.277, 0.06361, 0.3947, 1.871]
+source = "his 8 recorded traces fitted together under the fifth model, each its own height, Rb 5S-6S toy model/5 The transit time/numbers.json. Adopted on 2026-10-21, his message 305. Before: the height of the reference trace and the law of the square of the power and of the density, which made the 70 C trace 1.44 times his"
+
+[laser_noise_of_each_trace]          # the laser noise of each trace of the twin, in MHz: the model and its fits keep one for all 8
+kind = "measured"
+unit = "MHz"
+power_mW = [225, 225, 225, 225, 175, 125, 75, 25]
+temperature_C = [70, 90, 110, 130, 130, 130, 130, 130]
+laser_noise_MHz = [0.369, 0.467, 0.452, 0.169, 0.435, 0.437, 0.627, 0.465]
+source = "each of his 8 recorded traces fitted alone under the fifth model, scale_asked.json, where his trace tells its laser noise from nothing, and the joint value of all 8 where it does not: 70 C, 225 mW. Adopted on 2026-10-21, his message 307"
+of_the_joint_MHz = 0.369

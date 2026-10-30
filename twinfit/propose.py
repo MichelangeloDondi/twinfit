@@ -1,12 +1,12 @@
-"""The candidates of a dictionary ranked on the residuals of a fit, with what each would mean for the estimates.
+"""The candidates of a list ranked on the residuals of a fit, with what each would mean for the estimates.
 
 For a candidate with columns D, in units of the noise and freed of the own parameters, the residuals keep the visible part
 V = (I - P) D. The score of the candidate is the part of the squared residual that V explains, a chi square with as many
 degrees of freedom as V has independent columns when the working model is right. This is the canonical score test for an
-added term, read here for a whole dictionary at once. For each candidate the table gives:
+added term, read here for a whole list at once. For each candidate the table gives:
 
     score, degrees of freedom      the canonical test of the term, and its level on its own
-    family level                   the same level once the whole dictionary was looked at: the share of draws of the
+    family level                   the same level once the whole list was looked at: the share of draws of the
                                    residuals under a right model in which SOME candidate does as well. It is computed
                                    with no fit, from the correlations of the visible parts
     amplitude                      the size of the term that the residuals ask for, with its standard deviation
@@ -17,7 +17,7 @@ added term, read here for a whole dictionary at once. For each candidate the tab
                                    its score passes the 5 per cent point of the family with a stated probability: one
                                    half by default, and 0.8 and 0.95 beside it. It is not a bound: at the size of the
                                    first number the term is missed on half of the sets. It is given for every candidate,
-                                   whatever its score, for the terms of this dictionary and for no others. It becomes
+                                   whatever its score, for the terms of this list and for no others. It becomes
                                    part of an uncertainty only when the theory of the problem bounds the size of the term
     like                           the candidates whose visible parts are nearly the same curve: these records cannot tell
                                    them apart, and only theory or another design can
@@ -30,7 +30,7 @@ added term, read here for a whole dictionary at once. For each candidate the tab
 
 Three things the table cannot do, said here so that no reader takes it for more. A candidate that lies in the span of the
 model is absorbed whole: it leaves no residual, its score is zero whatever its size, and it is listed as such. A term that
-the dictionary does not hold is not named: the table then shows its nearest relatives. And a term chosen because it ranked
+the list does not hold is not named: the table then shows its nearest relatives. And a term chosen because it ranked
 first is chosen after looking: an estimate made with it is not unbiased, and its interval does not keep its level, until
 synthetic records with the term have shown what the whole procedure returns.
 """
@@ -75,6 +75,9 @@ def _one(lin, cand) -> dict:
     c = W.T @ lin.r
     amp = (U[:, keep] / w[keep]) @ (U[:, keep].T @ (V.T @ lin.r))
     amp_sd = np.sqrt(np.maximum(np.diag((U[:, keep] / w[keep]) @ U[:, keep].T), 0.0))
+    if getattr(cand, "sign", 0) and amp.size == 1 and float(amp[0]) * cand.sign < 0.0:          # a width beside the line that the residuals ask to be negative is no width: its score ties with that of the kernel of the other kind, which they ask positive
+        entry.update({"status": "of the sign that it cannot have", "amplitude": amp.tolist(), "W": None})
+        return entry
     fitted = _combine(cand.columns, amp)
     bias = lin.absorbed(fitted)
     values, sd = lin.fit.shared, led.sd
@@ -106,7 +109,7 @@ def _score_without(W: np.ndarray, other: np.ndarray, r: np.ndarray) -> float:
 
 def family_levels(entries: list, draws: int, seed: int) -> tuple:
     """For each ranked candidate, the share of draws of the residuals under a right model in which the best candidate of the
-    whole dictionary reaches a level as small as this one's. First order: the scores are drawn from their joint normal law.
+    whole list reaches a level as small as this one's. First order: the scores are drawn from their joint normal law.
     Also the level on its own that the best candidate passes in 5 per cent of those draws: the threshold of the family."""
     ranked = [e for e in entries if e["status"] == "ranked"]
     if not ranked:
@@ -217,7 +220,7 @@ def lines(table: dict, top: int = 8, show=()) -> str:
         mark = "" if c.get("proposed", True) else " (odd: an alarm, not proposed)"
         mark += " (shown because it was asked for)" if c in asked else ""
         out.append(f"| {c['name']}{mark} | {c['score']:.1f}, {c['degrees_of_freedom']} | {c['level_on_its_own']:.2g} | {_family_level(c, floor)} | {bias} | "
-                   f"{c['visibility']:.2f} | {', '.join(c['like'][:3]) or 'none in the dictionary'} |")
+                   f"{c['visibility']:.2f} | {', '.join(c['like'][:3]) or 'none in the list'} |")
     missing = [n for n in show if n not in {c["name"] for c in table["candidates"]}]
     if missing:
         out.append("Asked for and not in this table: " + ", ".join(missing) + ".")
@@ -227,13 +230,16 @@ def lines(table: dict, top: int = 8, show=()) -> str:
         out.append(f"Something is missing: {len(table['leading_set'])} candidates pass the threshold of the family, and these records do not choose among them. The first: " + ", ".join(shown) + ".")
         out.append("The bias that they would mean, in standard deviations: " + ". ".join(f"{n} from {v['from']:+.1f} to {v['to']:+.1f}" for n, v in rng.items()) + ".")
     else:
-        out.append("No candidate of the dictionary passes the threshold of the family: the residuals name nothing.")
+        out.append("No candidate of the list passes the threshold of the family: the residuals name nothing.")
     allowance = table.get("bias_at_which_the_most_absorbed_candidate_is_seen", {})
     if allowance:
-        out.append("The bias at which the most absorbed term of this dictionary is seen on half of the sets, in standard deviations, and on 95 per cent of them: "
+        out.append("The bias at which the most absorbed term of this list is seen on half of the sets, in standard deviations, and on 95 per cent of them: "
                    + ". ".join(f"{n} {a['in_its_standard_deviations']:.1f} and {a['the_same_seen_with_probability']['0.95']:.1f}, from {a['from']}" for n, a in allowance.items())
                    + ". It is not a bound: a term of the first size is missed on half of the sets.")
-    gone = [c["name"] for c in table["candidates"] if c["status"] != "ranked"]
+    signed = [c["name"] for c in table["candidates"] if c["status"] == "of the sign that it cannot have"]          # refused for their sign, not absorbed (the code review of 0.1.0rc2, minor 7)
+    gone = [c["name"] for c in table["candidates"] if c["status"] not in ("ranked", "of the sign that it cannot have")]
     if gone:
         out.append("Absorbed whole by the model, so that no statistic of these records sees them: " + ", ".join(gone) + ".")
+    if signed:
+        out.append("Asked by the residuals with a sign that they cannot have, as a negative width: " + ", ".join(signed) + ".")
     return "\n".join(out)

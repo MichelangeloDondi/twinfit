@@ -16,16 +16,31 @@ and its paths are read from the folder that holds it:
     value = "signal"
     value_unit = "V"
 
-    [covariates.temperature]        each condition under which a trace was taken, with its unit
-    unit = "C"
+    [covariates.concentration]      each condition under which a trace was taken, with its unit
+    unit = "mM"
 
     [[trace]]                       one table a trace: its file, its columns, the value of each covariate
     file = "traces/one.csv"
     columns = ["time_s", "signal_V"]
-    temperature = 70
+    concentration = 2.0
 
-    [noise]                         the standard deviation of each sample: one column of the files, one number, or read
-    from = "neighbours"             from the differences of neighbouring samples, as twinfit.noise.flat does
+    [noise]                         the standard deviation of each sample: one column of the files, one number, read
+    from = "neighbours"             from neighbouring samples, a law in the height, as twinfit.noise.from_neighbours does, or
+                                    "residuals": a law of the variance in the height of the curve above its foot, a + b h + c h^2,
+                                    read from the second differences of what the first model leaves, which a smooth
+                                    misfit does not reach, as twinfit.noise.from_residuals does, or "model": the
+                                    law of the researcher, variance(mean, record, own) in model.py, set at the fitted
+                                    mean of each curve and fitted again until it settles, as twinfit.noise.settle does
+
+    [output]                        optional: who reads the output of the loop. "people": the visual log and the
+    for = ["people", "agents"]      pages model_K.md, "agents": a page of each model for an agent, brief_K.md, of
+                                    400 words at most. Both by default. best.md and the tables are written for both
+
+    [literature]                    optional: the search of the literature by an agent, which `python -m twinfit
+    search = "local"                literature DIR` briefs: none, the default, local, the papers held in `folder`,
+    folder = "papers"               online, or both. The model and the effort of the agent that searches. It writes
+    model = "sonnet"                literature.md beside the description, which best.md names
+    effort = "high"
 
     [setup.gain]                    optional: each instrument and setting of the data collection, in words, with its
     words = "the gain of the        value, its uncertainty and its unit where they are known, and whether it was
@@ -55,7 +70,7 @@ and its paths are read from the folder that holds it:
     [addenda.lever.mirror]          a change of an item of the setup, `of`: measured on the twin where the model holds a
     kind = "setup"                  value of that name, as a characterization with its factor, and otherwise named in
     of = "gain"                     the proposals with the words that no term of the model reads it yet
-    words = "the gain measured at each power"
+    words = "the gain measured at each setting"
 
     description = read("description.toml")          refuses what is missing or does not agree, in plain words
     records = description.records()                 one twinfit.Record a trace, its design the covariates
@@ -76,10 +91,14 @@ from pathlib import Path
 
 import numpy as np
 
-from .noise import flat
-from .problem import Record
+from .noise import flat, from_neighbours
+from .problem import Record, even
 
-NOISE = ("column", "value", "neighbours")          # the three ways a description may give the noise of each sample
+ROUNDING = 1e-3          # the part of a step within which an abscissa read from a file is put on its equal steps: the rounding of a file, which dropped the widths of the candidates in silence
+
+NOISE = ("column", "value", "neighbours", "residuals", "model")          # the ways a description may give the noise of each sample: "residuals" reads a law in the height of the curve from what the first model leaves, and "model" the law that model.py gives as variance(mean, record, own), his message 316
+OUTPUT = ("people", "agents")          # who reads the output of the loop, `[output] for`: the visual log and the pages for people, a page of each model for an agent, both by default (his message 316)
+SEARCH = ("none", "local", "online", "both")          # `[literature] search`: the papers held in a folder, those found online, both, or no search (his message 316)
 LEVERS = ("noise", "samples", "span", "repeats", "covariate", "characterization", "setup")
 KNOWN = ("measured", "set", "from its maker", "assumed", "not recorded")          # how an item of the setup is known: a gain is set, an aperture is from its maker          # the ways a lever enters the twin, as proposals.KINDS says each
 
@@ -99,6 +118,8 @@ class Description:
     offset: float = 0.0                  # taken from the abscissa of every trace as it is read (round 5 of the cold tests)
     order: str = ""                      # in which order the curves were taken, which a drift follows (round 10 of the cold tests)
     setup: dict = field(default_factory=dict)          # the instruments and settings of the data collection, his message 184: the agent chose terms knowing the conditions and the noise, and nothing of the setup
+    output: tuple = OUTPUT          # who reads the output of the loop, his message 316
+    literature: dict = field(default_factory=lambda: {"search": "none"})          # the search of the literature that an agent runs, his message 316
 
     def varies(self) -> list:
         """The covariates whose value changes across the traces: the only ones along which a behaviour can be read."""
@@ -114,7 +135,12 @@ class Description:
 
     def records(self) -> list:
         """One Record a trace: its abscissa rising, its values, the standard deviation of each sample from the noise of
-        the description, and its design, the value of each covariate."""
+        the description, and its design, the value of each covariate. An abscissa whose every point lies within
+        `ROUNDING` of a step from equal steps is put on them: a file rounds its abscissa, and the kernel of a width beside
+        the line counts in steps and refuses steps that differ by the last digit kept. On the synthetic traces of his line,
+        rounded to a millionth of their unit, the Gaussian and Lorentzian widths were left out of every candidate with no word
+        (his message 278, the release of 0.1.0). Wider differences are kept as they are, and the report says what they
+        leave unread."""
         out = []
         for k, trace in enumerate(self.traces):
             with open(self.home / trace["file"], newline="") as f:
@@ -129,6 +155,10 @@ class Description:
             x = np.array([float(r[columns[0]]) for r in rows]) - self.offset
             order = np.argsort(x, kind="stable")          # sorted before the noise of neighbours is read: rows in another order read it five times too large (round 7 of the cold tests)
             x, y = x[order], np.array([float(r[columns[1]]) for r in rows])[order]
+            try:
+                x = even(x, ROUNDING)
+            except ValueError:
+                pass          # steps that differ by more than a file's rounding: kept, and where.where names the widths that they leave unread
             how = self.noise["from"]
             if how == "column":
                 sd = np.array([float(r[self.noise["column"]]) for r in rows])[order]
@@ -137,13 +167,16 @@ class Description:
             else:
                 sd = np.full(x.shape, flat(x, y))
             out.append(Record(x, y, sd, {name: trace[name] for name in self.covariates}, name=trace.get("name", trace["file"])))
+        if self.noise["from"] == "neighbours" and out:          # a law in the height of the curve for every record, where one value a record left the bar of a width 2.4 times too narrow (row M492)
+            out = [Record(r.x, r.y, sd, r.design, name=r.name) for r, sd in zip(out, from_neighbours([r.y for r in out]))]
         return out
 
 
-KEYS = {"": {"problem", "covariates", "trace", "noise", "addenda", "setup"}, "setup.*": {"words", "value", "uncertainty", "unit", "known"},
+KEYS = {"": {"problem", "covariates", "trace", "noise", "addenda", "setup", "output", "literature"}, "setup.*": {"words", "value", "uncertainty", "unit", "known"},
+        "output": {"for"}, "literature": {"search", "folder", "model", "effort", "words"},
         "problem": {"name", "what", "abscissa", "abscissa_unit", "value", "value_unit", "abscissa_offset", "order"},
         "covariates.*": {"unit"}, "noise": {"from", "value", "column"},
-        "addenda": {"model", "ansatz", "lever", "papers", "manuals", "notes"},
+        "addenda": {"model", "ansatz", "lever", "papers", "manuals", "notes", "list_of_terms"},
         "addenda.ansatz.*": {"value", "uncertainty"}, "addenda.lever.*": {"kind", "factor", "words", "covariate", "values", "of", "at"}}          # what a description may hold: a lever under [addenda.lvr] was dropped in silence (round 10 of the cold tests)
 
 
@@ -166,7 +199,7 @@ def unknown(data: dict) -> list:
 
 def read(path) -> Description:
     """The description in a file, checked: every trace has its file and a value of every covariate, every covariate has
-    its unit, the noise is given one of the three ways, and every ansatz has its uncertainty. A refusal says what is
+    its unit, the noise is given one of the ways of NOISE, and every ansatz has its uncertainty. A refusal says what is
     missing, so that the researcher can write it."""
     path = Path(path)
     data = tomllib.loads(path.read_text())
@@ -198,6 +231,14 @@ def read(path) -> Description:
         raise ValueError("the noise is given from a column, and no column is named: write column = \"...\"")
     if noise["from"] == "value" and not float(noise.get("value", 0.0)) > 0.0:
         raise ValueError("the noise is given as one value, and none above zero is written: write value = ...")
+    output = (data.get("output") or {}).get("for", list(OUTPUT))
+    if isinstance(output, str):
+        output = [output]
+    if not output or any(who not in OUTPUT for who in output):
+        raise ValueError(f"[output] for = {output!r}: write for = [\"people\"], [\"agents\"] or [\"people\", \"agents\"], who reads the output of the loop")
+    literature = dict(data.get("literature") or {"search": "none"})
+    if literature.get("search", "none") not in SEARCH:
+        raise ValueError(f"[literature] search = {literature.get('search')!r}: it is none, local, online or both")
     setup = data.get("setup") or {}
     for name, item in setup.items():
         if not isinstance(item, dict) or not str(item.get("words", "")).strip():
@@ -241,4 +282,5 @@ def read(path) -> Description:
         raise ValueError(f"the initial model {addenda['model']!r} is not found next to the description")
     return Description(name=problem["name"], what=problem["what"], abscissa=(problem["abscissa"], problem.get("abscissa_unit", "")), value=(problem["value"], problem.get("value_unit", "")),
                        covariates=covariates, traces=traces, noise=noise, addenda=addenda, home=path.parent, offset=float(problem.get("abscissa_offset", 0.0)), order=str(problem.get("order", "")),
-                       setup={name: dict(item, known=item.get("known", "measured")) for name, item in setup.items()})
+                       setup={name: dict(item, known=item.get("known", "measured")) for name, item in setup.items()},
+                       output=tuple(output), literature=dict({"search": "none", "folder": "papers", "model": "sonnet", "effort": "high"}, **literature))

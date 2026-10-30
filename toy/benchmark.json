@@ -1,0 +1,641 @@
+{
+ "package": "0.1.0",
+ "level": 0.05,
+ "methods": {
+  "package": "the package",
+  "runs": "the runs test",
+  "bins": "the binned check",
+  "neighbours": "neighbouring samples, as Durbin and Watson",
+  "chi2": "the chi square of the fit",
+  "hybrid": "the package and the usual checks"
+ },
+ "cases": {
+  "2 hidden under 1": {
+   "right": "1, right",
+   "levels": {
+    "runs": 0.05560336,
+    "bins": 0.0103137965,
+    "neighbours": 0.029484215,
+    "chi2": 1.022491260790792,
+    "hybrid": 0.0
+   },
+   "package": {
+    "share": 0.8666666666666667,
+    "standard_error": 0.06206328908341751,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.2,
+    "standard_error": 0.07302967433402216,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.06666666666666667,
+    "standard_error": 0.04554200340426488,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.16666666666666666,
+    "standard_error": 0.06804138174397717,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.8666666666666667,
+    "standard_error": 0.06206328908341751,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "natural_width changes along T": 0.8666666666666667,
+    "no term is fitted": 0.13333333333333333
+   }
+  },
+  "2 hidden under 1, at 0.5 of the size of the twin": {
+   "right": "1, right",
+   "levels": {
+    "runs": 0.05560336,
+    "bins": 0.0103137965,
+    "neighbours": 0.029484215,
+    "chi2": 1.022491260790792,
+    "hybrid": 0.0
+   },
+   "package": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "no term is fitted": 0.8666666666666667,
+    "natural_width changes along T": 0.13333333333333333
+   }
+  },
+  "3 hidden under 2 with nothing free": {
+   "right": "2 with nothing free, right",
+   "levels": {
+    "runs": 0.057513505,
+    "bins": 0.064050545,
+    "neighbours": 0.052502030000000005,
+    "chi2": 1.0321982630008526,
+    "hybrid": 0.038523985000000004
+   },
+   "package": {
+    "share": 0.8,
+    "standard_error": 0.07302967433402215,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.1,
+    "standard_error": 0.05477225575051661,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.5333333333333333,
+    "standard_error": 0.09108400680852977,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.8666666666666667,
+    "standard_error": 0.06206328908341751,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.0,
+     "standard_error": 0.0,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "no term is fitted": 1.0
+   }
+  },
+  "3 hidden under 2 with nothing free, at 0.5 of the size of the twin": {
+   "right": "2 with nothing free, right",
+   "levels": {
+    "runs": 0.057513505,
+    "bins": 0.064050545,
+    "neighbours": 0.052502030000000005,
+    "chi2": 1.0321982630008526,
+    "hybrid": 0.038523985000000004
+   },
+   "package": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.06666666666666667,
+    "standard_error": 0.04554200340426488,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.2,
+    "standard_error": 0.07302967433402216,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.16666666666666666,
+    "standard_error": 0.06804138174397717,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.0,
+     "standard_error": 0.0,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "no term is fitted": 1.0
+   }
+  },
+  "4 hidden under 3": {
+   "right": "3, right",
+   "levels": {
+    "runs": 0.041708565,
+    "bins": 0.081406055,
+    "neighbours": 0.056093340000000005,
+    "chi2": 1.0197607907918576,
+    "hybrid": 0.032328895918367344
+   },
+   "package": {
+    "share": 1.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.9,
+    "standard_error": 0.054772255750516606,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.16666666666666666,
+    "standard_error": 0.06804138174397717,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.2,
+    "standard_error": 0.07302967433402216,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 1.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.02,
+     "standard_error": 0.01979898987322333,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "gas_width changes along P": 0.5666666666666667,
+    "gas_width changes along T": 0.43333333333333335
+   }
+  },
+  "4 hidden under 3, at 0.5 of the size of the twin": {
+   "right": "3, right",
+   "levels": {
+    "runs": 0.041708565,
+    "bins": 0.081406055,
+    "neighbours": 0.056093340000000005,
+    "chi2": 1.0197607907918576,
+    "hybrid": 0.032328895918367344
+   },
+   "package": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.13333333333333333,
+    "standard_error": 0.06206328908341752,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.1,
+    "standard_error": 0.05477225575051661,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.06666666666666667,
+    "standard_error": 0.04554200340426488,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.23333333333333334,
+    "standard_error": 0.07722022379508468,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.02,
+     "standard_error": 0.01979898987322333,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "no term is fitted": 0.8666666666666667,
+    "gas_width changes along P": 0.1,
+    "gas_width changes along T": 0.03333333333333333
+   }
+  },
+  "5 hidden under 4": {
+   "right": "4, right",
+   "levels": {
+    "runs": 0.074095105,
+    "bins": 0.029375750000000003,
+    "neighbours": 0.066284815,
+    "chi2": 1.0271855148156044,
+    "hybrid": 0.0
+   },
+   "package": {
+    "share": 1.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.5333333333333333,
+    "standard_error": 0.09108400680852977,
+    "of": 30
+   },
+   "bins": {
+    "share": 1.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.7666666666666667,
+    "standard_error": 0.07722022379508468,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.16666666666666666,
+    "standard_error": 0.06804138174397717,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 1.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.08,
+     "standard_error": 0.03836665218650176,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.08,
+     "standard_error": 0.03836665218650176,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "laser_noise changes along T": 0.5666666666666667,
+    "gas_width changes along T": 0.43333333333333335
+   }
+  },
+  "5 hidden under 4, at 0.5 of the size of the twin": {
+   "right": "4, right",
+   "levels": {
+    "runs": 0.074095105,
+    "bins": 0.029375750000000003,
+    "neighbours": 0.066284815,
+    "chi2": 1.0271855148156044,
+    "hybrid": 0.0
+   },
+   "package": {
+    "share": 0.4,
+    "standard_error": 0.08944271909999159,
+    "of": 30
+   },
+   "runs": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "bins": {
+    "share": 0.03333333333333333,
+    "standard_error": 0.032773069341672505,
+    "of": 30
+   },
+   "neighbours": {
+    "share": 0.06666666666666667,
+    "standard_error": 0.04554200340426488,
+    "of": 30
+   },
+   "chi2": {
+    "share": 0.0,
+    "standard_error": 0.0,
+    "of": 30
+   },
+   "hybrid": {
+    "share": 0.4,
+    "standard_error": 0.08944271909999159,
+    "of": 30
+   },
+   "false_alarm": {
+    "package": {
+     "share": 0.08,
+     "standard_error": 0.03836665218650176,
+     "of": 50
+    },
+    "runs": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "bins": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "neighbours": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "chi2": {
+     "share": 0.06,
+     "standard_error": 0.03358571124749333,
+     "of": 50
+    },
+    "hybrid": {
+     "share": 0.08,
+     "standard_error": 0.03836665218650176,
+     "of": 50
+    }
+   },
+   "named_first": {
+    "no term is fitted": 0.6,
+    "laser_noise changes along T": 0.13333333333333333,
+    "gas_width changes along T": 0.1,
+    "laser_noise changes along P": 0.1,
+    "gas_width changes along P": 0.06666666666666667
+   }
+  }
+ },
+ "summary": {
+  "the package, pooled": {
+   "share": 0.9166666666666666,
+   "standard_error": 0.025230419617479103,
+   "of": 120
+  },
+  "the hybrid, pooled": {
+   "share": 0.9333333333333333,
+   "standard_error": 0.022771001702132438,
+   "of": 120
+  },
+  "the best usual check, pooled, the binned check": {
+   "share": 0.6583333333333333,
+   "standard_error": 0.043294587378750894,
+   "of": 120
+  }
+ }
+}

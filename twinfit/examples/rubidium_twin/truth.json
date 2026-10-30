@@ -1,0 +1,84 @@
+{
+ "detail": 5,
+ "parameters": {
+  "natural_width": 3.4925377022579625,
+  "collisions": 3.5,
+  "gas_width": 0.037,
+  "laser_noise": 0.369,
+  "transit": 1.0399981409634105
+ },
+ "traces": [
+  {
+   "file": "trace_P025mW_T130C.csv",
+   "power_mW": 25,
+   "temperature_C": 130,
+   "height_V": 0.04221,
+   "lorentzian_width_MHz": 3.6540323687661367,
+   "density_per_cm3": 35569904716621.21,
+   "laser_noise_MHz": 0.465
+  },
+  {
+   "file": "trace_P075mW_T130C.csv",
+   "power_mW": 75,
+   "temperature_C": 130,
+   "height_V": 0.4279,
+   "lorentzian_width_MHz": 3.6540323687661367,
+   "density_per_cm3": 35569904716621.21,
+   "laser_noise_MHz": 0.627
+  },
+  {
+   "file": "trace_P125mW_T130C.csv",
+   "power_mW": 125,
+   "temperature_C": 130,
+   "height_V": 1.176,
+   "lorentzian_width_MHz": 3.6540323687661367,
+   "density_per_cm3": 35569904716621.21,
+   "laser_noise_MHz": 0.437
+  },
+  {
+   "file": "trace_P175mW_T130C.csv",
+   "power_mW": 175,
+   "temperature_C": 130,
+   "height_V": 2.442,
+   "lorentzian_width_MHz": 3.6540323687661367,
+   "density_per_cm3": 35569904716621.21,
+   "laser_noise_MHz": 0.435
+  },
+  {
+   "file": "trace_P225mW_T130C.csv",
+   "power_mW": 225,
+   "temperature_C": 130,
+   "height_V": 4.277,
+   "lorentzian_width_MHz": 3.6540323687661367,
+   "density_per_cm3": 35569904716621.21,
+   "laser_noise_MHz": 0.169
+  },
+  {
+   "file": "trace_P225mW_T070C.csv",
+   "power_mW": 225,
+   "temperature_C": 70,
+   "height_V": 0.06361,
+   "lorentzian_width_MHz": 3.5321255598771266,
+   "density_per_cm3": 739387891189.8378,
+   "laser_noise_MHz": 0.369
+  },
+  {
+   "file": "trace_P225mW_T090C.csv",
+   "power_mW": 225,
+   "temperature_C": 90,
+   "height_V": 0.3947,
+   "lorentzian_width_MHz": 3.5404203807565544,
+   "density_per_cm3": 3109336713883.486,
+   "laser_noise_MHz": 0.467
+  },
+  {
+   "file": "trace_P225mW_T110C.csv",
+   "power_mW": 225,
+   "temperature_C": 110,
+   "height_V": 1.8709999999999998,
+   "lorentzian_width_MHz": 3.568816595654621,
+   "density_per_cm3": 11222540970473.955,
+   "laser_noise_MHz": 0.45199999999999996
+  }
+ ]
+}

@@ -106,14 +106,22 @@ def _span(M: np.ndarray) -> np.ndarray:
 
 def moments(orders=(0, 1, 2, 3, 4), kernel: str = "power", scales=(1.0,)):
     """Generalised moments. The abscissa u is counted from the centre in widths of the curve. `kernel`: "power", u to each
-    whole order. "distance", the distance to each order, which may be fractional. "inverse", 1 / (u^2 + a^2) for each scale
-    a. "logarithm", log(1 + u^2 / a^2) for each scale. "cosine" and "sine", of each order as a frequency in cycles a width."""
+    whole order. "distance", the distance to each order, which may be fractional. "negative", the distance to each negative
+    order, floored at a quarter of a width so that the centre does not swallow the sum, which weights the core as the
+    positive orders weight the wings. "inverse", 1 / (u^2 + a^2) for each scale a. "logarithm", log(1 + u^2 / a^2) for
+    each scale. "exponential", exp(-|u| / a) and exp(-u^2 / a^2) for each scale: the weights of a Lorentzian's and a
+    Gaussian's own characteristic functions, which an exponential kernel and a Gaussian width move otherwise (the owner's
+    message 263). "cosine" and "sine", of each order as a frequency in cycles a width."""
     def rule(u, v):
         reach = float(np.abs(u).max()) or 1.0          # a power is taken of the abscissa over its largest distance, so that the columns keep a size
         if kernel == "power":
             return [(u / reach) ** int(p) for p in orders]
         if kernel == "distance":
             return [np.abs(u / reach) ** float(p) for p in orders]
+        if kernel == "negative":
+            return [np.maximum(np.abs(u), 0.25) ** (-float(p)) for p in orders]
+        if kernel == "exponential":
+            return [w for a in scales for w in (np.exp(-np.abs(u) / a), np.exp(-u * u / (a * a)))]
         if kernel == "inverse":
             return [1.0 / (u * u + a * a) for a in scales]
         if kernel == "logarithm":
@@ -121,7 +129,7 @@ def moments(orders=(0, 1, 2, 3, 4), kernel: str = "power", scales=(1.0,)):
         if kernel in ("cosine", "sine"):
             wave = np.cos if kernel == "cosine" else np.sin
             return [wave(2.0 * np.pi * float(f) * u) for f in orders]
-        raise ValueError(f"no kernel is called {kernel!r}: power, distance, inverse, logarithm, cosine or sine")
+        raise ValueError(f"no kernel is called {kernel!r}: power, distance, negative, inverse, logarithm, exponential, cosine or sine")
     return rule
 
 
@@ -257,21 +265,44 @@ def crossings(levels=TENTHS, half: float = 0.05):
     return rule
 
 
-def transformed(how: str = "logarithm", orders=range(5), above: float = 0.1):
-    """Moments of a transformation of the value, at first order: power kernels over the fitted curve for its logarithm,
-    over the square of the fitted curve for its reciprocal, on the samples whose fitted value is above a part of the
-    height over the lowest fitted value. Below that part the transformation of a noisy value has no first order. The
-    curve is the fitted mean as the record holds it, its baseline included: the logarithm that an analyst takes."""
-    if how not in ("logarithm", "reciprocal"):
-        raise ValueError("the transformation is logarithm or reciprocal")
+def hermite(orders=range(3, 9), scale: float = 0.5):
+    """Hermite functions about the centre, H_n(u / scale) exp(-u^2 / (2 scale^2)) for each order, u in widths of the curve:
+    the Gram-Charlier reading, where the order of the coefficient that moves names the moment that is wrong, 3 for an
+    asymmetry, 4 and 6 for the wings, which the collinear powers of the abscissa name nothing of (the owner's message
+    266). The scale, half a width, puts the Gaussian weight on the line."""
+    from numpy.polynomial.hermite_e import hermeval
+
+    def rule(u, v):
+        z = u / scale
+        return [hermeval(z, [0.0] * int(n) + [1.0]) * np.exp(-0.5 * z * z) for n in orders]
+    return rule
+
+
+def transformed(how="logarithm", orders=range(5), above: float = 0.1):
+    """Moments of a transformation g of the value, at first order: a sum of g(y) under a kernel is, to first order in the
+    residual, a sum of the residual under the kernel times g'(f), the derivative of g at the fitted curve, on the samples
+    whose fitted value is above a part of the height over the lowest fitted value. Below that part the transformation of
+    a noisy value has no first order. `how`: "logarithm", g' = 1 / f; "reciprocal", 1 / f^2; "square", 2 f; "root",
+    1 / (2 sqrt f); "exponential", exp(f / s) / s with s the largest fitted value of the record, so that the exponential
+    of a value in counts does not overflow; or a callable g'(f), any function of the value that a researcher takes (the
+    owner's message 265: "not only f(x), but also (f(x))^2, (f(x))^0.5, exp(f(x)), g(y), etc."). The curve is the fitted
+    mean as the record holds it, its baseline included: the logarithm that an analyst takes. The logarithm, the
+    reciprocal and the root need fitted values over zero where they are taken."""
+    named = {"logarithm": lambda f, s: 1.0 / f, "reciprocal": lambda f, s: 1.0 / (f * f), "square": lambda f, s: 2.0 * f,
+             "root": lambda f, s: 0.5 / np.sqrt(f), "exponential": lambda f, s: np.exp(f / s) / s}
+    if not callable(how) and how not in named:
+        raise ValueError("the transformation is logarithm, reciprocal, square, root, exponential, or a callable derivative g'(f)")
+    slope = how if callable(how) else named[how]
+    positive = how in ("logarithm", "reciprocal", "root")
 
     def rule(u, v, f):
-        if np.any(f[v > above] <= 0.0):
+        keep = v > above
+        if positive and np.any(f[keep] <= 0.0):
             raise ValueError(f"the {how} of a curve needs fitted values over zero where it is taken")
         reach = float(np.abs(u).max()) or 1.0
-        keep = v > above
-        safe = np.where(keep, f, 1.0) ** (1 if how == "logarithm" else 2)
-        return [keep * (u / reach) ** int(p) / safe for p in orders]
+        scale = float(np.max(np.abs(f))) or 1.0
+        weight = np.asarray(slope(np.where(keep, f, 1.0), scale), dtype=float)
+        return [keep * (u / reach) ** int(p) * weight for p in orders]
     rule.curve = True          # this rule is given the fitted curve itself as a third argument
     return rule
 
@@ -308,6 +339,9 @@ def catalogue(centre: str | None = None) -> dict:
         "moments: powers 0 to 8": moments(range(9)),
         "moments: fractional powers of the distance": union(low, moments((0.5, 1.5, 2.0, 2.5, 3.0), "distance")),
         "moments: inverse and logarithmic kernels": union(low, moments(kernel="inverse", scales=(0.5, 1.0, 2.0, 4.0)), moments(kernel="logarithm", scales=(1.0, 4.0))),
+        "moments: negative orders of the distance": union(low, moments((0.5, 1.0, 2.0), "negative")),
+        "moments: exponential and Gaussian kernels": union(low, moments(kernel="exponential", scales=(0.5, 1.0, 2.0, 4.0))),
+        "Hermite functions about the centre: orders 3 to 8": union(low, hermite()),
         "moments: cosines and sines": union(moments((0,)), moments((0.1, 0.25, 0.5, 1.0, 2.0), "cosine"), moments((0.1, 0.25, 0.5), "sine")),
         "windows along the abscissa: pairs of intervals, the two sides added and subtracted": slices(),
         "the two sides added: pairs of intervals, the centre held": (slices(sides="sum", mirror=True), ("centre",)),
@@ -319,6 +353,9 @@ def catalogue(centre: str | None = None) -> dict:
         "ratios of moments of the distance: orders 0.5 to 4 over order 0": union(moments((0, 1)), ratios((0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0))),
         "the logarithm of the value: power kernels 0 to 8": transformed("logarithm", range(9)),
         "the reciprocal of the value: power kernels 0 to 8": transformed("reciprocal", range(9)),
+        "the square of the value: power kernels 0 to 8": transformed("square", range(9)),
+        "the square root of the value: power kernels 0 to 8": transformed("root", range(9)),
+        "the exponential of the value: power kernels 0 to 8": transformed("exponential", range(9)),
         "every sample: the fit": window(),
     }
     even = "the two sides added: pairs of intervals, the centre held"
@@ -401,7 +438,11 @@ def planted_table(lin, terms: dict, centre: str | None = None, level: float = 0.
         if not got.converged:
             out[label] = {"the_fit_did_not_end": True}
             continue
-        at = Linear(planted, got)
+        try:          # one degenerate planted fit is one empty row, not the end of the matrix (the code review of 0.1.0rc2, moderate 6)
+            at = Linear(planted, got)
+        except (np.linalg.LinAlgError, ValueError):
+            out[label] = {"the_fit_did_not_end": True}
+            continue
         row = {}
         for name in catalogue(centre):
             try:
@@ -414,6 +455,7 @@ def planted_table(lin, terms: dict, centre: str | None = None, level: float = 0.
                      "largest_standard_deviation_over_the_fit_in_any_direction": finite([fam.bounds()["largest_over_the_fit_in_any_direction"]])[0]}          # at the fit that holds the term: the figure that a verdict made at this fit would read
             if name == "every sample: the fit":
                 entry["bias_in_standard_deviations_of_the_fit"] = finite((got.shared - base.shared) / fit_sd)
+                entry["noncentrality"] = float(lam)          # what the fit of every sample reads of the term with no noise: the square of the deviations at which it sees it
             elif searched[name]:
                 try:
                     est = fam.estimate(verdict=True)
@@ -425,6 +467,303 @@ def planted_table(lin, terms: dict, centre: str | None = None, level: float = 0.
             row[name] = entry
         out[label] = row
     return out
+
+
+NOISE_SHAPES = ("a noise skewed to one side", "a noise with heavy tails")          # the answers of the question noise. The other readings of the noise answer what
+
+
+LOCAL = 0.25          # the noise is read on the residuals less their running mean over this share of the width of a curve
+
+
+def local_part(ordered, samples: int) -> np.ndarray:
+    """A residual in the order of its abscissa less its running mean over `samples` neighbours, the ends averaged over
+    the neighbours that they have: what of it changes from sample to sample. A shape of the mean changes on the scale of
+    the width of a curve and leaves it, and the noise stays, the separation of the estimators of a noise variance by
+    differences (Rice 1984, Gasser, Sroka and Jennen-Steinmetz 1986)."""
+    o = np.asarray(ordered, dtype=float)
+    if samples < 2 or o.size < samples:
+        return o
+    kernel = np.ones(samples)
+    return o - np.convolve(o, kernel, "same") / np.convolve(np.ones_like(o), kernel, "same")
+
+
+def lag_one_white(n: int, samples: int) -> float:
+    """The mean, under a white noise of unit variance, of the sum over neighbours of the products of `local_part` of n
+    samples over a window of `samples`: the level from which the products of neighbours of a correlated noise are read.
+    For row i of the running mean a_i, of c_i samples, the product of rows i and i+1 of the identity less it is
+    a_i . a_(i+1) - 1/c_i - 1/c_(i+1), -(K + 1)/K^2 inside, -4/9 for three samples."""
+    if samples < 2 or n < samples or n < 2:
+        return 0.0
+    h = samples // 2
+    i = np.arange(n - 1)
+    lo, hi = np.maximum(i - h, 0), np.minimum(i + h, n - 1)
+    lo1, hi1 = np.maximum(i + 1 - h, 0), np.minimum(i + 1 + h, n - 1)
+    c, c1 = hi - lo + 1, hi1 - lo1 + 1
+    overlap = np.minimum(hi, hi1) - np.maximum(lo, lo1) + 1
+    return float(np.sum(overlap / (c * c1) - 1.0 / c - 1.0 / c1))
+
+
+def local_self(n: int, samples: int) -> float:
+    """The sum of the variances of `local_part` of n samples of a white noise of unit variance, 1 - 1/c_i for a running
+    mean of c_i samples: the scale against which the products of neighbours are read."""
+    if samples < 2 or n < samples:
+        return float(n)
+    h = samples // 2
+    i = np.arange(n)
+    c = np.minimum(i + h, n - 1) - np.maximum(i - h, 0) + 1
+    return float(np.sum(1.0 - 1.0 / c))
+
+
+def noise_reader(lin):
+    """The readings of the noise that the report gives, as one function of a whitened residual of the records of `lin`,
+    so that the report and `families.noise_matrix` read the same: the largest squared residual, which names glitches;
+    the trend of the squared residuals with the fitted height, a standard normal deviate under a right model, which
+    names a noise that grows with the signal; the products of neighbours in the order of the abscissa, a deviate too,
+    which names a noise correlated from sample to sample; and `noise_shape`. Each is read on `local_part` of the
+    residuals, over `LOCAL` of the width of each curve and three samples at least: a term that the model lacks leaves a
+    misfit tallest where the curve is tallest, and read on the residuals themselves the worked spectra of nuclear
+    magnetic resonance, whose width changes along a setting, named a noise that grows with the signal beyond the
+    twin. The twin reads its sets the same way, so the levels hold. Returns the function, with the heights, the orders
+    and the windows read once."""
+    problem, result = lin.problem, lin.fit
+    rows = [lin.rows_of(k) for k in range(len(problem.records))]
+    orders = [np.argsort(np.asarray(rec.x, dtype=float), kind="stable") for rec in problem.records]
+    steps = [float(np.median(np.diff(np.asarray(rec.x, dtype=float)[o]))) if rec.x.size > 1 else 0.0 for rec, o in zip(problem.records, orders)]
+    windows = [max(3, int(round(LOCAL * lin.width_of(k) / s)) | 1) if s > 0.0 else 1 for k, s in enumerate(steps)]          # odd, so that the mean is centred on its sample
+    heights = np.concatenate([np.asarray(problem.predict(k, result.shared, result.own[k]), dtype=float) for k in range(len(problem.records))])
+    h = (heights - heights.mean()) / (heights.std() or 1.0)
+    pairs = sum(rec.x.size - 1 for rec in problem.records)
+    white = sum(lag_one_white(rec.x.size, w) for rec, w in zip(problem.records, windows))          # what the products of neighbours of a white noise sum to through the running mean, -4/9 a pair for three samples
+    selves = sum(local_self(rec.x.size, w) for rec, w in zip(problem.records, windows))          # and its squares
+
+    def read(r) -> dict:
+        r = np.asarray(r, dtype=float)
+        ordered = [local_part(r[i][o], w) for i, o, w in zip(rows, orders, windows)]
+        back = []
+        for d, o in zip(ordered, orders):          # in the order of the records, beside their heights
+            un = np.empty_like(d)
+            un[o] = d
+            back.append(un)
+        out = {"glitches": float(max(np.max(o * o) for o in ordered))}
+        out.update(noise_shape(ordered))
+        flat = np.concatenate(back)
+        out["a noise that grows with the signal"] = float(abs(h @ (flat * flat - 1.0)) / np.sqrt(max(h @ h * 2.0, 1e-300)))
+        scale = sum(float(o @ o) for o in ordered) / max(selves, 1e-300)          # the variance of the residuals, so that the reading grows as their square, as every statistic of the report
+        out["a noise correlated from sample to sample"] = float(abs(sum(float(o[:-1] @ o[1:]) for o in ordered) - white * scale) / np.sqrt(max(pairs, 1)))          # from the level of a white noise of that variance: read from zero, the running mean of three samples hid a correlation of 0.5 in 400 draws of 400
+        return out
+    return read
+
+
+def noise_shape(ordered: list) -> dict:
+    """The shape of the distribution of the whitened residuals, which nothing linear in them sees (the owner's message
+    266): their skewness over its standard error under a normal law, sqrt(6 / n), which names a noise skewed to one side,
+    counting at low light, a clipped or saturating detector; and their excess kurtosis over sqrt(24 / n), which names
+    heavy tails and glitches. Each a standard normal deviate at first order under a right model, taken without sign. Both
+    are taken about the sample's own mean and variance, as those standard errors ask: taken about the variance that the
+    description states, a noise stated 10 per cent too small read as heavy tails beyond the twin, and noise-free curves
+    as nothing else (the code review of 0.1.0rc2, moderate 5)."""
+    r = np.concatenate([np.asarray(o, dtype=float) for o in ordered]) if ordered else np.zeros(0)
+    n = r.size
+    if n < 8:
+        return {"a noise skewed to one side": 0.0, "a noise with heavy tails": 0.0}
+    z = r - r.mean()
+    m2 = float(np.mean(z ** 2))
+    if not m2 > 0.0:
+        return {"a noise skewed to one side": 0.0, "a noise with heavy tails": 0.0}
+    return {"a noise skewed to one side": float(abs(np.mean(z ** 3) / m2 ** 1.5) / np.sqrt(6.0 / n)), "a noise with heavy tails": float(abs(np.mean(z ** 4) / m2 ** 2 - 3.0) / np.sqrt(24.0 / n))}
+
+
+TOGETHER_BINS = 24          # the bins of the abscissa common to the records, in which the records are added
+BEYOND = ("the records together: every record added in bins of the abscissa",)          # the reading that no family gives (the owner's message 269)
+
+
+def beyond_reader(lin):
+    """A reading that no family gives, a function of a whitened residual, whose level the twin gives as it gives every
+    reading of the report (the owner's message 269): the records together. Every family reads record by record and adds
+    the records in squares, so a systematic that is the same on every record, as a fringe fixed to the abscissa of the
+    instrument, gains nothing from their number. Here the residuals of every record are added first, in bins of the
+    abscissa common to them, and each bin's sum over the root of its count is squared and summed. On the toy, a fringe
+    fixed to the abscissa at five deviations of the plain fit is reported in 48 draws of 100 by it and in 18 by the best
+    family. The local parameters, each parameter read along its own derivative window by window, were measured beside
+    it and gave no draw that the best family did not, so they are not a reading: each reading added raises the line that
+    every answer of the report passes. Returns the function, with the bins read once."""
+    pr = lin.problem
+    rows = [lin.rows_of(k) for k in range(len(pr.records))]
+    xs = [np.asarray(rec.x, dtype=float) for rec in pr.records]
+    low, high = min(float(x.min()) for x in xs), max(float(x.max()) for x in xs)
+    edges = np.linspace(low, high, TOGETHER_BINS + 1)
+    bins = [np.clip(np.searchsorted(edges, x, side="right") - 1, 0, TOGETHER_BINS - 1) for x in xs]
+    count = sum(np.bincount(b, minlength=TOGETHER_BINS) for b in bins).astype(float)
+    seen = count > 0
+
+    def read(r) -> dict:
+        r = np.asarray(r, dtype=float)
+        sums = sum(np.bincount(b, weights=r[i], minlength=TOGETHER_BINS) for i, b in zip(rows, bins))
+        return {BEYOND[0]: float(np.sum(sums[seen] ** 2 / count[seen]))}
+    return read
+
+
+OPPONENTS = ("the opponent: the runs test of the signs, record by record",
+             "the opponent: Durbin and Watson, the lag one correlation, record by record")          # what practitioners read today (the owner's message 271, review 66): beside the families on the same draws, never in the line of the report
+
+
+def opponent_reader(lin):
+    """The tests that a practitioner reads on what a fit leaves, as functions of a whitened residual, so that the noise
+    matrix sets them against the families on the same draws, each at a line of its own from a normal noise. The runs
+    test of Wald and Wolfowitz: in each record, the runs of one sign in the order of the abscissa against the number
+    that signs at random give, as a deviate, and the deviates squared and summed over the records. The statistic of
+    Durbin and Watson: in each record, one less half of the sum of the squared differences of neighbours over the sum
+    of squares, which is the correlation of neighbours, times the root of the samples, summed over the records, so
+    that a smooth misfit reads positive. Neither is read by the report: they are opponents, measured and not used."""
+    pr = lin.problem
+    order = [lin.rows_of(k) for k in range(len(pr.records))]
+    sort = [np.argsort(np.asarray(rec.x, dtype=float), kind="stable") for rec in pr.records]
+
+    def read(r) -> dict:
+        r = np.asarray(r, dtype=float)
+        runs = durbin = 0.0
+        for rows, o in zip(order, sort):
+            e = r[rows][o]
+            n = e.size
+            if n < 3:
+                continue
+            up = e > 0.0
+            a, b = float(up.sum()), float(n - up.sum())
+            if a and b:
+                mean = 2.0 * a * b / n + 1.0
+                var = 2.0 * a * b * (2.0 * a * b - n) / (n * n * (n - 1.0))
+                seen = 1.0 + float(np.count_nonzero(up[1:] != up[:-1]))
+                runs += (seen - mean) ** 2 / max(var, 1e-12)
+            ss = float(e @ e)
+            if ss > 0.0:
+                durbin += (1.0 - 0.5 * float(np.sum(np.diff(e) ** 2)) / ss) * np.sqrt(n)
+        return {OPPONENTS[0]: float(runs), OPPONENTS[1]: float(durbin)}
+    return read
+
+
+def _left_out_quantile(ordered, value: float, q: float) -> float:
+    """The quantile q, linear between neighbours as numpy's default, of the sorted values `ordered` with one occurrence
+    of `value` left out: the line that a draw of the null is read against when it is not among the draws that set the
+    line. One look up each way, where a quantile taken again over the others costs the whole sample each time."""
+    n = ordered.size - 1
+    at = int(np.searchsorted(ordered, value))
+    pos = q * (n - 1)
+    lo = int(np.floor(pos))
+    hi = min(lo + 1, n - 1)
+
+    def kept(j):
+        return ordered[j] if j < at else ordered[j + 1]
+    return float(kept(lo) + (pos - lo) * (kept(hi) - kept(lo)))
+
+
+NOISE_WORDS = {"normal": "a normal noise as the description states it, drawn again: each of its cells is the level that the line holds",
+               "correlated": "a noise correlated from one sample to the next by 0.5 in the order of the abscissa",
+               "heavy tails": "Student's t of 3 degrees",
+               "skewed": "a chi square of 4 degrees less its mean",
+               "grows with the signal": "a variance in proportion to the height above the foot of the fitted curve plus a tenth of its span",
+               "glitches": "one sample in 500 at six deviations"}          # each noise of `noises`, by the short name of a column and in words
+
+
+def noises(lin) -> dict:
+    """The non-idealities of the noise that a design meets, each a draw of a whitened noise of unit variance on every
+    sample of every record, so that the noise that the description states stays right on average and only its law is
+    wrong: a noise correlated from one sample to the next by 0.5 in the order of the abscissa, as a filter of the
+    detector leaves it; Student's t of 3 degrees, heavy tails; a chi square of 4 degrees less its mean, a noise skewed
+    to one side, as counting at low light or a clipped detector; a variance in proportion to the height above the foot
+    of the fitted curve plus a tenth of its span, a noise that grows with the signal; and one sample in 500 at six
+    deviations, glitches. Each a function of a generator, returning one array a record."""
+    pr, ft = lin.problem, lin.fit
+    orders = [np.argsort(np.asarray(rec.x, dtype=float), kind="stable") for rec in pr.records]
+    here = [np.asarray(pr.predict(k, ft.shared, ft.own[k]), dtype=float) for k in range(len(pr.records))]
+    low, high = min(float(h.min()) for h in here), max(float(h.max()) for h in here)
+    grow = [h - low + 0.1 * (high - low) for h in here]
+    mean = float(np.mean(np.concatenate(grow))) or 1.0
+
+    def correlated(rng):
+        out = []
+        for o in orders:
+            z = rng.standard_normal(o.size)
+            e = np.empty(o.size)
+            e[0] = z[0]
+            for t in range(1, o.size):
+                e[t] = 0.5 * e[t - 1] + np.sqrt(0.75) * z[t]
+            back = np.empty(o.size)
+            back[o] = e          # the sample of the t-th smallest abscissa takes the t-th value
+            out.append(back)
+        return out
+
+    def glitches(rng):
+        out = []
+        for o in orders:
+            z = rng.standard_normal(o.size)
+            hit = rng.random(o.size) < 1.0 / 500.0
+            z[hit] = 6.0 * np.sign(rng.standard_normal(int(hit.sum())))
+            out.append(z / np.sqrt(1.0 + 35.0 / 500.0))          # of unit variance, as every noise of the matrix: one sample in 500 at 36 raises it to 1.07 (the code review of 0.1.0rc2, minor 14)
+        return out
+    return {"correlated": correlated,
+            "heavy tails": lambda rng: [rng.standard_t(3, o.size) / np.sqrt(3.0) for o in orders],
+            "skewed": lambda rng: [(rng.chisquare(4, o.size) - 4.0) / np.sqrt(8.0) for o in orders],
+            "grows with the signal": lambda rng: [rng.standard_normal(g.size) * np.sqrt(g / mean) for g in grow],
+            "glitches": glitches}
+
+
+def noise_matrix(lin, centre: str | None = None, draws: int = 400, seed: int = 1, level: float = 0.05, planted: dict | None = None, null_draws: int | None = None) -> dict:
+    """Which statistic sees which non-ideality of the noise, by simulation (the owner's messages 266 and 267): for each
+    noise of `noises`, the chance over `draws` draws that each family of the catalogue, and each reading of the noise
+    that the report gives (`where.noise_reader`), passes its own line. The line of each statistic is the quantile
+    1 - level of its values over `draws` draws of a normal noise on the same design, so its level is that of the
+    simulation and owes nothing to first order. Each noise is drawn whitened and of unit variance on every sample, taken
+    through the fit as the residuals take it, `Linear.visible`, so that the plain chi square, which reads only the
+    variance, reports each about at the level, and what a family reports is the law of the noise. Returns the draws, the
+    level, the statistics read, and for each noise the chance of each statistic."""
+    read_noise, read_beyond, read_opponents = noise_reader(lin), beyond_reader(lin), opponent_reader(lin)
+    fams = {}
+    for name in catalogue(centre):
+        try:
+            fam = family(lin, name, centre)
+            fam._statistic(lin.r)
+        except (ValueError, np.linalg.LinAlgError):
+            continue          # a family that the package refuses on these records reads nothing here
+        fams[name] = fam
+    sds = [lin.parts[k][0] for k in range(len(lin.problem.records))]
+
+    def readings(per_record):
+        r = lin.visible([e * sd for e, sd in zip(per_record, sds)])
+        out = {name: fam._statistic(r)[0] for name, fam in fams.items()}
+        out.update(read_noise(r))
+        out.update(read_beyond(r))
+        out.update(read_opponents(r))
+        return out
+    rng = np.random.default_rng(seed)
+    null = [readings([rng.standard_normal(sd.size) for sd in sds]) for _ in range(draws if null_draws is None else null_draws)]          # the draws that set each line: more of them, the level that a line holds nearer its own
+    line = {name: float(np.quantile([d[name] for d in null], 1.0 - level)) for name in null[0]}
+    table = {}
+    laws = {"normal": lambda g: [g.standard_normal(sd.size) for sd in sds], **noises(lin)}
+    for name, d in (planted or {}).items():          # a systematic of the mean drawn with a normal noise, so that a reading that is no family, and has no first order, is measured on it too
+        laws[name] = lambda g, d=d: [g.standard_normal(sd.size) + (0.0 if dk is None else np.asarray(dk, dtype=float) / sd) for sd, dk in zip(sds, d)]
+    keys = [name for name in line if name not in OPPONENTS]          # the opponents are read beside the report and not by it
+    ordered = {name: np.sort([d[name] for d in null]) for name in keys}
+    spread = {name: np.quantile(ordered[name], [0.5, 1.0 - level]) for name in keys}
+
+    def largest(d, of=None):
+        """The largest excess of one draw over every statistic, as the report reads its answers: zero at the median of
+        the null draws and one at their quantile 1 - level, each draw of the null read against the others."""
+        if of is None:
+            return max(float((d[name] - m) / max(h - m, 1e-12)) for name, (m, h) in spread.items())
+        out = -np.inf
+        for name in keys:
+            m, h = (_left_out_quantile(ordered[name], d[name], q) for q in (0.5, 1.0 - level))
+            out = max(out, float((d[name] - m) / max(h - m, 1e-12)))
+        return out
+    report = float(np.quantile([largest(d, k) for k, d in enumerate(null)], 1.0 - level))          # the line of the report: the largest excess that a draw of a normal noise reaches in 1 - level of the draws
+    for kind, draw in laws.items():          # the normal noise drawn again: its cells say that each line holds its level
+        got = [readings(draw(rng)) for _ in range(draws)]
+        table[kind] = {name: float(np.mean([d[name] > line[name] for d in got])) for name in line}
+        table[kind][REPORT] = float(np.mean([largest(d) > report for d in got]))
+    return {"draws": draws, "null_draws": len(null), "level": level, "statistics": list(line) + [REPORT], "report_reads": keys, "chance": table}
+
+
+REPORT = "every statistic at one line, as the report reads them"          # the column of the noise matrix that reads no statistic chosen knowing the systematic: the chance that the largest excess of all of them passes the line that a normal noise reaches in 1 - level of the draws
 
 
 def influence(fam: "Family") -> np.ndarray:
@@ -746,6 +1085,22 @@ class Family:
         V, w = self._form
         t = np.concatenate([self._see(q, r[lin.rows_of(k)]) for k, q in enumerate(self.Q)])
         return float(np.sum((V.T @ t) ** 2 / w)), int(w.size)
+
+    def fingerprint(self, r: np.ndarray) -> np.ndarray:
+        """The statistics of a whitened vector over every sample, as the family sees them, standardised in the covariance
+        that the statistics of the residuals of the fit have under a right model: a vector whose squared length is the
+        chi square of `_statistic`. For the residuals it is what the family reads, direction by direction; for what the
+        residuals keep of a candidate, `Linear.visible`, it is the pattern that the candidate would leave in the family,
+        which `where.matched_families` sets against the first (the owner's message 262). The family of every sample
+        gives the vector itself."""
+        lin = self.lin
+        if all(q.dtype == bool and q.all() for q in self.Q):
+            return np.asarray(r, dtype=float)
+        if self._form is None:
+            self._statistic(lin.r)
+        V, w = self._form
+        t = np.concatenate([self._see(q, r[lin.rows_of(k)]) for k, q in enumerate(self.Q)])
+        return (V.T @ t) / np.sqrt(w)
 
     def reading(self) -> dict:
         """What the family reads in the residuals of the fit: a chi square with as many degrees of freedom as the family

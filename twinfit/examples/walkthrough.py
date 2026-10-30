@@ -17,7 +17,7 @@ import tempfile
 import numpy as np
 
 from .. import Linear, fit
-from ..candidates import dictionary
+from ..dictionary import candidates as dictionary          # the package's own list: this example walks the path that reads it
 from ..identify import identify
 from ..notebook import Notebook
 from ..propose import lines, propose

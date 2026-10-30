@@ -25,7 +25,6 @@ from __future__ import annotations
 
 import numpy as np
 
-from .candidates import dictionary
 from .fit import fit
 from .linear import Linear
 from .pool import Lazy, elsewhere, in_order
@@ -244,8 +243,8 @@ def planted(problem, result, columns: list, amplitude, sets: int = 100, level: f
 
     `candidates` is a function of the linearised fit of a replica that returns the list of candidates of its table. It
     must be the list that is read on the records: a rate of false alarms holds for the list it was counted on, and a
-    planted term is first or in the leading set only of a list that holds it. Left out, the list is the dictionary of the
-    package alone. A `name` that the list does not hold is refused: counted against such a list a planted term is first
+    planted term is first or in the leading set only of a list that holds it. The package holds no list of its own (the
+    owner's messages 337 and 340), so one is refused where none is given. A `name` that the list does not hold is refused: counted against such a list a planted term is first
     on no set, and the table would say so without a word (the first trial of the package found it, trials/01).
 
     `name` is the name that the candidate has in the list read on the records. In the list of a replica the same
@@ -264,7 +263,9 @@ def planted(problem, result, columns: list, amplitude, sets: int = 100, level: f
     truth = result.shared
     est, seen, first, in_set, sizes = [], 0, 0, 0, []
     done = lacking = 0
-    make = candidates if candidates is not None else (lambda lin: dictionary(lin, block=block))
+    if candidates is None:
+        raise ValueError("the list of candidates is the researcher's: give `candidates`, a function of the linearised fit of a replica that returns them. The package holds no list of terms")
+    make = candidates
     listed = None
     key = None
     its_own = None
@@ -301,7 +302,7 @@ def planted(problem, result, columns: list, amplitude, sets: int = 100, level: f
                 in_set += int(here in leading)
     est = np.array(est)
     out = {"sets": sets, "read": done, "level": level, "amplitude": amplitude.tolist(), "searches_start_at": start,
-           "candidates_in_the_list": len(listed) if listed is not None else None, "the_list_is": "the one passed as candidates" if candidates is not None else "the dictionary of the package alone",
+           "candidates_in_the_list": len(listed) if listed is not None else None, "the_list_is": "the one passed as candidates",
            "the_shares_are_over": "the sets that were read: those whose search ended and whose table was made",
            "share_of_sets_in_which_something_is_seen": seen / max(done, 1), "share_of_the_sets_asked_in_which_something_is_seen": seen / max(sets, 1),
            "median_size_of_the_leading_set": float(np.median(sizes)) if sizes else None,
