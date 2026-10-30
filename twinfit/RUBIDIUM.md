@@ -30,6 +30,6 @@ The following three figures are slides of the author's report, which sets the re
 
 *Figure 6. The statistics of the report that pass the line of the twin, the line that a right model passes once in 20.*
 
-`python -m twinfit example rubidium DIR` writes those synthetic traces as a project: the eight traces, their description and a first model of one Lorentzian line. The loop starts from that model, as a researcher would, and the terms of the five are written by its user. With three term files the loop takes about ten minutes on a laptop. The values that drew the traces are in `examples/rubidium_twin/truth.json`, outside the project.
+`python -m twinfit example rubidium DIR` writes those synthetic traces as a project: the eight traces, their description and a first model of one Lorentzian line. The loop starts from that model, as a researcher would, and the terms of the five are written by its user. With three term files the loop takes between three and ten minutes on a laptop, by the terms written. The values that drew the traces are in `examples/rubidium_twin/truth.json`, outside the project.
 
 These are readings of the package on one set of recorded traces, not measurements. Figures 1 and 2 are pages of the folder of the author's model, whose foot names the files that made them. `python -m twinfit guide rubidium` prints this page with the folder of its figures.

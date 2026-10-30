@@ -1,4 +1,4 @@
-# Synthetic traces that follow the recorded traces of RUBIDIUM.md: eight traces drawn from the model of five terms whose values
+# The twin of the recorded traces of RUBIDIUM.md: eight synthetic traces of the model of five terms whose values
 # follow the joint fit of the recorded ones, each with the height and the noise of its recorded trace, written by
 # `python -m twinfit example rubidium DIR`. Read by twinfit.description.read.
 

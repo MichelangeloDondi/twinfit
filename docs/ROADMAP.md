@@ -71,7 +71,7 @@ if __name__ == "__main__":
     print("1 passed")
 ```
 
-Before the edit, `python tests/test_terms_lists.py` fails with `AssertionError: exponential_width()`. In the docstring of `twinfit/mechanisms.py`, between the `lorentzian_width` and `pedestal(stretch)` entries, with no blank line, insert:
+Before the edit, `python tests/test_terms_lists.py` fails with `AssertionError: exponential_width()`. The README's line on `python -m twinfit terms`, which says that the table lacks `exponential_width`, goes with this edit. In the docstring of `twinfit/mechanisms.py`, between the `lorentzian_width` and `pedestal(stretch)` entries, with no blank line, insert:
 
 ```text
     exponential_width(along=None)
@@ -101,5 +101,5 @@ After `--write`, since the tutorial prints the version and is hashed, run the st
 
 ## 6. What is not on the roadmap
 
-- The author's own rubidium line (β_self the self broadening coefficient, α the differential polarizability of the two levels, the beam radius, the retroreflection), on traces that are private.
+- The author's own rubidium line, on traces that are private. His aim with it is the measurement of four quantities: β_self, the self broadening coefficient, α, the differential polarizability of the two levels, the beam radius, and the efficiency of the retroreflection.
 - A claim that no other tool does this. The only comparison here is C10, 0.917 ± 0.025 of 120.

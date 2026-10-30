@@ -52,7 +52,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.0.post1.dev5
+0.1.0.post1
 ```
 
 ## 3. A worked project

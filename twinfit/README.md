@@ -16,7 +16,7 @@ Version 0.1.0 was measured on synthetic curves of the author's own experiment, t
 
 ## Continuing this work
 
-The source and the bench on which the package was measured are public at https://github.com/MichelangeloDondi/twinfit: the model that drew the synthetic curves, the programs of the counts with their tables and, for three of the counts, their kept rows, and the pages of the validation, the roadmap and the decisions. `twinfit/CONTINUING.md`, in the folder that `python -m twinfit guide readme` names, is written for a researcher who takes the work over.
+The source and the bench on which the package was measured are public at https://github.com/MichelangeloDondi/twinfit: the model that drew the synthetic curves, the programs of the counts with their tables and, for three of the counts, their kept rows, and the pages of the validation, the roadmap and the decisions. `twinfit/CONTINUING.md`, in the folder that the last line of `python -m twinfit guide readme` names, is written for a researcher who takes the work over.
 
 ## Method
 
@@ -45,7 +45,7 @@ Each share is given with its standard error. Two stand outside their thresholds 
 - The setting along which the term varies, named first: 0.600 ± 0.035 of 200 draws.
 - The place of a width that grows steeply along a setting: 0.440 ± 0.050 of 100 draws, below its threshold of 0.60.
 - False alarms on a model with nothing missing, at the default of 30 sets: 0.188 ± 0.025 of 250 draws, above its ceiling of 0.12, and 0.076 ± 0.017 at 100 sets.
-- Eleven projects of other fields, pooled over every question: 0.759 ± 0.029 of 220 draws, the place of the misfit alone 0.588 ± 0.055 of 80.
+- Eleven projects of other fields, pooled over every question: 0.759 ± 0.029 of 220 draws, the place of the misfit alone 0.588 ± 0.055 of 80, with the project pedestal and the shape of a noise with heavy tails on 0 of 20 each.
 
 An effect that a parameter of the model can absorb leaves nothing in the residuals, and a model that its twin admits is not thereby complete.
 
