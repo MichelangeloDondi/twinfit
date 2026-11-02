@@ -362,6 +362,8 @@ def write(name: str, folder, level: float = 1.0, kind: str | None = None) -> str
     folder = Path(folder)
     if (folder / "description.toml").exists():
         raise ValueError(f"{folder} holds a project already")
+    if kind is not None and kind not in kinds_of(name):          # refused before the folder is made: a kind the example does not draw left an empty folder behind (the stamp reading of 0.1.1, mislead 11)
+        raise ValueError(f"the example {name!r} draws a noise of the kind {' or '.join(kinds_of(name))}, not {kind!r}: counts are the noise of the examples of a counter alone")
     space = dict(drawing(level, kind), home=folder, __name__=f"twinfit.examples.projects.{name}")
     exec(compile((PROJECTS / f"{name}.py").read_text(), str(PROJECTS / f"{name}.py"), "exec"), space)
     return told_of(name, level, kind, space["TRUTH"])
@@ -526,7 +528,7 @@ def page(kept: dict) -> str:
              "This page builds on sections 1 to 6 of `TUTORIAL.md` and sets out what the loop finds on each project against its truth, at its own noise and at four others. Not covered here: the run of a project of one's own, which section 9 of the tutorial gives.", "",
              "> Section 1 of `TUTORIAL.md` defines every word of the package that this page uses.", "",
              "For each the loop ran three times: on the first model alone, after what to do, and after what not to do. Then at four other noises, on the first model and after what to do: three times its own, none drawn, and a second kind of noise as large as its own and three times as large. "
-             "`python -m twinfit example NAME DIR --noise L --kind K` writes each: `L` is a multiple of the example's own noise, 0 for none drawn, and `K` one of `white`, `correlated` and `counts`, the example's own kind where `K` is not given.", "",
+             "`python -m twinfit example NAME DIR --noise L --kind K` writes each: `L` is a multiple of the example's own noise, 0 for none drawn, and `K` one of `white` and `correlated`, or `counts` for the two examples of a counter alone, the example's own kind where `K` is not given.", "",
              "Every number below is read from those runs, which `python -m twinfit.examples.gallery --write` makes again for those who build the package.", "",
              "Find the example whose first report leads as yours does, and read what to do there. Each answer of a report is given with its excess, 0 at the median of its statistic over the synthetic sets of the twin and 1 at their 95th percentile, "
              "and each report with its line, the excess that the largest answer of a synthetic set passes on 5 sets of 100: an answer past it stands beyond the twin. "

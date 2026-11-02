@@ -500,7 +500,7 @@
     }
    }
   ],
-  "minutes": 2.1
+  "minutes": 1.4
  },
  "satellite": {
   "field": "gas cell absorption lines with weak satellites",
@@ -1006,7 +1006,7 @@
     }
    }
   ],
-  "minutes": 2.2
+  "minutes": 1.4
  },
  "saturation": {
   "field": "laser-driven resonance fluorescence at five powers",
@@ -1462,7 +1462,7 @@
     }
    }
   ],
-  "minutes": 3.7
+  "minutes": 2.6
  },
  "filter": {
   "field": "absorption dips behind a detector's low-pass filter",
@@ -1882,7 +1882,7 @@
     }
    }
   ],
-  "minutes": 2.0
+  "minutes": 1.4
  },
  "fano": {
   "field": "photoionization across an autoionizing resonance at four pressures",
@@ -2371,7 +2371,7 @@
     }
    }
   ],
-  "minutes": 4.5
+  "minutes": 3.1
  },
  "counts": {
   "field": "emission-line photon counts at four pump powers",
@@ -2801,7 +2801,7 @@
     }
    }
   ],
-  "minutes": 2.1
+  "minutes": 1.5
  },
  "clock": {
   "field": "atomic clock resonance at five probe powers",
@@ -3330,7 +3330,7 @@
     }
    }
   ],
-  "minutes": 2.5
+  "minutes": 1.7
  },
  "gel": {
   "field": "gel electrophoresis band at four voltages",
@@ -3835,7 +3835,7 @@
     }
    }
   ],
-  "minutes": 2.9
+  "minutes": 2.1
  },
  "transit": {
   "field": "transit of an exoplanet in four filters",
@@ -4367,7 +4367,7 @@
     }
    }
   ],
-  "minutes": 2.5
+  "minutes": 1.7
  },
  "fringes": {
   "field": "piezo-scanned Michelson interferometer at five wavelengths",
@@ -4855,7 +4855,7 @@
     }
    }
   ],
-  "minutes": 0.9
+  "minutes": 0.6
  },
  "returns": {
   "field": "daily stock index returns in five volatility periods",
@@ -5333,6 +5333,6 @@
     }
    }
   ],
-  "minutes": 0.6
+  "minutes": 0.4
  }
 }

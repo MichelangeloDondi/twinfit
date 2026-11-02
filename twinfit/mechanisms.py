@@ -47,8 +47,8 @@ Glitches and a change of the noise are no term of the mean: they are read in the
 sample that the description gives. Each term here is made of copies of the curve, wider, displaced or on one side: a shape
 that the physics names otherwise, as the exponential tail of a detector or of a column, is a Mechanism of your own. The report
 gives the place, the shape and the setting of a misfit, and never the name of a term: which term of physical origin fills it
-is the researcher's to say. A Mechanism is Mechanism(name, kind, parameter, start, wrap,
-lower=-inf, upper=inf): kind is a word that the package keeps with the term and reads in no result, lower and upper bound
+is the researcher's to say. A Mechanism is Mechanism(name, family, parameter, start, wrap,
+lower=-inf, upper=inf): family is a word that the package keeps with the term and reads in no result, lower and upper bound
 the new parameter, and wrap(model, problem, n) returns any curve, the line replaced as well as a term added to it.
 
     m = widened(size=lambda design: 1.03, ground="the theory of the crossing time")
@@ -275,9 +275,14 @@ def displaced(reach: Callable = lambda design: 1.0, name: str = "a displacement 
                      formula=r"$\int_0^1 2v\, f(x - d\,(v - 2/3))\, dv,\ \ d^2 = a\,r^2$")
 
 
-def along(parameter: str, key: str, power: int = 1, ground: str = "", theory: tuple | None = None) -> Mechanism:
+def along(parameter: str, key: str, power: int = 1, ground: str = "", theory: tuple | None = None, lower: float = -np.inf, upper: float = np.inf) -> Mechanism:
     """A shared parameter that is not the same in every record: p (1 + a z), z the covariate `key` of the design, centred
-    and in units of its standard deviation over the records. With power 2, the square of z less its mean."""
+    and in units of its standard deviation over the records. With power 2, the square of z less its mean. `lower` and
+    `upper` bound a: left free, the factor 1 + a z can pass zero and a width that falls with the power was kept (the third
+    run of the bus test), where `lower = 0.0` asks a width that grows with the setting and refuses the other side. A power
+    other than 1 and 2 is refused: it was named as power 1 (the fourth reading of 0.1.1rc1's stamp, mislead 2)."""
+    if power not in (1, 2):
+        raise ValueError(f"along: the power is 1 or 2, and not {power!r}")
     def wrap(model, problem, n):
         if parameter not in problem.shared[:n]:
             raise ValueError(f"along: {parameter!r} is not a shared parameter of the model, which are {', '.join(problem.shared[:n]) or 'none'}")
@@ -298,7 +303,7 @@ def along(parameter: str, key: str, power: int = 1, ground: str = "", theory: tu
             return model(x, s, own, design)
         return new
     square = " the square of" if power == 2 else ""
-    return Mechanism(f"{parameter} changes along{square} {key}", "grows with a covariate", f"{parameter} along {key}" + ("^2" if power == 2 else ""), 0.0, wrap, ground=ground, theory=theory,
+    return Mechanism(f"{parameter} changes along{square} {key}", "grows with a covariate", f"{parameter} along {key}" + ("^2" if power == 2 else ""), 0.0, wrap, lower=lower, upper=upper, ground=ground, theory=theory,
                      formula=r"$p \rightarrow p\,(1 + a\,z)$" if power == 1 else r"$p \rightarrow p\,(1 + a\,(z^2 - \overline{z^2}))$")
 
 

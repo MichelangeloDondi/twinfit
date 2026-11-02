@@ -1,0 +1,4424 @@
+{
+ "bench": {
+  "traces of the detail": 4,
+  "fitted by the model of the detail": 3
+ },
+ "digest": "3a2e26e01a15eb0b742ad34712234a25b15bedabcac5fe7196978cb0333df145",
+ "detection": {
+  "a Gaussian width": {
+   "moments: powers 0 to 4": 0.6931021064893128,
+   "moments: powers 0 to 8": 0.5758942363578397,
+   "moments: fractional powers of the distance": 0.6559653112225976,
+   "moments: inverse and logarithmic kernels": 0.6350151761215143,
+   "moments: negative orders of the distance": 0.7470199892617491,
+   "moments: exponential and Gaussian kernels": 0.5726367854739897,
+   "Hermite functions about the centre: orders 3 to 8": 0.6281494598148162,
+   "moments: cosines and sines": 0.5293085308117866,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4889012098594036,
+   "the two sides added: pairs of intervals, the centre held": 0.6435995147699284,
+   "the two sides subtracted: pairs of intervals": 0.050000627412385514,
+   "windows along the value: bands between levels of the height, each side": 0.3637137085005021,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.25562972404618556,
+   "moments of the derivative: powers 0 to 8": 0.3177283380191524,
+   "moments of the running integral: powers 0 to 8": 0.5709175869623568,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5995313656150294,
+   "the logarithm of the value: power kernels 0 to 8": 0.5801120491219331,
+   "the reciprocal of the value: power kernels 0 to 8": 0.5716707643244917,
+   "the square of the value: power kernels 0 to 8": 0.5962482327878531,
+   "the square root of the value: power kernels 0 to 8": 0.5783835222791681,
+   "the exponential of the value: power kernels 0 to 8": 0.5922915381395631,
+   "every sample: the fit": 0.0725930129359653
+  },
+  "a Lorentzian width": {
+   "moments: powers 0 to 4": 0.7060760413387734,
+   "moments: powers 0 to 8": 0.6281578734671733,
+   "moments: fractional powers of the distance": 0.7342864527589859,
+   "moments: inverse and logarithmic kernels": 0.7128873108757783,
+   "moments: negative orders of the distance": 0.805925766368703,
+   "moments: exponential and Gaussian kernels": 0.6506212513146875,
+   "Hermite functions about the centre: orders 3 to 8": 0.7092167949648678,
+   "moments: cosines and sines": 0.6170475607388987,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.5414271885505327,
+   "the two sides added: pairs of intervals, the centre held": 0.7011271278010592,
+   "the two sides subtracted: pairs of intervals": 0.0500007598415081,
+   "windows along the value: bands between levels of the height, each side": 0.41922904641988784,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.3233282184664477,
+   "moments of the derivative: powers 0 to 8": 0.2808004369866653,
+   "moments of the running integral: powers 0 to 8": 0.6237394392857296,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.6786537062651908,
+   "the logarithm of the value: power kernels 0 to 8": 0.6453820926344349,
+   "the reciprocal of the value: power kernels 0 to 8": 0.6355661183201551,
+   "the square of the value: power kernels 0 to 8": 0.6748483423920806,
+   "the square root of the value: power kernels 0 to 8": 0.6407229382332167,
+   "the exponential of the value: power kernels 0 to 8": 0.6661584559058715,
+   "every sample: the fit": 0.07606568607256384
+  },
+  "a demodulation phase": {
+   "moments: powers 0 to 4": 0.7322562304201846,
+   "moments: powers 0 to 8": 0.5782128692806836,
+   "moments: fractional powers of the distance": 0.6429661629227967,
+   "moments: inverse and logarithmic kernels": 0.6085530298465424,
+   "moments: negative orders of the distance": 0.7312219303897807,
+   "moments: exponential and Gaussian kernels": 0.5472400690602218,
+   "Hermite functions about the centre: orders 3 to 8": 0.6160915440940438,
+   "moments: cosines and sines": 0.557925216184854,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.47241782936342014,
+   "the two sides added: pairs of intervals, the centre held": 0.050074237569126566,
+   "the two sides subtracted: pairs of intervals": 0.6588987721544601,
+   "windows along the value: bands between levels of the height, each side": 0.3537236029999984,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.11768044144169189,
+   "moments of the derivative: powers 0 to 8": 0.5748787796598243,
+   "moments of the running integral: powers 0 to 8": 0.5798671824107519,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5756667031757021,
+   "the logarithm of the value: power kernels 0 to 8": 0.1757380491096967,
+   "the reciprocal of the value: power kernels 0 to 8": 0.10752894517585351,
+   "the square of the value: power kernels 0 to 8": 0.4205161610103853,
+   "the square root of the value: power kernels 0 to 8": 0.2590428193693187,
+   "the exponential of the value: power kernels 0 to 8": 0.4253589536782455,
+   "every sample: the fit": 0.07197619692664006
+  },
+  "an etalon fringe": {
+   "moments: powers 0 to 4": 0.18298692483324475,
+   "moments: powers 0 to 8": 0.5510638594769423,
+   "moments: fractional powers of the distance": 0.4479823274587468,
+   "moments: inverse and logarithmic kernels": 0.5636695759424943,
+   "moments: negative orders of the distance": 0.07227833061188099,
+   "moments: exponential and Gaussian kernels": 0.5288830126010952,
+   "Hermite functions about the centre: orders 3 to 8": 0.07066117873280789,
+   "moments: cosines and sines": 0.3670718054887219,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.15964204438609814,
+   "the two sides added: pairs of intervals, the centre held": 0.2115656986724534,
+   "the two sides subtracted: pairs of intervals": 0.05016953371101687,
+   "windows along the value: bands between levels of the height, each side": 0.0744792875899346,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.05421878500251924,
+   "moments of the derivative: powers 0 to 8": 0.27579441349786066,
+   "moments of the running integral: powers 0 to 8": 0.5374478223418871,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5219074411852773,
+   "the logarithm of the value: power kernels 0 to 8": 0.06887850835517366,
+   "the reciprocal of the value: power kernels 0 to 8": 0.06386348515875978,
+   "the square of the value: power kernels 0 to 8": 0.06935313902032918,
+   "the square root of the value: power kernels 0 to 8": 0.06927499689014448,
+   "the exponential of the value: power kernels 0 to 8": 0.06933523161747321,
+   "every sample: the fit": 0.07197616782191125
+  },
+  "a saturated top": {
+   "moments: powers 0 to 4": 0.5466872524111148,
+   "moments: powers 0 to 8": 0.41684551084031035,
+   "moments: fractional powers of the distance": 0.5815643082090332,
+   "moments: inverse and logarithmic kernels": 0.5998384484301345,
+   "moments: negative orders of the distance": 0.7046051246566112,
+   "moments: exponential and Gaussian kernels": 0.5148596166717345,
+   "Hermite functions about the centre: orders 3 to 8": 0.5578246225544763,
+   "moments: cosines and sines": 0.4689899251790979,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4420652038225623,
+   "the two sides added: pairs of intervals, the centre held": 0.479157682871787,
+   "the two sides subtracted: pairs of intervals": 0.05000013682389283,
+   "windows along the value: bands between levels of the height, each side": 0.33489238127168186,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.290706463102952,
+   "moments of the derivative: powers 0 to 8": 0.3347877611007148,
+   "moments of the running integral: powers 0 to 8": 0.41627231835396716,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5466281799287355,
+   "the logarithm of the value: power kernels 0 to 8": 0.3658895379890798,
+   "the reciprocal of the value: power kernels 0 to 8": 0.2206568599921378,
+   "the square of the value: power kernels 0 to 8": 0.487047412539381,
+   "the square root of the value: power kernels 0 to 8": 0.41725402084078644,
+   "the exponential of the value: power kernels 0 to 8": 0.4602454572752448,
+   "every sample: the fit": 0.07208671233243827
+  },
+  "a fringe fixed to the abscissa": {
+   "moments: powers 0 to 4": 0.061094299272489466,
+   "moments: powers 0 to 8": 0.11795289966018288,
+   "moments: fractional powers of the distance": 0.07122271009549558,
+   "moments: inverse and logarithmic kernels": 0.08628878475523324,
+   "moments: negative orders of the distance": 0.05747613817543676,
+   "moments: exponential and Gaussian kernels": 0.10237578611038918,
+   "Hermite functions about the centre: orders 3 to 8": 0.06546827071748237,
+   "moments: cosines and sines": 0.06216490621261496,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.10444401879899616,
+   "the two sides added: pairs of intervals, the centre held": 0.13026845462735406,
+   "the two sides subtracted: pairs of intervals": 0.05016916166297781,
+   "windows along the value: bands between levels of the height, each side": 0.06863129749687467,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.05359269101032598,
+   "moments of the derivative: powers 0 to 8": 0.06324305250175542,
+   "moments of the running integral: powers 0 to 8": 0.11714753437484364,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.10182094004863218,
+   "the logarithm of the value: power kernels 0 to 8": 0.06257054912799923,
+   "the reciprocal of the value: power kernels 0 to 8": 0.062202217048802744,
+   "the square of the value: power kernels 0 to 8": 0.06269713388670947,
+   "the square root of the value: power kernels 0 to 8": 0.06262883739142591,
+   "the exponential of the value: power kernels 0 to 8": 0.06269462112094346,
+   "every sample: the fit": 0.07197609561891873
+  },
+  "a nonlinearity of the scan, the same on every record": {
+   "moments: powers 0 to 4": 0.7299415463091107,
+   "moments: powers 0 to 8": 0.5771194573312356,
+   "moments: fractional powers of the distance": 0.6409924714016729,
+   "moments: inverse and logarithmic kernels": 0.6054256683960225,
+   "moments: negative orders of the distance": 0.7289331282332677,
+   "moments: exponential and Gaussian kernels": 0.5441739078945964,
+   "Hermite functions about the centre: orders 3 to 8": 0.6139434118684576,
+   "moments: cosines and sines": 0.5526735685517142,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4712409885639459,
+   "the two sides added: pairs of intervals, the centre held": 0.050174505007893895,
+   "the two sides subtracted: pairs of intervals": 0.6575293170719588,
+   "windows along the value: bands between levels of the height, each side": 0.35223833401287324,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.11797058222269173,
+   "moments of the derivative: powers 0 to 8": 0.5742455699370345,
+   "moments of the running integral: powers 0 to 8": 0.5777648383205144,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5725379358312674,
+   "the logarithm of the value: power kernels 0 to 8": 0.17712528634050598,
+   "the reciprocal of the value: power kernels 0 to 8": 0.10874905762759579,
+   "the square of the value: power kernels 0 to 8": 0.42295831623564495,
+   "the square root of the value: power kernels 0 to 8": 0.2608342365371451,
+   "the exponential of the value: power kernels 0 to 8": 0.42783890174457967,
+   "every sample: the fit": 0.0719759618011672
+  },
+  "a nonlinearity of the detector": {
+   "moments: powers 0 to 4": 0.34776792512753374,
+   "moments: powers 0 to 8": 0.3537755434671551,
+   "moments: fractional powers of the distance": 0.6310771995406423,
+   "moments: inverse and logarithmic kernels": 0.5968814660319028,
+   "moments: negative orders of the distance": 0.7091730660687241,
+   "moments: exponential and Gaussian kernels": 0.5357079885399916,
+   "Hermite functions about the centre: orders 3 to 8": 0.5314904584531236,
+   "moments: cosines and sines": 0.4219445542365868,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.43973441386483864,
+   "the two sides added: pairs of intervals, the centre held": 0.6196811819069595,
+   "the two sides subtracted: pairs of intervals": 0.05000102587107525,
+   "windows along the value: bands between levels of the height, each side": 0.33677643386674705,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.10744852704836778,
+   "moments of the derivative: powers 0 to 8": 0.18189260904507001,
+   "moments of the running integral: powers 0 to 8": 0.34887508017184027,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5641614406920544,
+   "the logarithm of the value: power kernels 0 to 8": 0.4246930468143803,
+   "the reciprocal of the value: power kernels 0 to 8": 0.28657196398987583,
+   "the square of the value: power kernels 0 to 8": 0.55388863503414,
+   "the square root of the value: power kernels 0 to 8": 0.48916103299322095,
+   "the exponential of the value: power kernels 0 to 8": 0.552439880526039,
+   "every sample: the fit": 0.07107042933453557
+  },
+  "a wavelength Jacobian": {
+   "moments: powers 0 to 4": 0.729769599169628,
+   "moments: powers 0 to 8": 0.577214159597353,
+   "moments: fractional powers of the distance": 0.6407605086628936,
+   "moments: inverse and logarithmic kernels": 0.6051630423150506,
+   "moments: negative orders of the distance": 0.7285565846734054,
+   "moments: exponential and Gaussian kernels": 0.5439243963426852,
+   "Hermite functions about the centre: orders 3 to 8": 0.6134965419319457,
+   "moments: cosines and sines": 0.5527218093626792,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.47078188276953387,
+   "the two sides added: pairs of intervals, the centre held": 0.05017635512475357,
+   "the two sides subtracted: pairs of intervals": 0.6570036880633592,
+   "windows along the value: bands between levels of the height, each side": 0.35195113840230535,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.11775630262673097,
+   "moments of the derivative: powers 0 to 8": 0.5742896865391032,
+   "moments of the running integral: powers 0 to 8": 0.5777643478176582,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.572342185189715,
+   "the logarithm of the value: power kernels 0 to 8": 0.17673401727689694,
+   "the reciprocal of the value: power kernels 0 to 8": 0.1085507420102276,
+   "the square of the value: power kernels 0 to 8": 0.4219634249683526,
+   "the square root of the value: power kernels 0 to 8": 0.26020923000224033,
+   "the exponential of the value: power kernels 0 to 8": 0.42683541953130166,
+   "every sample: the fit": 0.07197608414202304
+  }
+ },
+ "noise": {
+  "draws": 400,
+  "null_draws": 2000,
+  "level": 0.05,
+  "statistics": [
+   "moments: powers 0 to 4",
+   "moments: powers 0 to 8",
+   "moments: fractional powers of the distance",
+   "moments: inverse and logarithmic kernels",
+   "moments: negative orders of the distance",
+   "moments: exponential and Gaussian kernels",
+   "Hermite functions about the centre: orders 3 to 8",
+   "moments: cosines and sines",
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted",
+   "the two sides added: pairs of intervals, the centre held",
+   "the two sides subtracted: pairs of intervals",
+   "windows along the value: bands between levels of the height, each side",
+   "the abscissa against the value: the crossings of nine levels, each side",
+   "moments of the derivative: powers 0 to 8",
+   "moments of the running integral: powers 0 to 8",
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+   "the logarithm of the value: power kernels 0 to 8",
+   "the reciprocal of the value: power kernels 0 to 8",
+   "the square of the value: power kernels 0 to 8",
+   "the square root of the value: power kernels 0 to 8",
+   "the exponential of the value: power kernels 0 to 8",
+   "every sample: the fit",
+   "glitches",
+   "a noise skewed to one side",
+   "a noise with heavy tails",
+   "a noise that grows with the signal",
+   "a noise correlated from sample to sample",
+   "the records together: every record added in bins of the abscissa",
+   "the opponent: the runs test of the signs, record by record",
+   "the opponent: Durbin and Watson, the lag one correlation, record by record",
+   "every statistic at one line, as the report reads them"
+  ],
+  "report_reads": [
+   "moments: powers 0 to 4",
+   "moments: powers 0 to 8",
+   "moments: fractional powers of the distance",
+   "moments: inverse and logarithmic kernels",
+   "moments: negative orders of the distance",
+   "moments: exponential and Gaussian kernels",
+   "Hermite functions about the centre: orders 3 to 8",
+   "moments: cosines and sines",
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted",
+   "the two sides added: pairs of intervals, the centre held",
+   "the two sides subtracted: pairs of intervals",
+   "windows along the value: bands between levels of the height, each side",
+   "the abscissa against the value: the crossings of nine levels, each side",
+   "moments of the derivative: powers 0 to 8",
+   "moments of the running integral: powers 0 to 8",
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+   "the logarithm of the value: power kernels 0 to 8",
+   "the reciprocal of the value: power kernels 0 to 8",
+   "the square of the value: power kernels 0 to 8",
+   "the square root of the value: power kernels 0 to 8",
+   "the exponential of the value: power kernels 0 to 8",
+   "every sample: the fit",
+   "glitches",
+   "a noise skewed to one side",
+   "a noise with heavy tails",
+   "a noise that grows with the signal",
+   "a noise correlated from sample to sample",
+   "the records together: every record added in bins of the abscissa"
+  ],
+  "chance": {
+   "normal": {
+    "moments: powers 0 to 4": 0.0575,
+    "moments: powers 0 to 8": 0.05,
+    "moments: fractional powers of the distance": 0.05,
+    "moments: inverse and logarithmic kernels": 0.0525,
+    "moments: negative orders of the distance": 0.0425,
+    "moments: exponential and Gaussian kernels": 0.06,
+    "Hermite functions about the centre: orders 3 to 8": 0.065,
+    "moments: cosines and sines": 0.0325,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.0525,
+    "the two sides added: pairs of intervals, the centre held": 0.04,
+    "the two sides subtracted: pairs of intervals": 0.0625,
+    "windows along the value: bands between levels of the height, each side": 0.0625,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.06,
+    "moments of the derivative: powers 0 to 8": 0.0425,
+    "moments of the running integral: powers 0 to 8": 0.0575,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.045,
+    "the logarithm of the value: power kernels 0 to 8": 0.0575,
+    "the reciprocal of the value: power kernels 0 to 8": 0.0675,
+    "the square of the value: power kernels 0 to 8": 0.075,
+    "the square root of the value: power kernels 0 to 8": 0.06,
+    "the exponential of the value: power kernels 0 to 8": 0.065,
+    "every sample: the fit": 0.0475,
+    "glitches": 0.0575,
+    "a noise skewed to one side": 0.0575,
+    "a noise with heavy tails": 0.0475,
+    "a noise that grows with the signal": 0.0675,
+    "a noise correlated from sample to sample": 0.0625,
+    "the records together: every record added in bins of the abscissa": 0.0375,
+    "the opponent: the runs test of the signs, record by record": 0.045,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0575,
+    "every statistic at one line, as the report reads them": 0.0575
+   },
+   "correlated": {
+    "moments: powers 0 to 4": 1.0,
+    "moments: powers 0 to 8": 1.0,
+    "moments: fractional powers of the distance": 1.0,
+    "moments: inverse and logarithmic kernels": 1.0,
+    "moments: negative orders of the distance": 0.9975,
+    "moments: exponential and Gaussian kernels": 1.0,
+    "Hermite functions about the centre: orders 3 to 8": 1.0,
+    "moments: cosines and sines": 1.0,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 1.0,
+    "the two sides added: pairs of intervals, the centre held": 1.0,
+    "the two sides subtracted: pairs of intervals": 1.0,
+    "windows along the value: bands between levels of the height, each side": 1.0,
+    "the abscissa against the value: the crossings of nine levels, each side": 1.0,
+    "moments of the derivative: powers 0 to 8": 1.0,
+    "moments of the running integral: powers 0 to 8": 1.0,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 1.0,
+    "the logarithm of the value: power kernels 0 to 8": 1.0,
+    "the reciprocal of the value: power kernels 0 to 8": 1.0,
+    "the square of the value: power kernels 0 to 8": 1.0,
+    "the square root of the value: power kernels 0 to 8": 1.0,
+    "the exponential of the value: power kernels 0 to 8": 1.0,
+    "every sample: the fit": 0.075,
+    "glitches": 0.0625,
+    "a noise skewed to one side": 0.1075,
+    "a noise with heavy tails": 0.07,
+    "a noise that grows with the signal": 0.13,
+    "a noise correlated from sample to sample": 1.0,
+    "the records together: every record added in bins of the abscissa": 0.9575,
+    "the opponent: the runs test of the signs, record by record": 1.0,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 1.0,
+    "every statistic at one line, as the report reads them": 1.0
+   },
+   "heavy tails": {
+    "moments: powers 0 to 4": 0.0875,
+    "moments: powers 0 to 8": 0.075,
+    "moments: fractional powers of the distance": 0.0925,
+    "moments: inverse and logarithmic kernels": 0.0775,
+    "moments: negative orders of the distance": 0.0925,
+    "moments: exponential and Gaussian kernels": 0.0975,
+    "Hermite functions about the centre: orders 3 to 8": 0.0675,
+    "moments: cosines and sines": 0.0725,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.0775,
+    "the two sides added: pairs of intervals, the centre held": 0.085,
+    "the two sides subtracted: pairs of intervals": 0.0625,
+    "windows along the value: bands between levels of the height, each side": 0.1025,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.1375,
+    "moments of the derivative: powers 0 to 8": 0.09,
+    "moments of the running integral: powers 0 to 8": 0.08,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.0925,
+    "the logarithm of the value: power kernels 0 to 8": 0.0775,
+    "the reciprocal of the value: power kernels 0 to 8": 0.0875,
+    "the square of the value: power kernels 0 to 8": 0.065,
+    "the square root of the value: power kernels 0 to 8": 0.07,
+    "the exponential of the value: power kernels 0 to 8": 0.0775,
+    "every sample: the fit": 0.2275,
+    "glitches": 1.0,
+    "a noise skewed to one side": 0.9275,
+    "a noise with heavy tails": 1.0,
+    "a noise that grows with the signal": 0.57,
+    "a noise correlated from sample to sample": 0.045,
+    "the records together: every record added in bins of the abscissa": 0.0625,
+    "the opponent: the runs test of the signs, record by record": 0.04,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.04,
+    "every statistic at one line, as the report reads them": 1.0
+   },
+   "skewed": {
+    "moments: powers 0 to 4": 0.055,
+    "moments: powers 0 to 8": 0.0575,
+    "moments: fractional powers of the distance": 0.0525,
+    "moments: inverse and logarithmic kernels": 0.0475,
+    "moments: negative orders of the distance": 0.0525,
+    "moments: exponential and Gaussian kernels": 0.0625,
+    "Hermite functions about the centre: orders 3 to 8": 0.0475,
+    "moments: cosines and sines": 0.0575,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.06,
+    "the two sides added: pairs of intervals, the centre held": 0.0525,
+    "the two sides subtracted: pairs of intervals": 0.0475,
+    "windows along the value: bands between levels of the height, each side": 0.07,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.0525,
+    "moments of the derivative: powers 0 to 8": 0.1,
+    "moments of the running integral: powers 0 to 8": 0.055,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.0675,
+    "the logarithm of the value: power kernels 0 to 8": 0.0575,
+    "the reciprocal of the value: power kernels 0 to 8": 0.0475,
+    "the square of the value: power kernels 0 to 8": 0.04,
+    "the square root of the value: power kernels 0 to 8": 0.0475,
+    "the exponential of the value: power kernels 0 to 8": 0.0375,
+    "every sample: the fit": 0.135,
+    "glitches": 1.0,
+    "a noise skewed to one side": 1.0,
+    "a noise with heavy tails": 1.0,
+    "a noise that grows with the signal": 0.2375,
+    "a noise correlated from sample to sample": 0.055,
+    "the records together: every record added in bins of the abscissa": 0.0575,
+    "the opponent: the runs test of the signs, record by record": 0.035,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0375,
+    "every statistic at one line, as the report reads them": 1.0
+   },
+   "grows with the signal": {
+    "moments: powers 0 to 4": 0.3,
+    "moments: powers 0 to 8": 0.23,
+    "moments: fractional powers of the distance": 0.6975,
+    "moments: inverse and logarithmic kernels": 0.62,
+    "moments: negative orders of the distance": 0.765,
+    "moments: exponential and Gaussian kernels": 0.7125,
+    "Hermite functions about the centre: orders 3 to 8": 0.7825,
+    "moments: cosines and sines": 0.3525,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.9025,
+    "the two sides added: pairs of intervals, the centre held": 0.7025,
+    "the two sides subtracted: pairs of intervals": 0.7125,
+    "windows along the value: bands between levels of the height, each side": 1.0,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.9975,
+    "moments of the derivative: powers 0 to 8": 0.095,
+    "moments of the running integral: powers 0 to 8": 0.1375,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.8225,
+    "the logarithm of the value: power kernels 0 to 8": 0.5125,
+    "the reciprocal of the value: power kernels 0 to 8": 0.4675,
+    "the square of the value: power kernels 0 to 8": 0.6875,
+    "the square root of the value: power kernels 0 to 8": 0.5375,
+    "the exponential of the value: power kernels 0 to 8": 0.6175,
+    "every sample: the fit": 0.1175,
+    "glitches": 1.0,
+    "a noise skewed to one side": 0.39,
+    "a noise with heavy tails": 1.0,
+    "a noise that grows with the signal": 1.0,
+    "a noise correlated from sample to sample": 0.1375,
+    "the records together: every record added in bins of the abscissa": 0.03,
+    "the opponent: the runs test of the signs, record by record": 0.0575,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.075,
+    "every statistic at one line, as the report reads them": 1.0
+   },
+   "glitches": {
+    "moments: powers 0 to 4": 0.0575,
+    "moments: powers 0 to 8": 0.045,
+    "moments: fractional powers of the distance": 0.0625,
+    "moments: inverse and logarithmic kernels": 0.0525,
+    "moments: negative orders of the distance": 0.0625,
+    "moments: exponential and Gaussian kernels": 0.075,
+    "Hermite functions about the centre: orders 3 to 8": 0.055,
+    "moments: cosines and sines": 0.045,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.07,
+    "the two sides added: pairs of intervals, the centre held": 0.05,
+    "the two sides subtracted: pairs of intervals": 0.0575,
+    "windows along the value: bands between levels of the height, each side": 0.06,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.07,
+    "moments of the derivative: powers 0 to 8": 0.0725,
+    "moments of the running integral: powers 0 to 8": 0.0525,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.0575,
+    "the logarithm of the value: power kernels 0 to 8": 0.0675,
+    "the reciprocal of the value: power kernels 0 to 8": 0.0775,
+    "the square of the value: power kernels 0 to 8": 0.055,
+    "the square root of the value: power kernels 0 to 8": 0.06,
+    "the exponential of the value: power kernels 0 to 8": 0.055,
+    "every sample: the fit": 0.1275,
+    "glitches": 1.0,
+    "a noise skewed to one side": 0.535,
+    "a noise with heavy tails": 1.0,
+    "a noise that grows with the signal": 0.1225,
+    "a noise correlated from sample to sample": 0.055,
+    "the records together: every record added in bins of the abscissa": 0.0575,
+    "the opponent: the runs test of the signs, record by record": 0.0525,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.045,
+    "every statistic at one line, as the report reads them": 1.0
+   },
+   "a Gaussian width": {
+    "moments: powers 0 to 4": 0.6725,
+    "moments: powers 0 to 8": 0.5625,
+    "moments: fractional powers of the distance": 0.6725,
+    "moments: inverse and logarithmic kernels": 0.6075,
+    "moments: negative orders of the distance": 0.7075,
+    "moments: exponential and Gaussian kernels": 0.56,
+    "Hermite functions about the centre: orders 3 to 8": 0.61,
+    "moments: cosines and sines": 0.545,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4675,
+    "the two sides added: pairs of intervals, the centre held": 0.575,
+    "the two sides subtracted: pairs of intervals": 0.0625,
+    "windows along the value: bands between levels of the height, each side": 0.3775,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.235,
+    "moments of the derivative: powers 0 to 8": 0.3225,
+    "moments of the running integral: powers 0 to 8": 0.55,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5925,
+    "the logarithm of the value: power kernels 0 to 8": 0.565,
+    "the reciprocal of the value: power kernels 0 to 8": 0.5475,
+    "the square of the value: power kernels 0 to 8": 0.565,
+    "the square root of the value: power kernels 0 to 8": 0.555,
+    "the exponential of the value: power kernels 0 to 8": 0.5625,
+    "every sample: the fit": 0.07,
+    "glitches": 0.0525,
+    "a noise skewed to one side": 0.03,
+    "a noise with heavy tails": 0.0425,
+    "a noise that grows with the signal": 0.0525,
+    "a noise correlated from sample to sample": 0.03,
+    "the records together: every record added in bins of the abscissa": 0.355,
+    "the opponent: the runs test of the signs, record by record": 0.03,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.095,
+    "every statistic at one line, as the report reads them": 0.5675
+   },
+   "a Lorentzian width": {
+    "moments: powers 0 to 4": 0.73,
+    "moments: powers 0 to 8": 0.56,
+    "moments: fractional powers of the distance": 0.65,
+    "moments: inverse and logarithmic kernels": 0.6025,
+    "moments: negative orders of the distance": 0.7475,
+    "moments: exponential and Gaussian kernels": 0.5525,
+    "Hermite functions about the centre: orders 3 to 8": 0.6075,
+    "moments: cosines and sines": 0.5725,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.49,
+    "the two sides added: pairs of intervals, the centre held": 0.6275,
+    "the two sides subtracted: pairs of intervals": 0.0425,
+    "windows along the value: bands between levels of the height, each side": 0.3825,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.28,
+    "moments of the derivative: powers 0 to 8": 0.3375,
+    "moments of the running integral: powers 0 to 8": 0.55,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5975,
+    "the logarithm of the value: power kernels 0 to 8": 0.5675,
+    "the reciprocal of the value: power kernels 0 to 8": 0.5775,
+    "the square of the value: power kernels 0 to 8": 0.5975,
+    "the square root of the value: power kernels 0 to 8": 0.555,
+    "the exponential of the value: power kernels 0 to 8": 0.5975,
+    "every sample: the fit": 0.09,
+    "glitches": 0.0425,
+    "a noise skewed to one side": 0.04,
+    "a noise with heavy tails": 0.055,
+    "a noise that grows with the signal": 0.0725,
+    "a noise correlated from sample to sample": 0.055,
+    "the records together: every record added in bins of the abscissa": 0.305,
+    "the opponent: the runs test of the signs, record by record": 0.06,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.07,
+    "every statistic at one line, as the report reads them": 0.58
+   },
+   "a demodulation phase": {
+    "moments: powers 0 to 4": 0.7575,
+    "moments: powers 0 to 8": 0.585,
+    "moments: fractional powers of the distance": 0.625,
+    "moments: inverse and logarithmic kernels": 0.5875,
+    "moments: negative orders of the distance": 0.7025,
+    "moments: exponential and Gaussian kernels": 0.535,
+    "Hermite functions about the centre: orders 3 to 8": 0.6425,
+    "moments: cosines and sines": 0.5525,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.445,
+    "the two sides added: pairs of intervals, the centre held": 0.045,
+    "the two sides subtracted: pairs of intervals": 0.6825,
+    "windows along the value: bands between levels of the height, each side": 0.3925,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.1425,
+    "moments of the derivative: powers 0 to 8": 0.5675,
+    "moments of the running integral: powers 0 to 8": 0.585,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5425,
+    "the logarithm of the value: power kernels 0 to 8": 0.1775,
+    "the reciprocal of the value: power kernels 0 to 8": 0.1075,
+    "the square of the value: power kernels 0 to 8": 0.4,
+    "the square root of the value: power kernels 0 to 8": 0.2375,
+    "the exponential of the value: power kernels 0 to 8": 0.43,
+    "every sample: the fit": 0.0625,
+    "glitches": 0.0375,
+    "a noise skewed to one side": 0.045,
+    "a noise with heavy tails": 0.045,
+    "a noise that grows with the signal": 0.055,
+    "a noise correlated from sample to sample": 0.04,
+    "the records together: every record added in bins of the abscissa": 0.7875,
+    "the opponent: the runs test of the signs, record by record": 0.0425,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.07,
+    "every statistic at one line, as the report reads them": 0.64
+   },
+   "an etalon fringe": {
+    "moments: powers 0 to 4": 0.2225,
+    "moments: powers 0 to 8": 0.585,
+    "moments: fractional powers of the distance": 0.5,
+    "moments: inverse and logarithmic kernels": 0.6,
+    "moments: negative orders of the distance": 0.07,
+    "moments: exponential and Gaussian kernels": 0.5425,
+    "Hermite functions about the centre: orders 3 to 8": 0.0575,
+    "moments: cosines and sines": 0.385,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.1625,
+    "the two sides added: pairs of intervals, the centre held": 0.215,
+    "the two sides subtracted: pairs of intervals": 0.0575,
+    "windows along the value: bands between levels of the height, each side": 0.1225,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.04,
+    "moments of the derivative: powers 0 to 8": 0.2875,
+    "moments of the running integral: powers 0 to 8": 0.555,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.535,
+    "the logarithm of the value: power kernels 0 to 8": 0.0675,
+    "the reciprocal of the value: power kernels 0 to 8": 0.0775,
+    "the square of the value: power kernels 0 to 8": 0.07,
+    "the square root of the value: power kernels 0 to 8": 0.075,
+    "the exponential of the value: power kernels 0 to 8": 0.07,
+    "every sample: the fit": 0.0675,
+    "glitches": 0.0475,
+    "a noise skewed to one side": 0.05,
+    "a noise with heavy tails": 0.0475,
+    "a noise that grows with the signal": 0.045,
+    "a noise correlated from sample to sample": 0.0475,
+    "the records together: every record added in bins of the abscissa": 0.63,
+    "the opponent: the runs test of the signs, record by record": 0.0375,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.065,
+    "every statistic at one line, as the report reads them": 0.4625
+   },
+   "a saturated top": {
+    "moments: powers 0 to 4": 0.565,
+    "moments: powers 0 to 8": 0.43,
+    "moments: fractional powers of the distance": 0.6075,
+    "moments: inverse and logarithmic kernels": 0.585,
+    "moments: negative orders of the distance": 0.685,
+    "moments: exponential and Gaussian kernels": 0.4975,
+    "Hermite functions about the centre: orders 3 to 8": 0.615,
+    "moments: cosines and sines": 0.5275,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.46,
+    "the two sides added: pairs of intervals, the centre held": 0.47,
+    "the two sides subtracted: pairs of intervals": 0.0625,
+    "windows along the value: bands between levels of the height, each side": 0.36,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.2825,
+    "moments of the derivative: powers 0 to 8": 0.36,
+    "moments of the running integral: powers 0 to 8": 0.445,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.5525,
+    "the logarithm of the value: power kernels 0 to 8": 0.415,
+    "the reciprocal of the value: power kernels 0 to 8": 0.27,
+    "the square of the value: power kernels 0 to 8": 0.5075,
+    "the square root of the value: power kernels 0 to 8": 0.4425,
+    "the exponential of the value: power kernels 0 to 8": 0.505,
+    "every sample: the fit": 0.0775,
+    "glitches": 0.05,
+    "a noise skewed to one side": 0.0525,
+    "a noise with heavy tails": 0.045,
+    "a noise that grows with the signal": 0.14,
+    "a noise correlated from sample to sample": 0.035,
+    "the records together: every record added in bins of the abscissa": 0.1,
+    "the opponent: the runs test of the signs, record by record": 0.04,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0725,
+    "every statistic at one line, as the report reads them": 0.51
+   },
+   "a fringe fixed to the abscissa": {
+    "moments: powers 0 to 4": 0.07,
+    "moments: powers 0 to 8": 0.125,
+    "moments: fractional powers of the distance": 0.0975,
+    "moments: inverse and logarithmic kernels": 0.0825,
+    "moments: negative orders of the distance": 0.07,
+    "moments: exponential and Gaussian kernels": 0.105,
+    "Hermite functions about the centre: orders 3 to 8": 0.0525,
+    "moments: cosines and sines": 0.09,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.085,
+    "the two sides added: pairs of intervals, the centre held": 0.1225,
+    "the two sides subtracted: pairs of intervals": 0.045,
+    "windows along the value: bands between levels of the height, each side": 0.0625,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.0475,
+    "moments of the derivative: powers 0 to 8": 0.06,
+    "moments of the running integral: powers 0 to 8": 0.12,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.125,
+    "the logarithm of the value: power kernels 0 to 8": 0.08,
+    "the reciprocal of the value: power kernels 0 to 8": 0.07,
+    "the square of the value: power kernels 0 to 8": 0.0475,
+    "the square root of the value: power kernels 0 to 8": 0.075,
+    "the exponential of the value: power kernels 0 to 8": 0.06,
+    "every sample: the fit": 0.0675,
+    "glitches": 0.04,
+    "a noise skewed to one side": 0.0425,
+    "a noise with heavy tails": 0.04,
+    "a noise that grows with the signal": 0.065,
+    "a noise correlated from sample to sample": 0.0425,
+    "the records together: every record added in bins of the abscissa": 0.48,
+    "the opponent: the runs test of the signs, record by record": 0.04,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0675,
+    "every statistic at one line, as the report reads them": 0.225
+   },
+   "a nonlinearity of the scan, the same on every record": {
+    "moments: powers 0 to 4": 0.7925,
+    "moments: powers 0 to 8": 0.605,
+    "moments: fractional powers of the distance": 0.665,
+    "moments: inverse and logarithmic kernels": 0.615,
+    "moments: negative orders of the distance": 0.745,
+    "moments: exponential and Gaussian kernels": 0.555,
+    "Hermite functions about the centre: orders 3 to 8": 0.665,
+    "moments: cosines and sines": 0.5625,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4925,
+    "the two sides added: pairs of intervals, the centre held": 0.0525,
+    "the two sides subtracted: pairs of intervals": 0.6975,
+    "windows along the value: bands between levels of the height, each side": 0.34,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.135,
+    "moments of the derivative: powers 0 to 8": 0.5775,
+    "moments of the running integral: powers 0 to 8": 0.6275,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.6025,
+    "the logarithm of the value: power kernels 0 to 8": 0.195,
+    "the reciprocal of the value: power kernels 0 to 8": 0.1425,
+    "the square of the value: power kernels 0 to 8": 0.43,
+    "the square root of the value: power kernels 0 to 8": 0.2975,
+    "the exponential of the value: power kernels 0 to 8": 0.45,
+    "every sample: the fit": 0.0575,
+    "glitches": 0.065,
+    "a noise skewed to one side": 0.0475,
+    "a noise with heavy tails": 0.0625,
+    "a noise that grows with the signal": 0.0525,
+    "a noise correlated from sample to sample": 0.0425,
+    "the records together: every record added in bins of the abscissa": 0.7075,
+    "the opponent: the runs test of the signs, record by record": 0.045,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.075,
+    "every statistic at one line, as the report reads them": 0.6575
+   },
+   "a nonlinearity of the detector": {
+    "moments: powers 0 to 4": 0.39,
+    "moments: powers 0 to 8": 0.3775,
+    "moments: fractional powers of the distance": 0.6875,
+    "moments: inverse and logarithmic kernels": 0.595,
+    "moments: negative orders of the distance": 0.735,
+    "moments: exponential and Gaussian kernels": 0.575,
+    "Hermite functions about the centre: orders 3 to 8": 0.5725,
+    "moments: cosines and sines": 0.4575,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.47,
+    "the two sides added: pairs of intervals, the centre held": 0.6525,
+    "the two sides subtracted: pairs of intervals": 0.055,
+    "windows along the value: bands between levels of the height, each side": 0.4075,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.11,
+    "moments of the derivative: powers 0 to 8": 0.175,
+    "moments of the running integral: powers 0 to 8": 0.36,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.635,
+    "the logarithm of the value: power kernels 0 to 8": 0.4625,
+    "the reciprocal of the value: power kernels 0 to 8": 0.335,
+    "the square of the value: power kernels 0 to 8": 0.595,
+    "the square root of the value: power kernels 0 to 8": 0.4975,
+    "the exponential of the value: power kernels 0 to 8": 0.5925,
+    "every sample: the fit": 0.0925,
+    "glitches": 0.065,
+    "a noise skewed to one side": 0.0475,
+    "a noise with heavy tails": 0.0375,
+    "a noise that grows with the signal": 0.09,
+    "a noise correlated from sample to sample": 0.065,
+    "the records together: every record added in bins of the abscissa": 0.1025,
+    "the opponent: the runs test of the signs, record by record": 0.07,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.08,
+    "every statistic at one line, as the report reads them": 0.51
+   },
+   "a wavelength Jacobian": {
+    "moments: powers 0 to 4": 0.77,
+    "moments: powers 0 to 8": 0.63,
+    "moments: fractional powers of the distance": 0.69,
+    "moments: inverse and logarithmic kernels": 0.5975,
+    "moments: negative orders of the distance": 0.705,
+    "moments: exponential and Gaussian kernels": 0.525,
+    "Hermite functions about the centre: orders 3 to 8": 0.6125,
+    "moments: cosines and sines": 0.575,
+    "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.4575,
+    "the two sides added: pairs of intervals, the centre held": 0.0275,
+    "the two sides subtracted: pairs of intervals": 0.6625,
+    "windows along the value: bands between levels of the height, each side": 0.3625,
+    "the abscissa against the value: the crossings of nine levels, each side": 0.1125,
+    "moments of the derivative: powers 0 to 8": 0.585,
+    "moments of the running integral: powers 0 to 8": 0.605,
+    "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.6,
+    "the logarithm of the value: power kernels 0 to 8": 0.2175,
+    "the reciprocal of the value: power kernels 0 to 8": 0.1425,
+    "the square of the value: power kernels 0 to 8": 0.4375,
+    "the square root of the value: power kernels 0 to 8": 0.275,
+    "the exponential of the value: power kernels 0 to 8": 0.44,
+    "every sample: the fit": 0.1,
+    "glitches": 0.0475,
+    "a noise skewed to one side": 0.05,
+    "a noise with heavy tails": 0.03,
+    "a noise that grows with the signal": 0.0375,
+    "a noise correlated from sample to sample": 0.0375,
+    "the records together: every record added in bins of the abscissa": 0.7375,
+    "the opponent: the runs test of the signs, record by record": 0.0375,
+    "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0775,
+    "every statistic at one line, as the report reads them": 0.6625
+   }
+  }
+ },
+ "said": {
+  "plain_fit": {
+   "a Gaussian width": 0.0725930129359653,
+   "a Lorentzian width": 0.07606568607256384,
+   "a demodulation phase": 0.07197619692664006,
+   "an etalon fringe": 0.07197616782191125,
+   "a saturated top": 0.07208671233243827,
+   "a fringe fixed to the abscissa": 0.07197609561891873,
+   "a nonlinearity of the scan, the same on every record": 0.0719759618011672,
+   "a nonlinearity of the detector": 0.07107042933453557,
+   "a wavelength Jacobian": 0.07197608414202304
+  },
+  "best_family": {
+   "a Gaussian width": 0.7470199892617491,
+   "a Lorentzian width": 0.805925766368703,
+   "a demodulation phase": 0.7322562304201846,
+   "an etalon fringe": 0.5636695759424943,
+   "a saturated top": 0.7046051246566112,
+   "a fringe fixed to the abscissa": 0.13026845462735406,
+   "a nonlinearity of the scan, the same on every record": 0.7299415463091107,
+   "a nonlinearity of the detector": 0.7091730660687241,
+   "a wavelength Jacobian": 0.729769599169628
+  },
+  "least_family": {
+   "a Gaussian width": 0.050000627412385514,
+   "a Lorentzian width": 0.0500007598415081,
+   "a demodulation phase": 0.050074237569126566,
+   "an etalon fringe": 0.05016953371101687,
+   "a saturated top": 0.05000013682389283,
+   "a fringe fixed to the abscissa": 0.05016916166297781,
+   "a nonlinearity of the scan, the same on every record": 0.050174505007893895,
+   "a nonlinearity of the detector": 0.05000102587107525,
+   "a wavelength Jacobian": 0.05017635512475357
+  },
+  "phase_against_jacobian": 0.005203406822174794,
+  "noise": {
+   "correlated_lights_the_least_family": 0.9975,
+   "correlated_lights_the_plain_fit": 0.075,
+   "heavy_tails_or_skew_in_the_most_family": 0.1375,
+   "normal": [
+    0.0325,
+    0.075
+   ]
+  }
+ },
+ "width_profile": {
+  "draws": 100,
+  "failed": 0,
+  "names": [
+   "gas_width",
+   "laser_noise"
+  ],
+  "truth": [
+   0.037,
+   0.369
+  ],
+  "levels": [
+   0.2,
+   0.3,
+   0.4,
+   0.5,
+   0.6,
+   0.7,
+   0.8
+  ],
+  "chi_square_a_degree": 0.9725349509235787,
+  "digest": "d96e4adbb5259145d5e3597d4d139dad8e9d014870f61115d58fa6d718fac28c",
+  "profile": {
+   "mean": [
+    0.03674471699055545,
+    0.368042786817826
+   ],
+   "spread": [
+    0.02398115679642761,
+    0.026072002009425412
+   ],
+   "mean_bar": [
+    0.024674624050997688,
+    0.024489709358102848
+   ],
+   "within_one_bar": [
+    0.69,
+    0.59
+   ],
+   "within_two_bars": [
+    0.97,
+    0.94
+   ]
+  },
+  "fit": {
+   "mean": [
+    0.03834064651093014,
+    0.36746064734606937
+   ],
+   "spread": [
+    0.010315122846401868,
+    0.015503112431211961
+   ],
+   "mean_bar": [
+    0.011872609840646184,
+    0.01718419785156317
+   ],
+   "within_one_bar": [
+    0.75,
+    0.79
+   ],
+   "within_two_bars": [
+    0.97,
+    0.98
+   ]
+  },
+  "correlation_of_the_two": [
+   0.3115735394928818,
+   0.5628350660793111
+  ]
+ },
+ "free_of": {
+  "draws": 100,
+  "digest": "b7598fe1a8c19f215751c3e766d2edc33d7737ecf524f495b0750bc56943e027",
+  "the traces of detail 2 by the model of detail 1": {
+   "draws": 100,
+   "ended": 100,
+   "parameters": {
+    "natural_width": {
+     "fit": {
+      "mean": 3.6011556882466262,
+      "spread": 0.0058495490017722715,
+      "bias_in_spreads": 18.56860861508386,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.10877381087156222,
+      "passes": false
+     },
+     "combination": {
+      "mean": 3.5437799496273037,
+      "spread": 0.3706730077556154,
+      "bias_in_spreads": 0.13824110819292576,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.62,
+      "root_mean_square_error": 0.37235770679182856,
+      "passes": false
+     },
+     "true": 3.4925377022579625,
+     "term": "collisions",
+     "useful": false
+    }
+   },
+   "sizes": {
+    "collisions": 3.5
+   },
+   "bias_bound": 0.25,
+   "band_of_the_share_that_holds_the_truth": [
+    0.5430724099613546,
+    0.8223275900386453
+   ]
+  },
+  "the traces of detail 3 by the model of detail 2": {
+   "draws": 100,
+   "ended": 100,
+   "parameters": {
+    "natural_width": {
+     "fit": {
+      "mean": 3.52933445379879,
+      "spread": 0.006348636464586859,
+      "bias_in_spreads": 5.796008599024765,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.03733501114325931,
+      "passes": false
+     },
+     "combination": {
+      "mean": 3.9248624286643228,
+      "spread": 6.546174575906635,
+      "bias_in_spreads": 0.06604234601343244,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.69,
+      "root_mean_square_error": 6.5276934848019845,
+      "passes": false
+     },
+     "true": 3.4925377022579625,
+     "term": "gas_width",
+     "useful": false
+    }
+   },
+   "sizes": {
+    "gas_width": 0.037
+   },
+   "bias_bound": 0.25,
+   "band_of_the_share_that_holds_the_truth": [
+    0.5430724099613546,
+    0.8223275900386453
+   ]
+  },
+  "the traces of detail 4 by the model of detail 3": {
+   "draws": 100,
+   "ended": 100,
+   "parameters": {
+    "gas_width": {
+     "fit": {
+      "mean": 0.15122259627961193,
+      "spread": 0.005818566394675072,
+      "bias_in_spreads": 19.63071116351685,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.11436922076588424,
+      "passes": false
+     },
+     "combination": {
+      "mean": 0.0377400582502285,
+      "spread": 0.013626018151673674,
+      "bias_in_spreads": 0.05431214328285616,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.77,
+      "root_mean_square_error": 0.013577900175534298,
+      "passes": true
+     },
+     "true": 0.037,
+     "term": "laser_noise",
+     "useful": true
+    }
+   },
+   "sizes": {
+    "laser_noise": 0.369
+   },
+   "bias_bound": 0.25,
+   "band_of_the_share_that_holds_the_truth": [
+    0.5430724099613546,
+    0.8223275900386453
+   ]
+  },
+  "the traces of detail 5 by the model of detail 4": {
+   "draws": 100,
+   "ended": 100,
+   "parameters": {
+    "gas_width": {
+     "fit": {
+      "mean": 0.4250913659978503,
+      "spread": 0.016185802003029943,
+      "bias_in_spreads": 23.977271310077843,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.3884253708844131,
+      "passes": false
+     },
+     "combination": {
+      "mean": 0.3426599929864214,
+      "spread": 0.017685377969026136,
+      "bias_in_spreads": 17.2832038716814,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.306166092473395,
+      "passes": false
+     },
+     "true": 0.037,
+     "term": "transit",
+     "useful": true
+    },
+    "laser_noise": {
+     "fit": {
+      "mean": 1.1505175586570173,
+      "spread": 0.010822016957682352,
+      "bias_in_spreads": 72.21551783858851,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 0.7815917344622746,
+      "passes": false
+     },
+     "combination": {
+      "mean": -41.21330432897473,
+      "spread": 5.496785638418645,
+      "bias_in_spreads": -7.564840083692517,
+      "bias_standard_error": 0.1,
+      "holds_the_truth": 0.0,
+      "root_mean_square_error": 41.94044037845392,
+      "passes": false
+     },
+     "true": 0.369,
+     "term": "transit",
+     "useful": false
+    }
+   },
+   "sizes": {
+    "transit": 1.0399981409634105
+   },
+   "bias_bound": 0.25,
+   "band_of_the_share_that_holds_the_truth": [
+    0.5430724099613546,
+    0.8223275900386453
+   ]
+  }
+ },
+ "levels": {
+  "null_draws": 2000,
+  "normal": {
+   "moments: powers 0 to 4": 0.0575,
+   "moments: powers 0 to 8": 0.05,
+   "moments: fractional powers of the distance": 0.05,
+   "moments: inverse and logarithmic kernels": 0.0525,
+   "moments: negative orders of the distance": 0.0425,
+   "moments: exponential and Gaussian kernels": 0.06,
+   "Hermite functions about the centre: orders 3 to 8": 0.065,
+   "moments: cosines and sines": 0.0325,
+   "windows along the abscissa: pairs of intervals, the two sides added and subtracted": 0.0525,
+   "the two sides added: pairs of intervals, the centre held": 0.04,
+   "the two sides subtracted: pairs of intervals": 0.0625,
+   "windows along the value: bands between levels of the height, each side": 0.0625,
+   "the abscissa against the value: the crossings of nine levels, each side": 0.06,
+   "moments of the derivative: powers 0 to 8": 0.0425,
+   "moments of the running integral: powers 0 to 8": 0.0575,
+   "ratios of moments of the distance: orders 0.5 to 4 over order 0": 0.045,
+   "the logarithm of the value: power kernels 0 to 8": 0.0575,
+   "the reciprocal of the value: power kernels 0 to 8": 0.0675,
+   "the square of the value: power kernels 0 to 8": 0.075,
+   "the square root of the value: power kernels 0 to 8": 0.06,
+   "the exponential of the value: power kernels 0 to 8": 0.065,
+   "every sample: the fit": 0.0475,
+   "glitches": 0.0575,
+   "a noise skewed to one side": 0.0575,
+   "a noise with heavy tails": 0.0475,
+   "a noise that grows with the signal": 0.0675,
+   "a noise correlated from sample to sample": 0.0625,
+   "the records together: every record added in bins of the abscissa": 0.0375,
+   "the opponent: the runs test of the signs, record by record": 0.045,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0575,
+   "every statistic at one line, as the report reads them": 0.0575
+  }
+ },
+ "opponents": {
+  "normal": {
+   "the opponent: the runs test of the signs, record by record": 0.045,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0575
+  },
+  "correlated": {
+   "the opponent: the runs test of the signs, record by record": 1.0,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 1.0
+  },
+  "heavy tails": {
+   "the opponent: the runs test of the signs, record by record": 0.04,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.04
+  },
+  "skewed": {
+   "the opponent: the runs test of the signs, record by record": 0.035,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0375
+  },
+  "grows with the signal": {
+   "the opponent: the runs test of the signs, record by record": 0.0575,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.075
+  },
+  "glitches": {
+   "the opponent: the runs test of the signs, record by record": 0.0525,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.045
+  },
+  "a Gaussian width": {
+   "the opponent: the runs test of the signs, record by record": 0.03,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.095
+  },
+  "a Lorentzian width": {
+   "the opponent: the runs test of the signs, record by record": 0.06,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.07
+  },
+  "a demodulation phase": {
+   "the opponent: the runs test of the signs, record by record": 0.0425,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.07
+  },
+  "an etalon fringe": {
+   "the opponent: the runs test of the signs, record by record": 0.0375,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.065
+  },
+  "a saturated top": {
+   "the opponent: the runs test of the signs, record by record": 0.04,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0725
+  },
+  "a fringe fixed to the abscissa": {
+   "the opponent: the runs test of the signs, record by record": 0.04,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0675
+  },
+  "a nonlinearity of the scan, the same on every record": {
+   "the opponent: the runs test of the signs, record by record": 0.045,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.075
+  },
+  "a nonlinearity of the detector": {
+   "the opponent: the runs test of the signs, record by record": 0.07,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.08
+  },
+  "a wavelength Jacobian": {
+   "the opponent: the runs test of the signs, record by record": 0.0375,
+   "the opponent: Durbin and Watson, the lag one correlation, record by record": 0.0775
+  }
+ },
+ "sign": {
+  "digest": "132e75f41743510bddf40f4f9879f927f049cde89890e89a2b87a6de398917d7",
+  "draws": 200,
+  "sizes_mhz": [
+   0.05,
+   0.1,
+   0.2,
+   0.4
+  ],
+  "noises": [
+   0.1,
+   0.3,
+   1.0,
+   3.0
+  ],
+  "rungs": [
+   0.03,
+   0.1,
+   0.3
+  ],
+  "conditions": {
+   "a Gaussian width of 0.05 MHz, noise 0.1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.05,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.9,
+      "wrong": 0.1,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 1.8655901921039695,
+       "Lorentzian": 1.8657576277992691
+      }
+     },
+     "0.1": {
+      "right": 0.905,
+      "wrong": 0.095,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 1.8741568921703657,
+       "Lorentzian": 1.8681631775101994
+      }
+     },
+     "0.3": {
+      "right": 0.87,
+      "wrong": 0.075,
+      "none": 0.055,
+      "median_score": {
+       "Gaussian": 1.368679414380594,
+       "Lorentzian": 1.9500520389070535
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.1 MHz, noise 0.1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.1,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 25.64528425525146,
+       "Lorentzian": 25.638916824832094
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 25.306805643591247,
+       "Lorentzian": 25.560933253912083
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 17.494823669783038,
+       "Lorentzian": 25.27013837766983
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.2 MHz, noise 0.1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.2,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 384.68435945194443,
+       "Lorentzian": 384.6233777671812
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 382.7988708280242,
+       "Lorentzian": 384.111506543961
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 253.51414997692748,
+       "Lorentzian": 379.14466957674466
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.4 MHz, noise 0.1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.4,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 5839.273679213703,
+       "Lorentzian": 5840.260588616975
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 5815.648568776403,
+       "Lorentzian": 5837.759042472614
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 3973.5146920735187,
+       "Lorentzian": 5783.21410898029
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.05 MHz, noise 0.1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.05,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 489.61218727012357,
+       "Lorentzian": 1164.321224955433
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 535.9519646689157,
+       "Lorentzian": 1164.4294947657518
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 780.6121636108979,
+       "Lorentzian": 1164.572614455792
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.1 MHz, noise 0.1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.1,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 1991.5498578967442,
+       "Lorentzian": 4571.740760348965
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 2168.2630216431926,
+       "Lorentzian": 4571.175788365356
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 3125.4972549551467,
+       "Lorentzian": 4567.305757613491
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.2 MHz, noise 0.1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.2,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 8168.207962217468,
+       "Lorentzian": 17680.679066775047
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 8783.78349731537,
+       "Lorentzian": 17678.109963120936
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 12283.051555732123,
+       "Lorentzian": 17652.771282532063
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.4 MHz, noise 0.1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.4,
+    "noise": 0.1,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 33593.44642256311,
+       "Lorentzian": 66127.55783162834
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 35663.415664626664,
+       "Lorentzian": 66111.96944148824
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 47660.628380590584,
+       "Lorentzian": 65990.00368006743
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.05 MHz, noise 0.3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.05,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.67,
+      "wrong": 0.33,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 0.7044833823085178,
+       "Lorentzian": 0.7085023749269379
+      }
+     },
+     "0.1": {
+      "right": 0.665,
+      "wrong": 0.315,
+      "none": 0.02,
+      "median_score": {
+       "Gaussian": 0.6815416051352778,
+       "Lorentzian": 0.6986140853318481
+      }
+     },
+     "0.3": {
+      "right": 0.595,
+      "wrong": 0.275,
+      "none": 0.13,
+      "median_score": {
+       "Gaussian": 0.4993171903930748,
+       "Lorentzian": 0.6629602850547565
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.1 MHz, noise 0.3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.1,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.96,
+      "wrong": 0.04,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 2.8038209412352266,
+       "Lorentzian": 2.793524381707285
+      }
+     },
+     "0.1": {
+      "right": 0.96,
+      "wrong": 0.035,
+      "none": 0.005,
+      "median_score": {
+       "Gaussian": 2.829756905568733,
+       "Lorentzian": 2.8220183672544685
+      }
+     },
+     "0.3": {
+      "right": 0.935,
+      "wrong": 0.035,
+      "none": 0.03,
+      "median_score": {
+       "Gaussian": 1.960007178427026,
+       "Lorentzian": 2.873109423074169
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.2 MHz, noise 0.3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.2,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 43.93205563965588,
+       "Lorentzian": 43.926549457034184
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 43.84649683890292,
+       "Lorentzian": 43.99421596010252
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 29.139829659858194,
+       "Lorentzian": 43.832527687105596
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.4 MHz, noise 0.3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.4,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 641.7772465042497,
+       "Lorentzian": 641.7296482348288
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 642.7358930560641,
+       "Lorentzian": 642.8947166482295
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 442.21816432777314,
+       "Lorentzian": 639.5369688182084
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.05 MHz, noise 0.3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.05,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 53.881794340013684,
+       "Lorentzian": 126.26852850747073
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 58.72198577367642,
+       "Lorentzian": 126.2303184000312
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 86.62732885213906,
+       "Lorentzian": 125.9545052277744
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.1 MHz, noise 0.3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.1,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 225.2488837489252,
+       "Lorentzian": 511.1955288703284
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 243.91820529025435,
+       "Lorentzian": 511.22639593492585
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 348.93940527205723,
+       "Lorentzian": 511.15785632158503
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.2 MHz, noise 0.3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.2,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 911.1316782586457,
+       "Lorentzian": 1970.7219893624392
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 978.1655267571016,
+       "Lorentzian": 1970.6424156801754
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 1367.6975180177114,
+       "Lorentzian": 1968.8993132732821
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.4 MHz, noise 0.3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.4,
+    "noise": 0.3,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 3724.3553314968126,
+       "Lorentzian": 7338.834933601278
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 3949.5245863589444,
+       "Lorentzian": 7337.4608285741015
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 5277.819078238275,
+       "Lorentzian": 7325.046155389581
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.05 MHz, noise 1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.05,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.535,
+      "wrong": 0.46,
+      "none": 0.005,
+      "median_score": {
+       "Gaussian": 0.7091030586527474,
+       "Lorentzian": 0.7059309857905409
+      }
+     },
+     "0.1": {
+      "right": 0.52,
+      "wrong": 0.465,
+      "none": 0.015,
+      "median_score": {
+       "Gaussian": 0.7097939459804925,
+       "Lorentzian": 0.6887492076544341
+      }
+     },
+     "0.3": {
+      "right": 0.445,
+      "wrong": 0.425,
+      "none": 0.13,
+      "median_score": {
+       "Gaussian": 0.5967068219653866,
+       "Lorentzian": 0.6772828942354397
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.1 MHz, noise 1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.1,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.68,
+      "wrong": 0.32,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 0.5196367415705514,
+       "Lorentzian": 0.5186639933910231
+      }
+     },
+     "0.1": {
+      "right": 0.67,
+      "wrong": 0.325,
+      "none": 0.005,
+      "median_score": {
+       "Gaussian": 0.5060587088931565,
+       "Lorentzian": 0.5101153675109664
+      }
+     },
+     "0.3": {
+      "right": 0.575,
+      "wrong": 0.255,
+      "none": 0.17,
+      "median_score": {
+       "Gaussian": 0.5777291059271547,
+       "Lorentzian": 0.5211917268087298
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.2 MHz, noise 1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.2,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.96,
+      "wrong": 0.04,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 4.1429261657934155,
+       "Lorentzian": 4.14802397890835
+      }
+     },
+     "0.1": {
+      "right": 0.96,
+      "wrong": 0.04,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 3.9613400450287584,
+       "Lorentzian": 4.08094725732159
+      }
+     },
+     "0.3": {
+      "right": 0.93,
+      "wrong": 0.025,
+      "none": 0.045,
+      "median_score": {
+       "Gaussian": 2.705563608756571,
+       "Lorentzian": 3.9128913844548414
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.4 MHz, noise 1": {
+    "kind": "Gaussian",
+    "size_mhz": 0.4,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 58.152956385837044,
+       "Lorentzian": 58.13027697995248
+      }
+     },
+     "0.1": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 58.02362430915747,
+       "Lorentzian": 58.193516804569796
+      }
+     },
+     "0.3": {
+      "right": 1.0,
+      "wrong": 0.0,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 39.56637440922675,
+       "Lorentzian": 57.919820491324785
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.05 MHz, noise 1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.05,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.005,
+      "wrong": 0.0,
+      "none": 0.995,
+      "median_score": {
+       "Gaussian": 4.4865673097840535,
+       "Lorentzian": 10.848580494338792
+      }
+     },
+     "0.1": {
+      "right": 0.005,
+      "wrong": 0.0,
+      "none": 0.995,
+      "median_score": {
+       "Gaussian": 4.80418971329633,
+       "Lorentzian": 10.849712678449706
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 7.28110127661476,
+       "Lorentzian": 10.857645275780817
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.1 MHz, noise 1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.1,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 21.13047045389728,
+       "Lorentzian": 46.78370151337673
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 23.113292943564034,
+       "Lorentzian": 46.75870315375317
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 32.70349685907182,
+       "Lorentzian": 46.889392594129575
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.2 MHz, noise 1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.2,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 79.77114463305901,
+       "Lorentzian": 178.88460530392797
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 86.01255380617397,
+       "Lorentzian": 178.9000093024503
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 122.43782717904156,
+       "Lorentzian": 178.82863642480828
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.4 MHz, noise 1": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.4,
+    "noise": 1.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 330.1562332151825,
+       "Lorentzian": 659.5763529748748
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 350.0023632136297,
+       "Lorentzian": 659.3416995728921
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 472.58914781288803,
+       "Lorentzian": 658.1445199803466
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.05 MHz, noise 3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.05,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.475,
+      "wrong": 0.52,
+      "none": 0.005,
+      "median_score": {
+       "Gaussian": 0.5338367512979458,
+       "Lorentzian": 0.5325100212775011
+      }
+     },
+     "0.1": {
+      "right": 0.485,
+      "wrong": 0.49,
+      "none": 0.025,
+      "median_score": {
+       "Gaussian": 0.540104025106078,
+       "Lorentzian": 0.5326184146179653
+      }
+     },
+     "0.3": {
+      "right": 0.435,
+      "wrong": 0.43,
+      "none": 0.135,
+      "median_score": {
+       "Gaussian": 0.5571610254218281,
+       "Lorentzian": 0.525254532801227
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.1 MHz, noise 3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.1,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.56,
+      "wrong": 0.44,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 0.31674165755374917,
+       "Lorentzian": 0.3158804305725209
+      }
+     },
+     "0.1": {
+      "right": 0.54,
+      "wrong": 0.445,
+      "none": 0.015,
+      "median_score": {
+       "Gaussian": 0.31021235663270597,
+       "Lorentzian": 0.32189815864384935
+      }
+     },
+     "0.3": {
+      "right": 0.445,
+      "wrong": 0.395,
+      "none": 0.16,
+      "median_score": {
+       "Gaussian": 0.4225637016324415,
+       "Lorentzian": 0.31417236962050754
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.2 MHz, noise 3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.2,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.73,
+      "wrong": 0.27,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 0.7383989429937826,
+       "Lorentzian": 0.7481618346528458
+      }
+     },
+     "0.1": {
+      "right": 0.715,
+      "wrong": 0.275,
+      "none": 0.01,
+      "median_score": {
+       "Gaussian": 0.7306645368348358,
+       "Lorentzian": 0.7569028779111641
+      }
+     },
+     "0.3": {
+      "right": 0.605,
+      "wrong": 0.245,
+      "none": 0.15,
+      "median_score": {
+       "Gaussian": 0.6276006481719993,
+       "Lorentzian": 0.7233863278202446
+      }
+     }
+    }
+   },
+   "a Gaussian width of 0.4 MHz, noise 3": {
+    "kind": "Gaussian",
+    "size_mhz": 0.4,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.995,
+      "wrong": 0.005,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 6.949690247858294,
+       "Lorentzian": 6.9496474987937855
+      }
+     },
+     "0.1": {
+      "right": 0.995,
+      "wrong": 0.005,
+      "none": 0.0,
+      "median_score": {
+       "Gaussian": 6.810875208370771,
+       "Lorentzian": 6.916474978591624
+      }
+     },
+     "0.3": {
+      "right": 0.985,
+      "wrong": 0.005,
+      "none": 0.01,
+      "median_score": {
+       "Gaussian": 4.476674102451362,
+       "Lorentzian": 6.760620590523834
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.05 MHz, noise 3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.05,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.145,
+      "wrong": 0.035,
+      "none": 0.82,
+      "median_score": {
+       "Gaussian": 0.68481693812803,
+       "Lorentzian": 1.209286436031539
+      }
+     },
+     "0.1": {
+      "right": 0.115,
+      "wrong": 0.04,
+      "none": 0.845,
+      "median_score": {
+       "Gaussian": 0.7396470125514973,
+       "Lorentzian": 1.2109310372793725
+      }
+     },
+     "0.3": {
+      "right": 0.065,
+      "wrong": 0.04,
+      "none": 0.895,
+      "median_score": {
+       "Gaussian": 0.8997831094689435,
+       "Lorentzian": 1.2313671472527097
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.1 MHz, noise 3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.1,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.02,
+      "wrong": 0.005,
+      "none": 0.975,
+      "median_score": {
+       "Gaussian": 2.0929699639716413,
+       "Lorentzian": 5.329307648180471
+      }
+     },
+     "0.1": {
+      "right": 0.015,
+      "wrong": 0.005,
+      "none": 0.98,
+      "median_score": {
+       "Gaussian": 2.29169999571333,
+       "Lorentzian": 5.3387877345286725
+      }
+     },
+     "0.3": {
+      "right": 0.005,
+      "wrong": 0.0,
+      "none": 0.995,
+      "median_score": {
+       "Gaussian": 3.7816797578097514,
+       "Lorentzian": 5.387376590517295
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.2 MHz, noise 3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.2,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 9.280772738502574,
+       "Lorentzian": 19.5531911176967
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 9.981873796416556,
+       "Lorentzian": 19.55466479866248
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 14.19383357529281,
+       "Lorentzian": 19.479610067027362
+      }
+     }
+    }
+   },
+   "a Lorentzian width of 0.4 MHz, noise 3": {
+    "kind": "Lorentzian",
+    "size_mhz": 0.4,
+    "noise": 3.0,
+    "draws": 200,
+    "failed": 0,
+    "rungs": {
+     "0.03": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 36.52639123381207,
+       "Lorentzian": 71.56167664628387
+      }
+     },
+     "0.1": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 38.930290080548204,
+       "Lorentzian": 71.5680745766633
+      }
+     },
+     "0.3": {
+      "right": 0.0,
+      "wrong": 0.0,
+      "none": 1.0,
+      "median_score": {
+       "Gaussian": 51.3943191835983,
+       "Lorentzian": 71.3178131511789
+      }
+     }
+    }
+   }
+  }
+ },
+ "mercury_level": {
+  "digest": "1a40b6b05b090e0bad70977fbdd9b40d6b94b6e45f87a2262b869357577ce004",
+  "truth": "the laser noise absent, the beam drawn on each draw from 43 +- 1 um",
+  "draws": 200,
+  "read": 200,
+  "false_alarms_held": 0,
+  "false_alarms_free": 0,
+  "level_held": 0.0
+ },
+ "noise_curves": {
+  "digest": "ff0909d74ae568b7fdb0bf0275496cc54e5643d2c058de71d20519a082d977a0",
+  "draws": 100,
+  "sets": 200,
+  "noises": [
+   0.1,
+   0.3,
+   1.0,
+   3.0
+  ],
+  "level": 0.05,
+  "conditions": {
+   "the laser noise missing, noise 0.1": {
+    "case": "the laser noise missing",
+    "noise": 0.1,
+    "level_for_all": 0.004036077470858727,
+    "draws": 100,
+    "failed": 0,
+    "package": 1.0,
+    "chi_square": 1.0,
+    "any_usual": 1.0,
+    "usual": {
+     "runs": 1.0,
+     "bins": 1.0,
+     "neighbours": 1.0
+    }
+   },
+   "a right model, noise 0.1": {
+    "case": "a right model",
+    "noise": 0.1,
+    "level_for_all": 0.002775493206076634,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.05,
+    "chi_square": 0.04,
+    "any_usual": 0.17,
+    "usual": {
+     "runs": 0.06,
+     "bins": 0.07,
+     "neighbours": 0.05
+    }
+   },
+   "the laser noise missing, noise 0.3": {
+    "case": "the laser noise missing",
+    "noise": 0.3,
+    "level_for_all": 0.0035306396879453243,
+    "draws": 100,
+    "failed": 0,
+    "package": 1.0,
+    "chi_square": 0.92,
+    "any_usual": 1.0,
+    "usual": {
+     "runs": 0.73,
+     "bins": 1.0,
+     "neighbours": 1.0
+    }
+   },
+   "a right model, noise 0.3": {
+    "case": "a right model",
+    "noise": 0.3,
+    "level_for_all": 0.0027959701177113342,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.04,
+    "chi_square": 0.07,
+    "any_usual": 0.09,
+    "usual": {
+     "runs": 0.03,
+     "bins": 0.04,
+     "neighbours": 0.04
+    }
+   },
+   "the laser noise missing, noise 1": {
+    "case": "the laser noise missing",
+    "noise": 1.0,
+    "level_for_all": 0.0031968309292825115,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.88,
+    "chi_square": 0.02,
+    "any_usual": 0.48,
+    "usual": {
+     "runs": 0.06,
+     "bins": 0.42,
+     "neighbours": 0.04
+    }
+   },
+   "a right model, noise 1": {
+    "case": "a right model",
+    "noise": 1.0,
+    "level_for_all": 0.004015112275693221,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.03,
+    "chi_square": 0.04,
+    "any_usual": 0.14,
+    "usual": {
+     "runs": 0.06,
+     "bins": 0.05,
+     "neighbours": 0.05
+    }
+   },
+   "the laser noise missing, noise 3": {
+    "case": "the laser noise missing",
+    "noise": 3.0,
+    "level_for_all": 0.0035822371424021125,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.02,
+    "chi_square": 0.02,
+    "any_usual": 0.17,
+    "usual": {
+     "runs": 0.07,
+     "bins": 0.04,
+     "neighbours": 0.1
+    }
+   },
+   "a right model, noise 3": {
+    "case": "a right model",
+    "noise": 3.0,
+    "level_for_all": 0.0004217093467810974,
+    "draws": 100,
+    "failed": 0,
+    "package": 0.02,
+    "chi_square": 0.05,
+    "any_usual": 0.17,
+    "usual": {
+     "runs": 0.06,
+     "bins": 0.06,
+     "neighbours": 0.06
+    }
+   }
+  }
+ },
+ "made_by": {
+  "curves": "3a2e26e01a15eb0b742ad34712234a25b15bedabcac5fe7196978cb0333df145",
+  "widths": "3a2e26e01a15eb0b742ad34712234a25b15bedabcac5fe7196978cb0333df145"
+ },
+ "curves": {
+  "the toy": {
+   "a Gaussian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.095,
+     "best_family": 0.1,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.025,
+     "records_together": 0.055,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.105,
+     "best_family": 0.195,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.04,
+     "records_together": 0.09,
+     "report": 0.045
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.105,
+     "best_family": 0.335,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.05,
+     "records_together": 0.145,
+     "report": 0.125
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.125,
+     "best_family": 0.775,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.05,
+     "records_together": 0.385,
+     "report": 0.62
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.215,
+     "best_family": 1.0,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.05,
+     "records_together": 0.88,
+     "report": 0.995
+    }
+   ],
+   "a Lorentzian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.15,
+     "best_family": 0.105,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.03,
+     "records_together": 0.06,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.165,
+     "best_family": 0.21,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.09,
+     "report": 0.06
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.17,
+     "best_family": 0.36,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.145,
+     "report": 0.17
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.175,
+     "best_family": 0.815,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.33,
+     "report": 0.635
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.265,
+     "best_family": 1.0,
+     "best_is": "the two sides added: pairs of intervals, the centre held",
+     "worst_family": 0.03,
+     "records_together": 0.86,
+     "report": 0.985
+    }
+   ],
+   "a demodulation phase": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.13,
+     "best_family": 0.105,
+     "best_is": "the square of the value: power kernels 0 to 8",
+     "worst_family": 0.03,
+     "records_together": 0.075,
+     "report": 0.025
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.14,
+     "best_family": 0.17,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.05,
+     "records_together": 0.155,
+     "report": 0.08
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.155,
+     "best_family": 0.32,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.07,
+     "records_together": 0.275,
+     "report": 0.165
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.185,
+     "best_family": 0.795,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.085,
+     "records_together": 0.755,
+     "report": 0.605
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.28,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.085,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "an etalon fringe": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.14,
+     "best_family": 0.095,
+     "best_is": "the abscissa against the value: the crossings of nine levels, each side",
+     "worst_family": 0.045,
+     "records_together": 0.085,
+     "report": 0.055
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.14,
+     "best_family": 0.105,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.05,
+     "records_together": 0.12,
+     "report": 0.07
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.15,
+     "best_family": 0.205,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.05,
+     "records_together": 0.205,
+     "report": 0.11
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.175,
+     "best_family": 0.59,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.05,
+     "records_together": 0.63,
+     "report": 0.37
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.235,
+     "best_family": 1.0,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.05,
+     "records_together": 0.985,
+     "report": 0.965
+    }
+   ],
+   "a saturated top": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.1,
+     "best_family": 0.105,
+     "best_is": "the abscissa against the value: the crossings of nine levels, each side",
+     "worst_family": 0.055,
+     "records_together": 0.04,
+     "report": 0.085
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.11,
+     "best_family": 0.15,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.065,
+     "records_together": 0.05,
+     "report": 0.11
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.12,
+     "best_family": 0.34,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.065,
+     "records_together": 0.075,
+     "report": 0.17
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.165,
+     "best_family": 0.755,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.065,
+     "records_together": 0.11,
+     "report": 0.5
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.265,
+     "best_family": 1.0,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.065,
+     "records_together": 0.255,
+     "report": 0.99
+    }
+   ],
+   "a fringe fixed to the abscissa": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.1,
+     "best_family": 0.105,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.035,
+     "records_together": 0.045,
+     "report": 0.04
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.105,
+     "best_family": 0.105,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.035,
+     "records_together": 0.085,
+     "report": 0.05
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.11,
+     "best_family": 0.12,
+     "best_is": "the two sides added: pairs of intervals, the centre held",
+     "worst_family": 0.03,
+     "records_together": 0.18,
+     "report": 0.075
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.135,
+     "best_family": 0.18,
+     "best_is": "the two sides added: pairs of intervals, the centre held",
+     "worst_family": 0.035,
+     "records_together": 0.485,
+     "report": 0.205
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.205,
+     "best_family": 0.4,
+     "best_is": "the two sides added: pairs of intervals, the centre held",
+     "worst_family": 0.045,
+     "records_together": 0.95,
+     "report": 0.725
+    }
+   ],
+   "a nonlinearity of the scan, the same on every record": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.1,
+     "best_family": 0.11,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.025,
+     "records_together": 0.085,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.1,
+     "best_family": 0.175,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.03,
+     "records_together": 0.14,
+     "report": 0.065
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.105,
+     "best_family": 0.33,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.03,
+     "records_together": 0.245,
+     "report": 0.135
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.14,
+     "best_family": 0.785,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.74,
+     "report": 0.545
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.2,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.03,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a nonlinearity of the detector": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.1,
+     "best_family": 0.13,
+     "best_is": "the abscissa against the value: the crossings of nine levels, each side",
+     "worst_family": 0.035,
+     "records_together": 0.075,
+     "report": 0.075
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.105,
+     "best_family": 0.17,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.04,
+     "records_together": 0.075,
+     "report": 0.095
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.115,
+     "best_family": 0.38,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.04,
+     "records_together": 0.085,
+     "report": 0.13
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.15,
+     "best_family": 0.835,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.04,
+     "records_together": 0.13,
+     "report": 0.61
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.205,
+     "best_family": 1.0,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.04,
+     "records_together": 0.275,
+     "report": 0.985
+    }
+   ],
+   "a wavelength Jacobian": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.09,
+     "best_family": 0.12,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.035,
+     "records_together": 0.075,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.095,
+     "best_family": 0.215,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.05,
+     "records_together": 0.13,
+     "report": 0.075
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.095,
+     "best_family": 0.365,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.07,
+     "records_together": 0.29,
+     "report": 0.165
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.115,
+     "best_family": 0.825,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.08,
+     "records_together": 0.775,
+     "report": 0.66
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.21,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.08,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ]
+  },
+  "clock": {
+   "a Gaussian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.06,
+     "best_family": 0.085,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.03,
+     "records_together": 0.045,
+     "report": 0.07
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.06,
+     "best_family": 0.135,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.045,
+     "records_together": 0.125,
+     "report": 0.1
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.065,
+     "best_family": 0.25,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.105,
+     "records_together": 0.275,
+     "report": 0.205
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.095,
+     "best_family": 0.695,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.325,
+     "records_together": 0.77,
+     "report": 0.645
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.2,
+     "best_family": 1.0,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.85,
+     "records_together": 1.0,
+     "report": 0.995
+    }
+   ],
+   "a Lorentzian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.09,
+     "best_family": 0.09,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.02,
+     "records_together": 0.065,
+     "report": 0.075
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.095,
+     "best_family": 0.145,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.045,
+     "records_together": 0.145,
+     "report": 0.11
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.1,
+     "best_family": 0.295,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.075,
+     "records_together": 0.35,
+     "report": 0.245
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.13,
+     "best_family": 0.69,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.305,
+     "records_together": 0.83,
+     "report": 0.705
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.205,
+     "best_family": 1.0,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.825,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a demodulation phase": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.04,
+     "best_family": 0.075,
+     "best_is": "moments of the running integral: powers 0 to 8",
+     "worst_family": 0.025,
+     "records_together": 0.045,
+     "report": 0.055
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.045,
+     "best_family": 0.135,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.04,
+     "records_together": 0.11,
+     "report": 0.09
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.045,
+     "best_family": 0.27,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.065,
+     "records_together": 0.245,
+     "report": 0.19
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.065,
+     "best_family": 0.735,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.115,
+     "records_together": 0.8,
+     "report": 0.68
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.185,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.315,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "an etalon fringe": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.075,
+     "best_family": 0.075,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.035,
+     "records_together": 0.055,
+     "report": 0.06
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.075,
+     "best_family": 0.135,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.045,
+     "records_together": 0.12,
+     "report": 0.08
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.08,
+     "best_family": 0.24,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.05,
+     "records_together": 0.285,
+     "report": 0.145
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.115,
+     "best_family": 0.72,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.055,
+     "records_together": 0.875,
+     "report": 0.615
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.155,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 8",
+     "worst_family": 0.065,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a saturated top": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.08,
+     "best_family": 0.065,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.01,
+     "records_together": 0.045,
+     "report": 0.055
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.08,
+     "best_family": 0.1,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.02,
+     "records_together": 0.065,
+     "report": 0.08
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.08,
+     "best_family": 0.17,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.025,
+     "records_together": 0.13,
+     "report": 0.115
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.13,
+     "best_family": 0.55,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.095,
+     "records_together": 0.48,
+     "report": 0.415
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.205,
+     "best_family": 0.985,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.375,
+     "records_together": 0.94,
+     "report": 0.975
+    }
+   ],
+   "a drift of the level": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.04,
+     "best_family": 0.08,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.02,
+     "records_together": 0.06,
+     "report": 0.04
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.05,
+     "best_family": 0.19,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.025,
+     "records_together": 0.13,
+     "report": 0.085
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.06,
+     "best_family": 0.375,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.025,
+     "records_together": 0.295,
+     "report": 0.26
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.07,
+     "best_family": 0.865,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.025,
+     "records_together": 0.83,
+     "report": 0.775
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.155,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.03,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a fringe fixed to the abscissa": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.09,
+     "best_family": 0.065,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.02,
+     "records_together": 0.05,
+     "report": 0.095
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.1,
+     "best_family": 0.08,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.025,
+     "records_together": 0.105,
+     "report": 0.105
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.105,
+     "best_family": 0.105,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.035,
+     "records_together": 0.2,
+     "report": 0.13
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.125,
+     "best_family": 0.325,
+     "best_is": "moments: cosines and sines",
+     "worst_family": 0.06,
+     "records_together": 0.69,
+     "report": 0.435
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.19,
+     "best_family": 0.825,
+     "best_is": "moments: cosines and sines",
+     "worst_family": 0.1,
+     "records_together": 0.995,
+     "report": 0.98
+    }
+   ],
+   "a nonlinearity of the scan, the same on every record": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.075,
+     "best_family": 0.085,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.015,
+     "records_together": 0.055,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.09,
+     "best_family": 0.18,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.045,
+     "records_together": 0.11,
+     "report": 0.1
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.09,
+     "best_family": 0.36,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.05,
+     "records_together": 0.36,
+     "report": 0.255
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.11,
+     "best_family": 0.81,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.08,
+     "records_together": 0.82,
+     "report": 0.745
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.19,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.205,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a wavelength Jacobian": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.08,
+     "best_family": 0.105,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.02,
+     "records_together": 0.055,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.095,
+     "best_family": 0.14,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.045,
+     "records_together": 0.135,
+     "report": 0.105
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.105,
+     "best_family": 0.345,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.05,
+     "records_together": 0.295,
+     "report": 0.25
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.14,
+     "best_family": 0.8,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.065,
+     "records_together": 0.815,
+     "report": 0.77
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.22,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.18,
+     "records_together": 1.0,
+     "report": 0.995
+    }
+   ]
+  },
+  "gel": {
+   "a Gaussian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.15,
+     "best_family": 0.105,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.025,
+     "records_together": 0.05,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.15,
+     "best_family": 0.185,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.03,
+     "records_together": 0.115,
+     "report": 0.075
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.155,
+     "best_family": 0.385,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.03,
+     "records_together": 0.205,
+     "report": 0.19
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.205,
+     "best_family": 0.87,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.62,
+     "report": 0.69
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.32,
+     "best_family": 1.0,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.03,
+     "records_together": 0.99,
+     "report": 1.0
+    }
+   ],
+   "a Lorentzian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.125,
+     "best_family": 0.125,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.025,
+     "records_together": 0.09,
+     "report": 0.06
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.125,
+     "best_family": 0.23,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.055,
+     "records_together": 0.155,
+     "report": 0.105
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.135,
+     "best_family": 0.415,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.075,
+     "records_together": 0.295,
+     "report": 0.305
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.195,
+     "best_family": 0.925,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.075,
+     "records_together": 0.82,
+     "report": 0.825
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.32,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.075,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a demodulation phase": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.165,
+     "best_family": 0.105,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.015,
+     "records_together": 0.1,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.17,
+     "best_family": 0.19,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.04,
+     "records_together": 0.19,
+     "report": 0.09
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.185,
+     "best_family": 0.34,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.04,
+     "records_together": 0.375,
+     "report": 0.23
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.21,
+     "best_family": 0.865,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.04,
+     "records_together": 0.82,
+     "report": 0.715
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.32,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.04,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "an etalon fringe": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.13,
+     "best_family": 0.1,
+     "best_is": "the two sides subtracted: pairs of intervals",
+     "worst_family": 0.015,
+     "records_together": 0.06,
+     "report": 0.04
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.14,
+     "best_family": 0.145,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.025,
+     "records_together": 0.12,
+     "report": 0.09
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.15,
+     "best_family": 0.305,
+     "best_is": "moments: powers 0 to 8",
+     "worst_family": 0.035,
+     "records_together": 0.32,
+     "report": 0.16
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.19,
+     "best_family": 0.81,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.045,
+     "records_together": 0.83,
+     "report": 0.625
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.275,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 8",
+     "worst_family": 0.055,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a saturated top": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.17,
+     "best_family": 0.13,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.02,
+     "records_together": 0.08,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.17,
+     "best_family": 0.2,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.025,
+     "records_together": 0.09,
+     "report": 0.08
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.185,
+     "best_family": 0.33,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.035,
+     "records_together": 0.11,
+     "report": 0.165
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.21,
+     "best_family": 0.82,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.05,
+     "records_together": 0.14,
+     "report": 0.535
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.3,
+     "best_family": 1.0,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.05,
+     "records_together": 0.3,
+     "report": 1.0
+    }
+   ],
+   "a drift of the level": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.1,
+     "best_family": 0.155,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.015,
+     "records_together": 0.075,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.11,
+     "best_family": 0.25,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.015,
+     "records_together": 0.17,
+     "report": 0.1
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.125,
+     "best_family": 0.5,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.015,
+     "records_together": 0.435,
+     "report": 0.265
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.165,
+     "best_family": 0.965,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.015,
+     "records_together": 0.89,
+     "report": 0.855
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.315,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.015,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a fringe fixed to the abscissa": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.09,
+     "best_family": 0.105,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.015,
+     "records_together": 0.08,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.095,
+     "best_family": 0.115,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.015,
+     "records_together": 0.125,
+     "report": 0.055
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.1,
+     "best_family": 0.125,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.02,
+     "records_together": 0.205,
+     "report": 0.105
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.145,
+     "best_family": 0.23,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.05,
+     "records_together": 0.625,
+     "report": 0.285
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.26,
+     "best_family": 0.695,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.075,
+     "records_together": 1.0,
+     "report": 0.93
+    }
+   ],
+   "a nonlinearity of the scan, the same on every record": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.165,
+     "best_family": 0.085,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.015,
+     "records_together": 0.085,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.17,
+     "best_family": 0.13,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.035,
+     "records_together": 0.135,
+     "report": 0.085
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.185,
+     "best_family": 0.25,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.04,
+     "records_together": 0.24,
+     "report": 0.15
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.2,
+     "best_family": 0.84,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.055,
+     "records_together": 0.725,
+     "report": 0.54
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.325,
+     "best_family": 1.0,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.155,
+     "records_together": 0.995,
+     "report": 1.0
+    }
+   ],
+   "a nonlinearity of the detector": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.15,
+     "best_family": 0.12,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.015,
+     "records_together": 0.07,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.155,
+     "best_family": 0.185,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.04,
+     "records_together": 0.095,
+     "report": 0.095
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.155,
+     "best_family": 0.365,
+     "best_is": "ratios of moments of the distance: orders 0.5 to 4 over order 0",
+     "worst_family": 0.075,
+     "records_together": 0.16,
+     "report": 0.195
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.205,
+     "best_family": 0.865,
+     "best_is": "moments: inverse and logarithmic kernels",
+     "worst_family": 0.075,
+     "records_together": 0.44,
+     "report": 0.7
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.33,
+     "best_family": 1.0,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.075,
+     "records_together": 0.855,
+     "report": 1.0
+    }
+   ],
+   "a wavelength Jacobian": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.12,
+     "best_family": 0.1,
+     "best_is": "moments: powers 0 to 8",
+     "worst_family": 0.01,
+     "records_together": 0.06,
+     "report": 0.045
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.12,
+     "best_family": 0.14,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.02,
+     "records_together": 0.13,
+     "report": 0.085
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.135,
+     "best_family": 0.255,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.04,
+     "records_together": 0.245,
+     "report": 0.15
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.18,
+     "best_family": 0.785,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.045,
+     "records_together": 0.66,
+     "report": 0.61
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.34,
+     "best_family": 1.0,
+     "best_is": "Hermite functions about the centre: orders 3 to 8",
+     "worst_family": 0.045,
+     "records_together": 0.99,
+     "report": 1.0
+    }
+   ]
+  },
+  "transit": {
+   "a Gaussian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.155,
+     "best_family": 0.11,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.045,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.16,
+     "best_family": 0.195,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.08,
+     "report": 0.07
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.175,
+     "best_family": 0.41,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.125,
+     "report": 0.2
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.2,
+     "best_family": 0.895,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.56,
+     "report": 0.645
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.34,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 0.985,
+     "report": 1.0
+    }
+   ],
+   "a Lorentzian width": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.135,
+     "best_family": 0.145,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.065,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.14,
+     "best_family": 0.215,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.15,
+     "report": 0.095
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.145,
+     "best_family": 0.47,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.22,
+     "report": 0.22
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.18,
+     "best_family": 0.925,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.615,
+     "report": 0.725
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.345,
+     "best_family": 1.0,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.985,
+     "report": 0.995
+    }
+   ],
+   "a demodulation phase": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.18,
+     "best_family": 0.11,
+     "best_is": "the reciprocal of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.065,
+     "report": 0.055
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.19,
+     "best_family": 0.17,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.11,
+     "report": 0.07
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.19,
+     "best_family": 0.35,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.265,
+     "report": 0.155
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.22,
+     "best_family": 0.855,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 0.815,
+     "report": 0.62
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.355,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "an etalon fringe": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.145,
+     "best_family": 0.075,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.065,
+     "report": 0.03
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.155,
+     "best_family": 0.14,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.12,
+     "report": 0.035
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.155,
+     "best_family": 0.28,
+     "best_is": "moments: fractional powers of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.29,
+     "report": 0.12
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.185,
+     "best_family": 0.805,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 0.85,
+     "report": 0.625
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.29,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a saturated top": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.17,
+     "best_family": 0.14,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.05,
+     "report": 0.02
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.185,
+     "best_family": 0.16,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.06,
+     "report": 0.025
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.195,
+     "best_family": 0.225,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.065,
+     "report": 0.055
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.225,
+     "best_family": 0.53,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.185,
+     "report": 0.325
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.335,
+     "best_family": 0.955,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.51,
+     "report": 0.9
+    }
+   ],
+   "a drift of the level": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.095,
+     "best_family": 0.145,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.075,
+     "report": 0.05
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.105,
+     "best_family": 0.285,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.14,
+     "report": 0.11
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.13,
+     "best_family": 0.5,
+     "best_is": "moments: negative orders of the distance",
+     "worst_family": 0.0,
+     "records_together": 0.39,
+     "report": 0.275
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.185,
+     "best_family": 0.94,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 0.885,
+     "report": 0.815
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.345,
+     "best_family": 1.0,
+     "best_is": "moments: powers 0 to 4",
+     "worst_family": 0.0,
+     "records_together": 1.0,
+     "report": 1.0
+    }
+   ],
+   "a fringe fixed to the abscissa": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.095,
+     "best_family": 0.095,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.045,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.1,
+     "best_family": 0.115,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.0,
+     "records_together": 0.085,
+     "report": 0.04
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.115,
+     "best_family": 0.165,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.0,
+     "records_together": 0.195,
+     "report": 0.07
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.17,
+     "best_family": 0.425,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.0,
+     "records_together": 0.595,
+     "report": 0.27
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.3,
+     "best_family": 0.86,
+     "best_is": "moments: exponential and Gaussian kernels",
+     "worst_family": 0.0,
+     "records_together": 0.99,
+     "report": 0.905
+    }
+   ],
+   "a nonlinearity of the scan, the same on every record": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.16,
+     "best_family": 0.095,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.03,
+     "report": 0.02
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.18,
+     "best_family": 0.105,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.04,
+     "report": 0.025
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.195,
+     "best_family": 0.125,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.055,
+     "report": 0.035
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.225,
+     "best_family": 0.47,
+     "best_is": "windows along the value: bands between levels of the height, each side",
+     "worst_family": 0.0,
+     "records_together": 0.13,
+     "report": 0.1
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.365,
+     "best_family": 0.96,
+     "best_is": "windows along the value: bands between levels of the height, each side",
+     "worst_family": 0.0,
+     "records_together": 0.315,
+     "report": 0.71
+    }
+   ],
+   "a nonlinearity of the detector": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.155,
+     "best_family": 0.145,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.035,
+     "report": 0.03
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.16,
+     "best_family": 0.165,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.035,
+     "report": 0.04
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.18,
+     "best_family": 0.295,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.035,
+     "report": 0.08
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.205,
+     "best_family": 0.725,
+     "best_is": "the square of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.035,
+     "report": 0.35
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.365,
+     "best_family": 0.995,
+     "best_is": "the logarithm of the value: power kernels 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.035,
+     "report": 0.965
+    }
+   ],
+   "a wavelength Jacobian": [
+    {
+     "size": 1.0,
+     "plain_fit": 0.12,
+     "best_family": 0.11,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.03,
+     "report": 0.035
+    },
+    {
+     "size": 2.0,
+     "plain_fit": 0.125,
+     "best_family": 0.12,
+     "best_is": "moments of the derivative: powers 0 to 8",
+     "worst_family": 0.0,
+     "records_together": 0.04,
+     "report": 0.045
+    },
+    {
+     "size": 3.0,
+     "plain_fit": 0.13,
+     "best_family": 0.19,
+     "best_is": "windows along the value: bands between levels of the height, each side",
+     "worst_family": 0.0,
+     "records_together": 0.055,
+     "report": 0.055
+    },
+    {
+     "size": 5.0,
+     "plain_fit": 0.2,
+     "best_family": 0.475,
+     "best_is": "windows along the value: bands between levels of the height, each side",
+     "worst_family": 0.0,
+     "records_together": 0.125,
+     "report": 0.135
+    },
+    {
+     "size": 8.0,
+     "plain_fit": 0.325,
+     "best_family": 0.97,
+     "best_is": "windows along the value: bands between levels of the height, each side",
+     "worst_family": 0.0,
+     "records_together": 0.295,
+     "report": 0.68
+    }
+   ]
+  }
+ },
+ "widths": {
+  "held": {
+   "draws": 100,
+   "failed": 0,
+   "names": [
+    "gas_width",
+    "laser_noise"
+   ],
+   "truth": [
+    0.037,
+    0.369
+   ],
+   "mean": [
+    0.03834064651093014,
+    0.36746064734606937
+   ],
+   "spread": [
+    0.010315122846401868,
+    0.015503112431211961
+   ],
+   "mean_bar": [
+    0.011872609840646184,
+    0.01718419785156317
+   ],
+   "within_one_bar": [
+    0.75,
+    0.79
+   ],
+   "within_two_bars": [
+    0.97,
+    0.98
+   ],
+   "correlation_over_draws": [
+    [
+     1.0,
+     -0.8245271920996862
+    ],
+    [
+     -0.8245271920996862,
+     0.9999999999999999
+    ]
+   ],
+   "correlation_stated": [
+    [
+     1.0,
+     -0.8627741622511355
+    ],
+    [
+     -0.8627741622511355,
+     1.0
+    ]
+   ]
+  },
+  "freed": {
+   "draws": 100,
+   "failed": 0,
+   "names": [
+    "collisions",
+    "gas_width",
+    "laser_noise"
+   ],
+   "truth": [
+    3.5,
+    0.037,
+    0.369
+   ],
+   "mean": [
+    3.5024191020676314,
+    0.03826342927914538,
+    0.36746909308806
+   ],
+   "spread": [
+    0.5355195595253188,
+    0.018303030177409363,
+    0.015513424248974327
+   ],
+   "mean_bar": [
+    0.5747379861891114,
+    0.021617669508989832,
+    0.01719315689067612
+   ],
+   "within_one_bar": [
+    0.69,
+    0.76,
+    0.79
+   ],
+   "within_two_bars": [
+    0.98,
+    0.99,
+    0.98
+   ],
+   "correlation_over_draws": [
+    [
+     1.0,
+     -0.8309744267825054,
+     0.034208601956480095
+    ],
+    [
+     -0.8309744267825054,
+     1.0,
+     -0.49260239652630994
+    ],
+    [
+     0.034208601956480095,
+     -0.4926023965263099,
+     1.0
+    ]
+   ],
+   "correlation_stated": [
+    [
+     1.0,
+     -0.8356848265512825,
+     0.033079984213169836
+    ],
+    [
+     -0.8356848265512825,
+     1.0,
+     -0.5012251970570246
+    ],
+    [
+     0.033079984213169836,
+     -0.5012251970570246,
+     1.0
+    ]
+   ]
+  }
+ }
+}

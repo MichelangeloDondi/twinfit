@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.0.post2"
+__version__ = "0.1.1"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -419,6 +419,14 @@ VERSIONS = {
     )},
     "0.1.0.post2": {"digest": "c80855e044ab7754a05de3c23c7a0261749b071906c943e3f1def725e3b75ce7", "changes": (
         "the code of 0.1.0 but one sentence of the tutorial's text in tutorial.py, his choice A of message 470 (the outflow example gave three of its four values back within their bars, not four), with the pages of 0.1.0.post1 written again for their reader after the seventh blind researcher and the readings of the day, his messages 465 to 471: the bus test shipped for a person and for an agent, docs/BUS_TEST.md with its brief and its scorer, RUBIDIUM.md saying one draw for the one-value twin, the successor's page and the decisions naming this one code sentence, and count C11 made again on the same seeds for its digest right after this stamp. 0.1.0.post1 was stamped and built on 2026-10-30 at 05:02, sent for his review at 05:04 and never uploaded",
+    )},
+    "0.1.1rc1": {"digest": "4272fbeec564dc9a82275ebbfd9118b0d636754734f0a17c5bd433baa6f09a0f", "changes": (
+        "the twin of the real case drawn with one laser noise for its eight curves, `python -m twinfit guide continuing`, the tutorial's check naming the first line that differs, the scan warning of uneven gaps in both branches, the card's stop rule with all four ends of the loop, `along` with `lower` and `upper`, `along` refusing a power other than 1 and 2, and RUBIDIUM.md with the reading of the recorded curves at 100 sets",
+    )},
+    "0.1.1": {"digest": "b93e170663d88ea9317417565cb2b1b2c5ab5920ef48ec00850a3d7d8b98dd8b", "changes": (
+        "0.1.1rc1's code with three repairs, stamped as 0.1.1 after its counts: the thinning writes a thinned curve inside its copy and points the copy's description at it, where it had written where an absolute path pointed, a kind that an example does not draw is refused before its folder is made, and Mechanism's second field is named family in the card and the tutorial as the class names it. The five counts at their second stages (the pointing at 100 draws a case and 200 a right model, the chosen cases, the sign at 200, the convergence turn by turn at 200, the eleven projects at 40) and the small term's count, three of them, the pointing, the chosen cases and the eleven projects, read by `tools/met.py` against the thresholds and written into `docs/VALIDATION.md`",
+        "the README's shares and CONTINUING.md's sentence written from the validation page and the tables by a program, three not met at this release, the requirements naming the Python that made the tables and a Linux line for uv, after the eighth bus test, run in the cloud, read the pages at 0.1.0's numbers",
+        "the roadmap, the decisions page and the toy's README read again after that run: what version.py holds, the two counts on the Python that made the tables, the draw's minutes on a slower machine, the refusal of toy/again.py naming the digest as its cause",
     )},
 }
 

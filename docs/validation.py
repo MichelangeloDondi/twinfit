@@ -51,7 +51,7 @@ def quoted(root: Path) -> list:
     where = json.loads((root / "toy" / "gallery.json").read_text())["by_question"]["where"]
     se = lambda s, m: math.sqrt(s * (1 - s) / m)          # noqa: E731
     return [("the place of a hidden term at half the size of the twin, pooled over the four", pm(hits / n, se(hits / n, n)), n, "`toy/pointing.json`"),
-            ("a false alarm on a right model against its own twin at 100 sets", pm(beyond / len(rows), se(beyond / len(rows), len(rows))), len(rows), "`runs/pointing_own100_*`"),
+            ("a false alarm on a right model against its own twin at 100 sets", pm(beyond / len(rows), se(beyond / len(rows), len(rows))) if rows else "not counted at this version", len(rows), "`runs/pointing_own100_*`"),          # a kind the release copy does not count divided by zero rows (2026-11-01)
             ("the place on the gallery of eleven projects of other fields", pm(where["share"], se(where["share"], where["of"])), where["of"], "`toy/gallery.json`")]
 
 
@@ -76,7 +76,7 @@ def page(root: Path = ROOT) -> str:
                     unmet.append(f"{name}, {r['reading']}: {share} of {r['of']} draws, against {bound(r)}")
     return f"""# What the package was measured to do
 
-Every share below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release {release}. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
+Every share of the first table below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release {release}. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
 
 A count draws synthetic traces from the toy model of `toy/` with a known truth, hides a term or none, runs the package on each draw and reads what its report says. A share is the fraction of draws on which the report did what the criterion asks, with its standard error, the square root of p(1 - p)/n over its n draws. A threshold was drafted before the counts, and the header of `toy/thresholds.toml` and `docs/DECISIONS.md` say which were set again after tables were read. `toy/README.md` says how each count is made and how to make one draw of it again.
 
@@ -120,7 +120,7 @@ python toy/pointing.py --check
 python toy/again.py "2 hidden under 1" 7
 ```
 
-The first prints every reading of this page. The second compares the digest of the code of the count of the place and the setting with that of its table and sums again the rows that the table holds. The third makes one draw of that count again from its seed and sets it beside its kept row.
+The first prints every criterion of this page, and not the three shares of the third table, which no criterion reads. The second compares the digest of the code of the count of the place and the setting with that of its table and sums again the rows that the table holds. The third makes one draw of that count again from its seed and sets it beside its kept row.
 """
 
 

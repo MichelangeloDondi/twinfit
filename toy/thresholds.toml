@@ -22,12 +22,12 @@
 # them. A share of usefulness lies well above what chance gives. Not repaired: min_of = 18 of C6 and C7, at which
 # the four bars of an arm pass together on 0.925, and C6's refused_at_least, fixed at any count of draws.
 
-release = "0.1.0"          # moved from 0.1.0rc22 on 2026-10-28, 0.1.0 being the code of 0.1.0rc22 under its number, his message 430, its tables written again from the rows of that code in `~/twinfit-copies/r010`, no threshold changed. It moved from 0.1.0rc21 on 2026-10-26, its counts on the stamp of 0.1.0rc22, row M494, no threshold changed. It moved from 0.1.0rc20 on 2026-10-25, its counts on the stamp of 0.1.0rc21, row M490, no threshold changed. It moved from 0.1.0rc17 on 2026-10-25, its counts on the stamp of 0.1.0rc19, rows M485 and M486, no threshold changed. It moved from 0.1.0rc16 on 2026-10-24, its counts on the stamp of 0.1.0rc17, row M482 (review 103, moderate 2). It moved from 0.1.0rc15 on 2026-10-23, before any count at 0.1.0rc16: the package blind, his messages 337 and 340, moves the report
+release = "0.1.1"          # 0.1.1, moved from 0.1.1rc1 on 2026-11-02, its counts on the stamp of 0.1.1rc1, rows M527 to M531 and M535, no threshold changed. Before: At the stamp of 0.1.1 it moves to 0.1.1 and each program's `table` runs again in a copy at that number, which relabels the tables from the same kept rows, as 0.1.0's were from 0.1.0rc22 on 2026-10-28, his message 430, its tables written again from the rows of that code in `~/twinfit-copies/r010`, no threshold changed. It moved from 0.1.0rc21 on 2026-10-26, its counts on the stamp of 0.1.0rc22, row M494, no threshold changed. It moved from 0.1.0rc20 on 2026-10-25, its counts on the stamp of 0.1.0rc21, row M490, no threshold changed. It moved from 0.1.0rc17 on 2026-10-25, its counts on the stamp of 0.1.0rc19, rows M485 and M486, no threshold changed. It moved from 0.1.0rc16 on 2026-10-24, its counts on the stamp of 0.1.0rc17, row M482 (review 103, moderate 2). It moved from 0.1.0rc15 on 2026-10-23, before any count at 0.1.0rc16: the package blind, his messages 337 and 340, moves the report
 
 [C1]
 row = "M456"
 mode = "default"
-what = "the place of each term of tiers 2 to 5, hidden at the size of the twin, put first by the report"
+what = "the place of each term of tiers 2 to 5, hidden at the size of the twin, put first or tied for first by the report"
 table = "pointing"
 at_least = 0.60
 min_of = 27
@@ -92,7 +92,7 @@ min_of = 18
 [C7]
 row = "M441"
 mode = "default"
-what = "one bar of each parameter of the final model holds its truth, on each arm of the loop count apart, the noise read from neighbouring samples and the toy's law of the noise: the collisions and the transit, held at theory, by the fit that frees them as a test, his message 340, row M480"
+what = "one bar of each parameter of the final model holds its truth, on each arm of the loop count apart, the noise read from neighbouring samples and the toy's law of the noise: the collisions and the transit, held at theory, by the fit that frees them as a test"
 table = "chosen"
 around = 0.683          # one bar holds its truth on 68.3 per cent of draws
 errors = 2.73          # standard errors of the draws of each reading on either side: the eight bars of both arms met together on 95 cases of 100 ask each at 99.4, exactly 0.978 together at 20 draws and 0.960 at 100 (review 104, moderate 1). 2.49 was set for four, and a band fixed at 20 draws read 5.5 standard errors wide at 100 (review 103, moderate 1)

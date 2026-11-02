@@ -1,9 +1,11 @@
 """The digital twin of his 8 recorded traces: the model of the toy drawn with what his traces measure of each trace, his
-messages 305 and 307, "yes, the twin takes my heights" and "yes, the twin carries a laser noise for each trace".
+messages 305 and 449, "yes, the twin takes my heights" and "One σ_L in the twin too": each trace drawn with his height and
+the one laser noise of the model. From his message 307 to his message 449 each trace was drawn with its own, which
+`toy/twin.toml` keeps as a record.
 
 The model is the toy's, `toy/model.py`, with one laser noise for all 8 traces, and its check on 100 draws and the counts
 of the toy are made on its own traces, `fits.synthetic`. The twin draws each trace as `traces.trace` does, from the same
-random numbers, with the laser noise that his trace takes alone and with his height at its top, and the noise drawn
+random numbers, with the one laser noise of the model and with his height at its top, and the noise drawn
 again at that height by the law of its condition. Both are read from `toy/twin.toml`, which `python toy/adopt.py heights
 --write` and `python toy/adopt.py laser-noise FILE --write` write. The file and this program stand apart from the model
 and its two files, so that the counts of the toy, which read those, stay as they are.
@@ -46,6 +48,8 @@ def laser_noise_of(P_mW: float, T_celsius: float, value: float, twin: dict) -> f
     """The laser noise of one trace of the twin: the value given times the ratio of the trace's own to the joint value
     of all 8 that the table was written beside, so that at the twin's value each trace has its own exactly, and a laser
     noise planted at another size keeps the pattern of his traces. The value given where the table holds no trace."""
+    if twin.get("laser_noise", {}).get("one_for_all"):          # one laser noise for all 8 traces, his message 449: the values of each trace alone stay in the table as a record
+        return float(value)
     table = twin.get("laser_noise_of_each_trace", {})
     own = cell(table, "laser_noise_MHz", P_mW, T_celsius)
     return float(value) if own is None else float(value) * own / float(table["of_the_joint_MHz"])

@@ -1,6 +1,6 @@
 # The brief of the bus test, for an agent
 
-Given word for word as the agent's only instruction, in a folder that holds `dist/` with the wheel and the source distribution, `README.md` as PyPI shows it, `FRESH.md`, which says what the folder holds, and `repository/` as this repository stands. The first of the author's seven runs had a shorter text that asked for no marks and named no repository, and the six after had this one.
+Given word for word as the agent's only instruction, in a folder that holds `dist/` with the wheel and the source distribution, `README.md` as PyPI shows it, `FRESH.md`, which says what the folder holds, and `repository/` as this repository stands. The first of the author's eight runs had a shorter text that asked for no marks and named no repository, and the seven after had this one.
 
 ```
 You are a researcher who takes over the work of the author of the Python package twinfit, who can no longer be

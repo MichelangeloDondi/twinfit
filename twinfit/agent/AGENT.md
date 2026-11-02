@@ -27,9 +27,9 @@ how. Have it red teamed first, step 7. Never add the flag of the dictionary, whi
 **F.** Run the loop again. It keeps a term when its fit ends inside its bounds, the Bayesian criterion falls by more than
 2, and the twin admits the larger model. `DIR/loop/best.md` gives the reason of a refusal.
 
-**G.** Stop by the rule that ends the iterations below: nothing beyond the twin, or one answer just past its line, its
-excess under 1.5 times the line and read on 100 sets, or the iterations told spent, five where no number was told, or
-the time told spent. Quote a value of `DIR/loop/best.md`, with the parts of its bar, only
+**G.** Stop by the rule below: the noise first, nothing beyond the twin, one answer just past its line,
+under 1.5 times the line and read on 100 sets, no answer worth a term, or the iterations told spent, five where no
+number was told, or the time told spent. Quote a value of `DIR/loop/best.md`, with the parts of its bar, only
 where that page says it may be quoted: the twin admits the model, the check of the noise holds, and the coverage
 and the bias are read. Where it says "not to be read", say why and quote nothing.
 
@@ -199,8 +199,9 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
     that `scan` gives a distance, comes from the records and narrows nothing: it is the one ansatz that the records may
     give, and `iteration_K.md` says so.
 
-Stop when the report puts nothing beyond the twin, or only one answer just past its line, when the iterations that you
-were told are spent, five where no number was told, or when the time that you were told is spent.
+Stop when the report puts nothing beyond the twin, or only one answer just past its line, when the brief says the noise
+comes first or that no answer left is worth a term, when the iterations that you were told are spent, five where no
+number was told, or when the time that you were told is spent. The brief's line that begins with Next names which.
 
 **When the first report already puts nothing beyond the twin.** Run the loop again with `--sets 100`, since the line
 falls as the sets grow. Where it still puts nothing beyond, the model lacks nothing that these records show: skip steps

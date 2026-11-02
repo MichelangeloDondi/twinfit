@@ -6,7 +6,7 @@ It builds on the five minutes of the README and sets out the whole path of the p
 
 > Section 1 below defines every word that the package and its other pages use.
 
-Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 54 seconds. A machine busy with other work takes longer.
+Every command below was run as it is written, in an empty folder, and every output is what it printed. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 60 seconds. A machine busy with other work takes longer.
 
 ## 1. Purpose and vocabulary of the package
 
@@ -52,7 +52,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.0.post2
+0.1.1
 ```
 
 ## 3. A worked project
@@ -92,7 +92,7 @@ frequency,intensity
 -19.8,0.064911
 ```
 
-**The description of the data collection**, `description.toml`. It says what was measured, the abscissa and the value with their units, and each setting under which a curve was taken, here the temperature of the sample. Then one table a curve, with its file, its columns and its setting, and the noise of each sample, here one standard deviation for every sample. Then the addenda: the first model, which every description names, and what is optional, here three changes of the experiment that the proposals for the experiment weigh against each other.
+**The description of the data collection**, `description.toml`. It says what was measured, the abscissa and the value with their units, and each setting under which a curve was taken, here the temperature of the sample. Then one table a curve, with its file, its columns and its setting, and the noise of each sample, here one standard deviation for every sample. Then the addenda, all optional: the first model, which this description names and which the loop takes from the package's generic model where a description names none, and here three changes of the experiment that the proposals for the experiment weigh against each other.
 
 A key that the package does not read is refused, so that a misspelled one is not dropped in silence. The order in which the curves were taken goes under `[problem]` as `order`, since a setting taken in the order of the time cannot be told from a drift:
 
@@ -437,8 +437,8 @@ Glitches and a change of the noise are no term of the mean: they are read in the
 sample that the description gives. Each term here is made of copies of the curve, wider, displaced or on one side: a shape
 that the physics names otherwise, as the exponential tail of a detector or of a column, is a Mechanism of your own. The report
 gives the place, the shape and the setting of a misfit, and never the name of a term: which term of physical origin fills it
-is the researcher's to say. A Mechanism is Mechanism(name, kind, parameter, start, wrap,
-lower=-inf, upper=inf): kind is a word that the package keeps with the term and reads in no result, lower and upper bound
+is the researcher's to say. A Mechanism is Mechanism(name, family, parameter, start, wrap,
+lower=-inf, upper=inf): family is a word that the package keeps with the term and reads in no result, lower and upper bound
 the new parameter, and wrap(model, problem, n) returns any curve, the line replaced as well as a term added to it.
 
 The name that a report and best.md give a term, and the call of a term file that writes it:
@@ -793,7 +793,7 @@ Each report ends with three proposals for the experiment, each of one of three k
 
 Each comes from the description, which may name the changes that you could make, each a lever `[addenda.lever.NAME]` of one kind: noise, samples, span or repeats with a factor, covariate with new values of a setting, or characterization with an ansatz that it measures better. Every lever is measured, and those that do not rank among the three are said below them.
 
-Where the description names fewer than three, the package adds changes that every experiment has: a quieter setup, more samples, more repeats, a wider span. It draws two more from the description itself: for each setting along which the curves vary and that no lever names, curves half its range past the values measured, and for each item of the setup known only as assumed or not recorded, its measurement. Each is measured on the twin: the twin is drawn again as the change would give it, and fitted, and the error of the known parameters, the shared ones of the model, is set against their error under the records as they are:
+The package adds the change of each kind that the description does not name, changes that every experiment has: a quieter setup, more samples, more repeats, a wider span, so a description that names three gets the fourth. It draws two more from the description itself: for each setting along which the curves vary and that no lever names, curves half its range past the values measured, and for each item of the setup known only as assumed or not recorded, its measurement. Each is measured on the twin: the twin is drawn again as the change would give it, and fitted, and the error of the known parameters, the shared ones of the model, is set against their error under the records as they are:
 
 `my_nmr/loop/model_1.md`:
 
@@ -1306,7 +1306,7 @@ Where the second component has the width of the first, as the impurity of the ch
 
 When the term that the report points to is not among those of `python -m twinfit terms`, write it, in five steps.
 
-1. **The term.** A term is a `Mechanism(name, kind, parameter, start, wrap, lower, upper, formula=...)`: a name, a word for its kind, any word, as `baseline`, which the package keeps with the term and reads in no result, the name of the one parameter that it adds, where the search of that parameter starts, `wrap`, the bounds of the parameter, none where `lower` and `upper` are not given, and `formula`, the term in LaTeX between dollar signs with `f` the model before it and `a` its parameter, as `r"$f(x) + a\,x$"`, which the visual log typesets: without it the log says that its formula is not written. `python -m twinfit card` prints a term file of each kind in one page.
+1. **The term.** A term is a `Mechanism(name, family, parameter, start, wrap, lower, upper, formula=...)`: a name, a word for its family, any word, as `baseline`, which the package keeps with the term and reads in no result, the name of the one parameter that it adds, where the search of that parameter starts, `wrap`, the bounds of the parameter, none where `lower` and `upper` are not given, and `formula`, the term in LaTeX between dollar signs with `f` the model before it and `a` its parameter, as `r"$f(x) + a\,x$"`, which the visual log typesets: without it the log says that its formula is not written. `python -m twinfit card` prints a term file of each kind in one page.
 2. **Its wrap.** `wrap(model, problem, n)` takes the model as it stands, the problem, which holds every curve, and the number of shared parameters before the term, and returns the model with the term, a function `new(x, shared, own, design)`, where `shared[n]` is the new parameter and `shared[:n]` the parameters before it. The loop refuses a `wrap` that does not take these three arguments. `design` holds the settings of the curve, as the description names them, `own[k]` and `shared[k]` the parameters of the model in the order of `OWN` and `SHARED` of `model.py`, and `x`, `shared` and `own` are arrays of numpy.
 3. **One of three forms.** `new` may add a term to the model, as a step under a peak whose size is a share of its height, `model(x, shared[:n], own, design) + shared[n] * own[0] * 0.5 * (1.0 + erf((x - own[1]) / (2.0 ** 0.5 * shared[0])))`, with `erf` of `scipy.special`. It may multiply the model, as a gain of the detector that changes along the abscissa, `model(x, shared[:n], own, design) * (1.0 + shared[n] * (x - middle))`, which multiplies the terms kept before it too, about a middle that you choose as the zero of the change.
 
@@ -1566,8 +1566,9 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
     that `scan` gives a distance, comes from the records and narrows nothing: it is the one ansatz that the records may
     give, and `iteration_K.md` says so.
 
-Stop when the report puts nothing beyond the twin, or only one answer just past its line, when the iterations that you
-were told are spent, five where no number was told, or when the time that you were told is spent.
+Stop when the report puts nothing beyond the twin, or only one answer just past its line, when the brief says the noise
+comes first or that no answer left is worth a term, when the iterations that you were told are spent, five where no
+number was told, or when the time that you were told is spent. The brief's line that begins with Next names which.
 
 **When the first report already puts nothing beyond the twin.** Run the loop again with `--sets 100`, since the line
 falls as the sets grow. Where it still puts nothing beyond, the model lacks nothing that these records show: skip steps

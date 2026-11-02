@@ -37,7 +37,7 @@ def again(name: str, draw: int, root: Path = ROOT) -> tuple:
         raise SystemExit(f"REFUSED: no case {name!r}: `python toy/again.py` lists them")
     rows = power.read(pointing.kept(root, name))
     if draw not in rows:
-        raise SystemExit(f"REFUSED: case {name!r} keeps no draw {draw}: it keeps {sorted(rows)[:5]} and {len(rows) - 5} more")
+        raise SystemExit(f"REFUSED: case {name!r} keeps no draw {draw} under the digest of the code on this Python: it keeps {sorted(rows)[:5]} and {max(len(rows) - 5, 0)} more. The rows are kept under the digest of the code, which another version of Python computes differently (the eighth bus test, Python 3.12.3): the Python that made the tables, 3.14, reads them")
     if not pointing.twin_path(root, name).exists():
         raise SystemExit(f"REFUSED: runs/ holds no twin of {name!r}, {pointing.twin_path(root, name).name}: made again it takes hours")
     null = pointing.null_of(case, const, config, root)

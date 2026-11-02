@@ -1,6 +1,6 @@
 # The bus test
 
-The bus test asks whether another researcher can continue this work from what PyPI serves for twinfit and this repository alone, with no one to ask. It was run 7 times on 0.1.0 and on the pages of 0.1.0.post1, each time by a fresh agent in a sandbox that held the wheel, the source distribution, the README that is the package's page on PyPI and `FRESH.md`, a page saying what the folder holds (its text follows the brief in `docs/BUS_TEST_BRIEF.md`), and from the second run on this repository as a folder too (run 1 had the package alone and blocked on that). The same test is written here for a person and for an agent, so that anyone can run it on a later version and compare.
+The bus test asks whether another researcher can continue this work from what PyPI serves for twinfit and this repository alone, with no one to ask. It was run 8 times, 7 on 0.1.0 and the pages of 0.1.0.post1 and the eighth on 0.1.1rc1 in a cloud session, each time by a fresh agent in a sandbox that held the wheel, the source distribution, the README that is the package's page on PyPI and `FRESH.md`, a page saying what the folder holds (its text follows the brief in `docs/BUS_TEST_BRIEF.md`), and from the second run on this repository as a folder too (run 1 had the package alone and blocked on that). The same test is written here for a person and for an agent, so that anyone can run it on a later version and compare.
 
 ## The six steps
 
@@ -25,9 +25,9 @@ Take a machine with Python 3.14, which the bench's checks of step 5 need (the pa
 
 ## For an agent
 
-Give an agent the text of `docs/BUS_TEST_BRIEF.md` as its only instruction, in a folder that holds the wheel, the source distribution, the README of the package, `FRESH.md` and this repository as a folder, with the network, which the README's install route without a Python needs, and no file of the author's. The author's 7 runs used Sonnet 5.5 at high effort in a sandbox of that kind, the first with a shorter text, each between 16 and 62 minutes.
+Give an agent the text of `docs/BUS_TEST_BRIEF.md` as its only instruction, in a folder that holds the wheel, the source distribution, the README of the package, `FRESH.md` and this repository as a folder, with the network, which the README's install route without a Python needs, and no file of the author's. The author's 8 runs used Sonnet 5.5 at high effort in a sandbox of that kind, the first with a shorter text, each between 16 and 62 minutes.
 
-## The 7 runs on record
+## The 8 runs on record
 
 Scored by `tools/bus_score.py` on the reports kept by the author, the minutes from each run's record. The first run wrote no marks, so it scores 0.
 
@@ -40,5 +40,6 @@ Scored by `tools/bus_score.py` on the reports kept by the author, the minutes fr
 | 5 | 47 | 0 | 1 | 5 | 8 | 34 |
 | 6 | 46 | 0 | 3 | 8 | 8 | 37 |
 | 7 | 46 | 1 | 2 | 7 | 6 | 62 |
+| 8 | 43 | 1 | 6 | 4 | 7 | 27 |
 
-The runs read the pages as they stood each time, and the pages were written again after each. No run reached 60. Runs 1, 3 and 7 each hit a block, every one repaired before 0.1.0.post2. The misleads the runs found were repaired in the pages or carried to 0.1.1, as the author's records say for each, and those of the first three runs are answered there one by one. The slows and the polish were repaired in part, and the rest is owed. A later version is tested the same way, and its runs go in this table.
+The runs read the pages as they stood each time, and the pages were written again after each. No run reached 60. Runs 1, 3, 7 and 8 each hit a block, those of the first three repaired before 0.1.0.post2 and the eighth's in 0.1.1, the kept rows of the gallery and of the pointing at 100 draws a case leaving with the export since. The misleads the runs found were repaired in the pages or carried to 0.1.1, and the author answered those of the first three runs one by one. The slows and the polish were repaired in part, and the rest is owed. A later version is tested the same way, and its runs go in this table.

@@ -67,7 +67,7 @@ term.name = {name!r}
 why = {why!r}
 '''
 REASONS = {"its_bound": "its fit ended at the bound of its own parameter", "the_criterion": "the Bayesian criterion "}          # how twinfit/loop.py opens the two reasons for which it refuses a term
-DRAWS, LAW_DRAWS = 20, 20          # 20 with the toy's law, the first stage of rows M474 and M481, whose second stage of 100 read the bar of β_self 0.82 at 0.1.0rc16. Until then 100: the draws with the noise of neighbouring samples, which 20 show wrong, and with the toy's law, where a share near 68 per cent is then known to 0.060: 100 would end after the night. With the toy's law 60 until version 0.0.5, and 100 read a share near 80 of 100 within 8 points, row M204
+DRAWS, LAW_DRAWS = 100, 100          # 20 with the toy's law, the first stage of rows M474 and M481, whose second stage of 100 read the bar of β_self 0.82 at 0.1.0rc16. Until then 100: the draws with the noise of neighbouring samples, which 20 show wrong, and with the toy's law, where a share near 68 per cent is then known to 0.060: 100 would end after the night. With the toy's law 60 until version 0.0.5, and 100 read a share near 80 of 100 within 8 points, row M204
 SETS = 30
 
 

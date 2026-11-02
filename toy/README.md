@@ -6,7 +6,7 @@ This folder holds the bench on which [`twinfit`](../twinfit/README.md) was measu
 
 The toy has five *details* (`const.toml` [details]): detail $k$ holds the first $k$ terms of section 2. A *trace* is the signal in V against the frequency $\nu$ in MHz at one power $P$ in mW and one temperature $T_\mathrm{C}$ in °C, a *draw* the 8 synthetic traces of one number. A *right model* is fitted to traces of its own detail. A *hidden term* is one the fitted model lacks: the model of detail $k-1$, keeping the free parameters of detail $k$ but the new term (none for $k=3$: `3 hidden under 2 with nothing free`), fitted to traces of detail $k$. [`TUTORIAL.md`](../twinfit/TUTORIAL.md) section 1 defines the package's words, except its *place*, where the report points: the core, the flanks, the wings or the asymmetry. A *set* is a synthetic copy of the traces from a twin, a *false alarm* some answer beyond the twin on a right model, a *share* the fraction of draws on which something happens. *The twin of a case* is made once from the case's first draw, *the twin of a draw's own fit* for each draw. A *unit* is a draw or a part of a twin, a *condition* a named group of units, a *row* one JSON line of [`../runs/`](../runs/) in a file named with the *digest*, a hash of the code and values it depends on. The author's *queue*, not public, ran units in *waves*.
 
-**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0, and every check passed again with Python 3.14.10, numpy 2.5.4 and scipy 1.18.1. The wheel on PyPI holds `twinfit/` alone, so the bench is obtained by cloning https://github.com/MichelangeloDondi/twinfit and running from its root. The digest of a count hashes the syntax tree of its code, which differs between versions of Python, so under Python 3.12.13 every check but that of `gallery_count.py` reports that its table was made from other files.
+**Environment.** Every command ran on an arm64 Mac, not on Linux, with Python 3.14.6, numpy 2.5.2 and scipy 1.18.0, and every check passed again with Python 3.14.10, numpy 2.5.4 and scipy 1.18.1. The wheel on PyPI holds `twinfit/` alone, so the bench is obtained by cloning https://github.com/MichelangeloDondi/twinfit and running from its root. The digest of a count hashes the syntax tree of its code, which differs between versions of Python, so under another version of Python the checks of the counts whose digest hashes that tree report their tables as made from other files, while `gallery_count.py` hashes bytes and passes on both (the stamp reading of 0.1.1 recomputed its digest on Python 3.12.13 and 3.14.6): the tables are read on the Python that made them, 3.14, and a count made again on another Python keeps its own rows under its own digest.
 
 ## 2. The line and its five terms
 
@@ -36,7 +36,7 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 
 `traces.py` draws the model's own traces, which `pointing.py`, `power.py`, `draws.py` and the synthetic runs of `chosen.py` take through `fits.synthetic`: the signal of section 2 plus Gaussian noise of variance $a^2+bh+ch^2+ds^2$, with $h$ the signal in V and $s$ its slope in V per MHz. `scoreboard.py` adds noise of its own to its noiseless signal (seed $[2026,10,19]$ and the draw number), its field group and `gallery_count.py` draw the package's examples, and `benchmark.py` draws nothing. The 32 laws of $a$ (V), $b$ (V) and $c$, one for each peak and each of the 8 traces, and $d=0.00135\pm0.00026$ MHz², one for all, are in `../data/noise/noise_laws.json`. The seed of `traces.py` is $[2026,10,12]$ (`const.toml` [seed]), then the detail, the power, the temperature and, for a draw other than 0, its number.
 
-`twin.py` draws synthetic traces that follow the recorded traces in height and noise (`twin.toml`). This is not the twin of the package, and no count uses it. `twin.toml` also holds a laser noise for each trace, 0.169 to 0.627 MHz, seven of them fitted alone and the one at 225 mW and 70 °C the joint value, and `twin.py` draws each trace with its own, while the model and its fits hold the one value of the joint fit, 0.369 ± 0.028 MHz. The author has since chosen the one value for all eight traces, which 0.1.1 carries. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
+`twin.py` draws synthetic traces that follow the recorded traces in height and noise (`twin.toml`). This is not the twin of the package, and no count uses it. `twin.toml` also holds a laser noise for each trace, 0.169 to 0.627 MHz, seven of them fitted alone and the one at 225 mW and 70 °C the joint value, and `twin.py` drew each trace with its own until the author chose the one value for all eight traces, `one_for_all = true` in `twin.toml`, which `twin.py` and 0.1.1 carry: every trace is drawn with the one value of the joint fit, 0.369 ± 0.028 MHz, which the model and its fits hold. [`../twinfit/examples/rubidium_twin`](../twinfit/examples/rubidium_twin) holds its draw 0 at detail 5, up to the rounding of the files.
 
 ## 5. The counts
 
@@ -44,14 +44,14 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 
 |program|what it counts, criteria of `thresholds.toml`|draws and sets|table, kept rows|cost|
 |---|---|---|---|---|
-|`pointing.py`|where the report points for each hidden term, and the false alarm of each right model: C1, C4, C5, C5c|30 hidden draws, then 100 where a share lies within two standard errors of 0.60: the table holds 100 on each hidden case. Right 60 against the twin of the case, 50 against its own at 30 sets. Twin of a case 100 sets|`pointing.json`. `../runs/pointing_*`|668 waves, 893636.3 s in `pointing.json`|
-|`power.py`|12 of those cases, no right model of detail 5: how often the package says something is missing: C5b|hidden 30, right 50, cut window 30 (width read on the whole window and parts of it). 200 sets|`power.json`. `../runs/power_*`, without the cut window rows|35 waves, 13199.5 s in `power.json`|
+|`pointing.py`|where the report points for each hidden term, and the false alarm of each right model: C1, C4, C5, C5c|100 draws on each hidden case at the size of the twin and at a half. Right 200 against the twin of the case, 50 against its own at 30 sets. Twin of a case 100 sets|`pointing.json`. `../runs/pointing_*`|504 waves, 99426.4 s in `pointing.json`|
+|`power.py`|12 of those cases, no right model of detail 5: how often the package says something is missing: C5b|hidden 30, right 50, cut window 30 (width read on the whole window and parts of it). 200 sets|`power.json`. no rows of power leave with this release, made at 0.1.0|35 waves, 13199.5 s in `power.json`|
 |`benchmark.py`|the package, the usual checks, the chi square and the package with them, on the draws of `power.py`, all but the package at a false alarm of 5 per cent: C10|those of `power.py`|`benchmark.json`|not recorded|
 |`scoreboard.py`|the blind report (no term named) on 36 questions in five groups (bench 8, held out 6, toy 13, field 8, waist 1): C2, C2b|5 draws a question in bench and toy, 20 in the rest. 100 sets|`scoreboard.json`. Readings not shipped|1602 units, not recorded|
-|`chosen.py`|the loop offered the toy's four terms in order, then a pedestal that the toy lacks and it should refuse: C6, C7|46 units in 8 conditions: 20 draws with the noise read from neighbouring samples, 20 with the toy's law, and 6 single runs on one draw or on the recorded traces. 30 sets|`chosen.json`. Units not shipped|11 waves, 43 of the 46 units, 21465.2 s in `chosen.json`|
-|`gallery_count.py`|another field, the 11 projects of [`../twinfit/examples`](../twinfit/examples): C11|20 draws a project, 30 sets|`gallery.json`. `../runs/gallery_count_*`|not recorded|
+|`chosen.py`|the loop offered the toy's four terms in order, then a pedestal that the toy lacks and it should refuse: C6, C7|100 draws with the noise read from neighbouring samples, 100 with the toy's law, and 6 single runs on one draw and on the recorded traces. 30 sets|`chosen.json`. Units not shipped|203 waves, 206 units, 140237.2 s in `chosen.json`|
+|`gallery_count.py`|another field, the 11 projects of [`../twinfit/examples`](../twinfit/examples): C11|40 draws a project, 30 sets|`gallery.json`. `../runs/gallery_count_*`|not recorded|
 
-The cost is the sum of the seconds of the queue's waves, not the elapsed time. The cost of `pointing.json` also covers rows at sizes and numbers of sets that no table here counts. The author drafted the thresholds, and some were set again after tables were read (`../docs/DECISIONS.md`). Of the 250 right draws read against their own twin, 47 stand beyond it at 30 sets (`pointing.json`) and 19 at 100 sets (`../runs/pointing_own100_*`, counted by the author toward 0.1.1 with programs that are not in this release).
+The cost is the sum of the seconds of the queue's waves, not the elapsed time. The author drafted the thresholds, and some were set again after tables were read (`../docs/DECISIONS.md`). Of the 250 right draws read against their own twin, 47 stand beyond it at 30 sets (`pointing.json`) and 19 at 100 sets (`../runs/pointing_own100_*`, made at 0.1.0 by no program here and not shipped at this release).
 
 ## 6. Checking and reproducing
 
@@ -65,15 +65,16 @@ python toy/draws.py --check
 python docs/validation.py --check
 ```
 
-Each prints one line: five contain `from the files as they are`, that of `draws.py` says `every model passes`, the last names `docs/VALIDATION.md`. Each of the five compares the digest of its code with that of its table and sums again the rows that the table holds, so a pass says that the table matches the code and reads nothing of `runs/`, whose kept rows `again.py` and `count.py` read.
+At this release `pointing`, `chosen`, `gallery_count`, `sign`, `convergence` print `from the files as they are`, `power`, `scoreboard` report their tables as made from other files, made at 0.1.0 and not counted again, that of `draws.py` says `every model passes`, the last names `docs/VALIDATION.md`. `convergence` prints it on the author's tree alone: its digest reads `toy/scale.py`, `toy/scale_asked.json` and `data/recorded/INDEX.json`, which do not leave with the public repository, where its check ends on the first file it does not find. Each of the five compares the digest of its code with that of its table and sums again the rows that the table holds, so a pass says that the table matches the code and reads nothing of `runs/`, whose kept rows `again.py` and `count.py` read.
 
 ```bash
 python tools/met.py M456,M505,M457,M458,M441,M444,M459 --counted
 ```
 
-It prints the 23 readings of [`../docs/VALIDATION.md`](../docs/VALIDATION.md). Each label is a row of the author's plan and names the criteria whose `row` field in `thresholds.toml` holds it, so one label reads one group of criteria. Two end NOT MET:
+It prints the 23 readings of [`../docs/VALIDATION.md`](../docs/VALIDATION.md). Each label is a row of the author's plan and names the criteria whose `row` field in `thresholds.toml` holds it, so one label reads one group of criteria. Three end NOT MET:
 
 ```text
+  C7, one bar holds the truth, collisions, the toy's law of the noise: 0.820 +- 0.038 on 100, at least 0.56 and at most 0.81: NOT MET
   C1, the place, collisions: 0.440 +- 0.050 on 100, at least 0.60: NOT MET
   C5c, a false alarm on a right model against its own twin at the default sets, pooled: 0.188 +- 0.025 on 250, at most 0.12: NOT MET
 ```
@@ -96,7 +97,7 @@ python toy/count.py gallery_count --workers 4 --only pedestal --draws 3
 grep -c -F -x -f ../pedestal_kept.jsonl runs/gallery_count_pedestal_*.jsonl
 ```
 
-The last line begins `3 units made in 13 s. The count is not whole, so toy/gallery.json is left as it is`, and `grep` prints `3`: the rows made are among the 20 kept. A whole recount by `count.py` equals the committed table draw by draw, not byte for byte, since it writes the rows in the order they end. In the copy again, since these write tables:
+The last line begins `3 units made in 13 s. The count is not whole, so toy/gallery.json is left as it is`, and `grep` prints `3`: the rows made are among the 40 kept. A whole recount by `count.py` equals the committed table draw by draw, not byte for byte, since it writes the rows in the order they end. In the copy again, since these write tables:
 
 ```bash
 python toy/count.py power --workers 8 --only cut_window
@@ -104,7 +105,7 @@ python toy/pointing.py table
 python toy/benchmark.py table .
 ```
 
-The first makes the 30 cut window draws that `../runs/` lacks (46 s, 79 s with the table) and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`, and the column `package` of each, which reads the version of the package at the remake and so differs from a table counted at an earlier version.
+The first makes the draws of power that `../runs/` lacks, all of them at this release since its rows were made at 0.1.0 and do not ship, and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`, and the column `package` of each, which reads the version of the package at the remake and so differs from a table counted at an earlier version.
 
 ## 7. Adding a sixth term
 

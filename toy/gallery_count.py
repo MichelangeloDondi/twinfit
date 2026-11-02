@@ -33,7 +33,7 @@ from twinfit.examples import gallery  # noqa: E402
 
 from toy import power  # noqa: E402
 
-DRAWS = 20          # a share near one half known to 0.11 a project, and to 0.04 pooled
+DRAWS = 40          # a share near one half known to 0.11 a project, and to 0.04 pooled
 SETS = 30          # the sets of the twin of the first model, those of the loop and of the command line
 KEY = {          # written again 2026-10-23 for the blind report, from the truth of each project and its physics, before any count of it (the red team of his message 343, S1): the first answer that each question should have, or the answers that the physics admits where a width moves the core and the flanks together. A question absent is not asked of that project
     "pedestal": {"where": "the wings"},

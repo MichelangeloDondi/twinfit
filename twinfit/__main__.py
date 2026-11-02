@@ -7,6 +7,7 @@
     python -m twinfit guide agent-tutorial  prints the tutorial for an agent, twinfit/agent/TUTORIAL.md, with its path
     python -m twinfit --version             prints the number of the package
     python -m twinfit guide rubidium        prints a real case, recorded traces of a line of rubidium as plots, and where they are
+    python -m twinfit guide continuing      prints the page for whoever takes the work over, twinfit/CONTINUING.md
     python -m twinfit guide examples        prints the gallery, twinfit/EXAMPLES.md: projects of other fields, what to do
                                             and what not to do on each, and what the loop gave beside their truth
     python -m twinfit walk [HIDDEN] [DIR]   walks one rung of the older manual path on synthetic records with a hidden term
@@ -22,7 +23,7 @@
                                             of the gallery that `guide examples` prints, as clock or gel. Each
                                             holds its curves, the description of their collection and the first model. A
                                             project of the gallery takes its noise at L times its own, 0 for none, and of
-                                            the kind K: white, correlated over neighbouring samples, or that of a counter
+                                            the kind K: white, correlated over neighbouring samples, or that of a counter for the two examples of a counter alone
     python -m twinfit terms                 prints the terms that a term file can name, and the form of a term file
     python -m twinfit scan DIR TERM X...    fits TERM, a term with x in the place of its distance, stretch or period, as
                                             "second(x)", at each value X beside the model that the term files of DIR give
@@ -32,8 +33,9 @@
                                             a line planted at five deviations of the fit, and which law of the noise
     python -m twinfit counts DIR [--floor F] writes a copy of DIR beside it whose curves carry the noise of a counter from
                                             the fitted values of the best model of the last run, the column sd
-    python -m twinfit thin DIR N            writes three copies of DIR beside it, each keeping one sample in every N of each
-                                            curve, from three first samples, for a noise correlated over N samples
+    python -m twinfit thin DIR N            writes up to three copies of DIR beside it, each keeping one sample in every N
+                                            of each curve, from distinct first samples, fewer where N is under 3, for a
+                                            noise correlated over N samples
     python -m twinfit loop DIR [--n N] [--sets S] [--max-seconds T] [--workers W] [--dictionary]
                                             the loop without an agent on the description in DIR and its term files, up
                                             to N of them, each twin on S synthetic sets (loop.py). With T, a run that
@@ -74,8 +76,8 @@ PYTHON = "{{THE_PYTHON}}"               # in the rules and the skill of an agent
 
 
 def thin(folder: Path, every: int) -> list:
-    """Three copies of a folder beside it, `DIR_thin_N_S`, each keeping one sample in every `every` of each curve from
-    the first sample S, for S at nought, a third and two thirds of `every`, made without `loop/`, `loop.before/` and
+    """Up to three copies of a folder beside it, `DIR_thin_N_S`, each keeping one sample in every `every` of each curve from
+    the first sample S, for S at nought, a third and two thirds of `every`, fewer where two of those coincide (N under 3), made without `loop/`, `loop.before/` and
     `agent/`. Where the report leads with a noise correlated over N samples, the samples so kept are nearly apart, and a
     term that one copy keeps and another refuses is not to be believed. A blind agent wrote the copies with numpy of its
     own (round 15 of the cold tests). Returns the copies made."""
@@ -92,6 +94,10 @@ def thin(folder: Path, every: int) -> list:
     if shortest and shortest // every < KEPT:          # thin 400 on curves of 201 samples wrote copies of one sample each, with no word (round 18 of the cold tests)
         raise ValueError(f"thin {every} keeps {shortest // every} of the {shortest} samples of the shortest curve, under {KEPT}, too few to fit: "
                          f"the largest N that keeps {KEPT} is {max(shortest // KEPT, 1)}")
+    sources = [Path(name) if Path(name).is_absolute() else folder / name for name in files]
+    missing = [str(s) for s in sources if not s.is_file()]
+    if missing:          # refused before any copy is made, so a refused thin leaves nothing behind
+        raise ValueError(f"{missing[0]} is no file: thin reads the traces the description names")
     made = []
     for first in sorted({0, every // 3, (2 * every) // 3}):
         copy = folder.parent / f"{folder.name}_thin_{every}_{first}"
@@ -99,9 +105,16 @@ def thin(folder: Path, every: int) -> list:
             raise ValueError(f"{copy} is there already: thin writes new copies only")
         shutil.copytree(folder, copy, ignore=shutil.ignore_patterns("loop", "loop.before", "agent", "__pycache__", ".twinfit.lock", COMMAND_LOCK))
         (copy / "agent").mkdir()
-        for name in files:
-            lines = (copy / name).read_text().splitlines()
-            (copy / name).write_text("\n".join([lines[0]] + lines[1:][first::every]) + "\n")
+        text = (copy / "description.toml").read_text()
+        for k, name in enumerate(files):          # a thinned curve is written inside the copy only: a description that names its traces by absolute paths had `copy / name` as the source itself, and three copies rewrote the recorded traces in place (lesson 92 of the repository this is made in, 2026-11-02)
+            source = sources[k]
+            inside = Path(name) if not Path(name).is_absolute() and (copy / name).resolve().is_relative_to(copy.resolve()) else Path("thinned") / f"{k + 1:02d}_{Path(name).name}"          # numbered: two traces of one name from two folders went into one file (review 187 of the repository this is made in)
+            (copy / inside).parent.mkdir(parents=True, exist_ok=True)
+            lines = source.read_text().splitlines()
+            (copy / inside).write_text("\n".join([lines[0]] + lines[1:][first::every]) + "\n")
+            if str(inside) != name:
+                text = re.sub(r'(file\s*=\s*)(["\'])' + re.escape(name) + r'\2', lambda m: m.group(1) + '"' + inside.as_posix() + '"', text)          # whatever the quotes and the spacing of the TOML
+        (copy / "description.toml").write_text(text)
         made.append(copy)
     return made
 
@@ -277,7 +290,7 @@ A term of your own:
                      formula=r"$f(x) + a\\,e^{-(x - x_0)^2/9}$")
     why = "the physics of the line gives it a broad shoulder"
 
-Mechanism(name, kind, parameter, start, wrap, lower=-inf, upper=inf, theory=None, formula=""): `kind` is any word,
+Mechanism(name, family, parameter, start, wrap, lower=-inf, upper=inf, ground="", theory=None, formula=""): `family` is any word,
 `formula` writes the term in LaTeX for the visual log, with f the model before it and a its parameter. `new` may add to
 the model, multiply it, or return a whole curve of its own with its baseline.
 
@@ -318,7 +331,7 @@ def _span(lo: float, hi: float) -> tuple:
     return f"{lo:.{d}f}", f"{hi:.{d}f}"
 
 
-GUIDES = {"": ("agent", "AGENT.md"), "manual": ("agent", "MANUAL.md"), "agent-tutorial": ("agent", "TUTORIAL.md"), "examples": ("EXAMPLES.md",), "tutorial": ("TUTORIAL.md",), "readme": ("README.md",), "rubidium": ("RUBIDIUM.md",)}          # the pages that `guide` prints
+GUIDES = {"": ("agent", "AGENT.md"), "manual": ("agent", "MANUAL.md"), "agent-tutorial": ("agent", "TUTORIAL.md"), "examples": ("EXAMPLES.md",), "tutorial": ("TUTORIAL.md",), "readme": ("README.md",), "rubidium": ("RUBIDIUM.md",), "continuing": ("CONTINUING.md",)}          # the pages that `guide` prints: `continuing` since 0.1.1, a blind researcher reached CONTINUING.md beside the README alone (the third run of the bus test)
 
 
 def guide_page(args: list) -> Path | None:
@@ -600,7 +613,8 @@ def main(argv: list) -> int:
                       f"its top, {b['x']:g}, is the value to write." + (" The values scanned are spaced unevenly, which moves the top of a parabola: scan values evenly spaced about it before it is written." if uneven else ""))
             elif out.get("from_a_parabola"):
                 print(f"Only x = {near:g} lies within 1 of the largest fall: the values scanned are farther apart than the range, which a parabola through the three falls about the largest gives, "
-                      f"and its top, {b['x']:g}. A parabola through three coarse falls gives the top roughly: scan values finer than that range about the top, and write the top of that finer scan.")          # "no finer scan is needed" on a range that missed the truth (round 11)
+                      f"and its top, {b['x']:g}. A parabola through three coarse falls gives the top roughly: scan values finer than that range about the top, and write the top of that finer scan."
+                      + (" The values scanned are spaced unevenly, which moves the top of a parabola: scan values evenly spaced about it." if uneven else ""))          # the coarse branch warned of nothing where the fine one did (the third run of the bus test)          # "no finer scan is needed" on a range that missed the truth (round 11)
             elif lo == hi:
                 print(f"Only x = {lo:g} lies within 1 of the largest fall: the values scanned are too far apart to give a range, so scan a finer set about it.")
             print(f"The largest fall: at x = {b['x']:g}. The values of x whose fall is within 1 of it, which is one standard deviation of x as the profile gives it, the criterion of the best fit at each x, if the model is otherwise right: {' to '.join(_span(lo, hi))}."

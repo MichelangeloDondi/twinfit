@@ -6,7 +6,7 @@ This page builds on sections 1 to 6 of `TUTORIAL.md` and sets out what the loop 
 
 > Section 1 of `TUTORIAL.md` defines every word of the package that this page uses.
 
-For each the loop ran three times: on the first model alone, after what to do, and after what not to do. Then at four other noises, on the first model and after what to do: three times its own, none drawn, and a second kind of noise as large as its own and three times as large. `python -m twinfit example NAME DIR --noise L --kind K` writes each: `L` is a multiple of the example's own noise, 0 for none drawn, and `K` one of `white`, `correlated` and `counts`, the example's own kind where `K` is not given.
+For each the loop ran three times: on the first model alone, after what to do, and after what not to do. Then at four other noises, on the first model and after what to do: three times its own, none drawn, and a second kind of noise as large as its own and three times as large. `python -m twinfit example NAME DIR --noise L --kind K` writes each: `L` is a multiple of the example's own noise, 0 for none drawn, and `K` one of `white` and `correlated`, or `counts` for the two examples of a counter alone, the example's own kind where `K` is not given.
 
 Every number below is read from those runs, which `python -m twinfit.examples.gallery --write` makes again for those who build the package.
 

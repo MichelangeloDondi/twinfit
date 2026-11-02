@@ -1,0 +1,1111 @@
+{
+ "digest": "dcaec832ab8de2a741efd4923fe5a7b2a9454a0246f551b4a78402972b9d6486",
+ "draws": 200,
+ "arms": [
+  "plain",
+  "width",
+  "stretch"
+ ],
+ "truth_detail": 5,
+ "bound": "the largest of the three arms' biases, of the moves of his value to each later turn, and of its move between theory held and theory freed at the same turn. It covers the two structures planted, each trace's own laser noise and stretch, and no other",
+ "conditions": {
+  "turn 1, main": {
+   "turn": 1,
+   "fit": "main",
+   "his": {
+    "values": {
+     "natural_width": 4.890843202936665
+    },
+    "bars": {
+     "natural_width": 0.006826514655693617
+    },
+    "told": true,
+    "chi_square_a_degree": 1.4328380738893365
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.890083886659735,
+       "spread": 0.0059169292437127935,
+       "bias": 1.3975461844017723,
+       "bias_in_spreads": 236.19450678521733,
+       "bias_error": 0.0004183900792030306,
+       "holds": 0.0,
+       "his": 4.890843202936665,
+       "his_bar": 0.006826514655693617
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.891695266646863,
+       "spread": 0.005913685914219204,
+       "bias": 1.3991575643889007,
+       "bias_in_spreads": 236.59652958989358,
+       "bias_error": 0.0004181607411751767,
+       "holds": 0.0,
+       "his": 4.890843202936665,
+       "his_bar": 0.006826514655693617
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.8889333876021555,
+       "spread": 0.005910680924869818,
+       "bias": 1.396395685344193,
+       "bias_in_spreads": 236.24954604954394,
+       "bias_error": 0.00041794825634054223,
+       "holds": 0.0,
+       "his": 4.890843202936665,
+       "his_bar": 0.006826514655693617
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "natural_width": {
+     "his": 4.890843202936665,
+     "his_bar": 0.006826514655693617,
+     "truth": 3.4925377022579625,
+     "bound": 1.3991575643889007,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 2, main": {
+   "turn": 2,
+   "fit": "main",
+   "his": {
+    "values": {
+     "natural_width": 4.785676377505436
+    },
+    "bars": {
+     "natural_width": 0.006824723706382322
+    },
+    "told": true,
+    "chi_square_a_degree": 1.4317635581908112
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.784843455280394,
+       "spread": 0.0059167158842063335,
+       "bias": 1.2923057530224318,
+       "bias_in_spreads": 218.4160568656038,
+       "bias_error": 0.00041837499240764576,
+       "holds": 0.0,
+       "his": 4.785676377505436,
+       "his_bar": 0.006824723706382322
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.786816850503612,
+       "spread": 0.005913733888690889,
+       "bias": 1.29427914824565,
+       "bias_in_spreads": 218.85988997928376,
+       "bias_error": 0.00041816413348260193,
+       "holds": 0.0,
+       "his": 4.785676377505436,
+       "his_bar": 0.006824723706382322
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.783821335240722,
+       "spread": 0.005910888743583371,
+       "bias": 1.2912836329827595,
+       "bias_in_spreads": 218.45845675652862,
+       "bias_error": 0.0004179629513427033,
+       "holds": 0.0,
+       "his": 4.785676377505436,
+       "his_bar": 0.006824723706382322
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "natural_width": {
+     "his": 4.785676377505436,
+     "his_bar": 0.006824723706382322,
+     "truth": 3.4925377022579625,
+     "bound": 1.29427914824565,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 2, freed": {
+   "turn": 2,
+   "fit": "freed",
+   "his": {
+    "values": {
+     "natural_width": 4.787231223882213,
+     "collisions": 3.448034927646906
+    },
+    "bars": {
+     "natural_width": 0.01988961868227809,
+     "collisions": 0.6238663087519823
+    },
+    "told": true,
+    "chi_square_a_degree": 1.4318723582707762
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.742173538449549,
+       "spread": 0.01673113357884327,
+       "bias": 1.2496358361915867,
+       "bias_in_spreads": 74.68925104822347,
+       "bias_error": 0.0011830698010538026,
+       "holds": 0.0,
+       "his": 4.787231223882213,
+       "his_bar": 0.01988961868227809
+      },
+      "collisions": {
+       "truth": 3.5,
+       "mean": 4.92822689730953,
+       "spread": 0.5158964644768897,
+       "bias": 1.4282268973095302,
+       "bias_in_spreads": 2.7684370714921025,
+       "bias_error": 0.03647938884217736,
+       "holds": 0.065,
+       "his": 3.448034927646906,
+       "his_bar": 0.6238663087519823
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.799687276438955,
+       "spread": 0.016753315277998563,
+       "bias": 1.3071495741809924,
+       "bias_in_spreads": 78.02333761948705,
+       "bias_error": 0.0011846382840428973,
+       "holds": 0.0,
+       "his": 4.787231223882213,
+       "his_bar": 0.01988961868227809
+      },
+      "collisions": {
+       "truth": 3.5,
+       "mean": 3.068862909023376,
+       "spread": 0.5165173618688688,
+       "bias": -0.4311370909766241,
+       "bias_in_spreads": -0.8347000949139041,
+       "bias_error": 0.036523292917806295,
+       "holds": 0.595,
+       "his": 3.448034927646906,
+       "his_bar": 0.6238663087519823
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "natural_width": {
+       "truth": 3.4925377022579625,
+       "mean": 4.7828716965401155,
+       "spread": 0.01685407047758113,
+       "bias": 1.290333994282153,
+       "bias_in_spreads": 76.55919061205562,
+       "bias_error": 0.001191762752529361,
+       "holds": 0.0,
+       "his": 4.787231223882213,
+       "his_bar": 0.01988961868227809
+      },
+      "collisions": {
+       "truth": 3.5,
+       "mean": 3.5318425841525256,
+       "spread": 0.5188202748159647,
+       "bias": 0.03184258415252561,
+       "bias_in_spreads": 0.061374980312442054,
+       "bias_error": 0.03668613345394368,
+       "holds": 0.775,
+       "his": 3.448034927646906,
+       "his_bar": 0.6238663087519823
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "natural_width": {
+     "his": 4.787231223882213,
+     "his_bar": 0.01988961868227809,
+     "truth": 3.4925377022579625,
+     "bound": 1.3071495741809924,
+     "bound_from": "an arm"
+    },
+    "collisions": {
+     "his": 3.448034927646906,
+     "his_bar": 0.6238663087519823,
+     "truth": 3.5,
+     "bound": 1.4282268973095302,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 3, main": {
+   "turn": 3,
+   "fit": "main",
+   "his": {
+    "values": {
+     "gas_width": 1.2931386751129197
+    },
+    "bars": {
+     "gas_width": 0.006824723706666724
+    },
+    "told": true,
+    "chi_square_a_degree": 1.431763558498024
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.2923057529198518,
+       "spread": 0.005916715880329219,
+       "bias": 1.255305752919852,
+       "bias_in_spreads": 212.1625878797486,
+       "bias_error": 0.00041837499213349233,
+       "holds": 0.0,
+       "his": 1.2931386751129197,
+       "his_bar": 0.006824723706666724
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.2942791481293627,
+       "spread": 0.005913733884106857,
+       "bias": 1.2572791481293628,
+       "bias_in_spreads": 212.60326771015127,
+       "bias_error": 0.0004181641331584619,
+       "holds": 0.0,
+       "his": 1.2931386751129197,
+       "his_bar": 0.006824723706666724
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.2912836328804707,
+       "spread": 0.005910888739477887,
+       "bias": 1.2542836328804707,
+       "bias_in_spreads": 212.19882291190993,
+       "bias_error": 0.0004179629510524018,
+       "holds": 0.0,
+       "his": 1.2931386751129197,
+       "his_bar": 0.006824723706666724
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "gas_width": {
+     "his": 1.2931386751129197,
+     "his_bar": 0.006824723706666724,
+     "truth": 0.037,
+     "bound": 1.2572791481293628,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 3, freed": {
+   "turn": 3,
+   "fit": "freed",
+   "his": {
+    "values": {
+     "collisions": 3.4480349339045024,
+     "gas_width": 1.294693521271089
+    },
+    "bars": {
+     "collisions": 0.6238663088480491,
+     "gas_width": 0.019889618684445946
+    },
+    "told": true,
+    "chi_square_a_degree": 1.431872358729263
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 4.928226898043806,
+       "spread": 0.5158964634136657,
+       "bias": 1.428226898043806,
+       "bias_in_spreads": 2.7684370786209453,
+       "bias_error": 0.03647938876699606,
+       "holds": 0.065,
+       "his": 3.4480349339045024,
+       "his_bar": 0.6238663088480491
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.2496358361704656,
+       "spread": 0.016731133551882806,
+       "bias": 1.2126358361704657,
+       "bias_in_spreads": 72.47780506981871,
+       "bias_error": 0.0011830697991474098,
+       "holds": 0.0,
+       "his": 1.294693521271089,
+       "his_bar": 0.019889618684445946
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 3.068862910354643,
+       "spread": 0.5165173625194868,
+       "bias": -0.431137089645357,
+       "bias_in_spreads": -0.8347000912851045,
+       "bias_error": 0.03652329296381194,
+       "holds": 0.595,
+       "his": 3.4480349339045024,
+       "his_bar": 0.6238663088480491
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.307149574086901,
+       "spread": 0.016753315313164357,
+       "bias": 1.270149574086901,
+       "bias_in_spreads": 75.81481935631258,
+       "bias_error": 0.0011846382865294944,
+       "holds": 0.0,
+       "his": 1.294693521271089,
+       "his_bar": 0.019889618684445946
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 3.5318425842611054,
+       "spread": 0.5188202759157332,
+       "bias": 0.03184258426110542,
+       "bias_in_spreads": 0.06137498039162466,
+       "bias_error": 0.036686133531709055,
+       "holds": 0.775,
+       "his": 3.4480349339045024,
+       "his_bar": 0.6238663088480491
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 1.2903339942774688,
+       "spread": 0.016854070509961537,
+       "bias": 1.2533339942774688,
+       "bias_in_spreads": 74.36387509692038,
+       "bias_error": 0.0011917627548190016,
+       "holds": 0.0,
+       "his": 1.294693521271089,
+       "his_bar": 0.019889618684445946
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "collisions": {
+     "his": 3.4480349339045024,
+     "his_bar": 0.6238663088480491,
+     "truth": 3.5,
+     "bound": 1.428226898043806,
+     "bound_from": "an arm"
+    },
+    "gas_width": {
+     "his": 1.294693521271089,
+     "his_bar": 0.019889618684445946,
+     "truth": 0.037,
+     "bound": 1.270149574086901,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 4, main": {
+   "turn": 4,
+   "fit": "main",
+   "his": {
+    "values": {
+     "gas_width": 0.427077663316093,
+     "laser_noise": 1.147902319027067
+    },
+    "bars": {
+     "gas_width": 0.015093702408206401,
+     "laser_noise": 0.009721750821719803
+    },
+    "told": true,
+    "chi_square_a_degree": 1.0691841692630566
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.42620426762152247,
+       "spread": 0.015634304377125707,
+       "bias": 0.3892042676215225,
+       "bias_in_spreads": 24.89424909693845,
+       "bias_error": 0.001105512264420011,
+       "holds": 0.0,
+       "his": 0.427077663316093,
+       "his_bar": 0.015093702408206401
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1491164672904894,
+       "spread": 0.010584737264883654,
+       "bias": 0.7801164672904894,
+       "bias_in_spreads": 73.70201524780732,
+       "bias_error": 0.0007484539497077181,
+       "holds": 0.0,
+       "his": 1.147902319027067,
+       "his_bar": 0.009721750821719803
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.4278608606950409,
+       "spread": 0.01562894554424,
+       "bias": 0.39086086069504095,
+       "bias_in_spreads": 25.008779996619257,
+       "bias_error": 0.0011051333377127379,
+       "holds": 0.0,
+       "his": 0.427077663316093,
+       "his_bar": 0.015093702408206401
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1495593571508222,
+       "spread": 0.010583536519443307,
+       "bias": 0.7805593571508223,
+       "bias_in_spreads": 73.75222409983989,
+       "bias_error": 0.0007483690441833833,
+       "holds": 0.0,
+       "his": 1.147902319027067,
+       "his_bar": 0.009721750821719803
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.4300720565452521,
+       "spread": 0.015639468006707385,
+       "bias": 0.3930720565452521,
+       "bias_in_spreads": 25.13333934227642,
+       "bias_error": 0.0011058773881692848,
+       "holds": 0.0,
+       "his": 0.427077663316093,
+       "his_bar": 0.015093702408206401
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1457005061999581,
+       "spread": 0.010602353256907808,
+       "bias": 0.7767005061999581,
+       "bias_in_spreads": 73.25736913113231,
+       "bias_error": 0.0007496995884494789,
+       "holds": 0.0,
+       "his": 1.147902319027067,
+       "his_bar": 0.009721750821719803
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "gas_width": {
+     "his": 0.427077663316093,
+     "his_bar": 0.015093702408206401,
+     "truth": 0.037,
+     "bound": 0.3930720565452521,
+     "bound_from": "an arm"
+    },
+    "laser_noise": {
+     "his": 1.147902319027067,
+     "his_bar": 0.009721750821719803,
+     "truth": 0.369,
+     "bound": 0.7805593571508223,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 4, freed": {
+   "turn": 4,
+   "fit": "freed",
+   "his": {
+    "values": {
+     "collisions": 4.513250698570913,
+     "gas_width": 0.39620884054879296,
+     "laser_noise": 1.1482343559041879
+    },
+    "bars": {
+     "collisions": 0.6305192926070808,
+     "gas_width": 0.024379433272826715,
+     "laser_noise": 0.009719530501839864
+    },
+    "told": true,
+    "chi_square_a_degree": 1.069722757991984
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 5.874938584647449,
+       "spread": 0.556662161159024,
+       "bias": 2.374938584647449,
+       "bias_in_spreads": 4.266391269890878,
+       "bias_error": 0.039361958898550466,
+       "holds": 0.0,
+       "his": 4.513250698570913,
+       "his_bar": 0.6305192926070808
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.35418178399269856,
+       "spread": 0.023954108397100438,
+       "bias": 0.3171817839926986,
+       "bias_in_spreads": 13.24122687994066,
+       "bias_error": 0.001693811248486734,
+       "holds": 0.0,
+       "his": 0.39620884054879296,
+       "his_bar": 0.024379433272826715
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1497168876586452,
+       "spread": 0.01057261964893259,
+       "bias": 0.7807168876586452,
+       "bias_in_spreads": 73.8432775965289,
+       "bias_error": 0.000747597104866637,
+       "holds": 0.0,
+       "his": 1.1482343559041879,
+       "his_bar": 0.009719530501839864
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 4.0113907854183735,
+       "spread": 0.5571327967239192,
+       "bias": 0.5113907854183735,
+       "bias_in_spreads": 0.9178974715282958,
+       "bias_error": 0.03939523785849096,
+       "holds": 0.575,
+       "his": 4.513250698570913,
+       "his_bar": 0.6305192926070808
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.4123420499227374,
+       "spread": 0.024027617664422077,
+       "bias": 0.3753420499227374,
+       "bias_in_spreads": 15.621276115047808,
+       "bias_error": 0.0016990091386270526,
+       "holds": 0.0,
+       "his": 0.39620884054879296,
+       "his_bar": 0.024379433272826715
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1497116358745805,
+       "spread": 0.010590956905262253,
+       "bias": 0.7807116358745805,
+       "bias_in_spreads": 73.7149289585603,
+       "bias_error": 0.000748893744696543,
+       "holds": 0.0,
+       "his": 1.1482343559041879,
+       "his_bar": 0.009719530501839864
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 4.301195344891934,
+       "spread": 0.5593384809781088,
+       "bias": 0.8011953448919336,
+       "bias_in_spreads": 1.432398041863475,
+       "bias_error": 0.039551203287820344,
+       "holds": 0.375,
+       "his": 4.513250698570913,
+       "his_bar": 0.6305192926070808
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.40580335548116364,
+       "spread": 0.02402964289989056,
+       "bias": 0.36880335548116366,
+       "bias_in_spreads": 15.347850029133948,
+       "bias_error": 0.0016991523444003789,
+       "holds": 0.0,
+       "his": 0.39620884054879296,
+       "his_bar": 0.024379433272826715
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 1.1458775295763635,
+       "spread": 0.010603501355820721,
+       "bias": 0.7768775295763635,
+       "bias_in_spreads": 73.26613196026062,
+       "bias_error": 0.0007497807713021582,
+       "holds": 0.0,
+       "his": 1.1482343559041879,
+       "his_bar": 0.009719530501839864
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "collisions": {
+     "his": 4.513250698570913,
+     "his_bar": 0.6305192926070808,
+     "truth": 3.5,
+     "bound": 2.374938584647449,
+     "bound_from": "an arm"
+    },
+    "gas_width": {
+     "his": 0.39620884054879296,
+     "his_bar": 0.024379433272826715,
+     "truth": 0.037,
+     "bound": 0.3753420499227374,
+     "bound_from": "an arm"
+    },
+    "laser_noise": {
+     "his": 1.1482343559041879,
+     "his_bar": 0.009719530501839864,
+     "truth": 0.369,
+     "bound": 0.7807168876586452,
+     "bound_from": "an arm"
+    }
+   }
+  },
+  "turn 5, main": {
+   "turn": 5,
+   "fit": "main",
+   "his": {
+    "values": {
+     "gas_width": 0.037294587317877416,
+     "laser_noise": 0.36926585282523866
+    },
+    "bars": {
+     "gas_width": 0.014518659819446176,
+     "laser_noise": 0.028326969988075407
+    },
+    "told": true,
+    "chi_square_a_degree": 1.0680527250680147
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.038009139197647944,
+       "spread": 0.013997860894503542,
+       "bias": 0.0010091391976479458,
+       "bias_in_spreads": 0.07209238649058147,
+       "bias_error": 0.0009897982360609445,
+       "holds": 0.715,
+       "his": 0.037294587317877416,
+       "his_bar": 0.014518659819446176
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.36674595443834107,
+       "spread": 0.028540387115670612,
+       "bias": -0.002254045561658924,
+       "bias_in_spreads": -0.07897739972914732,
+       "bias_error": 0.002018110126717986,
+       "holds": 0.695,
+       "his": 0.36926585282523866,
+       "his_bar": 0.028326969988075407
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.041011542542018484,
+       "spread": 0.014011681866970117,
+       "bias": 0.0040115425420184855,
+       "bias_in_spreads": 0.28629985893948506,
+       "bias_error": 0.0009907755263963154,
+       "holds": 0.685,
+       "his": 0.037294587317877416,
+       "his_bar": 0.014518659819446176
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.3657085587067165,
+       "spread": 0.028677371396730895,
+       "bias": -0.0032914412932835146,
+       "bias_in_spreads": -0.11477486021116726,
+       "bias_error": 0.002027796378123355,
+       "holds": 0.705,
+       "his": 0.36926585282523866,
+       "his_bar": 0.028326969988075407
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.04220312965832509,
+       "spread": 0.013995378713597888,
+       "bias": 0.00520312965832509,
+       "bias_in_spreads": 0.3717748383092868,
+       "bias_error": 0.0009896227193658927,
+       "holds": 0.665,
+       "his": 0.037294587317877416,
+       "his_bar": 0.014518659819446176
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.3558190522790283,
+       "spread": 0.02940080761282787,
+       "bias": -0.01318094772097167,
+       "bias_in_spreads": -0.4483192398844408,
+       "bias_error": 0.0020789510435391657,
+       "holds": 0.7,
+       "his": 0.36926585282523866,
+       "his_bar": 0.028326969988075407
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "gas_width": {
+     "his": 0.037294587317877416,
+     "his_bar": 0.014518659819446176,
+     "truth": 0.037,
+     "bound": 0.10416485225823008,
+     "bound_from": "a move of his value"
+    },
+    "laser_noise": {
+     "his": 0.36926585282523866,
+     "his_bar": 0.028326969988075407,
+     "truth": 0.369,
+     "bound": 0.07596716837595413,
+     "bound_from": "a move of his value"
+    }
+   }
+  },
+  "turn 5, freed": {
+   "turn": 5,
+   "fit": "freed",
+   "his": {
+    "values": {
+     "collisions": 2.232617767323796,
+     "gas_width": 0.1414594395761075,
+     "laser_noise": 0.4452330212011928,
+     "transit": 0.9826054475633432
+    },
+    "bars": {
+     "collisions": 0.6363613595936493,
+     "gas_width": 0.03377007014830665,
+     "laser_noise": 0.039407943058109705,
+     "transit": 0.024300653183762778
+    },
+    "told": true,
+    "chi_square_a_degree": 1.0625428942258006
+   },
+   "arms": {
+    "plain": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 3.4217399384767226,
+       "spread": 0.5639344467445973,
+       "bias": -0.07826006152327736,
+       "bias_in_spreads": -0.13877510404807902,
+       "bias_error": 0.039876187143778864,
+       "holds": 0.74,
+       "his": 2.232617767323796,
+       "his_bar": 0.6363613595936493
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.04456995324832183,
+       "spread": 0.034990449665443825,
+       "bias": 0.007569953248321833,
+       "bias_in_spreads": 0.2163434114365736,
+       "bias_error": 0.002474198423520189,
+       "holds": 0.68,
+       "his": 0.1414594395761075,
+       "his_bar": 0.03377007014830665
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.3716885806551628,
+       "spread": 0.04062059851482561,
+       "bias": 0.002688580655162809,
+       "bias_in_spreads": 0.0661876179441703,
+       "bias_error": 0.0028723100665689386,
+       "holds": 0.71,
+       "his": 0.4452330212011928,
+       "his_bar": 0.039407943058109705
+      },
+      "transit": {
+       "truth": 1.0399981409634105,
+       "mean": 1.0360838762544344,
+       "spread": 0.022687193909339577,
+       "bias": -0.003914264708976045,
+       "bias_in_spreads": -0.17253190168065122,
+       "bias_error": 0.0016042268659388153,
+       "holds": 0.7,
+       "his": 0.9826054475633432,
+       "his_bar": 0.024300653183762778
+      }
+     }
+    },
+    "width": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 2,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 1.5276105242905338,
+       "spread": 0.544640260813098,
+       "bias": -1.9723894757094662,
+       "bias_in_spreads": -3.6214536780018234,
+       "bias_error": 0.038705897920486336,
+       "holds": 0.010101010101010102,
+       "his": 2.232617767323796,
+       "his_bar": 0.6363613595936493
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.10016540927764842,
+       "spread": 0.035170521512858495,
+       "bias": 0.06316540927764841,
+       "bias_in_spreads": 1.7959759071117232,
+       "bias_error": 0.0024994601270472796,
+       "holds": 0.17676767676767677,
+       "his": 0.1414594395761075,
+       "his_bar": 0.03377007014830665
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.36223288220746797,
+       "spread": 0.04184387822266611,
+       "bias": -0.006767117792532029,
+       "bias_in_spreads": -0.1617230065655434,
+       "bias_error": 0.0029737149373897805,
+       "holds": 0.7070707070707071,
+       "his": 0.4452330212011928,
+       "his_bar": 0.039407943058109705
+      },
+      "transit": {
+       "truth": 1.0399981409634105,
+       "mean": 1.0402002589748733,
+       "spread": 0.02268062256121207,
+       "bias": 0.00020211801146285957,
+       "bias_in_spreads": 0.008911484282116558,
+       "bias_error": 0.0016118416591472111,
+       "holds": 0.7070707070707071,
+       "his": 0.9826054475633432,
+       "his_bar": 0.024300653183762778
+      }
+     }
+    },
+    "stretch": {
+     "draws": 200,
+     "failed": 0,
+     "not_told_apart": 0,
+     "parameters": {
+      "collisions": {
+       "truth": 3.5,
+       "mean": 1.8438592836467809,
+       "spread": 0.5663854873157975,
+       "bias": -1.6561407163532191,
+       "bias_in_spreads": -2.924052175492644,
+       "bias_error": 0.04004950188466477,
+       "holds": 0.035,
+       "his": 2.232617767323796,
+       "his_bar": 0.6363613595936493
+      },
+      "gas_width": {
+       "truth": 0.037,
+       "mean": 0.09842469573649111,
+       "spread": 0.03474493828937048,
+       "bias": 0.06142469573649111,
+       "bias_in_spreads": 1.767874653422043,
+       "bias_error": 0.002456838147632199,
+       "holds": 0.195,
+       "his": 0.1414594395761075,
+       "his_bar": 0.03377007014830665
+      },
+      "laser_noise": {
+       "truth": 0.369,
+       "mean": 0.36171788681313366,
+       "spread": 0.04180010283285215,
+       "bias": -0.007282113186866335,
+       "bias_in_spreads": -0.17421280555183397,
+       "bias_error": 0.002955713616740477,
+       "holds": 0.72,
+       "his": 0.4452330212011928,
+       "his_bar": 0.039407943058109705
+      },
+      "transit": {
+       "truth": 1.0399981409634105,
+       "mean": 1.0344987870913245,
+       "spread": 0.022484936466141164,
+       "bias": -0.005499353872085999,
+       "bias_in_spreads": -0.24457947125477428,
+       "bias_error": 0.0015899251049757103,
+       "holds": 0.7,
+       "his": 0.9826054475633432,
+       "his_bar": 0.024300653183762778
+      }
+     }
+    }
+   },
+   "failed": 0,
+   "parameters": {
+    "collisions": {
+     "his": 2.232617767323796,
+     "his_bar": 0.6363613595936493,
+     "truth": 3.5,
+     "bound": 1.9723894757094662,
+     "bound_from": "an arm"
+    },
+    "gas_width": {
+     "his": 0.1414594395761075,
+     "his_bar": 0.03377007014830665,
+     "truth": 0.037,
+     "bound": 0.10416485225823008,
+     "bound_from": "a move of his value"
+    },
+    "laser_noise": {
+     "his": 0.4452330212011928,
+     "his_bar": 0.039407943058109705,
+     "truth": 0.369,
+     "bound": 0.07596716837595413,
+     "bound_from": "a move of his value"
+    },
+    "transit": {
+     "his": 0.9826054475633432,
+     "his_bar": 0.024300653183762778,
+     "truth": 1.0399981409634105,
+     "bound": 0.005499353872085999,
+     "bound_from": "an arm"
+    }
+   }
+  }
+ }
+}
