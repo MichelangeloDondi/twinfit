@@ -45,7 +45,7 @@ The power sweep is 25, 75, 125, 175 and 225 mW at 130 °C, the temperature sweep
 |program|what it counts, criteria of `thresholds.toml`|draws and sets|table, kept rows|cost|
 |---|---|---|---|---|
 |`pointing.py`|where the report points for each hidden term, and the false alarm of each right model: C1, C4, C5, C5c|100 draws on each hidden case at the size of the twin and at a half. Right 200 against the twin of the case, 50 against its own at 30 sets. Twin of a case 100 sets|`pointing.json`. `../runs/pointing_*`|504 waves, 99426.4 s in `pointing.json`|
-|`power.py`|12 of those cases, no right model of detail 5: how often the package says something is missing: C5b|hidden 30, right 50, cut window 30 (width read on the whole window and parts of it). 200 sets|`power.json`. no rows of power leave with this release, made at 0.1.0|35 waves, 13199.5 s in `power.json`|
+|`power.py`|12 of those cases, no right model of detail 5: how often the package says something is missing: C5b|hidden 30, right 50, cut window 30 (width read on the whole window and parts of it). 200 sets|`power.json`, its rows counted again at 0.1.1 and leaving with this release in `runs/`|35 waves, 13199.5 s in `power.json`|
 |`benchmark.py`|the package, the usual checks, the chi square and the package with them, on the draws of `power.py`, all but the package at a false alarm of 5 per cent: C10|those of `power.py`|`benchmark.json`|not recorded|
 |`scoreboard.py`|the blind report (no term named) on 36 questions in five groups (bench 8, held out 6, toy 13, field 8, waist 1): C2, C2b|5 draws a question in bench and toy, 20 in the rest. 100 sets|`scoreboard.json`. Readings not shipped|1602 units, not recorded|
 |`chosen.py`|the loop offered the toy's four terms in order, then a pedestal that the toy lacks and it should refuse: C6, C7|100 draws with the noise read from neighbouring samples, 100 with the toy's law, and 6 single runs on one draw and on the recorded traces. 30 sets|`chosen.json`. Units not shipped|203 waves, 206 units, 140237.2 s in `chosen.json`|
@@ -65,7 +65,7 @@ python toy/draws.py --check
 python docs/validation.py --check
 ```
 
-At this release `pointing`, `chosen`, `gallery_count`, `sign`, `convergence` print `from the files as they are`, `power`, `scoreboard` report their tables as made from other files, made at 0.1.0 and not counted again, that of `draws.py` says `every model passes`, the last names `docs/VALIDATION.md`. `convergence` prints it on the author's tree alone: its digest reads `toy/scale.py`, `toy/scale_asked.json` and `data/recorded/INDEX.json`, which do not leave with the public repository, where its check ends on the first file it does not find. Each of the five compares the digest of its code with that of its table and sums again the rows that the table holds, so a pass says that the table matches the code and reads nothing of `runs/`, whose kept rows `again.py` and `count.py` read.
+At this release `pointing`, `chosen`, `sign`, `convergence`, `power` and `scoreboard` print `from the files as they are`, the last two counted again at 0.1.1, `gallery_count` reports its table as made from other files at 0.1.2 until it is counted again at its stamp, since the program that writes the tutorials changed, that of `draws.py` says `every model passes`, the last names `docs/VALIDATION.md`. `convergence` prints it on the author's tree alone: its digest reads `toy/scale.py`, `toy/scale_asked.json` and `data/recorded/INDEX.json`, which do not leave with the public repository, where its check ends on the first file it does not find. Each of the five compares the digest of its code with that of its table and sums again the rows that the table holds, so a pass says that the table matches the code and reads nothing of `runs/`, whose kept rows `again.py` and `count.py` read.
 
 ```bash
 python tools/met.py M456,M505,M457,M458,M441,M444,M459 --counted
@@ -105,7 +105,7 @@ python toy/pointing.py table
 python toy/benchmark.py table .
 ```
 
-The first makes the draws of power that `../runs/` lacks, all of them at this release since its rows were made at 0.1.0 and do not ship, and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`, and the column `package` of each, which reads the version of the package at the remake and so differs from a table counted at an earlier version.
+The first makes the draws of power that `../runs/` lacks, none at this release, since its rows, counted again at 0.1.1, ship there, and writes `power.json`, which lacks the section `cut_window` if written before. Each table equals the committed one but for `queue` (`tools/autoqueue.py` stands in for the queue, which counted no waves), and the column `before` of `pointing.json`, and the column `package` of each, which reads the version of the package at the remake and so differs from a table counted at an earlier version.
 
 ## 7. Adding a sixth term
 

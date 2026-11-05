@@ -6,36 +6,36 @@ A count draws synthetic traces from the toy model of `toy/` with a known truth, 
 
 ## Not met at this release
 
-- C1, the place, collisions: 0.440 ± 0.050 of 100 draws, against at least 0.60
+- C1, the place, collisions: 0.470 ± 0.025 of 400 draws, against at least 0.60
+- C4, the setting, pooled over the terms that change along one: 0.583 ± 0.017 of 800 draws, against at least 0.60
 - C5c, a false alarm on a right model against its own twin at the default sets, pooled: 0.188 ± 0.025 of 250 draws, against at most 0.12
-- C7, one bar holds the truth, collisions, the toy's law of the noise: 0.820 ± 0.038 of 100 draws, against 0.56 to 0.81
 
 ## Every criterion
 
 | criterion | reading | share | draws | threshold | |
 |---|---|---|---|---|---|
-| C1 | the place, pooled over the hidden terms | 0.780 ± 0.021 | 400 | at least 0.60 | met |
-| C1 | the place, collisions | 0.440 ± 0.050 | 100 | at least 0.60 | **not met** |
-| C1 | the place, gas_width | 0.730 ± 0.044 | 100 | at least 0.60 | met |
-| C1 | the place, laser_noise | 0.9900 ± 0.0099 | 100 | at least 0.60 | met |
-| C1 | the place, transit | 0.960 ± 0.020 | 100 | at least 0.60 | met |
-| C4 | the setting, pooled over the terms that change along one | 0.600 ± 0.035 | 200 | at least 0.60 | met |
-| C5 | a false alarm on a right model, pooled | 0.0760 ± 0.0084 | 1000 | at most 0.12 | met |
+| C1 | the place, pooled over the hidden terms | 0.791 ± 0.010 | 1600 | at least 0.60 | met |
+| C1 | the place, collisions | 0.470 ± 0.025 | 400 | at least 0.60 | **not met** |
+| C1 | the place, gas_width | 0.740 ± 0.022 | 400 | at least 0.60 | met |
+| C1 | the place, laser_noise | 0.9950 ± 0.0035 | 400 | at least 0.60 | met |
+| C1 | the place, transit | 0.9600 ± 0.0098 | 400 | at least 0.60 | met |
+| C4 | the setting, pooled over the terms that change along one | 0.583 ± 0.017 | 800 | at least 0.60 | **not met** |
+| C5 | a false alarm on a right model, pooled | 0.0760 ± 0.0059 | 2000 | at most 0.12 | met |
 | C5c | a false alarm on a right model against its own twin at the default sets, pooled | 0.188 ± 0.025 | 250 | at most 0.12 | **not met** |
-| C2 | toy/scoreboard.json was made at 0.1.0, not at 0.1.1 | | | not read |
-| C2b | toy/scoreboard.json was made at 0.1.0, not at 0.1.1 | | | not read |
-| C5b | toy/power.json was made at 0.1.0, not at 0.1.1 | | | not read |
-| C6 | reached_the_fifth | 1.000 ± 0 | 100 | at least 0.80 | met |
-| C6 | refused_the_absent | 1.000 ± 0 | 100 | at least 0.85 | met |
-| C7 | one bar holds the truth, collisions, the noise from neighbouring samples | 0.790 ± 0.041 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, gas_width, the noise from neighbouring samples | 0.690 ± 0.046 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, laser_noise, the noise from neighbouring samples | 0.710 ± 0.045 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, transit, the noise from neighbouring samples | 0.720 ± 0.045 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, collisions, the toy's law of the noise | 0.820 ± 0.038 | 100 | 0.56 to 0.81 | **not met** |
-| C7 | one bar holds the truth, gas_width, the toy's law of the noise | 0.720 ± 0.045 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.690 ± 0.046 | 100 | 0.56 to 0.81 | met |
-| C7 | one bar holds the truth, transit, the toy's law of the noise | 0.720 ± 0.045 | 100 | 0.56 to 0.81 | met |
-| C10 | toy/benchmark.json was made at 0.1.0, not at 0.1.1 | | | not read |
+| C2 | the kind on the bench | 0.500 ± 0.079 | 40 | at least 0.50 | met |
+| C2b | the kind on the held-out questions | 0.736 ± 0.040 | 120 | at least 0.30 | met |
+| C5b | something missing on a right model, pooled | 0.040 ± 0.014 | 200 | at most 0.08 | met |
+| C6 | reached_the_fifth | 1.000 ± 0 | 400 | at least 0.80 | met |
+| C6 | refused_the_absent | 1.000 ± 0 | 400 | at least 0.85 | met |
+| C7 | one bar holds the truth, collisions, the noise from neighbouring samples | 0.720 ± 0.022 | 400 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, gas_width, the noise from neighbouring samples | 0.698 ± 0.023 | 400 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, laser_noise, the noise from neighbouring samples | 0.682 ± 0.023 | 400 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, transit, the noise from neighbouring samples | 0.703 ± 0.023 | 400 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, collisions, the toy's law of the noise | 0.744 ± 0.022 | 399 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, gas_width, the toy's law of the noise | 0.722 ± 0.022 | 399 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.712 ± 0.023 | 399 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, transit, the toy's law of the noise | 0.707 ± 0.023 | 399 | 0.62 to 0.75 | met |
+| C10 | the package, pooled | 0.917 ± 0.025 | 120 | at least 0.76 | met |
 | C11 | pooled | 0.761 ± 0.020 | 440 | at least 0.50 | met |
 
 ## What each criterion measures, and where it is counted
@@ -60,7 +60,7 @@ No criterion of `toy/thresholds.toml` reads these, so `tools/met.py` does not pr
 
 | reading | share | draws | source |
 |---|---|---|---|
-| the place of a hidden term at half the size of the twin, pooled over the four | 0.128 ± 0.017 | 400 | `toy/pointing.json` |
+| the place of a hidden term at half the size of the twin, pooled over the four | 0.1244 ± 0.0083 | 1600 | `toy/pointing.json` |
 | a false alarm on a right model against its own twin at 100 sets | not counted at this version | 0 | `runs/pointing_own100_*` |
 | the place on the gallery of eleven projects of other fields | 0.594 ± 0.039 | 160 | `toy/gallery.json` |
 

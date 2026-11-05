@@ -39,6 +39,7 @@ from toy import analysis, draws, fits, model, power  # noqa: E402
 
 DRAWS = 100          # 30 a hidden case and 60 a right model, the first stage of rows M474 and M481, 100 where a share lies within two standard errors of its threshold. Until then 100: 100 a hidden case and 200 a right model at 0.1.0rc6, sized by the precision of a share within about 0.10 in 95 cases of 100, as row M204 asks, where its count at 0.0.8 was stale against the package he will receive (the red team of his message 303, severe 1). 400 since the slap of 2026-10-17 14:09 until then
 SECOND, LINE = 100, 0.60          # the second stage of the rule above: a hidden case whose share of the place or of its setting lies within two standard errors of the line of C1 and C4 is counted to 100 draws. At 0.1.0rc22 the place of the collisions, 0.567 +- 0.090, and the setting of the collisions and of the transit, 0.667 +- 0.086 and 0.633 +- 0.088 (his message 402)
+THIRD = 400          # the third stage of every case, his message 502 on decision 27: the bars of the second stage's shares halved on a hidden case, by the root of two on a right model
 SETS = 100          # the synthetic sets of the twin of a case, read once
 OWN = 50          # 50 a right model, each draw read against its own twin at the loop's OWN_SETS sets, as a researcher reads one record (the red team of his message 308, severe 3): at 10 a rate of 5 to 14 in 100 held 0 or 1 hit. 10 at 0.1.0rc6 until then: a draw read against its own twin builds that twin, 5 to 17 minutes of a core a draw at 0.0.8, so 50 a right model was 28 hours of the 33 that the count would take, where the false alarms of the red team of message 303 come from the 200 draws of each right model against the twin of its case. 50 since his message 196 until then
 OWN_SETS = 30          # the sets of the twin of a draw read against its own fit: those of `twinfit.loop.run` and of the command line, so the false alarm counted is the one that a researcher meets (the red team of his message 308, severe 3)
@@ -228,7 +229,7 @@ def units(root: Path = ROOT) -> list:
         parts = [] if whole else [k for k in range(1, PARTS + 1) if not twin_path(root, c[0], k).exists()]
         out.append({"condition": "twin|" + c[0], "units": parts, "after": [], "kind": "twin"})
         kept_rows = power.read(kept(root, c[0]))
-        most = 2 * DRAWS if c[1] == c[2] else (SECOND if near(counted_cases.get(c[0])) else DRAWS)
+        most = THIRD          # the third stage, his message 502 on decision 27: every case, hidden or right, to THIRD draws
         out.append({"condition": c[0], "units": [k for k in range(1, most + 1) if k not in kept_rows], "after": ["twin|" + c[0]] if parts else [], "kind": "right" if c[5] is None else "hidden"})
         if c[5] is None:          # a right model: its draws read each against its own twin too
             own = power.read(own_kept(root, c[0]))

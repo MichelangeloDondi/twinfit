@@ -30,8 +30,8 @@ how. Have it red teamed first, step 7. Never add the flag of the dictionary, whi
 **G.** Stop by the rule below: the noise first, nothing beyond the twin, one answer just past its line,
 under 1.5 times the line and read on 100 sets, no answer worth a term, or the iterations told spent, five where no
 number was told, or the time told spent. Quote a value of `DIR/loop/best.md`, with the parts of its bar, only
-where that page says it may be quoted: the twin admits the model, the check of the noise holds, and the coverage
-and the bias are read. Where it says "not to be read", say why and quote nothing.
+where its report says "The twin admits the fit", the check of the noise holds, and `best.md` writes
+no "Not yet to be quoted" beside it. Where it says "not to be read", say why and quote nothing.
 
 **H.** Write each turn into `DIR/agent/iteration_K.md`, numbers, reasoning and decision, before the
 next run writes `DIR/loop/` again. At the end, the output section's list and `DIR/agent/report.md`.
@@ -60,7 +60,14 @@ anything is run. The physics is in the words and in the papers: the package read
 `DIR/agent/iteration_K.md`, K the number of the model that step 1 reads, `model_K.md`, so that the scientist and any
 later reader can follow it. Each model is a rung: model 0, the first, and one rung more for each term kept on it.
 Steps 8 to 10 of an iteration go in the same file as its steps 1 to 7, and the next file, `iteration_K.md` of the
-model that step 8 made, starts at step 1. Where one run keeps two term files, that is the last model that it made. Section 0 goes at the head of `DIR/agent/report.md`.
+model that step 8 made, starts at step 1. Where one run keeps two term files, that is the last model that it made. Points 1 and 2 of section 0 go at the head of `DIR/agent/report.md`, as its point 4 says.
+
+**Running the loop.** The tutorial runs it in the foreground, since its worked runs take seconds: a run of your own
+records runs in the background, as step C of the card. `loop` takes `--n N`, `--sets S`, `--max-seconds T`, `--workers W`
+and the flag of the dictionary, and `python -m twinfit` with no command prints what each does. A run that names no
+`--sets` reads 30 sets, so the run whose numbers you quote is the last, at the sets that you quote it at. `best.md`
+writes "Not yet to be quoted" beside a value that may not be, with the reason, and no line for one that may: the
+brief's "where best.md says that it may be quoted" means a value with no such mark.
 
 **Before the first iteration, write the first model where the description gives none.** The loop would start
    from the generic model of the package, one peak or dip of one width on its own height, place and baseline, and say so. Where the physics of the
@@ -72,7 +79,8 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
 **Before the first term, read the example whose first report leads as yours does.** `python -m twinfit guide examples`
    prints the gallery: projects of other fields, each with its truth, what its first report put first, what to do
    and what not to do there, and what the loop then gave beside the truth. It shows the outcome to aim at and the
-   moves that the loop refuses. Take from it the way of working and not a number: your records are not its records.
+   moves that the loop refuses. Take from it the way of working and not a number: your records are not its records. Where your project is itself one
+   of the gallery, as in a test of this protocol, read no page of that example: its truth is there.
 
 1. **Read the structure of the residuals.** `python -m twinfit loop DIR` fits the first model and then each term file
    of `DIR/terms/` in order, keeps or refuses each, makes the twin of each model, and writes the report of each kept
@@ -86,10 +94,14 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
    It names no term: the term of physical origin that fills an answer is yours to find, in the physics, the literature
    and the description. Only answers beyond the twin are evidence. Even on a right model some answer stands beyond the
    twin on more draws than the 5 in 100 that its line is drawn at: read the size of an excess, and one answer just past
-   the line is weak evidence. A setting that the records hold at one value cannot be read.
+   the line is weak evidence. A gain in chi square ranks the directions and is no forecast of what a term brings: a
+   proposal that stands within the twin is no evidence, whatever its gain. A setting that the records hold at one value cannot be read.
 
    Read too the parameters of each curve in `DIR/loop/best.md` down each column, beside the settings: an own value that
-   moves with a setting is a term that no question of the report asks.
+   moves with a setting is a term that no question of the report asks. Read it first as what a missing shared term
+   leaves: where the place of a line moves and the model holds one place, the heights and the baselines can move with
+   it. Write first the shared term that the report asks for, and an own value that still moves after it is a term of
+   its own.
 
    Each run writes `DIR/loop/` again, so copy into `iteration_K.md` every number that you quote, before the next run, and
    make the run that you quote the last one, at the number of sets that you quote it at. Ask the order in which the
@@ -157,9 +169,8 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
 
    The bands of the rule of the twin are those stated from 475 sets on, and wider under that, so a coverage two of its
    standard deviations from 0.95 can pass on 100 sets: the run whose numbers are quoted at the end is made on 500 sets
-   where the time allows. The times are 1.5 to 4 minutes for five records of a few hundred samples and one model, 11
-   minutes for five of 1201 samples, three models and three levers, and for five of 1001 samples, four models and seven
-   levers, 12 minutes at 30 sets, 13 at 50 and more than 18 at 100.
+   where the time allows. The tutorial for people says at its head how long its whole check took on the machine that
+   wrote it, and a run grows with the samples of the records, its models, its levers and its sets.
 
    The cost is not in proportion to the sets: time the run on 30 and on 100 sets before one on 500, and give it
    `--max-seconds`. A run reads back from `loop.reuse/` what a run before it computed from the same files, so a run
@@ -176,7 +187,9 @@ model that step 8 made, starts at step 1. Where one run keeps two term files, th
     Write each as a lever of the description, `[addenda.lever.NAME]` with its kind, its factor or its new values and its
     words, so that the next run of the loop measures it on the twin. The package measures four levers by default, a
     quieter setup, more samples, more repeats and a wider span, and a lever that you name takes the place of the default
-    of its kind: name that one too where you want both compared.
+    of its kind: name that one too where you want both compared. It adds levers of three more kinds that it draws from the description,
+    as section 8 of `TUTORIAL.md` says: each setting past its range, each item of the setup assumed or not recorded, and each value
+    of an ansatz measured with half its bar.
 
     A lever of kind characterization narrows a value that an ansatz holds: where none is held, put the number into the
     dictionary `HELD` of `model.py`, read it there or in the term file, and give it an ansatz, as section 9 of the
@@ -217,7 +230,9 @@ the twin, and `best.md` marks such a term if it is kept.
 
 **What you give back.** `DIR/loop/best.md`, the output of the package: the best model, its terms, and five parts of
 the uncertainty of each parameter, the bar of the fit, its coverage and its bias on the twin, the bar of each held value
-of theory, and the spread over the models that the records cannot tell apart.
+of theory, and the spread over the models that the records cannot tell apart. The bar of the fit, the bar of theory and the
+spread over the models are the uncertainty, quoted side by side and added in squares where one number is asked, and the
+coverage and the bias are checks of the bar of the fit, printed beside it.
 
 The coverage and the bias are those of a twin drawn at the noise that the description states: where the check of the
 noise against the height of the line fails, they are not to be quoted. The bar of theory comes from each value held in
@@ -235,18 +250,21 @@ the records, what the description says of them, or the files of the package, in 
 Where the report leads with glitches or a change of the noise, the noise of the samples is changed in a copy of the
 folder, never in it, with why in `iteration_K.md`: a column of the noise that gives the samples that the page names a
 larger noise, or those samples left out. A change of `model.py`, as an own value written as shared parameters that read
-a setting, is made in a copy too, whose `iteration_0.md` names the folder and the iteration that it continues. The
+a setting, is made in a copy too, whose first `iteration_K.md`, by the rule of step 6, names the folder and the iteration that it continues. The copy
+is made without the runs, `rsync -a --exclude loop --exclude loop.before --exclude loop.reuse --exclude loop.costs.tsv
+--exclude agent --exclude .twinfit.lock --exclude .twinfit.command DIR/ COPY/`, and where it leaves a term file out, those after it are numbered again so
+that the numbers run on, since the loop stops at the first number that is missing. The
 addenda of the description are yours to add to: a lever of step 10, or an ansatz, goes there, and `iteration_K.md`
 keeps the lines that you added.
 
-**The tools of an iteration.** `python -m twinfit terms` lists the terms that a term file can name, each with the one
-parameter that it adds, and the form of a term file: `term`, a `twinfit.mechanisms.Mechanism`, and `why`, a sentence of
+**The tools of an iteration.** `python -m twinfit terms` lists the terms that a term file can name, each but `exponential_width()`
+with the one parameter that it adds, and the form of a term file: `term`, a `twinfit.mechanisms.Mechanism`, and `why`, a sentence of
 six words or more. `python -m twinfit scan DIR TERM X...` fits a term whose distance, stretch or period is chosen, as
 "second(x)", at each value beside the model of the term files, with the fall of the Bayesian criterion and the size of
 each: it says where to look, and the loop decides.
 
 A term that the package lacks is written as a `Mechanism` of your own, as section 11 of the tutorial shows. `init` makes
-`DIR/agent/` for your record. K in `iteration_K.md` is the number of the model that step 1 reads, so an iteration that
+`DIR/agent/` for your record, and `example` does not: make it with `mkdir -p DIR/agent`. K in `iteration_K.md` is the number of the model that step 1 reads, so an iteration that
 starts from `model_0.md` is `iteration_0.md`, and step 9 reports the model that it made.
 
 ## 0. Briefing of the researcher before the first run

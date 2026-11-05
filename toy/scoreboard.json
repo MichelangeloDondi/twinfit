@@ -1,6 +1,6 @@
 {
- "digest": "37af250f6755b744cd391ca3994a0514af5266f265b912a7eca9c111953d7c91",
- "package": "0.1.0",
+ "digest": "f78c70011dc0d36b2347734e9f94a975a01e3313ebe0aac285a60120cd26bba5",
+ "package": "0.1.1",
  "weights": {
   "law": 1.0,
   "clean": 0.001
@@ -116869,7 +116869,7 @@
    "every sample: the fit": 1
   }
  },
- "draw_digest": "45a38d7c71eb3d95f02e3e835503c7750a42f3a0c405a13e2eb8434c59adfbb5",
+ "draw_digest": "8318dabc87e9a02ecae310ae99f14e9716b8f7764bdc927615bd37d77e63fbaf",
  "counted_draws": {
   "law": {
    "bench": {

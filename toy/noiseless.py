@@ -244,7 +244,7 @@ def truth(const: dict, config: dict) -> dict:
 
 
 HIDDEN = ("RUBIDIUM.md", "CONTINUING.md", "rubidium", "dictionary.py", "walkthrough.py", "survey.py", "two_scales.py", "against_the_twin.png", "turn_by_turn.png", "rubidium_twin")          # the page of his line in the package, and its figures, which name the five terms of the toy, the package's own list of terms with the two examples that read it (the review of candidate 95, moderate 2), and the two figures of the README, of a blind run on the line of the toy (lesson 35): left out of the folder of an agent
-UNSAID = ((r"(?s)\s*With --dictionary,.*?(?:never in a blind run|nobody suspects)", ""), (r" \[--dictionary\]", ""), (r"(?m)^.*python -m twinfit walk .*\n", ""), (r"(?m)^.*examples/walkthrough\.py.*\n", ""),
+UNSAID = ((r"(?s)\s*With --dictionary,.*?(?:never in a blind run|nobody suspects)", ""), (r" \[--dictionary\]", ""), (r", `--workers W` and `--dictionary`\.", " and `--workers W`."), (r"(?m)^.*python -m twinfit walk .*\n", ""), (r"(?m)^.*examples/walkthrough\.py.*\n", ""),
           (r'dictionary = "--dictionary" in argv\[2:\][^\n]*', "dictionary = False"), (r'(?m)^[ ]*argv = argv\[:2\] \+ \[a for a in argv\[2:\] if a != "--dictionary"\]\n', ""),
           (r" And the package's own list, `twinfit/dictionary\.py`, read only on `--dictionary`, never in a blind run \(337 to 343\)\.", ""), (r"(?m)^ *dictionary\.py .*\n", ""),
           (r"(?m)^!\[[^\]]*\]\([^)]*(?:against_the_twin|turn_by_turn)\.png\)\n\n\*[^\n]*\n\n?", ""), (r"(?m)^.*python -m twinfit guide rubidium.*\n", ""), (r"(?s)## Continuing this work\n\n.*?\n\n", ""),

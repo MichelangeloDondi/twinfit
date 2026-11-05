@@ -20,6 +20,7 @@ authors = [{name = "Michelangelo Dondi"}]
 # voigt_profile scipy 1.4. Each floor is what a clean leg pins and runs: Python 3.12 with numpy 2.5.0 and scipy 1.16.0,
 # beside Python 3.14 with numpy 2.5.2 and scipy 1.18.0, each running the five minutes of the README and the gallery.
 dependencies = ["numpy>=2.5", "scipy>=1.16"]
+keywords = ["curve fitting", "joint fit", "residual analysis", "model misspecification", "specification test", "parametric bootstrap"]          # the names under which the literature of statistics files the method, his message 506
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
@@ -34,6 +35,7 @@ classifiers = [
 [project.urls]
 Source = "https://github.com/MichelangeloDondi/twinfit"
 Documentation = "https://github.com/MichelangeloDondi/twinfit/blob/main/twinfit/CONTINUING.md"
+Tutorial = "https://github.com/MichelangeloDondi/twinfit/blob/main/twinfit/TUTORIAL.md"
 Changelog = "https://github.com/MichelangeloDondi/twinfit/blob/main/twinfit/version.py"
 
 [project.optional-dependencies]

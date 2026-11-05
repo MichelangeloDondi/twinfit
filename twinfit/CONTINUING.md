@@ -18,7 +18,7 @@ The repository, https://github.com/MichelangeloDondi/twinfit, carries the rest.
 |---|---|---|
 | `twinfit/` | the package | use and change |
 | `toy/` | the model of five terms, the programs of the counts, their tables, the thresholds of the criteria, `again.py` and `count.py` | checks, one draw made again, counts made again |
-| `runs/` | the kept row of each draw of the counts of pointing and the gallery, and the twin of each of their cases (power's rows, made at 0.1.0, do not leave with this release) | reading, recount of a table |
+| `runs/` | the kept row of each draw of the counts of pointing, the gallery and power, and the twin of each of their cases, power's counted again at 0.1.1 | reading, recount of a table |
 | `tools/met.py` | the reader of every criterion of `toy/thresholds.toml` on the tables | reading of the criteria |
 | `docs/` | `VALIDATION.md`, `ROADMAP.md`, `DECISIONS.md` | reading before any change |
 | `data/noise/` | the law of the noise of each recorded curve, one for each peak and condition: the variance of a sample, a² + b h + c h² + d s², in the height h of the curve at that point and its slope s. No sample of any curve | the source of the noise of the model's draws |
@@ -31,11 +31,11 @@ The recorded curves and the author's notes are not public. Comments in the code 
 
 | criterion | share | threshold |
 |---|---|---|
-| C1, the place of a width that grows steeply along a setting, put first or tied for first where the width is hidden at the size of the model | 0.440 ± 0.050 of 100 draws | at least 0.60 |
+| C1, the place of a width that grows steeply along a setting, put first or tied for first where the width is hidden at the size of the model | 0.470 ± 0.025 of 400 draws | at least 0.60 |
+| C4, the setting along which the hidden term changes, named first, pooled over the terms that change along one | 0.583 ± 0.017 of 800 draws | at least 0.60 |
 | C5c, a false alarm on a right model at the default of 30 sets | 0.188 ± 0.025 of 250 draws | at most 0.12 |
-| C7, one bar holds the truth for the width that grows steeply along a setting under the toy's law of the noise | 0.820 ± 0.038 of 100 draws | 0.56 to 0.81 |
 
-The others that are read are met, and C10, C2, C2b, C5b are not read at this release, their tables made at 0.1.0: among those met, the place of a hidden term pooled over four terms, 0.780 ± 0.021 of 400 draws, and the eleven projects of other fields, 0.761 ± 0.020 of 440 draws. Not validated yet: the agentic version, use by anyone but the author, and terms beyond the fifth of the model.
+The others are met, among them the place of a hidden term pooled over four terms, 0.791 ± 0.010 of 1600 draws, and one bar of the width that grows steeply along a setting holding its truth under the noise law read from the author's recorded traces, 0.744 ± 0.022 of 399 draws, and the eleven projects of other fields, 0.761 ± 0.020 of 440 draws. Not validated yet: the agentic version, use by anyone but the author, and terms beyond the fifth of the model.
 
 ## The first hour
 
@@ -43,7 +43,7 @@ The package runs on Python 3.12 or later. The bench needs Python 3.14: the diges
 
 1. Install the package with matplotlib, which the tutorial and the figures need: `pip install "twinfit[log]"`.
 2. Run the five minutes of the README, the clock at five probe powers.
-3. Run every command of the tutorial again, on a quiet machine, since a loaded one can make the check refuse. It takes one to five minutes:
+3. Run every command of the tutorial again, on a quiet machine, since a loaded one can make the check refuse, and run it twice on a machine where matplotlib has not yet built its font cache, since its first import prints a line that the page does not hold. It takes one to five minutes:
 
 ```bash
 python -m twinfit.tutorial --check
@@ -64,7 +64,7 @@ python tools/met.py M456,M505,M457,M458,M441,M444,M459 --counted
 python toy/again.py "2 hidden under 1" 7
 ```
 
-The first three commands compare the digest of their code with that of their table and sum the table's rows again: `pointing` and `gallery_count` report their tables as counted "from the files as they are", a pass meaning the table matches the code, and `power` reports its table as made from other files, made at 0.1.0 and not counted again at this release. The fourth counts the kept fits of each model on its 100 draws, makes three again, and ends with "every model passes, and three fits of each were made again". `tools/met.py` prints the readings of `docs/VALIDATION.md`, each label naming the criteria whose `row` field in `toy/thresholds.toml` holds it. `toy/again.py` makes draw 7 of that case again from its seed, in seconds on the author's machine and in a few minutes on a slower one (the eighth bus test measured 167 and 280 seconds for two draws on four cloud cores), and ends with "the kept row, field for field".
+The first three commands compare the digest of their code with that of their table and sum the table's rows again: `pointing` reports its table as counted "from the files as they are", a pass meaning the table matches the code, and `power` compares the same way, its table counted again at 0.1.1 from these files. `gallery_count` reports its table as made from other files wherever a program of the package changed since its count, as the tutorial's program at 0.1.2, until it is counted again on the same seeds at the stamp, as rule 1 below says, and "made from the files as they are" once it is. Its digest reads neither the pages nor `version.py`. The fourth counts the kept fits of each model on its 100 draws, makes three again, and ends with "every model passes, and three fits of each were made again". `tools/met.py` prints the readings of `docs/VALIDATION.md`, each label naming the criteria whose `row` field in `toy/thresholds.toml` holds it. At 0.1.2 its last row reads C11 as "not read", `toy/gallery.json` being made at another number than 0.1.1, and its last line "some criterion not read at the release": the thresholds are those of 0.1.1, whose code 0.1.2 keeps but for the help of `matrix` and the program that writes the tutorials, and the gallery's table carries the number at which it was counted. `docs/VALIDATION.md` reads C11 from that table. `toy/again.py` makes draw 7 of that case again from its seed, in seconds on the author's machine and in a few minutes on a slower one, and ends with "the kept row, field for field".
 
 ## Three lines of work
 
@@ -74,6 +74,6 @@ The first three commands compare the digest of their code with that of their tab
 
 ## Three rules of the work
 
-1. A change of a file of `twinfit/` is a new version. `twinfit.version.check()` raises until `version.py` holds the new number, its digest and what it changed. A post release, as 0.1.0.post2 was, changes pages and one sentence of the tutorial's program, and keeps the tables of its release, the gallery's counted again on the same seeds for its digest. 0.1.1 changes code, so the tables that its criteria read are counted again, `toy/pointing.json`, `toy/chosen.json` and `toy/gallery.json`, and with them the bench's own three, `toy/matrix.json`, `toy/convergence.json` and `toy/broad.json`, which no criterion reads, while `toy/scoreboard.json`, `toy/power.json` and `toy/benchmark.json` stand at 0.1.0 and their criteria are not read, as the section on what was measured says.
+1. A change of a file of `twinfit/` is a new version. `twinfit.version.check()` raises until `version.py` holds the new number, its digest and what it changed. A post release changes pages and keeps the tables of its release. Two of them have a digest that hashes the package with its pages or its tutorial's program: the gallery's, counted again on the same seeds for its digest, and the matrix's, kept with the digest of its release, as the end of this rule says: 0.1.0.post2 changed one sentence of the tutorial's program. 0.1.2 changes that program and the help of `matrix`, a docstring, which the digests of the other counts do not read, so only the gallery's table is counted again. 0.1.1 changes code, so the tables that its criteria read are counted again: `toy/pointing.json`, `toy/chosen.json` and `toy/gallery.json`, and `toy/scoreboard.json`, `toy/power.json` and `toy/benchmark.json`, which C2, C2b, C5b and C10 read. The bench's own `toy/convergence.json` and `toy/broad.json`, which no criterion reads, are counted again with them, while `toy/matrix.json`, which no criterion reads either, holds a digest that is not that of 0.1.1's tree, and its check refuses at every post release, since its digest hashes the package's pages too.
 2. A count is made again after a change of the code that it runs. Its `--check` says when.
 3. A criterion is read with `tools/met.py`, against thresholds that the author drafted before the counts. The header of `toy/thresholds.toml` and `docs/DECISIONS.md` say which were set again after tables were read.

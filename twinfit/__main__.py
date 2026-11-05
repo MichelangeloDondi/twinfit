@@ -28,9 +28,8 @@
     python -m twinfit scan DIR TERM X...    fits TERM, a term with x in the place of its distance, stretch or period, as
                                             "second(x)", at each value X beside the model that the term files of DIR give
     python -m twinfit matrix DIR            prints what every family of statistics reads on the model that the term files of
-                                            DIR give, the candidates that those readings point to, the kernel of a missing
-                                            width, the shape of the noise, and which family sees which systematic of
-                                            a line planted at five deviations of the fit, and which law of the noise
+                                            DIR give, the shape of the noise, and which statistic sees which law of the
+                                            noise
     python -m twinfit counts DIR [--floor F] writes a copy of DIR beside it whose curves carry the noise of a counter from
                                             the fitted values of the best model of the last run, the column sd
     python -m twinfit thin DIR N            writes up to three copies of DIR beside it, each keeping one sample in every N

@@ -36,7 +36,7 @@ sys.path.insert(0, str(ROOT))
 from toy import fits, model, real  # noqa: E402
 
 TRUTH = 5          # the detail whose synthetic traces the twin draws: every term that the toy holds
-DRAWS = 200        # the sets of the twin at each turn in each arm, as the check of each model on its own traces counts them: 5 seconds a set
+DRAWS = 400        # the third stage, his message 502 on decision 27, 200 at the second: the sets of the twin at each turn in each arm, as the check of each model on its own traces counts them: 5 seconds a set
 FITS = ("main", "freed")
 ARMS = ("plain", "width", "stretch")          # the twin as it is, and planted with each trace's own laser noise or the stretch of its scan
 BOUND = "the largest of the three arms' biases, of the moves of his value to each later turn, and of its move between theory held and theory freed at the same turn. It covers the two structures planted, each trace's own laser noise and stretch, and no other"

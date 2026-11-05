@@ -38,7 +38,7 @@ DETAIL = 5
 KINDS = {"Gaussian": ("laser_noise", "gas_width"), "Lorentzian": ("gas_width", "laser_noise")}          # the kernel planted: the parameter of the toy that carries it, and the width of the other kind that the fit frees
 SIZES = (0.05, 0.1, 0.2, 0.4)          # the planted parameter, in MHz: the toy's laser noise is 0.369 and its permeated gas 0.037
 NOISES = (0.1, 0.3, 1.0, 3.0)          # the noise, over the toy's law
-DRAWS = 200          # the second stage of row M529, his message 468
+DRAWS = 400          # the third stage, his message 502 on decision 27. 200 at the second stage of row M529, his message 468
 RUNGS = (0.03, 0.1, 0.3)          # the widths beside the line that the toy's bench reads, in widths of the curve: the package holds no list of terms (the owner's message 340), and this study of named widths keeps its own
 
 
