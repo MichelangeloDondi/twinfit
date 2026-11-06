@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use twinfit, please cite it as below."
+type: software
+title: "twinfit"
+abstract: "Where a model lacks a term: the structure of the residuals of a fit, read against its twin"
+authors:
+  - family-names: "Dondi"
+    given-names: "Michelangelo"
+version: "0.1.2"
+license: MIT
+repository-code: "https://github.com/MichelangeloDondi/twinfit"
+url: "https://pypi.org/project/twinfit/"
+keywords:
+  - "curve fitting"
+  - "joint fit"
+  - "residual analysis"
+  - "model misspecification"
+  - "specification test"
+  - "parametric bootstrap"
