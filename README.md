@@ -10,7 +10,7 @@ pip install twinfit
 
 The page of the package, with a first run of five minutes, is [`twinfit/README.md`](twinfit/README.md). It is also the page of the package on PyPI.
 
-The same five minutes run in a browser with nothing to install: the notebook [`notebooks/five_minutes.ipynb`](notebooks/five_minutes.ipynb), which Colab opens at https://colab.research.google.com/github/MichelangeloDondi/twinfit/blob/main/notebooks/five_minutes.ipynb. To cite the package, [`CITATION.cff`](CITATION.cff), which GitHub shows as "Cite this repository".
+The same five minutes as a notebook, [`notebooks/five_minutes.ipynb`](notebooks/five_minutes.ipynb), whose first cell installs the package with pip and whose commands run through the shell, checked on Python 3.12 and 3.14 and not yet in a hosted notebook such as Colab, which opens it at https://colab.research.google.com/github/MichelangeloDondi/twinfit/blob/main/notebooks/five_minutes.ipynb. To cite the package, [`CITATION.cff`](CITATION.cff), which GitHub shows as "Cite this repository".
 
 ## Contents of this repository
 
