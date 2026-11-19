@@ -30,6 +30,9 @@
     python -m twinfit matrix DIR            prints what every family of statistics reads on the model that the term files of
                                             DIR give, the shape of the noise, and which statistic sees which law of the
                                             noise
+    python -m twinfit traces DIR NAME=BAR... prints how many times each record of DIR is to be taken for the shared
+                                            parameter NAME of the model that its term files give to reach the bar BAR,
+                                            by the law of independent records and on the twin of that design
     python -m twinfit counts DIR [--floor F] writes a copy of DIR beside it whose curves carry the noise of a counter from
                                             the fitted values of the best model of the last run, the column sd
     python -m twinfit thin DIR N            writes up to three copies of DIR beside it, each keeping one sample in every N
@@ -259,7 +262,8 @@ file that is kept may be written again later: the loop fits every file again at 
 model with the term and keeps it when three things hold: its fit ends inside its bounds, its Bayesian criterion falls
 by more than {TIED}, and the twin admits the larger model. The Bayesian criterion is the chi square plus the number of
 fitted parameters times the logarithm of the number of samples, so a fall of more than {TIED} is a gain that one more
-parameter does not buy alone. Otherwise it refuses the term, with the reason.
+parameter does not buy alone. Otherwise it refuses the term, with the reason, but where the file says `keep = True`,
+for a term of solid physical ground, which it keeps whatever the criterion.
 
 A term that the physics asks for and the records cannot show is held at its value of theory and not fitted: give the
 term its theory, as mechanisms.pedestal(4.0, theory=(0.05, 0.01)), its size and the bar of that size, and write a line
@@ -299,8 +303,15 @@ A term that the physics asks and the records cannot show, held at its theory and
     hold = True
     why = "the theory of the probe gives a pedestal of known size"
 
+A term of solid physical ground, fitted and kept whatever the criterion says:
+
+    term = mechanisms.pedestal(4.0)
+    keep = True
+    why = "the probe's own spectrum gives a pedestal under every line"
+
 The loop keeps a fitted term when its fit ends inside its bounds, the Bayesian criterion falls by more than 2, and the
-twin admits the larger model.'''
+twin admits the larger model. With keep = True the criterion is not asked: a term of solid physical ground is better
+added whatever any information criterion says.'''
 
 
 NAMED = (("widened(0.5)", (lambda design: 0.5,)), ("displaced(0.5)", (lambda design: 0.5,)), ("pedestal(8)", (8,)), ("bent()", ()), ("second(1.5)", (1.5,)),
@@ -497,8 +508,8 @@ def visual_log(folder: Path, quiet: bool = False) -> str:
     except ValueError as why:
         return f"REFUSED: {why}"
     turns = len({p.name[:2] for p in made if p.name[:2].isdigit() and p.name[:2] != "99"})
-    return (f"The visual log: {folder / 'loop' / 'log.pdf'}, {len(made)} slides, one for each phase of each of {turns} turn{'s' * (turns != 1)} with the equation of "
-            f"each model and what each term does, the pictures in {folder / 'loop' / 'log'} and their list in {folder / 'loop' / 'log.md'}.")
+    return (f"The visual log: {folder / 'loop' / 'log.pdf'}, {len(made)} slides, each phase of each of {turns} turn{'s' * (turns != 1)} first as one plot, then the "
+            f"equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in {folder / 'loop' / 'log'}.")          # row M600, under the 250 characters that the agents' tutorial carries of a command's line
 
 
 def main(argv: list) -> int:
@@ -554,6 +565,24 @@ def main(argv: list) -> int:
             print(f"REFUSED: {why}")
             return 1
         print(matrix_page(out), end="")
+        return 0
+    if argv[:1] == ["traces"]:          # the number of traces for a target bar, row M585 (the owner's message 5)
+        targets = dict(a.split("=", 1) for a in argv[2:] if "=" in a)
+        if len(argv) < 3 or len(targets) != len(argv[2:]) or argv[1].startswith("--"):
+            print("REFUSED: traces takes the folder and a target bar for each shared parameter, as `python -m twinfit traces DIR width=0.002`")
+            return 1
+        import warnings
+        from .loop import model_of
+        from .traces import page, traces_for
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", RuntimeWarning)
+                problem, result, _, used, _, _ = model_of(Path(argv[1]))
+                out = traces_for(problem, result, {k: float(v) for k, v in targets.items()})
+        except ValueError as why:          # a parameter that the model has not, a bar that is no number, a folder that is no project
+            print(f"REFUSED: {why}")
+            return 1
+        print(page(out, len(problem.records), used), end="")
         return 0
     if argv[:1] == ["scan"] and len(argv) in (2, 3):          # a scan with no values printed the whole usage (round 12 of the cold tests)
         print("REFUSED: scan takes the folder, the term with x in the place of the number scanned, and the values of x, as `python -m twinfit scan DIR \"second(x)\" 1 1.5 2`")

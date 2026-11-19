@@ -27,13 +27,13 @@ The recorded curves and the author's notes are not public. Comments in the code 
 
 ## What was measured
 
-`docs/VALIDATION.md`, written from the tables by `docs/validation.py`, lists every criterion. Three are not met at this release.
+`docs/VALIDATION.md`, written from the tables by `docs/validation.py`, lists every criterion. Three were not met at 0.1.2. 0.1.3 draws its twin from the records, and on the same draws read with a seed for each draw C5c is met, its count at 0.1.3 to come.
 
 | criterion | share | threshold |
 |---|---|---|
 | C1, the place of a width that grows steeply along a setting, put first or tied for first where the width is hidden at the size of the model | 0.470 ± 0.025 of 400 draws | at least 0.60 |
 | C4, the setting along which the hidden term changes, named first, pooled over the terms that change along one | 0.583 ± 0.017 of 800 draws | at least 0.60 |
-| C5c, a false alarm on a right model at the default of 30 sets | 0.188 ± 0.025 of 250 draws | at most 0.12 |
+| C5c, a false alarm on a right model at the default of 30 sets | 0.188 ± 0.025 of 250 draws with the seed 23 of 0.1.2, 0.068 ± 0.016 with a seed for each draw | at most 0.12 |
 
 The others are met, among them the place of a hidden term pooled over four terms, 0.791 ± 0.010 of 1600 draws, and one bar of the width that grows steeply along a setting holding its truth under the noise law read from the author's recorded traces, 0.744 ± 0.022 of 399 draws, and the eleven projects of other fields, 0.761 ± 0.020 of 440 draws. Not validated yet: the agentic version, use by anyone but the author, and terms beyond the fifth of the model.
 

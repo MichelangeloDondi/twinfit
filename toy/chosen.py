@@ -185,10 +185,19 @@ def read(out: dict, config: dict) -> dict:
         parameters[name] = {"value": cell["value"], "bar": bar, "bar_of_theory": theory, "of_the_twin": of,
                             "from_the_twin_in_bars": None if not bar or of is None else (cell["value"] - of) / bar,
                             "from_the_twin_in_whole_bars": None if not whole or of is None else (cell["value"] - of) / whole}
-    return {"kept": [k["file"] for k in out["kept"]], "refused": {r["file"]: r["why"] for r in out["refused"]}, "best": out["best"], "parameters": parameters}
+    combined = {}          # row M580, his message 579: the combined estimate of the families that best.json holds, against the twin's value in its own standard deviation
+    for name, cell in out["output"]["parameters"].items():
+        c, of = cell.get("combined_estimate"), twin.get(name)
+        combined[name] = None if not c else {"value": c["value"], "standard_deviation": c["standard_deviation"], "over_the_fit": c["over_the_fit"], "holds_the_truth_on_the_twin": c["holds_the_truth"],
+                                             "from_the_fit_in_its_scatters": c["differs_from_the_fit_in_its_scatters"],
+                                             "from_the_twin_in_its_deviations": None if of is None or not c["standard_deviation"] else (c["value"] - of) / c["standard_deviation"]}
+    groups = (out["output"].get("apart") or {}).get("groups") or []          # row M587: what the records tell apart, each group with its combinations
+    apart = [{"parameters": g["parameters"], "told_apart": g["told_apart"], "largest_correlation": g["largest_correlation"],
+              "combinations": [{"holds_the_truth": c.get("holds_the_truth"), "bias_over_its_scatter": c.get("bias_over_its_scatter")} for c in g.get("combinations") or []]} for g in groups]
+    return {"kept": [k["file"] for k in out["kept"]], "refused": {r["file"]: r["why"] for r in out["refused"]}, "best": out["best"], "parameters": parameters, "combined": combined, "apart": apart}
 
 
-def freed(home: Path, config: dict, fit_of=None) -> dict:
+def freed(home: Path, config: dict, fit_of=None, apart_of=None) -> dict:
     """The terms that the loop holds at theory, freed as a test once it has ended, his message 340 and row M480: the model
     that the folder's term files give, `loop.model_of`, fitted again in a copy with each held term free, and each freed
     value against the value of the twin in its own bar. None for a held term that the criterion leaves out of the model."""
@@ -196,6 +205,8 @@ def freed(home: Path, config: dict, fit_of=None) -> dict:
     import tempfile
     twin = model.truth(config)
     fit_of = fit_of or loop.model_of
+    if apart_of is None:
+        from twinfit.apart import held_apart as apart_of
     with tempfile.TemporaryDirectory() as tmp:
         copy = Path(tmp) / "freed"
         shutil.copytree(home, copy, ignore=shutil.ignore_patterns("loop", "*.pdf", "*.png"))
@@ -207,6 +218,12 @@ def freed(home: Path, config: dict, fit_of=None) -> dict:
         k = names.index(name) if name in names else None
         bar = float(result.sd[k]) if k is not None and result.sd is not None else None
         out[name] = None if not bar else {"value": float(result.shared[k]), "bar": bar, "of_the_twin": twin[name], "from_the_twin_in_bars": (float(result.shared[k]) - twin[name]) / bar}
+    try:          # row M587, his message 579: what the records tell apart once the terms held at theory are free, where the toy's draws hold their pairs, each combination read on the twin
+        groups = apart_of(problem, result).get("groups") or []
+        out["apart"] = [{"parameters": g["parameters"], "told_apart": g["told_apart"], "largest_correlation": g["largest_correlation"],
+                         "combinations": [{"holds_the_truth": c.get("holds_the_truth"), "bias_over_its_scatter": c.get("bias_over_its_scatter")} for c in g.get("combinations") or []]} for g in groups]
+    except (ValueError, np.linalg.LinAlgError) as e:          # a freed fit that the twin does not admit gives no groups, and says why
+        out["apart"] = {"refused": str(e)[:200]}
     return out
 
 
@@ -357,6 +374,26 @@ def summary(draws_of: dict) -> dict:
         whole = [v["parameters"][name].get("from_the_twin_in_whole_bars") for v in ran.values() if name in v["parameters"]]
         whole = [o for o in whole if o is not None]
         out["within_one_whole_bar"][name] = None if not whole else {"share": sum(abs(o) < 1.0 for o in whole) / len(whole), "of": len(whole)}
+    out["combined"], out["apart"] = {}, None          # rows M580 and M587, his message 579: a unit kept before them holds neither, and is counted in neither
+    joined = [v for v in ran.values() if "combined" in v]
+    for name in ORDER:
+        cells = [v["combined"].get(name) for v in joined if name in v["combined"]]
+        given = [c for c in cells if c]
+        off = [c["from_the_twin_in_its_deviations"] for c in given if c["from_the_twin_in_its_deviations"] is not None]
+        gaps = [c["from_the_fit_in_its_scatters"] for c in given if c["from_the_fit_in_its_scatters"] is not None and np.isfinite(c["from_the_fit_in_its_scatters"])]
+        out["combined"][name] = None if not cells else {"of": len(cells), "given": len(given) / len(cells), "within_1.96_deviations": None if not off else sum(abs(o) <= 1.96 for o in off) / len(off),
+                                                         "beyond_3_scatters_from_the_fit": None if not gaps else sum(abs(g) > 3.0 for g in gaps) / len(gaps),
+                                                         "over_the_fit": None if not given else float(np.median([c["over_the_fit"] for c in given]))}
+    told = [v for v in ran.values() if "apart" in v]
+    if told:          # under the best model, whose terms the toy holds at theory: a group there is a false alarm
+        combos = [c["holds_the_truth"] for v in told for g in v["apart"] for c in g["combinations"] if c["holds_the_truth"] is not None]
+        out["apart"] = {"of": len(told), "a_group": sum(bool(v["apart"]) for v in told) / len(told), "combinations": len(combos),
+                        "combinations_holding_the_truth": None if not combos else sum(bool(c) for c in combos) / len(combos)}
+    loose = [v["freed"]["apart"] for v in ran.values() if isinstance((v.get("freed") or {}).get("apart"), list)]
+    out["apart_freed"] = None if not loose else {          # with the held terms free, where the records hold pairs: the power of what the records tell apart
+        "of": len(loose), "a_group": sum(bool(a) for a in loose) / len(loose),
+        "groups": {", ".join(sorted(g["parameters"])): sum(any(sorted(h["parameters"]) == sorted(g["parameters"]) for h in a) for a in loose) / len(loose) for a in loose for g in a},
+        "combinations_holding_the_truth": (lambda cs: None if not cs else sum(bool(c) for c in cs) / len(cs))([c["holds_the_truth"] for a in loose for g in a for c in g["combinations"] if c["holds_the_truth"] is not None])}
     return out
 
 

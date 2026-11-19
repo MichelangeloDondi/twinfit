@@ -208,3 +208,82 @@ def chi_fit(problem, base: Fit | None = None, cost="huber", passes: int = 30, to
     factor = s * float(np.sqrt(np.mean(psi ** 2)) / np.mean(dpsi))
     ended = bool(last and (moved < tol or cost == "square"))
     return ChiFit(res, factor, moved, float(s), done, ended, factor * base.sd if ended else np.full(base.sd.shape, np.nan), nu if cost == "student" else None)
+
+
+def cost_parts(cost, u: np.ndarray) -> tuple:
+    """The cost of a residual u in scales, its score and the derivative of its score, for every chi function that
+    `where.chi_fits` reads: the square, Huber's, the logarithm of one plus the square, a power p of 1.5 or more, and the
+    exponentials of plus or minus half the residual, each written as 4 (exp(u/2) - 1 - u/2) so that its minimum stays at
+    nought and the level of a curve does not move by it alone (the owner's messages 4 and 25: "chi^4, o exp(chi)").
+    The score and its derivative are those of `_score` where that gives them, so that the reweighted fit and this one
+    read one cost."""
+    u = np.asarray(u, dtype=float)
+    if cost in ("exponential up", "exponential down"):
+        sign = 1.0 if cost == "exponential up" else -1.0
+        e = np.exp(np.clip(sign * u / 2.0, -50.0, 50.0))
+        return 4.0 * (e - 1.0 - sign * u / 2.0), sign * 2.0 * (e - 1.0), e
+    if isinstance(cost, (int, float)) and not isinstance(cost, bool) and float(cost) > 3.0:
+        p = float(cost)
+        a = np.abs(u)
+        return a ** p / p, np.sign(u) * a ** (p - 1.0), (p - 1.0) * a ** (p - 2.0)
+    _, psi, dpsi = _score(cost, u, 5.0)
+    if cost == "square":
+        rho = u * u / 2.0
+    elif cost == "huber":
+        a = np.abs(u)
+        rho = np.where(a <= HUBER, u * u / 2.0, HUBER * a - HUBER * HUBER / 2.0)
+    elif cost == "logarithm":
+        rho = np.log1p(u * u) / 2.0
+    else:
+        p = float(cost)
+        rho = np.abs(u) ** p / p
+    return rho, psi, dpsi
+
+
+def direct_fit(problem, base: Fit, cost, scale: float | None = None, passes: int = 200, tol: float = 1e-6) -> dict:
+    """The fit of the problem under any cost of `cost_parts`, by Newton steps on every parameter, shared and own, from the
+    fit by the square `base`: at each pass the residuals' Jacobian by central differences, the step that the cost's score
+    and its derivative give, and halvings of it until the sum of the costs falls. The residuals are read in the robust
+    scale of the fit by the square, or in `scale`. The full fit that `where.chi_fits` makes in the place of a first order
+    for the costs whose reweighted search `chi_fit` cannot make: the fourth power, whose search does
+    not end on heavy tails, and the exponentials, which are not symmetric. A minimiser of scipy with a gradient by
+    differences stopped at its first step on these sums. Returns the shared parameters, whether the steps
+    ended under `tol` of each parameter's bar, and the scale."""
+    n_rec, n_sh = len(problem.records), len(problem.shared)
+    if scale is None:
+        pooled = np.concatenate([problem.whitened(k, base.shared, base.own[k]) for k in range(n_rec)])
+        scale = _scale(pooled)
+
+    def residuals(theta):
+        sh, own = theta[:n_sh], theta[n_sh:].reshape(n_rec, -1)
+        return np.concatenate([problem.whitened(k, sh, own[k]) for k in range(n_rec)]) / scale
+
+    def total(theta):
+        return float(np.sum(cost_parts(cost, residuals(theta))[0]))
+    theta = np.concatenate([np.asarray(base.shared, dtype=float), np.asarray(base.own, dtype=float).ravel()])
+    size = np.maximum(np.abs(theta), 1e-3) * 1e-6
+    bar = np.concatenate([np.asarray(base.sd, dtype=float), np.full(theta.size - n_sh, np.inf)])
+    ended, now = False, total(theta)
+    for _ in range(passes):
+        u = residuals(theta)
+        J = np.empty((u.size, theta.size))
+        for j in range(theta.size):
+            e = np.zeros(theta.size)
+            e[j] = size[j]
+            J[:, j] = (residuals(theta + e) - residuals(theta - e)) / (2.0 * size[j])
+        _, psi, dpsi = cost_parts(cost, u)
+        try:
+            step = -np.linalg.solve(J.T @ (np.maximum(dpsi, 0.0)[:, None] * J) + 1e-12 * np.eye(theta.size), J.T @ psi)
+        except np.linalg.LinAlgError:
+            break
+        for _ in range(40):
+            if total(theta + step) <= now:
+                break
+            step = step / 2.0
+        else:
+            break
+        theta, now = theta + step, total(theta + step)
+        if np.all(np.abs(step[:n_sh]) < tol * np.where(np.isfinite(bar[:n_sh]), bar[:n_sh], 1.0)):
+            ended = True
+            break
+    return {"shared": np.asarray(theta[:n_sh]), "converged": ended, "scale": float(scale)}

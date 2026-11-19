@@ -175,7 +175,7 @@ class Description:
 KEYS = {"": {"problem", "covariates", "trace", "noise", "addenda", "setup", "output", "literature"}, "setup.*": {"words", "value", "uncertainty", "unit", "known"},
         "output": {"for"}, "literature": {"search", "folder", "model", "effort", "words"},
         "problem": {"name", "what", "abscissa", "abscissa_unit", "value", "value_unit", "abscissa_offset", "order"},
-        "covariates.*": {"unit"}, "noise": {"from", "value", "column"},
+        "covariates.*": {"unit"}, "noise": {"from", "value", "column", "correlated"},
         "addenda": {"model", "ansatz", "lever", "papers", "manuals", "notes", "list_of_terms"},
         "addenda.ansatz.*": {"value", "uncertainty"}, "addenda.lever.*": {"kind", "factor", "words", "covariate", "values", "of", "at"}}          # what a description may hold: a lever under [addenda.lvr] was dropped in silence (round 10 of the cold tests)
 
@@ -224,13 +224,16 @@ def read(path) -> Description:
         lacking = [name for name in covariates if name not in trace]
         if lacking:
             raise ValueError(f"trace {k + 1}, {trace['file']}: no value of {', '.join(lacking)}. Every trace gives every covariate")
-    noise = data.get("noise") or {"from": "neighbours"}
+    noise = dict(data.get("noise") or {})
+    noise.setdefault("from", "neighbours")          # the default law where the table gives no other, as `correlated = true` alone (the second reading of 0.1.3rc2)
     if noise.get("from") not in NOISE:
         raise ValueError(f"the noise is given from {noise.get('from')!r}: it is one of {', '.join(NOISE)}")
     if noise["from"] == "column" and not noise.get("column"):
         raise ValueError("the noise is given from a column, and no column is named: write column = \"...\"")
     if noise["from"] == "value" and not float(noise.get("value", 0.0)) > 0.0:
         raise ValueError("the noise is given as one value, and none above zero is written: write value = ...")
+    if not isinstance(noise.get("correlated", False), bool):          # row M592
+        raise ValueError(f"[noise] correlated = {noise.get('correlated')!r}: write correlated = true for a noise that joins neighbouring samples, which the twin then draws, or leave it out")
     output = (data.get("output") or {}).get("for", list(OUTPUT))
     if isinstance(output, str):
         output = [output]

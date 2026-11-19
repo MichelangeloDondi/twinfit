@@ -32,25 +32,33 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 PAGE = HERE / "TUTORIAL.md"
 
-CAPTIONS = {          # what the reader takes from each slide of the visual log, in italics under it, the style of the public repository of the analysis (his message 432). No number: a slide drawn again leaves its caption true
-    "00_1_records.png": "The four spectra of the project, one for each temperature, as its description reads them.",
-    "00_2a_model.png": "The equation of the first model, one Lorentzian line of one width for all four spectra.",
-    "00_2b_model.png": "What each term of the first model does to the curves.",
-    "00_3_twin.png": "On synthetic sets drawn from its fit, the first model returns what drew them: the twin admits it.",
-    "00_4_fit.png": "The joint fit of the four spectra by the first model.",
-    "00_5_residuals.png": "What the first model leaves exceeds the noise at the top of the lines.",
-    "00_6_where.png": "The answers beyond the twin, the core and the flanks changing along the temperature first.",
-    "00_7_next_term.png": "The width along the temperature, planted on the twin and found again: its fall of chi square on the records lies within the twin's.",
-    "00_8_decision.png": "The width along the temperature lowers the criterion and is kept.",
+CAPTIONS = {          # what the reader takes from each slide of the visual log, in italics under it, the style of the public repository of the analysis (his message 432). No number: a slide drawn again leaves its caption true. Each phase first as one plot, row M600, his messages 586 to 588
+    "00_1_records.png": "The four spectra of the project as recorded, one plot along the temperature.",
+    "00_2a_model.png": "The first model and the bar of each of its parameters, in per cent of its value.",
+    "00_2b_model.png": "The equation of the first model, one Lorentzian line of one width for all four spectra.",
+    "00_2c_model.png": "What each term of the first model does to the curves.",
+    "00_3_twin.png": "On synthetic sets drawn from its fit, the first model returns what drew them: each parameter stands inside the white bands.",
+    "00_4a_fit.png": "The joint fit of the first model through the four spectra, and above them what it leaves, in noises.",
+    "00_4b_fit.png": "The four spectra in a row, in the order of their sweep, each over its height with what the first model leaves under it.",
+    "00_5_residuals.png": "What the first model leaves on each spectrum, its mean square over the noise, along the temperature.",
+    "00_6a_where.png": "Where the residuals of the first model leave the twin's band, shaded on them.",
+    "00_6b_where.png": "The answers of the first report beyond the twin, ordered by their excess, and the six proposals.",
+    "00_7_next_term.png": "The width along the temperature, planted on the twin and found again: its gain on the records beside the twin's.",
+    "00_8a_decision.png": "What the width along the temperature changes: what the fit leaves before it in grey, after it in colour.",
+    "00_8b_decision.png": "The width along the temperature lowers the criterion and is kept.",
     "01_1_records.png": "The same four spectra, read by model 1.",
-    "01_2a_model.png": "The equation of model 1, the width of the first model times one plus a times z.",
-    "01_2b_model.png": "What the new term does: the curves wider on the hot records and narrower on the cold ones.",
+    "01_2a_model.png": "Model 1 and the bar of each of its parameters.",
+    "01_2b_model.png": "The equation of model 1, the width of the first model times one plus a times z.",
+    "01_2c_model.png": "What the new term does: the curves wider on the hot records and narrower on the cold ones.",
     "01_3_twin.png": "The twin admits model 1, as a term is kept only where it does.",
-    "01_4_fit.png": "The joint fit of the four spectra by model 1.",
-    "01_5_residuals.png": "What model 1 leaves, against the noise.",
-    "01_6_where.png": "No answer stands beyond the twin after model 1, so no term is asked.",
+    "01_4a_fit.png": "The joint fit of model 1, and what it leaves above it.",
+    "01_4b_fit.png": "The four spectra in a row under model 1, each with what it leaves under it.",
+    "01_5_residuals.png": "What model 1 leaves on each spectrum, along the temperature.",
+    "01_6a_where.png": "After model 1 no place of the residuals stands beyond the twin.",
+    "01_6b_where.png": "No answer stands beyond the twin after model 1, so no term is asked.",
     "01_7_next_term.png": "No term is tried after model 1, and the loop ends.",
-    "01_8_decision.png": "Model 1 holds the lowest criterion of the run.",
+    "01_8a_decision.png": "No model is made after model 1.",
+    "01_8b_decision.png": "Model 1 holds the lowest criterion of the run.",
     "99_best.png": "The best model, model 1, each value with its bar of the fit and its bias on the twin.",
 }
 
@@ -130,6 +138,8 @@ def build(folder: Path, figures: Path | None = None) -> str:
 
 This tutorial takes you from nothing to the best model of a set of curves, with the uncertainty of each of its parameters and six proposals, three for the model and three for the experiment. It runs on two worked projects that the package writes, one of nuclear magnetic resonance and one of chromatography, so nothing of yours is needed to follow it. Their curves were drawn from a known truth, so you can see whether the package finds it.
 
+If you already fit your curves with a model that you trust for a precision measurement, section 9 runs the package on your own curves and your own `model.py`: the report reads that model against its twin and says where its residuals hold a structure that the twin does not, its region, kind and setting, how far each shared parameter moves under other chi functions, and which parameters the curves cannot tell apart, the checks that its chi square does not make. The worked projects below teach the words and the reports first.
+
 It builds on the five minutes of the README and sets out the whole path of the package, its words, its reports and its choices. Not covered here: the protocol of an agent, which `agent/AGENT.md` gives, and the projects of other fields, which `EXAMPLES.md` gives.
 
 > Section 1 below says what the package is for and defines its words: in a first list the words that the first run needs, then the others in a glossary, and a table sets those that the literature of statistics names otherwise beside their names there.
@@ -158,7 +168,7 @@ Every command in a block of its own below, but the installation of section 2, wa
 
 You give it curves recorded across a design, such as spectra at several temperatures, and the model that should describe them. It fits the model to every curve at once. It reads the structure of what the fit leaves, the residuals, with families of statistics: generalized moments of the residuals and of their transformations, and windows along the abscissa and along the value. It reads how that structure changes from one setting of the design to the next.
 
-It sets every reading against a twin: synthetic curves drawn from the fitted model with the noise of the records, fitted and read the same way. The twin draws the noise of each sample from a normal law of the deviation that the description gives it, apart from the others. Where a counter gives few counts, its noise is skewed, and the twin does not hold that.
+It sets every reading against a twin: synthetic curves drawn from the fitted model with the noise of the records, fitted and read the same way. The twin draws the noise of each sample from a normal law of the deviation that the description gives it, apart from the others, unless the description writes `correlated = true` under `[noise]`. Where a counter gives few counts, its noise is skewed, and the twin does not hold that.
 
 The loop, `python -m twinfit loop`, does all of it on a folder. It fits the first model, reads it against its twin and writes a report of where to search. Then it fits each term that you write in turn, keeps or refuses it, and writes the best model with the uncertainty of each parameter. Where the records stand beyond the twin, the model lacks something, and the report says where in the curves, of which kind, and along which setting. You write a term in answer. The package fits it, keeps or refuses it, and says what it does to the other parameters.
 
@@ -170,7 +180,7 @@ The words that the first run needs, the others of sections 4 to 11 in the glossa
 - **A setting** is a quantity under which a curve was taken and that the description gives for it, as the temperature of the sample. The package calls a setting that changes from curve to curve a covariate. The settings of one curve, by name, are its `design`, the dictionary that the model receives.
 - **A bar** is the standard deviation of a parameter that a fit gives from the curvature of its chi square. **First order** is the model taken as straight in its parameters about the fit, so that bar is a first order bar.
 - **A shared parameter** is one value for every curve, as a width. **An own parameter** is one value for each curve, as its height. The value of an own parameter in one curve is an own value, and the pages say an own value moves where it changes from curve to curve beyond its bars. The analysis is after the shared parameters, and the reports call them the known parameters: known in the sense that the model names them, and not that their values are known.
-- **The excess** of an answer is its statistic on the records less the median of the same statistic on the synthetic sets, over the span from that median to their 95th percentile. An answer is beyond the twin where its excess passes a line, the largest excess that the synthetic sets of a right model reach on 95 of 100 of them. Each report prints its line, read on the twin of its model. The line is itself read on the synthetic sets of the run: measured on {alarm_n} draws of models that lack nothing, a run at the default of 30 sets read some answer past it on {alarm_rate} ± {alarm_err} of them, as `README.md` of the package measures it, where the line is set for 0.05 by its construction. So one answer just past its line is weak evidence.
+- **The excess** of an answer is its statistic on the records less the median of the same statistic on the synthetic sets, over the span from that median to their 95th percentile. An answer is beyond the twin where its excess passes a line, the largest excess that the synthetic sets of a right model reach on 95 of 100 of them. Each report prints its line, read on the twin of its model. The line is itself read on the synthetic sets of the run: measured at 0.1.2 on {alarm_n} draws of models that lack nothing, before the chi functions were read, a run at the default of 30 sets with a seed for each draw, as 0.1.3 draws one from the records, read some answer past it on {alarm_rate} ± {alarm_err} of them, as `README.md` of the package says, the count of 0.1.3 to come, where the line is set for 0.05 by its construction. So one answer just past its line is weak evidence.
 - **The Bayesian criterion** of a model is its chi square plus the number of its fitted parameters times the logarithm of the number of samples. A model with one term more is kept when its fit ends inside its bounds, its criterion falls by more than {TIED:g}, and its twin admits it, as section 7 says.
 
 The glossary, the other words of the package, to look up when you meet them:
@@ -190,7 +200,11 @@ The glossary, the other words of the package, to look up when you meet them:
 - **A profile** of a number that is chosen and not fitted, as the distance of a second component, is the best criterion at each value of it: the values within 1 of the best run from about one standard deviation below it to one above, where the records fix it well. `python -m twinfit scan` prints it as a table of the criterion at each value, section 10.
 - **A Mechanism** is a term written in Python, section 11. **A rung** is one model of the loop: model 0, the first, and one rung more for each term kept on it.
 - **Glitches** are a few samples far from the curve in one record. **A noise correlated from sample to sample** is a noise that moves neighboring samples together. The report names both among the kinds of a misfit, and no term of the curve fills them: they are read in the noise.
-- **A chi function** is the cost that a fit gives each residual over its noise: its square in a plain fit, another function of it in a fit that weighs large residuals less. Where the residuals are those of the noise, the two fits agree on average, and the fit of the square scatters least.
+- **A chi function** is the cost given to each residual over its noise: its square in a plain fit, another function of it in a fit that weighs large residuals less, or more. Where the residuals are those of the noise, the fits agree on average, and the fit of the square scatters least. The report averages eight chi functions over the residuals of the fit and maps each so that, for residuals near the normal law, each grows about as their square or slower, each a statistic read against the twin.
+- **The shapes of the residuals** that the report reads are a slow trend over the span of each curve, a periodic structure about each centre, one fixed to the abscissa and in phase from curve to curve, one on one side of the curves, a part in quadrature with the line, the Hilbert transform of the fitted curve, and a structure in one place and at one scale, a cosine and a sine of one cycle under a Gaussian. Each is scored on what the fit cannot absorb and set against the twin, and a proposal of the model is measured with the one that leads.
+- **Each curve predicted by the fit of the others** is the rise of each curve's chi square when the shared parameters are fitted without it, at first order, summed over the curves: a term that changes from curve to curve is read there, and one that every curve holds alike is not.
+- **The chi functions in windows** are the square, or the count in bands of the value, beside each chi function and four more, the powers 0.5 and 6 and the redescending costs of Tukey and of Welsch, thirteen costs, summed under a smooth window of position, about the centres or fixed to the abscissa, against the cost's mean over all the residuals, or over the residuals of one band of their value against what a normal law gives in their robust scale: a cost gathered in one place, or a law of the noise wrong in one band of its values, stands out, which a sum over every residual spreads thin. Each family is one answer, its largest over every window, read against the twin's largest.
+- **A correlated twin**, `correlated = true` under `[noise]`, draws each curve's noise correlated from sample to sample, with the coefficient that the differences of its residuals give. A ripple of a few samples reads as such a correlation, so seek one first.
 - **A budget** is the seconds of the clock that `--max-seconds` gives a run of the loop: a run past it stops at the end of the step in course, and the next run goes on where it stopped.
 
 The words of this page beside their names in the literature of statistics, for a reader who knows those:
@@ -210,13 +224,50 @@ The words of this page beside their names in the literature of statistics, for a
 | an ansatz, its bar of theory | a parameter held at a value from outside the records, and its uncertainty carried as a systematic one, by the move of each value across that uncertainty |
 | a chi function | the loss function of an M estimator (Huber 1964) |
 | glitches, a noise correlated from sample to sample | outliers, a serially correlated noise |
+| the shapes of the residuals: a periodic structure about each centre, fixed to the abscissa or on one side | the periodogram of the residuals by least squares on cosines and sines (Lomb 1976, Scargle 1982), in the frame of each curve, in the frame of the abscissa and on half of each curve |
+| a part in quadrature with the line | the Hilbert transform of the fitted curve, the imaginary part of its analytic signal (Bracewell 2000) |
+| a structure in one place and at one scale | the continuous wavelet transform of the residuals, with a wavelet of the kind of Morlet's (Torrence and Compo 1998) |
+| each curve predicted by the fit of the others | the leave one out cross validation of the joint fit, read at first order (Stone 1974) |
+| the chi functions in windows of position, of the value | a scan statistic over windows of position (Kulldorff 1997), and a test of the law of the noise by bands of its values, as the chi square test of fit (Pearson 1900), each calibrated by the parametric bootstrap |
+| a correlated twin | a parametric bootstrap with a first order autoregressive noise, its coefficient read on the differences of the residuals |
 | a rung | one model of a nested sequence, each term reducing to the model before it at a size of zero: a term that replaces the line, as the tail of section 11, is not nested |
 | the rule of the twin | bands of acceptance for the bootstrap coverage and bias of each parameter |
 | a chance | a p value read by Monte Carlo simulation |
 | the five parts of the uncertainty | the standard error, its two bootstrap checks, a systematic by displacement and a systematic of the choice of model |
 | the report as a whole | a test of the specification by weighted moments of the residuals, of the family of the conditional moment tests (Bierens 1990), calibrated by the parametric bootstrap |
 
-Bierens, H. J. (1990), A consistent conditional moment test of functional form, Econometrica 58, 1443. Efron, B. and Tibshirani, R. J. (1993), An Introduction to the Bootstrap, Chapman and Hall. Huber, P. J. (1964), Robust estimation of a location parameter, Annals of Mathematical Statistics 35, 73. Kass, R. E. and Raftery, A. E. (1995), Bayes factors, Journal of the American Statistical Association 90, 773. Schwarz, G. (1978), Estimating the dimension of a model, Annals of Statistics 6, 461. Westfall, P. H. and Young, S. S. (1993), Resampling Based Multiple Testing, Wiley. Wilks, S. S. (1938), The large sample distribution of the likelihood ratio for testing composite hypotheses, Annals of Mathematical Statistics 9, 60.""")
+Bierens, H. J. (1990), A consistent conditional moment test of functional form, Econometrica 58, 1443. Bracewell, R. N. (2000), The Fourier Transform and Its Applications, third edition, McGraw-Hill. Efron, B. and Tibshirani, R. J. (1993), An Introduction to the Bootstrap, Chapman and Hall. Huber, P. J. (1964), Robust estimation of a location parameter, Annals of Mathematical Statistics 35, 73. Kass, R. E. and Raftery, A. E. (1995), Bayes factors, Journal of the American Statistical Association 90, 773. Kulldorff, M. (1997), A spatial scan statistic, Communications in Statistics: Theory and Methods 26, 1481. Lomb, N. R. (1976), Least-squares frequency analysis of unequally spaced data, Astrophysics and Space Science 39, 447. Pearson, K. (1900), On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling, Philosophical Magazine 50, 157. Scargle, J. D. (1982), Studies in astronomical time series analysis. II. Statistical aspects of spectral analysis of unevenly spaced data, Astrophysical Journal 263, 835. Schwarz, G. (1978), Estimating the dimension of a model, Annals of Statistics 6, 461. Stone, M. (1974), Cross-validatory choice and assessment of statistical predictions, Journal of the Royal Statistical Society B 36, 111. Torrence, C. and Compo, G. P. (1998), A practical guide to wavelet analysis, Bulletin of the American Meteorological Society 79, 61. Westfall, P. H. and Young, S. S. (1993), Resampling Based Multiple Testing, Wiley. Wilks, S. S. (1938), The large sample distribution of the likelihood ratio for testing composite hypotheses, Annals of Mathematical Statistics 9, 60.""")
+    say("""Every statistical tool of the package, what it reads and where its answer stands:
+
+| the tool | what it reads | where it stands |
+|---|---|---|
+| the twin | synthetic curves drawn from the fitted model with the noise law of the records, fitted and read as the records are | beside every answer of the report and every bar of `best.md` |
+| every sample | the chi square of the fit, the misfit as a whole | the answer "seen by" |
+| the generalized moments, of the curve, of its derivative and of its running integral, and their ratios | the residuals under powers, fractional powers, inverse and logarithmic kernels, cosines and sines and Hermite functions | the answer "seen by" |
+| the windows along the abscissa and along the value, the two sides added and subtracted, the crossings | the residuals in pairs of intervals about the centre, and in bands of the fitted value | the answers "where" and "seen by" |
+| the transformations of the value | the same families on the logarithm and other transformations of the value | the answer "seen by" |
+| the records together | every record added in bins of the abscissa | the answer "seen by" |
+| the chi functions over all the residuals, and the plane of position and residual value | the cost of each residual under eight laws, and the table of position against value | the answer "seen by" |
+| the chi functions in windows of position and in bands of the value | thirteen costs, the square or the count beside the twelve of the chi functions in windows, under smooth windows about each centre or fixed to the abscissa, and in bands of the residual's value | the answer "seen by" |
+| the chi functions in cells of position and of the level or of the value | every cost of the residual in each cell of a smooth window of position times a window of the curve's level or of the residual's value, on a ladder of scales | the answer "seen by" |
+| the fit under every chi function | the model fitted again under seven costs, and each shared parameter's move from the fit by the square in the spread that a right model gives it | the answer "seen by" |
+| the running sum | the largest excursion of each curve's running sum of its residuals | the answer "seen by" |
+| the Fourier transform and the differences of the residuals | every cost of the residuals' Fourier coefficients in windows of frequency, and of their steps from sample to sample, `where.fourier_chi` and `where.difference_chi`, beside the report | a researcher's call |
+| each curve predicted by the fit of the others | the rise of each curve's chi square when the shared parameters are fitted without it | the answer "seen by" |
+| the shapes of the residuals | a slow trend, periodic structures in two frames and on each side, a part in quadrature with the line and a wavelet | the answer "shape" and the proposals |
+| the shape of the noise | skewness, heavy tails, glitches, a noise that grows with the signal and a noise correlated from sample to sample | the answers "what" and "noise" |
+| what changes along a setting | each place of the residuals read against each setting of the design | the answer "changes along" |
+| the noise matrix | the chance that each statistic reports each of five laws of the noise on your records | `python -m twinfit matrix DIR` |
+| the proposals | three directions for the model, each with its gain in chi square and its cost on the twin, and three for the experiment | the report of each model |
+| the known parameters before the term is named | the estimates of each shared parameter that a term of the class that leads does not spoil | the report of each model |
+| the Bayesian criterion and the profile | whether a term is kept, and a number that is chosen and not fitted | `best.md`, the brief of each model and the log, and the profile by `python -m twinfit scan DIR FILE VALUES` |
+| the five parts of the uncertainty | the bar of the fit, its coverage and its bias on the twin, the bar of theory and the spread over the models | `best.md` |
+| the combined estimate | each shared parameter estimated by every family that gives one, beside the fit, a check of the model | `best.md` |
+| what the records tell apart | the combinations of parameters correlated beyond 0.9 that the records hold, each with the bar to quote | `best.md` |
+| the values in windows | each value read in windows about the centre and off the peak | `best.md` |
+| the own values along a setting | an own parameter that moves from curve to curve along a setting of the design | `best.md` |
+| a correlated twin | the twin drawing each curve's noise with the correlation that its residuals give | `correlated = true` under `[noise]` |
+| the traces for a target bar | how many times each record is taken so that a parameter's bar reaches a target, checked on the twin | `python -m twinfit traces DIR name=bar` |""")          # every statistical tool of the package in one table, the owner's message 541
     say("""## 2. Requirements and installation
 
 Python 3.12 or later, with numpy 2.5 or later and scipy 1.16 or later, and matplotlib for the visual log of a run. numpy 2.5 convolves 12.5 times faster than numpy 1.26 on a Mac with an arm64 processor, 0.80 ms against 10.0 ms, and 1.2 times slower on Linux with an x86_64 processor, 2.11 ms against 1.74 ms, the times that the comment of `pyproject.toml` holds. The oldest versions that the package has run on are Python 3.12, numpy 2.5.0 and scipy 1.16.0. Those floors are set by the speed of numpy on the Mac: the package itself starts on Python 3.11 with numpy and scipy, and refuses an older Python.
@@ -244,14 +295,17 @@ A key that the package does not read is refused, so that a misspelled one is not
 `model`, `SHARED`, `OWN` and `start_own` are required, with a start of the shared parameters, `START_SHARED` or a function `start_shared(records)` in its place, `CENTRE` and `centre` come together or not at all, and the rest is optional. `NAME` says the model in a few words, as the reports name it, and `HELD` holds the values that it reads and does not fit, section 9. `record` holds a curve, `record.x` its abscissa and `record.y` its values, and `design` its settings by name, as the description gives them:""")
     show("my_nmr/model.py", kind="python")
     say("## 4. The first run")
-    say("The loop runs here in the foreground, since each run of this section takes seconds to a minute. A run of your own records may take an hour. Start it in the background with `nohup`, `nohup python -m twinfit loop DIR > DIR/run.log 2>&1 &`, and read its end with `python -m twinfit wait DIR`. Then a closed window or the limit of a tool does not stop it, and the card of the guide for agents runs it in the background too, with its log in `DIR/agent/run.log`.")          # the card ran it in the background and the tutorial in the foreground, and neither said why (the fresh red team of 0.1.0rc19, mislead 4)
+    say("The loop runs here in the foreground, since each run of this section takes about a minute. A run of your own records may take an hour. Start it in the background with `nohup`, `nohup python -m twinfit loop DIR > DIR/run.log 2>&1 &`, and read its end with `python -m twinfit wait DIR`. Then a closed window or the limit of a tool does not stop it, and the card of the guide for agents runs it in the background too, with its log in `DIR/agent/run.log`.")          # the card ran it in the background and the tutorial in the foreground, and neither said why (the fresh red team of 0.1.0rc19, mislead 4)
     first_run = run("python -m twinfit loop my_nmr")
     _claim("log.pdf" in first_run, "the first run names its visual log")
     say("Its last lines name the folder of the reports and the visual log, `my_nmr/loop/log.pdf`, a slide for each phase of each model, which section 6 shows.")          # announced at the first run and shown four hundred lines later (the test of his message 499, slow 4)
     m0 = _json(folder, "my_nmr/loop/model_0.json")
     first = m0["where"]["first_of_each_question"]
-    _claim(first["changes along"] == "the core along temperature" and first["where"] == "the core" and m0["where"]["where_read_along"] == "the core along temperature" and first["what"] is None and first["shape"] is None,
-           "the report puts the misfit in the core changing along the temperature, names the core as its place, read along that setting, and has no answer of shape or of the noise beyond the twin")
+    place = first["where"]          # the core or the flanks, as the twin drawn from the records falls (0.1.3rc1)
+    other = "the flanks" if place == "the core" else "the core"
+    _claim(place in ("the core", "the flanks") and first["changes along"] == f"{place} along temperature" and m0["where"]["where_read_along"] == f"{place} along temperature" and first["what"] is None and first["shape"] is None
+           and any(a["question"] == "changes along" and a["answer"] == f"{other} along temperature" and a["beyond_the_twin"] for a in m0["where"]["answers"]),
+           "the report puts the misfit in the core or the flanks changing along the temperature, names that place, read along that setting, has the other place changing along it beyond the twin too, and has no answer of shape or of the noise beyond the twin")
     p0 = m0["proposals"]["for_the_model"][0]
     _claim(p0["stands_for"].endswith("change along temperature") and p0.get("as_a_term_file") is None, "the first proposal for the model is a direction along the temperature, and names no term")
     w = p0["known_parameters"]["width"]
@@ -269,11 +323,11 @@ A key that the package does not read is refused, so that a misspelled one is not
     say("""The twin admits the fit: it gives back the width that made it. But the check of the noise fails in its highest band, where the line is tallest. That check cannot tell a noise stated wrong from a model that misses. While the report finds an answer beyond the twin, as here, read it as the model that misses, and read the check again once the term is in, as section 6 does. Until then `best.md` marks the coverage and the bias on the twin as not to be read.""")
     say("""Then the first answer of each question. An answer stands beyond the twin past a line. An excess of 1 is the 95th percentile of one answer on the synthetic sets. The report reads many answers at once, so its line is higher: the largest excess of all the answers together that a set of a right model reaches on 95 of 100 sets. Some answer then passes the line on 5 of 100 sets of a right model, and not each answer on 5 of 100:""")
     show("my_nmr/loop/model_0.md", _part(page0, "## Where to search", "Every answer"), "markdown")
-    say("""Read it row by row. No place stands beyond the twin on its own, no shape and no law of the noise. But what the fit leaves changes along the temperature, in the core of the lines and in their flanks, so the row of where names the core, read along that setting. The package says no more than that: it names no term. The term is yours, from the physics of the curves.
+    say(f"""Read it row by row. No place stands beyond the twin on its own, no shape and no law of the noise. But what the fit leaves changes along the temperature, in the core of the lines and in their flanks, so the row of where names {place}, the first of the two, read along that setting. The package says no more than that: it names no term. The term is yours, from the physics of the curves.
 
 Where two places stand beyond the twin and the records scatter their excesses alike, the row names both, tied. The report reads the scatter of each excess on sets drawn from the fit plus what the fit leaves, and the records do not tell which of the two leads.
 
-In a resonance, what changes the core and the flanks of a line together with the temperature of the sample is its width, which the motion of the molecules sets. The proposals for the model are the directions of the report, each measured with the shape that the residuals hold there, fitted beside the model. On their twin that shape tells what a term of that place and that setting would cost the width if it were real:""")
+In a resonance, what changes the core and the flanks of a line together with the temperature of the sample is its width, which the motion of the molecules sets. The proposals for the model are the directions of the report, each measured with the shape that the residuals hold there, fitted beside the model. On their twin, the shape that the residuals hold in a place, freed of the fit's own directions, costs the width nothing at first order, since the residuals hold none of what the fit took into its own parameters, while a slow trend or a periodic structure, not freed, reads a cost: what a term of that place and that setting would cost lies in that part, which only a term fitted beside the model shows.""")
     show("my_nmr/loop/model_0.md", _part(page0, "## Three proposals for the model", "## Three proposals for the experiment"), "markdown")
     say("""A width in the page of the proposals is a unit of their own: the full width of the fitted curves at half their height above their median value, as the page says above its list. It is not the parameter `width` of `model.py`, which here is a full width too, and in section 10 a standard deviation.
 
@@ -288,7 +342,7 @@ The gain of a proposal ranks the directions and is no forecast of the fall that 
     top = max(readings, key=lambda n: readings[n]["chi_square"] - readings[n]["degrees_of_freedom"])
     every = mx["readings"]["every sample: the fit"]
     _claim(readings[top]["chi_square"] / readings[top]["degrees_of_freedom"] > 5.0 * every["chi_square"] / every["degrees_of_freedom"], "a family of few directions reads the misfit many times over what the chi square of every sample reads")
-    say("""The row seen by names the family of statistics that sees the misfit most. A family turns the residuals into a few numbers. Its moments are of the abscissa, and of the distance from the center to whole, fractional and negative powers, and the same under logarithmic, exponential and Gaussian kernels. Others are Hermite functions about the center, windows along the abscissa and along the value, and the crossings of levels of the height. Others again are the moments of the derivative and of the running integral, and the moments of the square, the root, the logarithm, the reciprocal and the exponential of the value, which weigh the top of a line and its foot otherwise than the value does.
+    say("""The row seen by names the family of statistics that sees the misfit most. A family turns the residuals into a few numbers. Its moments are of the abscissa, and of the distance from the center to whole, fractional and negative powers, and the same under logarithmic, exponential and Gaussian kernels. Others are Hermite functions about the center, windows along the abscissa and along the value, and the crossings of levels of the height. Others again are the moments of the derivative and of the running integral, and the moments of the square, the root, the logarithm, the reciprocal and the exponential of the value, which weigh the top of a line and its foot otherwise than the value does. Beside the families stand the eight chi functions, each averaged over the residuals, and the plane of position and residual value, which weigh large residuals, and where they fall, otherwise than the square does.
 
 ### In depth, optional on a first reading: what each family reads
 
@@ -317,7 +371,7 @@ Heavy tails and a skewed noise keep the covariance of the noise, so no family, l
 A term is a file in `terms/`, `01.py`, then `02.py`, and so on, which you write. This prints the terms that a term file can name, each but `exponential_width()` described with the one parameter that it adds, and the form of a term file:""")
     run("python -m twinfit terms")
     say("The report points to the core and the flanks changing along the temperature, and the physics of a resonance names the width. `along` makes a shared parameter change along a setting, here the width along the temperature. A term file adds `why`, the reason in six words or more:")
-    write("my_nmr/terms/01.py", 'from twinfit import mechanisms\nterm = mechanisms.along("width", "temperature")\nwhy = "the report: the core changes along temperature, and the width of a resonance changes with the temperature of the sample"\n')
+    write("my_nmr/terms/01.py", 'from twinfit import mechanisms\nterm = mechanisms.along("width", "temperature")\nwhy = "the report: the core and the flanks change along temperature, and the width of a resonance changes with the temperature of the sample"\n')
     say("## 6. The second run")
     run("python -m twinfit loop my_nmr")
     best = _json(folder, "my_nmr/loop/best.json")
@@ -327,14 +381,14 @@ A term is a file in `terms/`, `01.py`, then `02.py`, and so on, which you write.
     off = {name: abs(v - t) / b for name, (v, b, t) in rows.items()}
     _claim(all(o < 2.0 for o in off.values()), "the fit returns each true value within two bars")
     say("The run's output uses two words: your list, `list_of_terms.py`, the terms that you suspect, which `init` writes empty and section 9 shows, and which a project of `example` does not hold, so that its list is empty, and matched, the question of the report that reads the residuals against each term of that list. With the list empty, no answer of matched is read. The package holds a list of its own, read only where you run the loop with `--dictionary`: it names terms, and the search for a term that you do not suspect runs without it.")          # read as the terms of terms/ and as a typo (the blind red team of 0.1.0rc16, mislead 3)
-    say("The loop kept the term. Its output is `my_nmr/loop/best.md`, the best model with the five parts of the uncertainty of each parameter: the bar of the fit, the coverage and the bias on the twin, the bar of theory and the spread over the models. Their words stand under its heading `The words of the table`:")
+    say("The loop kept the term. Its output is `my_nmr/loop/best.md`, the best model with the five parts of the uncertainty of each parameter: the bar of the fit, the coverage and the bias on the twin, the bar of theory and the spread over the models. Their words stand under its heading `The words of the table`. Where shared parameters are correlated beyond 0.9, its section `What the records tell apart` gives the combinations of them that the records hold, each with the bar to quote, read on the twin, and beyond 0.999 it quotes none, and its section `The values in windows` gives each value read in windows about the centre and off the peak:")
     show("my_nmr/loop/best.md", kind="markdown")
     levels = fields.FIELDS["nmr"]["levels"]
     say(f"""The curves were drawn from a known truth, so the output can be checked. At the mean temperature, {sum(levels) / len(levels):g} K, the width was {truth['width']:.4g} Hz, and the fit gives {' ± '.join(_pm(*rows['width'][:2]))}, {off['width']:.1f} bars away. Its growth along the temperature, in the units of the term, was {truth['width along temperature']:.3g}, and the fit gives {' ± '.join(_pm(*rows['width along temperature'][:2]))}, {off['width along temperature']:.1f} bars away.""")
     _claim(any(t["own"] == "place" for t in _json(folder, "my_nmr/loop/best.json").get("own_trends") or []), "best.md of the worked spectra reads the places moving with the temperature")
     say("""The heights and the places of the worked spectra were drawn to rise with the temperature, each spectrum its own, as an instrument whose gain and lock drift with it. `best.md` names them as moving with the temperature, with their slopes. They stay own here, since the question of this example is the width. Section 9 says how such a value is written into the model where it is the question.
 
-A proposal of the last report that stands within the twin is one that the records do not ask for. Its line of what it would cost if it were real names a systematic to say beside the value where the physics allows such a term, and adds nothing to the bar. The worked descriptions do not say in which order their curves were taken, so `best.md` says that it is not known.""")
+A proposal of the last report that stands within the twin is one that the records do not ask for. Where its line says what it would cost if it were real, a direction defined apart from the residuals, it names a systematic to say beside the value where the physics allows such a term, and adds nothing to the bar. The shape that the residuals hold in a place, freed of the fit's own directions, costs nothing at first order, and its line says so: a slow trend or a periodic structure is not freed, and its line reads a cost. The worked descriptions do not say in which order their curves were taken, so `best.md` says that it is not known.""")
     sd_t = float((sum((t - sum(levels) / len(levels)) ** 2 for t in levels) / len(levels)) ** 0.5)
     per_kelvin = rows["width along temperature"][0] * rows["width"][0] / sd_t
     true_per_kelvin = fields.TRUTH["nmr"]["width"] * fields.TRUTH["nmr"]["growth"]
@@ -368,9 +422,12 @@ When the noise fails its check, the coverage and the bias on the twin are marked
     _claim(not any(a["beyond_the_twin"] for a in m1["where"]["answers"]), "the report of model 1 has no answer beyond the twin")
     say("And the report of the new model finds nothing more beyond its twin:")
     show("my_nmr/loop/model_1.md", _part((folder / "my_nmr/loop/model_1.md").read_text(), "## Where to search", "Every answer"), "markdown")
+    say("The visual log of a run is drawn again from what the run left, fitting nothing, by one command:")
+    drawn = run("python -m twinfit log my_nmr")          # the command and its line in both tutorials, review 258 of the repository it is made in, moderate 2: the page for an agent carried the eight numbers and not the log that shows them
+    _claim("log.pdf" in drawn, "the command of the visual log names the file of its slides")
     from .log import log as draw_log
     slides = draw_log(folder / "my_nmr", dpi=60)          # the visual log of this run, his message 309: the loop drew it at 110 dots an inch, and the tutorial carries it smaller
-    _claim(len(slides) == 2 * 9 + 1 and slides[-1].name == "99_best.png", "the visual log holds a slide for each phase of each of the two turns, two for the model, and the best model")
+    _claim(len(slides) == 2 * 13 + 1 and slides[-1].name == "99_best.png", "the visual log holds each phase of each of the two turns as one plot first, three slides for the model and two for the fit, where to search and the decision, and the best model")
     import numpy as np
     eq = json.loads((folder / "my_nmr/loop/equations.json").read_text())
     temps = [r["settings"]["temperature"] for r in _json(folder, "my_nmr/loop/best.json")["own_parameters"]]
@@ -378,9 +435,9 @@ When the noise fails its check, the coverage and the bias on the twin are marked
         hot, cold = held[f"e0_{temps.index(max(temps))}"], held[f"e0_{temps.index(min(temps))}"]
     _claim(eq[1]["formula"] == r"$p \rightarrow p\,(1 + a\,z)$" and eq[1]["effects"][0]["value"] > 0 and hot.min() > -1e-12 and hot.max() > 0 and cold.max() < 1e-12 and cold.min() < 0,
            "the term of model 1 makes the hot records wider and the cold ones narrower, its formula one plus a times z")
-    say(f"""The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives one slide for each of the eight phases of its turn, and two for the second, so nine slides a model where `python -m twinfit` says eight phases. They are the records, the model with its equation and what each term does to the curves, its twin, the joint fit, what the fit leaves, where to search, the next term tried on the twin, and the decision. At the end comes the best model with the parts of its bars.
+    say(f"""The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives each of the eight phases of its turn first as one plot, with one line of words and one number to check, and beside four of them the slides that say more: thirteen slides a model. They are the curves as recorded, the model with the bar of each parameter, its equation and what each term does to the curves, its twin, the joint fit with what it leaves above it and then the curves in a row, what the fit leaves along the setting, where the residuals leave the twin's band and the answers of the report with the six proposals, the next term tried on the twin, and the decision, what the term changes and each model's criterion. At the end comes the best model with the parts of its bars.
 
-Here are its {len(slides)} slides, model 0 and then model 1. On the second slide of model 1 the equation reads the width of the first model times one plus a times z, z the temperature in standard deviations from its mean. The third shows what that term does: the fitted curves less the same model with a at zero, wider on the hot records and narrower on the cold ones.""")
+Here are its {len(slides)} slides, model 0 and then model 1. On the third slide of model 1 the equation reads the width of the first model times one plus a times z, z the temperature in standard deviations from its mean. The fourth shows what that term does: the fitted curves less the same model with a at zero, wider on the hot records and narrower on the cold ones.""")
     out.append("\n\n".join((f"![model {int(p.name[:2])}, phase {p.name.split('_')[1]}](examples/figures/log_{p.name})" if p.name != "99_best.png" else f"![the best model](examples/figures/log_{p.name})") + (f"\n\n*{CAPTIONS[p.name]}*" if p.name in CAPTIONS else "") for p in slides))
     if figures is not None:
         import shutil
@@ -388,6 +445,21 @@ Here are its {len(slides)} slides, model 0 and then model 1. On the second slide
             old.unlink()
         for p in slides:
             shutil.copyfile(p, figures / f"log_{p.name}")
+    book = {name: json.loads(q.read_text()) for name in ("identify", "twin", "candidate_on_the_twin") for q in sorted((folder / "my_nmr/loop/notebook").glob(f"*_model_0_{name}.json"))[:1]}
+    m0 = _json(folder, "my_nmr/loop/model_0.json")
+    _claim("per_cent_of_its_value" in next(iter(book["identify"]["parameters"].values())) and "correlations" in book["identify"] and {"bias_over_spread", "spread_over_bound", "coverage"} <= set(next(iter(book["twin"]["admission"]["parameters"].values())))
+           and {"on_the_records", "mean", "scatter"} <= set(book["candidate_on_the_twin"]["gain"]) and {"chi_square", "degrees_of_freedom"} <= set(m0) and {"first_of_each_question", "largest_excess_on_the_twin"} <= set(m0["where"]),
+           "each number of the eight plotted phases stands in the run's files under the key that the list names")          # row M600: the slide for people and the line for an agent give the same number
+    say("""Each phase's first slide holds one number to check, and here is where the run keeps it, `K` the model and the notebook `my_nmr/loop/notebook/NNN_model_K_PHASE.json`:
+
+1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description.
+2. **The model**: each parameter's bar in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
+3. **The twin**: each parameter's `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
+4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees.
+5. **What the fit leaves**: the mean square of each curve's `residual` over its `noise` in `loop/residuals_K.csv`, a right model 1.
+6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json`, its excess against `where.largest_excess_on_the_twin`.
+7. **The next term**: `gain` of the phase `candidate on the twin`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
+8. **The decision**: the mean square of what the fit leaves in each cell before and after the next term, from `loop/residuals_K.csv` and the next model's, and each model's criterion in `loop/best.json`.""")
     say("""## 7. A term not asked for by the records
 
 The loop is not a machine that keeps whatever it is given. Here is a term that no answer of the report points to, a ripple along the abscissa:""")
@@ -422,6 +494,13 @@ Each comes from the description, which may name the changes that you could make,
 
 The package adds the change of each kind that the description does not name, changes that every experiment has: a quieter setup, more samples, more repeats, a wider span, so a description that names three gets the fourth. It draws levers of three more kinds from the description itself. For each setting along which the curves vary and that no lever names, it proposes curves half its range past the values measured. For each item of the setup known only as assumed or not recorded, it proposes its measurement. For each value that an ansatz holds with its bar and that no lever names, it proposes that value measured with half its bar, `NAME measured better`. Each is measured on the twin, but the setup item that no value of the model reads. The twin is drawn again as the change would give it, and fitted, and the error of the known parameters, the shared ones of the model, is set against their error under the records as they are:""")
     show("my_nmr/loop/model_1.md", _part((folder / "my_nmr/loop/model_1.md").read_text(), "## Three proposals for the experiment", None), "markdown")
+    half = best["parameters"]["width"]["bar_of_the_fit"] / 2.0
+    step = 10.0 ** (math.floor(math.log10(half)) - 1)
+    target = math.ceil(half / step) * step          # half the bar of the fit, rounded up at two digits, so that the law asks four times each record
+    say(f"""A proposal reads its change on the twin of that design. `traces` asks the other way round: how many times each record is taken for a bar that you name, by the law of independent records, read again on synthetic sets of that design, here for half the bar of the width, {target:.2g} in the unit of the abscissa:""")
+    told = run(f"python -m twinfit traces my_nmr width={target:.2g}")
+    _claim("each record is taken 4 times" in told and "sets of the twin of that design" in told, "traces asks each record four times for half the bar of the width, and reads it on the twin of that design")
+    say("""The law takes the records as independent, and the twin of that design checks it: where the error that it reads does not hold the target, the fit is not linear enough there for the law, and the line says to take more. Neither sees a term that the records miss, which biases the width by as much whatever the number of traces, so `traces` comes after the report of the loop, as its last line says.""")
     say("""## 9. The researcher's own curves
 
 This writes the starting files of a project into a new folder:""")
@@ -539,7 +618,8 @@ Some terms carry a number that is chosen and not fitted: the distance of a secon
     fit0 = _json(folder, "my_chrom/loop/model_0.json")
     chi, dof = fit0["chi_square"], fit0["degrees_of_freedom"]
     _claim(abs(chi / dof - 1.0) < 3.0 * (2.0 / dof) ** 0.5, "the chi square of the first model of the chromatograms agrees with the noise within three of its standard deviations")
-    say(f"""The chi square of this first model, {chi:.1f} on {dof} degrees of freedom, agrees with the noise, and the report finds the second component all the same: a term that holds a small part of the curve moves the whole chi square by less than its own scatter, while a statistic aimed at one shape reads it. That is what the report is for.""")
+    tilt = next(a for a in fit0["where"]["answers"] if a["question"] == "where" and a["answer"] == "the asymmetry")
+    say(f"""The chi square of this first model, {chi:.1f} on {dof} degrees of freedom, agrees with the noise, while the report puts the misfit in the asymmetry at an excess of {tilt['excess']:.1f} against its line of {fit0['where']['largest_excess_on_the_twin']:.2f}, and the loop says above whether that asks for more: a term that holds a small part of the curve moves the whole chi square by about its own scatter, while a statistic aimed at one shape reads it. Whether that asymmetry is a second component is the physics of the chromatogram, which the package does not name.""")
     say("""In a chromatogram an asymmetry of the peaks is a compound that elutes close to the first, an impurity, or a tail of the column. The first proposal for the model is the asymmetry, measured with the shape that the residuals hold there:""")
     show("my_chrom/loop/model_0.md", _part((folder / "my_chrom/loop/model_0.md").read_text(), "## Three proposals for the model", "## Three proposals for the experiment"), "markdown")
     unit = _json(folder, "my_chrom/loop/model_0.json")["proposals"]["width_of_the_curves"]
@@ -548,7 +628,7 @@ Some terms carry a number that is chosen and not fitted: the distance of a secon
 
 `scan` fits the term at each distance that you give, beside the model, and says which lowers the Bayesian criterion most. The distances are in the unit of the abscissa, here seconds, and `x` stands for the number that is scanned: `"second(x)"` is `second(distance)` at each value given. It chooses the stretch of `tail` or the period of `periodic` the same way, with the other argument in quotes, `"tail(x, 'upper')"` or `"periodic(x, 'sine')"`.
 
-It refuses the term at a number that a kept term file of the folder already holds, and fits a second term of the same kind beside it at any other number. The model that it scans beside holds each term file that says `hold`, at its theory, and each other whose fit ends inside its bounds and lowers the Bayesian criterion by more than 2, with no twin run, so a file that the loop refused on its twin alone is in it. To scan the number of a term that a file holds, scan in a copy of the folder without that file.
+It refuses the term at a number that a kept term file of the folder already holds, and fits a second term of the same kind beside it at any other number. The model that it scans beside holds each term file that says `hold`, at its theory, and each other whose fit ends inside its bounds and lowers the Bayesian criterion by more than 2, or whose file says `keep = True`, with no twin run, so a file that the loop refused on its twin alone is in it. To scan the number of a term that a file holds, scan in a copy of the folder without that file.
 
 Where the range that it gives is under the step of the values scanned, a parabola through the three falls about the largest gives it, and the top of that parabola is the value to write. That range is the bar of the chosen number where the noise is white: under a noise correlated over N samples it is about the root of N too narrow, so read it after the noise is thinned.
 
@@ -694,15 +774,15 @@ why = "a test of a term of my own with a chosen number: a fringe that the optics
 ''')
     fringe = run("python -m twinfit scan my_nmr terms/04.py 2 3 4")
     _claim("No value of x lowers the Bayesian criterion by more than" in fringe, "the scan of the fringe finds no period that the curves ask for")
-    say("""No period lowers the criterion: these curves hold no fringe of this phase. A ripple of unknown phase is a cosine and a sine, two terms, and a scan of the cosine alone can find no period where the sine would: scan each. The scan reads the model of the other term files, a file that says `hold` held at its theory and each other kept when its fit ends inside its bounds and its criterion falls by more than 2, with no twin, and leaves the scanned file out of it.""")
+    say("""No period lowers the criterion: these curves hold no fringe of this phase. A ripple of unknown phase is a cosine and a sine, two terms, and a scan of the cosine alone can find no period where the sine would: scan each. The scan reads the model of the other term files, a file that says `hold` held at its theory and each other kept when its fit ends inside its bounds and its criterion falls by more than 2, or when its file says `keep = True`, with no twin, and leaves the scanned file out of it.""")
     say("""## 12. With an agent
 
-The protocol of an agent's turn is `agent/AGENT.md`, which `python -m twinfit guide` prints. It needs Claude Code, or an agent that reads files and runs commands: nothing in this section runs without one. `init` also wrote `CLAUDE.md` and a skill for Claude Code. Open a fresh Claude Code chat in the project folder and ask it, for example: "Run the loop, read the report, and propose the next term." Where you will not be there to choose at step 5, add: "choose on your own at step 5, and say why." It reads `CLAUDE.md` first. At each iteration it follows ten steps, which `python -m twinfit guide` prints whole with the rest of its protocol, its section 0 and its part What you give back among them. By their names:""")
+The protocol of an agent's turn is `agent/AGENT.md`, which `python -m twinfit guide` prints. It needs Claude Code, or an agent that reads files and runs commands: nothing in this section runs without one. `init` also wrote `CLAUDE.md` and a skill for Claude Code. Open a fresh Claude Code chat in the project folder and ask it, for example: "Run the loop, read the report, and propose the next term." Who chooses at step 5 is your setting, `DIR/agent.toml`: `chooses = "agent"` lets it choose at each turn and say why, `chooses = "researcher"` has it ask you at each turn, and with no such file it asks. It reads `CLAUDE.md` first. At each iteration it follows ten steps, which `python -m twinfit guide` prints whole with the rest of its protocol, its section 0 and its part What you give back among them. By their names:""")
     agent = (HERE / "agent" / "AGENT.md").read_text()
     steps = re.findall(r"^(\d+)\. \*\*(.+?)\*\*", _part(agent, "**Each iteration**", "**What you give back"), re.M)          # the names of the ten steps, where the page pasted the whole protocol, 158 lines (his message 498 of the repository it is made in)
     _claim(len(steps) == 10, "the guide names ten steps")
     say("\n".join(f"{n}. {name.rstrip('.,')}." for n, name in steps))
-    say(f"""At step 5 you choose among the three effects that it reported at step 4, or let it choose. Every term that it adds carries its reason in `why`: the physics that could leave the structure, offered as a candidate, which the loop and its twin then bear out or refuse. The package names no cause, and the agent names one only as a candidate.
+    say(f"""At step 4 it proposes the three main improvements of the model, each with the non-ideality that the statistical tools read, the mathematical need that answers it with its gain on the twin, and its physical ground, a term, an effect or a refined approximation, and at step 5 one of them is chosen as `DIR/agent.toml` sets. Each turn leaves its page in `DIR/agent/iteration_K.md`, for a reader who did not watch it: its figure, what the statistical tools read, the three improvements, which was chosen, by whom and why over the others, on physical ground and on the statistics, and what its fit showed, and `DIR/agent/report.md` joins the turns. Every term that it adds carries its reason in `why`: the physics that could leave the structure, offered as a candidate, which the loop and its twin then bear out or refuse. The package names no cause, and the agent names one only as a candidate.
 
 ## 13. More examples, of other fields
 
@@ -710,14 +790,21 @@ The protocol of an agent's turn is `agent/AGENT.md`, which `python -m twinfit gu
 
 - For each it gives what the first report put first, what to do and what not to do, and what the loop then gave beside the truth.
 - Find the one whose first report leads as yours does. The two worked projects of this page, nuclear magnetic resonance and chromatography, are not in it.
-- Each is shown too at three times its noise, with none drawn, and with a second kind of noise, correlated over neighboring samples or that of a counter: `python -m twinfit example clock DIR --noise 3 --kind correlated` writes one so, to see how the first report and the outcome move with the noise of an example. The page says what the noise changes in its tables.
-
-## 14. Limits of the package
+- Each is shown too at three times its noise, with none drawn, and with a second kind of noise, correlated over neighboring samples or that of a counter: `python -m twinfit example clock DIR --noise 3 --kind correlated` writes one so, to see how the first report and the outcome move with the noise of an example. The page says what the noise changes in its tables.""")
+    say("""One of them holds absorption lines of a gas cell at five pressures, with a line that its first model does not name. A run of the first model alone, `--n 0`, gives its report:""")
+    run("python -m twinfit example satellite my_satellite")
+    run("python -m twinfit loop my_satellite --n 0")
+    said_windows = [line for line in (folder / "my_satellite/loop/model_0.md").read_text().splitlines() if "read most" in line]
+    at = re.search(r"at ([+-][0-9.]+) widths from the centre of each curve", " ".join(said_windows))
+    _claim(bool(at) and 1.0 <= float(at.group(1)) <= 1.5, "the chi functions in windows of position read most between 1 and 1.5 widths above each centre, about the line that the first model does not name")
+    show("my_satellite/loop/model_0.md", "\n".join(said_windows), "markdown")
+    say(f"""The chi functions in windows of position read each cost of the residuals under a smooth window that moves along each curve, and say where they read most: {at.group(1)} widths from each centre, the figure of the report, on the same side of every curve. That place is the one to read first, and a window that reads most in one place on every curve points at a component of the curve there, `second(distance)` of section 10 with its distance in the unit of the abscissa, that many widths times the full width of the curve at half its height, which the page of the proposals gives, or at a structure of that place and scale. The bands of the residual's value say how the residuals stand against a normal law of the noise, here in the tail above 2 of their robust scale, which a misfit of many times the noise fills. `twinfit/EXAMPLES.md` gives this project's truth, a second line above each, which its folder does not hold.""")
+    say(f"""## 14. Limits of the package
 
 - It names a place, a kind and a setting of what is missing, never its cause.
 - The twin draws its synthetic curves at the noise that the description gives, so it takes that noise as right. The check of the residuals against the height of the fitted curve, on the first page of each report, is what says whether it is.
 - With 30 synthetic sets, the default, an answer can stand beyond all of them and no further: its chance is then the smallest that 30 sets give. More sets, `python -m twinfit loop DIR --sets 100`, read smaller levels and take longer.
-- On models that lack nothing, at the default of 30 sets, a run read some answer past its line on {alarm_rate} ± {alarm_err} of {alarm_n} draws, as `README.md` of the package measures it, where the line is set for 0.05 by its construction. Read one answer just past its line as weak evidence, and read it again with `--sets 100`.
+- On models that lack nothing, at the default of 30 sets with a seed for each draw, a run of 0.1.2, before the chi functions were read, read some answer past its line on {alarm_rate} ± {alarm_err} of {alarm_n} draws, as `README.md` of the package says, the count of 0.1.3 to come, where the line is set for 0.05 by its construction. Read one answer just past its line as weak evidence, and read it again with `--sets 100`.
 - A term much smaller than the noise can be missing while no answer stands beyond the twin. When one answer alone stands just past its line, the loop says so and stops: a model that lacks nothing shows one such answer on some of its synthetic sets.
 - Glitches and a noise that grows with the signal are kinds of the report that no term of the mean fills. The report says so when one leads, and how to give the noise of each sample instead.
 - A proposal for the experiment is read on the synthetic sets of the twin, so its ratio moves from run to run: the page says within how much, about one over the root of the number of sets.
@@ -727,7 +814,7 @@ The protocol of an agent's turn is `agent/AGENT.md`, which `python -m twinfit gu
 - The bars of the own parameters of each curve count what the shared ones leave uncertain, but no twin reads them, as it reads the shared ones.
 - `along` multiplies a parameter by one plus its size times the setting, so it cannot move a parameter that sits near zero, as a place read less the offset of its abscissa can. A place that moves with a setting is written in `model.py`, as the model of section 9 writes the shift for each kelvin, and as the gallery's clock writes the shift of its line along the power.
 - `second` takes one distance and copies the curve there, at its own width: a second line whose distance or share follows a setting is written in `model.py`, as a function of the settings, as a place is.
-- A lever along a setting reads the model at settings past those of the records, and holds as far as the model holds there. A lever of samples takes them as independent: under a noise correlated over N samples, twice the samples is less than twice the information.
+- A lever along a setting reads the model at settings past those of the records, and holds as far as the model holds there. A lever of samples draws the twin's noise white, as independent samples, unless `correlated = true` under `[noise]` draws it with the correlation of the residuals, kept over the same span of the abscissa on closer samples: under a noise correlated over N samples, twice the samples is less than twice the information.
 - The loop can end in words that the runs above do not show. Where a noise correlated from sample to sample leads the last report, a term file cannot hold it, and the report of that model says what to do in a copy of the folder. Where the check of the noise of the best model fails, what was kept is not to be believed before that is read. Where the twin does not admit the fit of the best model, its bars are not to be read, and where a statistic misses its band by little, `--sets 500` reads it again.""")
     page = "\n\n".join(out) + "\n"
     return page.replace("{SECONDS}", f"ran in {time.time() - began:.0f} seconds")
@@ -762,6 +849,7 @@ value = 0.02
 # from = "neighbours"            # or the default, a law in the height of the curve, read from the differences of neighboring samples before any fit
 # from = "residuals"             # or the same law, read from what the first model leaves, for a curve sharper than three samples
 # from = "model"                 # or a law of yours: variance(mean, record, own) in model.py, the variance of each sample
+# correlated = true              # with any of them, where the instrument joins neighbouring samples: the twin draws each curve's noise correlated as its residuals' differences say. A ripple of a few samples reads as such a correlation, so seek it first
 
 [output]                         # who reads the output of the loop: both by default
 for = ["people", "agents"]       # people: the visual log and model_K.md, agents: brief_K.md, one page a model
@@ -917,7 +1005,12 @@ def for_agents(people: str) -> str:
             j = i + 1
             while j < len(lines) and not lines[j].startswith("## "):
                 j += 1
-            out += [x for x in lines[i:j] if x.startswith("|")] + [""]
+            for x in lines[i:j]:
+                if x.startswith("Every statistical tool of the package"):          # the table of every tool, its own sentence and a line apart, so that the two tables do not run together (the owner's message 541)
+                    out += ["", x, ""]
+                elif x.startswith("|"):
+                    out.append(x)
+            out.append("")
             i = j
             continue
         if line.startswith("```"):

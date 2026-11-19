@@ -36,6 +36,7 @@ from .linear import Linear
 from .twin import replicas
 
 
+from .seeds import seed_of
 def working_fit_of(problem, result) -> str:
     """A short digest of a working fit: the abscissae, the values and the weights of its records, the names of its
     parameters and their fitted values. A law of the gains holds for the fit that it was simulated from, and `decide`
@@ -106,9 +107,10 @@ def _gains_of_one_set(args) -> list:
     return row
 
 
-def null_gains(problem, result, mechanisms: list, sets: int = 30, level: float = 1.0, seed: int = 5, max_iter: int = 80, workers: int = 1) -> dict:
+def null_gains(problem, result, mechanisms: list, sets: int = 30, level: float = 1.0, seed: int | None = None, max_iter: int = 80, workers: int = 1) -> dict:
     """The gain of each candidate on synthetic sets of the working model at its fit, where nothing is missing. Each set is
     fitted with the working model and then with each candidate."""
+    seed = seed_of(problem, 5) if seed is None else seed          # null_gains: drawn from the records, the old seed its salt (row M582)
     twins = replicas(problem, result, sets, level=level, seed=seed)
     jobs = Lazy(lambda i: (twins[i], mechanisms, max_iter), sets)
     g = np.array(_map(_gains_of_one_set, jobs, workers), dtype=float)
@@ -142,7 +144,7 @@ def _one_twin_of_the_larger(args) -> dict:
     return out
 
 
-def on_the_twin(problem, result, developed: dict, sets: int = 30, level: float = 1.0, seed: int = 6, table_of=None, max_iter: int = 80, workers: int = 1) -> dict:
+def on_the_twin(problem, result, developed: dict, sets: int = 30, level: float = 1.0, seed: int | None = None, table_of=None, max_iter: int = 80, workers: int = 1) -> dict:
     """A developed candidate put into synthetic records. The sets are drawn from the larger model at its fit, so the term
     is in them at the size that was fitted. Each is then read as the records were: the working model fitted, its
     table of candidates when `table_of(linear)` is given, the larger model fitted. What comes back:
@@ -155,6 +157,7 @@ def on_the_twin(problem, result, developed: dict, sets: int = 30, level: float =
       the gains on these sets, and where the gain of the records stands among them
 
     A candidate that reproduces the readings of the records is not excluded. Nothing more can be said of it."""
+    seed = seed_of(problem, 6) if seed is None else seed          # on_the_twin: drawn from the records, the old seed its salt (row M582)
     larger, at = developed["_problem"], developed["_fit"]
     mechanism = developed["_mechanism"]
     twins = replicas(larger, at, sets, level=level, seed=seed)
@@ -208,7 +211,7 @@ def _one_twin_of_the_held(args) -> dict:
     return out
 
 
-def held_on_the_twin(problem, result, held: dict, sets: int = 30, level: float = 1.0, seed: int = 6, table_of=None, max_iter: int = 80, workers: int = 1,
+def held_on_the_twin(problem, result, held: dict, sets: int = 30, level: float = 1.0, seed: int | None = None, table_of=None, max_iter: int = 80, workers: int = 1,
                      nuisances=None) -> dict:
     """A term that is held at the size of its theory, put into synthetic records. `held` is what `carried` gives.
 
@@ -228,6 +231,7 @@ def held_on_the_twin(problem, result, held: dict, sets: int = 30, level: float =
     theory: a size of centre 4 and bar 2 with a bound at 0 has 2.3 per cent of its draws at 0 and a scatter of 0.98 of
     its bar. And the size of a set is drawn from the generator of that set before its noise, so the noise of set i here
     is not the noise of set i of `on_the_twin` or of `admission` at the same seed: the runs are not paired."""
+    seed = seed_of(problem, 6) if seed is None else seed          # held_on_the_twin: drawn from the records, the old seed its salt (row M582)
     mechanism, at, larger = held["_mechanism"], held["_fit"], held["_problem"]
     centre, bar = mechanism.theory
 

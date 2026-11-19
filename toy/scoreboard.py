@@ -382,9 +382,26 @@ def draw_report(question: str, weight: str, draw: int, const: dict, config: dict
         first = report["first_of_each_question"]
         beyond = [[a["question"], a["answer"], power.said(a["excess"])] for a in report["answers"] if a["beyond_the_twin"]]
         out.update(first=first, beyond=beyond, agrees=agreed(first, beyond, next(q["expected"] for q in questions(config) if q["name"] == question)))
+        from twinfit import twin
+        out["correlation"] = [power.said(phi) for phi in twin.correlation_of(records, got)]          # row M592, his message 579: the coefficient of each record's noise that the twin reads from the residuals, against the one the draw was drawn with
     path = draw_path(root, question, weight, draw)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out))
+    return out
+
+
+def correlation_read(draws: dict) -> dict:
+    """Row M592, his message 579: on the draws of each question at each weight, the coefficient of correlation that the
+    twin reads from the residuals of each record against the one that the draw was drawn with, 0 but for the question of
+    a correlated noise: the share of records read as correlated, the false alarm where the noise is white and the power
+    where it is not, and the median coefficient read. A draw kept before the reading holds none, and counts in none."""
+    out = {}
+    for key, ds in draws.items():
+        question = key.rsplit("|", 1)[0]
+        noise = NOISE_OF.get(question.partition(": ")[2])
+        phis = [phi for d in ds for phi in d.get("correlation") or []]
+        out[key] = None if not phis else {"drawn": float(noise[1]) if noise and noise[0] == "correlated" else 0.0, "records": len(phis),
+                                          "read_as_correlated": sum(phi > 0 for phi in phis) / len(phis), "median": float(np.median(phis))}
     return out
 
 
@@ -510,7 +527,7 @@ def table(root: Path = ROOT) -> Path:
     if held:          # each report with its draws, and the count over them (row M259)
         for key, paths in kept.items():
             reports[key]["draws"] = [json.loads(p.read_text()) for p in paths]
-        board.update(draw_digest=draw_digest(root), counted_draws=counted_draws({key: r["draws"] for key, r in reports.items()}, config))
+        board.update(draw_digest=draw_digest(root), counted_draws=counted_draws({key: r["draws"] for key, r in reports.items()}, config), correlation=correlation_read({key: r["draws"] for key, r in reports.items()}))
     out = Path(root) / "toy" / "scoreboard.json"
     out.write_text(json.dumps(board, indent=1) + "\n")
     return out

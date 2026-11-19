@@ -49,6 +49,7 @@ class Record:
     sd: np.ndarray
     design: dict = field(default_factory=dict)
     name: str = ""
+    correlation: float = 0.0          # the AR(1) coefficient of its noise along the abscissa, 0 where it is white, which the twin draws (row M592)
 
     def __post_init__(self):
         self.x = np.asarray(self.x, dtype=float)

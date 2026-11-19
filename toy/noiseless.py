@@ -81,7 +81,7 @@ def rows_of(const: dict, config: dict, scale: float = SCALE) -> list:
 
 
 NOISE_SAID = {False: ("with no noise", "These traces are synthetic and hold no noise at all: each is the line of a model."),
-              True: ("with the noise of the experiment", "These traces are synthetic: each is the line of a model with the noise of the experiment, drawn by the law that `known.json` gives."),
+              True: ("with the noise of the experiment", "Each trace is the line as it was measured at its condition, with the noise of the experiment, whose law `known.json` gives."),          # never "synthetic": the agent works as one who went to the laboratory, his message 45
               "recorded": ("recorded in the laboratory", "These traces were recorded in the laboratory: each is the line as it was measured, with the noise of the experiment, whose law `known.json` gives.")}          # the title and the sentence of the brief, his messages 211 and 228
 
 
@@ -243,7 +243,8 @@ def truth(const: dict, config: dict) -> dict:
     return {name: float(importlib.import_module(f"toy.terms.{files[config['parameter'][name]['enters']]}").alone(130.0, values, const)) for name in chosen.ORDER}
 
 
-HIDDEN = ("RUBIDIUM.md", "CONTINUING.md", "rubidium", "dictionary.py", "walkthrough.py", "survey.py", "two_scales.py", "against_the_twin.png", "turn_by_turn.png", "rubidium_twin")          # the page of his line in the package, and its figures, which name the five terms of the toy, the package's own list of terms with the two examples that read it (the review of candidate 95, moderate 2), and the two figures of the README, of a blind run on the line of the toy (lesson 35): left out of the folder of an agent
+HIDDEN = ("RUBIDIUM.md", "CONTINUING.md", "rubidium", "dictionary.py", "walkthrough.py", "survey.py", "two_scales.py", "against_the_twin.png", "turn_by_turn.png", "rubidium_twin",
+          "EXAMPLES.md", "gallery.json", "gallery.py", "projects")          # and the gallery, whose pages and programs name the physics of eleven truths, a list of terms that rule 3 keeps out of a blind run (his messages 578 and 580)          # the page of his line in the package, and its figures, which name the five terms of the toy, the package's own list of terms with the two examples that read it (the review of candidate 95, moderate 2), and the two figures of the README, of a blind run on the line of the toy (lesson 35): left out of the folder of an agent
 UNSAID = ((r"(?s)\s*With --dictionary,.*?(?:never in a blind run|nobody suspects)", ""), (r" \[--dictionary\]", ""), (r", `--workers W` and `--dictionary`\.", " and `--workers W`."), (r"(?m)^.*python -m twinfit walk .*\n", ""), (r"(?m)^.*examples/walkthrough\.py.*\n", ""),
           (r'dictionary = "--dictionary" in argv\[2:\][^\n]*', "dictionary = False"), (r'(?m)^[ ]*argv = argv\[:2\] \+ \[a for a in argv\[2:\] if a != "--dictionary"\]\n', ""),
           (r" And the package's own list, `twinfit/dictionary\.py`, read only on `--dictionary`, never in a blind run \(337 to 343\)\.", ""), (r"(?m)^ *dictionary\.py .*\n", ""),

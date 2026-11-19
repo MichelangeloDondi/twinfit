@@ -13,15 +13,15 @@
    ],
    "chi_square_per_degree": 1.1235620459355904,
    "beyond": [
-    "where: the wings, excess 52.2",
-    "where: the flanks, excess 45.4",
-    "its line 2.73"
+    "where: the wings, excess 142",
+    "where: the flanks, excess 84.5",
+    "its line 4"
    ],
    "parameters": {
     "width": {
      "value": 4.012766559523647,
      "bar": 0.0010519719655342852,
-     "coverage": 1.0,
+     "coverage": 0.9,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -34,12 +34,12 @@
     "model": [
      "a slow trend over the span of each curve",
      "the shape that the residuals hold in the wings",
-     "a periodic structure of 2.5 cycles over the span"
+     "the shape that the residuals hold in the flanks"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.76",
-     "a wider span, a better data collection: the error of the known parameters times 0.76"
+     "more repeats, a better data collection: the error of the known parameters times 0.74",
+     "more samples, a better data collection: the error of the known parameters times 0.97"
     ]
    }
   },
@@ -63,7 +63,7 @@
     "pedestal 6": {
      "value": 0.04184149761809598,
      "bar": 0.0018336589961199092,
-     "coverage": 1.0,
+     "coverage": 0.9666666666666667,
      "as": "pedestal 6",
      "quotable": true,
      "theory": null
@@ -75,12 +75,12 @@
     "model": [
      "a slow trend over the span of each curve",
      "the shape that the residuals hold in the wings",
-     "a periodic structure of 2.5 cycles over the span"
+     "the shape that the residuals hold in the flanks"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.76",
-     "a wider span, a better data collection: the error of the known parameters times 0.76"
+     "more repeats, a better data collection: the error of the known parameters times 0.74",
+     "more samples, a better data collection: the error of the known parameters times 0.97"
     ]
    },
    "words": "the report puts the misfit in the wings and the flanks: in a gas cell, wings that the line lacks are a wider component under it, a pedestal, so scan its stretch and write the term at the top of the scan",
@@ -94,15 +94,15 @@
    ],
    "chi_square_per_degree": 1.1235620459355904,
    "beyond": [
-    "where: the wings, excess 52.2",
-    "where: the flanks, excess 45.4",
-    "its line 2.73"
+    "where: the wings, excess 142",
+    "where: the flanks, excess 84.5",
+    "its line 4"
    ],
    "parameters": {
     "width": {
      "value": 4.012766559523647,
      "bar": 0.0010519719655342852,
-     "coverage": 1.0,
+     "coverage": 0.9,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -117,12 +117,12 @@
     "model": [
      "a slow trend over the span of each curve",
      "the shape that the residuals hold in the wings",
-     "a periodic structure of 2.5 cycles over the span"
+     "the shape that the residuals hold in the flanks"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.76",
-     "a wider span, a better data collection: the error of the known parameters times 0.76"
+     "more repeats, a better data collection: the error of the known parameters times 0.74",
+     "more samples, a better data collection: the error of the known parameters times 0.97"
     ]
    },
    "words": "make the width change along the pressure, a setting that the report does not name",
@@ -141,15 +141,15 @@
      ],
      "chi_square_per_degree": 1.0105396794969692,
      "beyond": [
-      "where: the flanks, excess 6.11",
-      "where: the wings, excess 4.84",
-      "its line 2.86"
+      "where: the flanks, excess 11.3",
+      "where: the wings, excess 11",
+      "its line 3.4"
      ],
      "parameters": {
       "width": {
        "value": 4.011212762688069,
        "bar": 0.0031522496199262538,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -166,8 +166,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.85",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.87"
+       "more samples, a better data collection: the error of the known parameters times 0.54",
+       "more repeats, a better data collection: the error of the known parameters times 0.68"
       ]
      }
     },
@@ -191,7 +191,7 @@
       "pedestal 6": {
        "value": 0.08271778898702205,
        "bar": 0.009950822590456501,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "pedestal 8",
        "quotable": true,
        "theory": null
@@ -207,8 +207,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.85",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.87"
+       "more samples, a better data collection: the error of the known parameters times 0.54",
+       "more repeats, a better data collection: the error of the known parameters times 0.68"
       ]
      },
      "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8, and a finer scan about it, at -10 -4 2 8 14 20 26, at 8: the term file holds `term = mechanisms.pedestal(8)`",
@@ -230,16 +230,16 @@
      ],
      "chi_square_per_degree": 0.1187538384658781,
      "beyond": [
-      "where: the wings, excess 45.6",
-      "where: the flanks, excess 38.6",
-      "where: the core, excess 2.86",
-      "its line 2.69"
+      "where: the flanks, excess 94.7",
+      "where: the wings, excess 64.8",
+      "where: the core, excess 17.6",
+      "its line 3.76"
      ],
      "parameters": {
       "width": {
        "value": 4.013545126605517,
        "bar": 0.0010525836731355976,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -252,12 +252,12 @@
       "model": [
        "a slow trend over the span of each curve",
        "a periodic structure of 2.5 cycles over the span",
-       "the shape that the residuals hold in the wings"
+       "the shape that the residuals hold in the flanks"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.76",
-       "a wider span, a better data collection: the error of the known parameters times 0.77"
+       "more samples, a better data collection: the error of the known parameters times 0.83",
+       "more repeats, a better data collection: the error of the known parameters times 0.85"
       ]
      }
     },
@@ -273,7 +273,7 @@
       "width": {
        "value": 4.000545752052107,
        "bar": 0.0012106477402719937,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -281,7 +281,7 @@
       "pedestal 6": {
        "value": 0.049909376175260096,
        "bar": 0.0022896133044948194,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "pedestal 6.73",
        "quotable": false,
        "theory": null
@@ -293,12 +293,12 @@
       "model": [
        "a slow trend over the span of each curve",
        "a periodic structure of 2.5 cycles over the span",
-       "the shape that the residuals hold in the wings"
+       "the shape that the residuals hold in the flanks"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.76",
-       "a wider span, a better data collection: the error of the known parameters times 0.77"
+       "more samples, a better data collection: the error of the known parameters times 0.83",
+       "more repeats, a better data collection: the error of the known parameters times 0.85"
       ]
      },
      "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 6.73, and a finer scan about it, at 2.62394 3.99263 5.36132 6.73 8.09868 9.46737 10.8361, at 6.73: the term file holds `term = mechanisms.pedestal(6.73)`",
@@ -320,16 +320,16 @@
      ],
      "chi_square_per_degree": 1.0955436702044328,
      "beyond": [
-      "where: the flanks, excess 66.7",
-      "where: the wings, excess 42.7",
-      "what: a noise correlated from sample to sample, excess 17.9",
-      "its line 2.91"
+      "where: the flanks, excess 90.7",
+      "where: the wings, excess 65.3",
+      "what: a noise correlated from sample to sample, excess 20.3",
+      "its line 2.93"
      ],
      "parameters": {
       "width": {
        "value": 4.011642793340111,
        "bar": 0.0010508379160490157,
-       "coverage": 1.0,
+       "coverage": 0.9,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -341,13 +341,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the flanks",
-       "a slow trend over the span of each curve",
+       "a structure of 2 widths at +0.665 widths from the centre",
        "a periodic structure of 2.5 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.86",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.88"
+       "more repeats, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.86"
       ]
      }
     },
@@ -359,16 +359,16 @@
      ],
      "chi_square_per_degree": 0.9480545898369149,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 17.9",
-      "changes along: the core along pressure, excess 17.2",
-      "changes along: the flanks along pressure, excess 7.92",
-      "its line 2.65"
+      "what: a noise correlated from sample to sample, excess 20.3",
+      "changes along: the core along pressure, excess 10.2",
+      "changes along: the flanks along pressure, excess 9.41",
+      "its line 2.98"
      ],
      "parameters": {
       "width": {
        "value": 3.998458046397126,
        "bar": 0.001183044306186454,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -387,13 +387,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the flanks",
-       "a slow trend over the span of each curve",
+       "a structure of 2 widths at +0.665 widths from the centre",
        "a periodic structure of 2.5 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.86",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.88"
+       "more repeats, a better data collection: the error of the known parameters times 0.73",
+       "a wider span, a better data collection: the error of the known parameters times 0.86"
       ]
      },
      "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 9.1, and a finer scan about it, at -2.32136 1.48576 5.29288 9.1 12.9071 16.7142 20.5214, at 10.1: the term file holds `term = mechanisms.pedestal(10.1)`",
@@ -415,10 +415,10 @@
      ],
      "chi_square_per_degree": 0.9718511596849945,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 18.4",
-      "changes along: the core along pressure, excess 15.3",
-      "where: the flanks, excess 13.5",
-      "its line 2.68"
+      "what: a noise correlated from sample to sample, excess 35.8",
+      "where: the flanks, excess 18.6",
+      "where: the wings, excess 13.7",
+      "its line 2.83"
      ],
      "parameters": {
       "width": {
@@ -435,14 +435,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
        "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the core, changing along pressure"
+       "a periodic structure of 5 cycles over the span",
+       "a periodic structure of 2.5 cycles over the span, fixed to the abscissa"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.84",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.87"
+       "more repeats, a better data collection: the error of the known parameters times 0.79",
+       "pressure past its range, a better data collection: the error of the known parameters times 0.84"
       ]
      }
     },
@@ -454,10 +454,10 @@
      ],
      "chi_square_per_degree": 0.9478125089533307,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 18.4",
-      "changes along: the core along pressure, excess 16",
-      "changes along: the flanks along pressure, excess 9.22",
-      "its line 2.63"
+      "what: a noise correlated from sample to sample, excess 38.3",
+      "where: the asymmetry, excess 12.1",
+      "changes along: the flanks along pressure, excess 8.37",
+      "its line 2.83"
      ],
      "parameters": {
       "width": {
@@ -471,7 +471,7 @@
       "pedestal 6": {
        "value": 23.226597778511938,
        "bar": 2.3484001523261404,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "pedestal 56",
        "quotable": false,
        "theory": null
@@ -481,14 +481,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
        "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the core, changing along pressure"
+       "a periodic structure of 5 cycles over the span",
+       "a periodic structure of 2.5 cycles over the span, fixed to the abscissa"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "a wider span, a better data collection: the error of the known parameters times 0.84",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.87"
+       "more repeats, a better data collection: the error of the known parameters times 0.79",
+       "pressure past its range, a better data collection: the error of the known parameters times 0.84"
       ]
      },
      "done": "`python -m twinfit scan DIR \"pedestal(x)\" 3 4 6 8 12` puts its top at 12, and a finer scan about it, at 0 4 8 12 16 20 24, at 24, and a finer scan about it, at 12 16 20 24 28 32 36, at 36, and a finer scan about it, at 24 28 32 36 40 44 48, at 48, and a finer scan about it, at 36 40 44 48 52 56 60, at 56: the term file holds `term = mechanisms.pedestal(56)`",
@@ -500,7 +500,7 @@
     }
    }
   ],
-  "minutes": 1.4
+  "minutes": 10.6
  },
  "satellite": {
   "field": "gas cell absorption lines with weak satellites",
@@ -516,16 +516,16 @@
    ],
    "chi_square_per_degree": 38.05058775315671,
    "beyond": [
-    "where: the asymmetry, excess 9.12e+03",
-    "where: the wings, excess 4.77e+03",
-    "where: the flanks, excess 4.49e+03",
-    "its line 2.73"
+    "where: the asymmetry, excess 1.35e+04",
+    "where: the wings, excess 7.62e+03",
+    "where: the flanks, excess 5.6e+03",
+    "its line 2.8"
    ],
    "parameters": {
     "width": {
      "value": 4.116318687235775,
      "bar": 0.0010893976487668883,
-     "coverage": 1.0,
+     "coverage": 0.9666666666666667,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -536,14 +536,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve",
-     "a periodic structure of 2 cycles over the span"
+     "a structure of 1 widths at +0.746 widths from the centre",
+     "a periodic structure of 2 cycles over the span on the right of the curves",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-     "more samples, a better data collection: the error of the known parameters times 0.95"
+     "more repeats, a better data collection: the error of the known parameters times 0.67",
+     "more samples, a better data collection: the error of the known parameters times 0.75"
     ]
    }
   },
@@ -559,7 +559,7 @@
     "width": {
      "value": 3.998885139134112,
      "bar": 0.0010610494620399357,
-     "coverage": 1.0,
+     "coverage": 0.9666666666666667,
      "as": "width",
      "quotable": true,
      "theory": null
@@ -567,7 +567,7 @@
     "second component at 12": {
      "value": 0.08003633754094729,
      "bar": 0.00020596845126121942,
-     "coverage": 0.9333333333333333,
+     "coverage": 1.0,
      "as": "second component at 12.015",
      "quotable": true,
      "theory": null
@@ -577,14 +577,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve",
-     "a periodic structure of 2 cycles over the span"
+     "a structure of 1 widths at +0.746 widths from the centre",
+     "a periodic structure of 2 cycles over the span on the right of the curves",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-     "more samples, a better data collection: the error of the known parameters times 0.95"
+     "more repeats, a better data collection: the error of the known parameters times 0.67",
+     "more samples, a better data collection: the error of the known parameters times 0.75"
     ]
    },
    "words": "the report puts the misfit in the asymmetry: in a gas cell, a weak line beside each line is a second component, so scan its distance, `python -m twinfit scan DIR \"second(x)\" ...`, and write the term at the top of the scan",
@@ -592,42 +592,41 @@
    "sets": 30
   },
   "dont": {
-   "best": "model 0",
+   "best": "model 1",
    "terms": [
-    "one Gaussian line of one width"
+    "one Gaussian line of one width",
+    "a kernel with exponential wings"
    ],
-   "chi_square_per_degree": 38.05058775315671,
+   "chi_square_per_degree": 28.604002255866437,
    "beyond": [
-    "where: the asymmetry, excess 9.12e+03",
-    "where: the wings, excess 4.77e+03",
-    "where: the flanks, excess 4.49e+03",
-    "its line 2.73"
+    "where: the asymmetry, excess 1.33e+04",
+    "where: the flanks, excess 2.07e+03",
+    "where: the wings, excess 1.31e+03",
+    "its line 3.74"
    ],
    "parameters": {
     "width": {
-     "value": 4.116318687235775,
-     "bar": 0.0010893976487668883,
-     "coverage": 1.0,
+     "value": 2.8430259305949286,
+     "bar": 0.0040789820833618245,
+     "coverage": 0.9333333333333333,
      "as": "width",
      "quotable": false,
      "theory": null
     },
     "second component at 12": null
    },
-   "refused": [
-    "a kernel with exponential wings"
-   ],
-   "by_a_hair": true,
+   "refused": [],
+   "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve",
-     "a periodic structure of 2 cycles over the span"
+     "a structure of 1 widths at +0.746 widths from the centre",
+     "a periodic structure of 2 cycles over the span on the right of the curves",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-     "more samples, a better data collection: the error of the known parameters times 0.95"
+     "more repeats, a better data collection: the error of the known parameters times 0.67",
+     "more samples, a better data collection: the error of the known parameters times 0.75"
     ]
    },
    "words": "widen the line with a kernel, as if the satellite were wings of the line",
@@ -646,10 +645,10 @@
      ],
      "chi_square_per_degree": 5.136859508846834,
      "beyond": [
-      "where: the asymmetry, excess 1.15e+03",
-      "where: the flanks, excess 529",
-      "where: the wings, excess 527",
-      "its line 2.93"
+      "where: the flanks, excess 1.33e+03",
+      "where: the asymmetry, excess 1.16e+03",
+      "where: the wings, excess 1.01e+03",
+      "its line 2.57"
      ],
      "parameters": {
       "width": {
@@ -666,14 +665,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.745 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.96"
+       "more repeats, a better data collection: the error of the known parameters times 0.70",
+       "more samples, a better data collection: the error of the known parameters times 0.82"
       ]
      }
     },
@@ -697,7 +696,7 @@
       "second component at 12": {
        "value": 0.080109430967433,
        "bar": 0.000616680427532169,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "second component at 12.046",
        "quotable": true,
        "theory": null
@@ -707,14 +706,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.745 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.96"
+       "more repeats, a better data collection: the error of the known parameters times 0.70",
+       "more samples, a better data collection: the error of the known parameters times 0.82"
       ]
      },
      "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.98, and a finer scan about it, at 11.6868 11.7835 11.8803 11.977 12.0737 12.1705 12.2672, at 12.05: the term file holds `term = mechanisms.second(12.046)`",
@@ -736,10 +735,10 @@
      ],
      "chi_square_per_degree": 36.944737374086635,
      "beyond": [
-      "where: the asymmetry, excess 9.02e+03",
-      "where: the wings, excess 4.8e+03",
-      "where: the flanks, excess 4.54e+03",
-      "its line 2.75"
+      "where: the asymmetry, excess 1.41e+04",
+      "where: the wings, excess 7.76e+03",
+      "where: the flanks, excess 7.71e+03",
+      "its line 3.16"
      ],
      "parameters": {
       "width": {
@@ -756,14 +755,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.746 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "a wider span, a better data collection: the error of the known parameters times 0.71"
       ]
      }
     },
@@ -787,7 +786,7 @@
       "second component at 12": {
        "value": 0.08000000768299165,
        "bar": 0.00020617086619980333,
-       "coverage": 0.9333333333333333,
+       "coverage": 1.0,
        "as": "second component at 12",
        "quotable": false,
        "theory": null
@@ -797,14 +796,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.746 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "a wider span, a better data collection: the error of the known parameters times 0.71"
       ]
      },
      "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.94, and a finer scan about it, at 11.8382 11.8705 11.9027 11.935 11.9673 11.9995 12.0318, at 12: the term file holds `term = mechanisms.second(12)`",
@@ -826,16 +825,16 @@
      ],
      "chi_square_per_degree": 38.13242708639344,
      "beyond": [
-      "where: the asymmetry, excess 1.02e+04",
-      "where: the flanks, excess 4.86e+03",
-      "where: the wings, excess 4.73e+03",
-      "its line 2.91"
+      "where: the asymmetry, excess 1.38e+04",
+      "where: the flanks, excess 1.13e+04",
+      "where: the wings, excess 7.4e+03",
+      "its line 4.06"
      ],
      "parameters": {
       "width": {
        "value": 4.112016625084542,
        "bar": 0.0010880192276966636,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -846,14 +845,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.745 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more repeats, a better data collection: the error of the known parameters times 0.61",
+       "more samples, a better data collection: the error of the known parameters times 0.74"
       ]
      }
     },
@@ -865,16 +864,16 @@
      ],
      "chi_square_per_degree": 0.9388894437502951,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 18.6",
-      "changes along: the asymmetry along pressure, excess 13",
-      "changes along: the core along pressure, excess 9.35",
-      "its line 2.9"
+      "what: a noise correlated from sample to sample, excess 27.5",
+      "changes along: the core along pressure, excess 8.35",
+      "changes along: the asymmetry along pressure, excess 7.43",
+      "its line 4.07"
      ],
      "parameters": {
       "width": {
        "value": 3.9965247017716066,
        "bar": 0.0010588158692075044,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -882,7 +881,7 @@
       "second component at 12": {
        "value": 0.08001540297170988,
        "bar": 0.00020556377620248228,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "second component at 12.045",
        "quotable": false,
        "theory": null
@@ -892,14 +891,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.745 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.90",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more repeats, a better data collection: the error of the known parameters times 0.61",
+       "more samples, a better data collection: the error of the known parameters times 0.74"
       ]
      },
      "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 11.98, and a finer scan about it, at 11.8791 11.9114 11.9437 11.976 12.0083 12.0406 12.0729, at 12.04: the term file holds `term = mechanisms.second(12.045)`",
@@ -921,16 +920,16 @@
      ],
      "chi_square_per_degree": 5.128317605121958,
      "beyond": [
-      "where: the asymmetry, excess 1.33e+03",
-      "where: the flanks, excess 619",
-      "where: the wings, excess 429",
-      "its line 2.63"
+      "where: the wings, excess 1.64e+03",
+      "where: the asymmetry, excess 1.55e+03",
+      "where: the flanks, excess 474",
+      "its line 3.04"
      ],
      "parameters": {
       "width": {
        "value": 4.099438531779833,
        "bar": 0.003251926716880436,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -941,14 +940,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.7 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.91",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more samples, a better data collection: the error of the known parameters times 0.59",
+       "more repeats, a better data collection: the error of the known parameters times 0.63"
       ]
      }
     },
@@ -960,16 +959,16 @@
      ],
      "chi_square_per_degree": 0.9388427975718601,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 19.3",
-      "changes along: the asymmetry along pressure, excess 13.8",
-      "changes along: the core along pressure, excess 9.93",
-      "its line 3.01"
+      "what: a noise correlated from sample to sample, excess 20.3",
+      "changes along: the asymmetry along pressure, excess 6.52",
+      "changes along: the flanks along pressure, excess 5.85",
+      "its line 3.69"
      ],
      "parameters": {
       "width": {
        "value": 3.9895394657079466,
        "bar": 0.0031567227746000567,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -977,7 +976,7 @@
       "second component at 12": {
        "value": 0.08007356768625312,
        "bar": 0.000613160607048602,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "second component at 12.136",
        "quotable": false,
        "theory": null
@@ -987,14 +986,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 2 cycles over the span"
+       "a structure of 1 widths at +0.7 widths from the centre",
+       "a periodic structure of 2 cycles over the span on the right of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "pressure past its range, a better data collection: the error of the known parameters times 0.91",
-       "more samples, a better data collection: the error of the known parameters times 0.95"
+       "more samples, a better data collection: the error of the known parameters times 0.59",
+       "more repeats, a better data collection: the error of the known parameters times 0.63"
       ]
      },
      "done": "`python -m twinfit scan DIR \"second(x)\" 6 8 10 12 14 16 18` puts its top at 12.06, and a finer scan about it, at 11.7677 11.8648 11.9619 12.059 12.1561 12.2532 12.3503, at 12.14: the term file holds `term = mechanisms.second(12.136)`",
@@ -1006,7 +1005,7 @@
     }
    }
   ],
-  "minutes": 1.4
+  "minutes": 18.5
  },
  "saturation": {
   "field": "laser-driven resonance fluorescence at five powers",
@@ -1022,10 +1021,10 @@
    ],
    "chi_square_per_degree": 12.573190730861597,
    "beyond": [
-    "changes along: the flanks along power, excess 1.17e+04",
-    "changes along: the core along power, excess 8.97e+03",
-    "where: the core, excess 5.08e+03",
-    "its line 3.08"
+    "changes along: the core along power, excess 1.29e+04",
+    "changes along: the flanks along power, excess 8.45e+03",
+    "where: the core, excess 4.24e+03",
+    "its line 2.58"
    ],
    "parameters": {
     "width at no power": null,
@@ -1040,9 +1039,9 @@
      "the shape that the residuals hold in the core, changing along power"
     ],
     "experiment": [
+     "more samples, a better data collection: the error of the known parameters times 0.43",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.62",
-     "more repeats, a better data collection: the error of the known parameters times 0.67"
+     "more repeats, a better data collection: the error of the known parameters times 0.76"
     ]
    }
   },
@@ -1053,14 +1052,14 @@
    ],
    "chi_square_per_degree": 1.150334690642585,
    "beyond": [
-    "what: glitches, excess 111",
-    "its line 2.69"
+    "what: glitches, excess 94.7",
+    "its line 2.9"
    ],
    "parameters": {
     "width at no power": {
      "value": 0.9969191258779023,
      "bar": 0.0028471801930770356,
-     "coverage": 0.9,
+     "coverage": 0.8666666666666667,
      "as": "width at no power",
      "quotable": false,
      "theory": null
@@ -1068,7 +1067,7 @@
     "saturation power": {
      "value": 49.35639854056187,
      "bar": 0.42211856214948523,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9333333333333333,
      "as": "saturation power",
      "quotable": false,
      "theory": null
@@ -1078,14 +1077,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the asymmetry",
+     "the shape that the residuals hold in the wings",
      "the shape that the residuals hold in the flanks",
      "the shape that the residuals hold in the core, changing along power"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.60",
-     "more samples, a better data collection: the error of the known parameters times 0.64"
+     "more repeats, a better data collection: the error of the known parameters times 0.53",
+     "more samples, a better data collection: the error of the known parameters times 0.59"
     ]
    },
    "words": "write the law that the physics gives, the width saturating with the power, as shared parameters that read the power, in model.py",
@@ -1093,25 +1092,24 @@
    "sets": 30
   },
   "dont": {
-   "best": "model 0",
+   "best": "model 1",
    "terms": [
-    "one Lorentzian line of one width"
+    "one Lorentzian line of one width",
+    "width changes along power"
    ],
-   "chi_square_per_degree": 12.573190730861597,
+   "chi_square_per_degree": 1.2170839749490123,
    "beyond": [
-    "changes along: the flanks along power, excess 1.17e+04",
-    "changes along: the core along power, excess 8.97e+03",
-    "where: the core, excess 5.08e+03",
-    "its line 3.08"
+    "what: glitches, excess 94.6",
+    "changes along: the core along power, excess 25.4",
+    "where: the flanks, excess 8.96",
+    "its line 3.38"
    ],
    "parameters": {
     "width at no power": null,
     "saturation power": null
    },
-   "refused": [
-    "width changes along power"
-   ],
-   "by_a_hair": true,
+   "refused": [],
+   "by_a_hair": false,
    "proposals": {
     "model": [
      "the shape that the residuals hold in the core",
@@ -1119,9 +1117,9 @@
      "the shape that the residuals hold in the core, changing along power"
     ],
     "experiment": [
+     "more samples, a better data collection: the error of the known parameters times 0.43",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.62",
-     "more repeats, a better data collection: the error of the known parameters times 0.67"
+     "more repeats, a better data collection: the error of the known parameters times 0.76"
     ]
    },
    "words": "a width that grows in proportion to the power, the generic term where the physics gives a law",
@@ -1140,10 +1138,10 @@
      ],
      "chi_square_per_degree": 2.3084432101808208,
      "beyond": [
-      "changes along: the flanks along power, excess 1.24e+03",
-      "changes along: the core along power, excess 1.06e+03",
-      "where: the core, excess 606",
-      "its line 3"
+      "changes along: the core along power, excess 1.78e+03",
+      "changes along: the flanks along power, excess 1.01e+03",
+      "where: the core, excess 552",
+      "its line 2.9"
      ],
      "parameters": {
       "width at no power": null,
@@ -1159,8 +1157,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.67"
+       "more samples, a better data collection: the error of the known parameters times 0.54",
+       "more repeats, a better data collection: the error of the known parameters times 0.73"
       ]
      }
     },
@@ -1171,14 +1169,14 @@
      ],
      "chi_square_per_degree": 1.008477834779784,
      "beyond": [
-      "what: glitches, excess 8.16",
-      "its line 2.65"
+      "what: glitches, excess 9.39",
+      "its line 4.23"
      ],
      "parameters": {
       "width at no power": {
        "value": 0.9894161034871239,
        "bar": 0.00858428227941101,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "width at no power",
        "quotable": false,
        "theory": null
@@ -1186,7 +1184,7 @@
       "saturation power": {
        "value": 47.92920334241124,
        "bar": 1.2345043327493868,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "saturation power",
        "quotable": false,
        "theory": null
@@ -1196,14 +1194,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "the shape that the residuals hold in the wings",
        "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the core, changing along power"
+       "the shape that the residuals hold in the flanks"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.60",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "power past its range, a better data collection: the error of the known parameters times 0.77",
+       "more repeats, a better data collection: the error of the known parameters times 0.78"
       ]
      },
      "done": null,
@@ -1222,10 +1220,10 @@
      ],
      "chi_square_per_degree": 11.44475868282106,
      "beyond": [
-      "changes along: the flanks along power, excess 1.15e+04",
-      "changes along: the core along power, excess 9.16e+03",
-      "where: the core, excess 5.19e+03",
-      "its line 2.88"
+      "changes along: the core along power, excess 1.13e+04",
+      "changes along: the flanks along power, excess 7.8e+03",
+      "where: the core, excess 5.36e+03",
+      "its line 3.85"
      ],
      "parameters": {
       "width at no power": null,
@@ -1235,14 +1233,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the core",
+       "a structure of 1 widths at +0.104 widths from the centre",
        "the shape that the residuals hold in the flanks, changing along power",
        "the shape that the residuals hold in the core, changing along power"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.67"
+       "more repeats, a better data collection: the error of the known parameters times 0.85",
+       "more samples, a better data collection: the error of the known parameters times 0.89"
       ]
      }
     },
@@ -1253,14 +1251,14 @@
      ],
      "chi_square_per_degree": 0.15990843302165844,
      "beyond": [
-      "what: glitches, excess 118",
-      "its line 2.64"
+      "what: glitches, excess 45.5",
+      "its line 3.38"
      ],
      "parameters": {
       "width at no power": {
        "value": 1.0006681545605416,
        "bar": 0.0028401040210968118,
-       "coverage": 0.9,
+       "coverage": 0.9333333333333333,
        "as": "width at no power",
        "quotable": false,
        "theory": null
@@ -1278,14 +1276,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the flanks, changing along power",
-       "the shape that the residuals hold in the core"
+       "the shape that the residuals hold in the wings",
+       "the shape that the residuals hold in the core",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.60",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "power past its range, a better data collection: the error of the known parameters times 0.87",
+       "more repeats, a better data collection: the error of the known parameters times 0.89"
       ]
      },
      "done": null,
@@ -1304,10 +1302,10 @@
      ],
      "chi_square_per_degree": 12.877602009393698,
      "beyond": [
-      "changes along: the core along power, excess 9.62e+03",
-      "changes along: the flanks along power, excess 9.45e+03",
-      "where: the core, excess 5.15e+03",
-      "its line 2.74"
+      "changes along: the core along power, excess 1.3e+04",
+      "changes along: the flanks along power, excess 9.16e+03",
+      "where: the flanks, excess 3.17e+03",
+      "its line 3.24"
      ],
      "parameters": {
       "width at no power": null,
@@ -1317,14 +1315,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the core",
+       "the shape that the residuals hold in the flanks",
        "the shape that the residuals hold in the flanks, changing along power",
        "the shape that the residuals hold in the core, changing along power"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.67"
+       "more repeats, a better data collection: the error of the known parameters times 0.81",
+       "more samples, a better data collection: the error of the known parameters times 0.86"
       ]
      }
     },
@@ -1335,16 +1333,16 @@
      ],
      "chi_square_per_degree": 1.1557637806368932,
      "beyond": [
-      "what: glitches, excess 115",
-      "what: a noise correlated from sample to sample, excess 25.7",
-      "where: the flanks, excess 8.55",
-      "its line 2.64"
+      "what: glitches, excess 73",
+      "what: a noise correlated from sample to sample, excess 35.3",
+      "where: the asymmetry, excess 10.2",
+      "its line 3.72"
      ],
      "parameters": {
       "width at no power": {
        "value": 0.9892203733860219,
        "bar": 0.0028612284050711194,
-       "coverage": 0.9,
+       "coverage": 0.9666666666666667,
        "as": "width at no power",
        "quotable": false,
        "theory": null
@@ -1362,14 +1360,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
+       "the shape that the residuals hold in the asymmetry",
        "a periodic structure of 10.5 cycles over the span",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.60",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "more repeats, a better data collection: the error of the known parameters times 0.61",
+       "more samples, a better data collection: the error of the known parameters times 0.76"
       ]
      },
      "done": null,
@@ -1388,10 +1386,10 @@
      ],
      "chi_square_per_degree": 2.4076348532946446,
      "beyond": [
-      "changes along: the flanks along power, excess 1.12e+03",
-      "changes along: the core along power, excess 1.08e+03",
-      "where: the core, excess 602",
-      "its line 2.48"
+      "changes along: the core along power, excess 2.17e+03",
+      "changes along: the flanks along power, excess 1.5e+03",
+      "where: the core, excess 755",
+      "its line 3.21"
      ],
      "parameters": {
       "width at no power": null,
@@ -1407,8 +1405,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.67"
+       "power past its range, a better data collection: the error of the known parameters times 0.73",
+       "more samples, a better data collection: the error of the known parameters times 0.78"
       ]
      }
     },
@@ -1419,16 +1417,16 @@
      ],
      "chi_square_per_degree": 1.0062186197995704,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 27.1",
-      "what: glitches, excess 7.82",
-      "changes along: the asymmetry along power, excess 6.55",
-      "its line 2.59"
+      "what: a noise correlated from sample to sample, excess 48.4",
+      "where: the asymmetry, excess 9.54",
+      "what: glitches, excess 8.21",
+      "its line 3.49"
      ],
      "parameters": {
       "width at no power": {
        "value": 0.9662707821114378,
        "bar": 0.008713365198040996,
-       "coverage": 0.9,
+       "coverage": 0.9666666666666667,
        "as": "width at no power",
        "quotable": false,
        "theory": null
@@ -1446,14 +1444,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "the shape that the residuals hold in the asymmetry",
        "a periodic structure of 10.5 cycles over the span",
-       "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the asymmetry, changing along power"
+       "a structure of 1 widths at +2.22 widths from the centre"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.60",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "more repeats, a better data collection: the error of the known parameters times 0.57",
+       "more samples, a better data collection: the error of the known parameters times 0.81"
       ]
      },
      "done": null,
@@ -1462,7 +1460,7 @@
     }
    }
   ],
-  "minutes": 2.6
+  "minutes": 12.6
  },
  "filter": {
   "field": "absorption dips behind a detector's low-pass filter",
@@ -1477,10 +1475,10 @@
    ],
    "chi_square_per_degree": 1.0284791531682926,
    "beyond": [
-    "what: a noise correlated from sample to sample, excess 73.3",
-    "changes along: the core along temperature, excess 26.8",
+    "what: a noise correlated from sample to sample, excess 42.1",
     "where: the flanks, excess 12.8",
-    "its line 3.28"
+    "where: the wings, excess 12.2",
+    "its line 3.17"
    ],
    "parameters": {
     "width": {
@@ -1497,13 +1495,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the flanks",
-     "a periodic structure of 21 cycles over the span",
-     "the shape that the residuals hold in the core, changing along temperature"
+     "a periodic structure of 21 cycles over the span, fixed to the abscissa",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.70",
-     "more repeats, a better data collection: the error of the known parameters times 0.71"
+     "more samples, a better data collection: the error of the known parameters times 0.53",
+     "more repeats, a better data collection: the error of the known parameters times 0.58"
     ]
    }
   },
@@ -1535,7 +1533,7 @@
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
      "more repeats, a better data collection: the error of the known parameters times 0.67",
-     "more samples, a better data collection: the error of the known parameters times 0.70"
+     "temperature past its range, a better data collection: the error of the known parameters times 0.75"
     ]
    },
    "words": "read the correlated noise as noise: keep one sample in every few with `python -m twinfit thin DIR N`, at the span that the report gives, and run the loop on the copy",
@@ -1549,10 +1547,10 @@
    ],
    "chi_square_per_degree": 1.0284791531682926,
    "beyond": [
-    "what: a noise correlated from sample to sample, excess 73.3",
-    "changes along: the core along temperature, excess 26.8",
+    "what: a noise correlated from sample to sample, excess 42.1",
     "where: the flanks, excess 12.8",
-    "its line 3.28"
+    "where: the wings, excess 12.2",
+    "its line 3.17"
    ],
    "parameters": {
     "width": {
@@ -1571,13 +1569,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the flanks",
-     "a periodic structure of 21 cycles over the span",
-     "the shape that the residuals hold in the core, changing along temperature"
+     "a periodic structure of 21 cycles over the span, fixed to the abscissa",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.70",
-     "more repeats, a better data collection: the error of the known parameters times 0.71"
+     "more samples, a better data collection: the error of the known parameters times 0.53",
+     "more repeats, a better data collection: the error of the known parameters times 0.58"
     ]
    },
    "words": "hold the correlation with a term of the curve, a pedestal",
@@ -1596,10 +1594,10 @@
      ],
      "chi_square_per_degree": 1.0284786016394296,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 71.8",
-      "changes along: the core along temperature, excess 25.8",
-      "where: the flanks, excess 13.7",
-      "its line 2.86"
+      "what: a noise correlated from sample to sample, excess 55.4",
+      "where: the flanks, excess 15.5",
+      "where: the wings, excess 11.4",
+      "its line 2.8"
      ],
      "parameters": {
       "width": {
@@ -1617,12 +1615,12 @@
       "model": [
        "the shape that the residuals hold in the flanks",
        "a periodic structure of 21 cycles over the span",
-       "the shape that the residuals hold in the core, changing along temperature"
+       "a structure of 1 widths at -0.561 widths from the centre"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.70",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "more samples, a better data collection: the error of the known parameters times 0.58",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
       ]
      }
     },
@@ -1654,7 +1652,7 @@
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
        "more repeats, a better data collection: the error of the known parameters times 0.67",
-       "more samples, a better data collection: the error of the known parameters times 0.70"
+       "more samples, a better data collection: the error of the known parameters times 0.81"
       ]
      },
      "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
@@ -1677,7 +1675,7 @@
       "width": {
        "value": 1.2000000906434545,
        "bar": 0.0003299925373862974,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -1688,13 +1686,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the flanks",
+       "the shape that the residuals hold in the core",
        "the shape that the residuals hold in the wings, changing along temperature"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.70",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "more repeats, a better data collection: the error of the known parameters times 0.56",
+       "temperature past its range, a better data collection: the error of the known parameters times 0.61"
       ]
      }
     },
@@ -1719,14 +1717,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the wings, changing along temperature"
+       "the shape that the residuals hold in the flanks",
+       "the shape that the residuals hold in the wings, changing along temperature",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.67",
-       "more samples, a better data collection: the error of the known parameters times 0.70"
+       "more samples, a better data collection: the error of the known parameters times 0.67",
+       "a wider span, a better data collection: the error of the known parameters times 0.77"
       ]
      },
      "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
@@ -1744,17 +1742,14 @@
       "one Gaussian dip of one width"
      ],
      "chi_square_per_degree": 1.0081123082535652,
-     "beyond": [
-      "changes along: the core along temperature, excess 3.05",
-      "its line 3"
-     ],
+     "beyond": [],
      "parameters": {
       "width": {
        "value": 1.2000694095098972,
        "bar": 0.0003300358232898151,
        "coverage": 0.9666666666666667,
        "as": "width",
-       "quotable": false,
+       "quotable": true,
        "theory": null
       }
      },
@@ -1762,14 +1757,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the core, changing along temperature",
        "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry, changing along temperature"
+       "the shape that the residuals hold in the wings",
+       "the shape that the residuals hold in the core, changing along temperature"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.65",
-       "more repeats, a better data collection: the error of the known parameters times 0.72"
+       "more repeats, a better data collection: the error of the known parameters times 0.69",
+       "temperature past its range, a better data collection: the error of the known parameters times 0.82"
       ]
      }
     },
@@ -1801,7 +1796,7 @@
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
        "more repeats, a better data collection: the error of the known parameters times 0.67",
-       "more samples, a better data collection: the error of the known parameters times 0.70"
+       "more samples, a better data collection: the error of the known parameters times 0.73"
       ]
      },
      "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
@@ -1824,7 +1819,7 @@
       "width": {
        "value": 1.2002094616354892,
        "bar": 0.0009903675268646695,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "width",
        "quotable": true,
        "theory": null
@@ -1840,8 +1835,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.70",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "more samples, a better data collection: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.57"
       ]
      }
     },
@@ -1866,14 +1861,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
        "the shape that the residuals hold in the asymmetry, changing along temperature",
+       "the shape that the residuals hold in the wings, changing along temperature",
        "the shape that the residuals hold in the core, changing along temperature"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.67",
-       "more samples, a better data collection: the error of the known parameters times 0.70"
+       "more repeats, a better data collection: the error of the known parameters times 0.55",
+       "more samples, a better data collection: the error of the known parameters times 0.66"
       ]
      },
      "done": "`python -m twinfit thin DIR 15` writes 3 copies, and the loop runs on the first, do_thin_15_0",
@@ -1882,7 +1877,7 @@
     }
    }
   ],
-  "minutes": 1.4
+  "minutes": 8.9
  },
  "fano": {
   "field": "photoionization across an autoionizing resonance at four pressures",
@@ -1898,16 +1893,16 @@
    ],
    "chi_square_per_degree": 475.3753212667952,
    "beyond": [
-    "where: the asymmetry, excess 5.84e+05",
-    "changes along: the asymmetry along pressure, excess 3.29e+04",
-    "where: the core, excess 2.29e+04",
-    "its line 3.18"
+    "where: the asymmetry, excess 4.4e+05",
+    "changes along: the asymmetry along pressure, excess 5.92e+04",
+    "where: the core, excess 1.78e+04",
+    "its line 3.87"
    ],
    "parameters": {
     "half_width": {
      "value": 2.2253783681726356,
      "bar": 0.0010827704052819651,
-     "coverage": 0.9,
+     "coverage": 0.9666666666666667,
      "as": "half_width",
      "quotable": false,
      "theory": null
@@ -1919,13 +1914,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve",
-     "the shape that the residuals hold in the asymmetry, changing along pressure"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+     "a slow trend over the span of each curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.64",
-     "more samples, a better data collection: the error of the known parameters times 0.65"
+     "more repeats, a better data collection: the error of the known parameters times 0.73",
+     "more samples, a better data collection: the error of the known parameters times 0.76"
     ]
    }
   },
@@ -1940,7 +1935,7 @@
     "half_width": {
      "value": 1.999662022428032,
      "bar": 0.0008827433320122192,
-     "coverage": 0.9,
+     "coverage": 0.9666666666666667,
      "as": "half_width",
      "quotable": true,
      "theory": null
@@ -1948,7 +1943,7 @@
     "q": {
      "value": 2.9970558987261025,
      "bar": 0.00168873446976191,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9,
      "as": "q",
      "quotable": true,
      "theory": null
@@ -1964,8 +1959,8 @@
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.75",
-     "more repeats, a better data collection: the error of the known parameters times 0.77"
+     "more repeats, a better data collection: the error of the known parameters times 0.65",
+     "more samples, a better data collection: the error of the known parameters times 0.80"
     ]
    },
    "words": "the asymmetry is the line's own shape, which no term of the package holds: write the profile that the physics gives, a Fano profile, as the model",
@@ -1979,16 +1974,16 @@
    ],
    "chi_square_per_degree": 475.3753212667952,
    "beyond": [
-    "where: the asymmetry, excess 5.84e+05",
-    "changes along: the asymmetry along pressure, excess 3.29e+04",
-    "where: the core, excess 2.29e+04",
-    "its line 3.18"
+    "where: the asymmetry, excess 4.4e+05",
+    "changes along: the asymmetry along pressure, excess 5.92e+04",
+    "where: the core, excess 1.78e+04",
+    "its line 3.87"
    ],
    "parameters": {
     "half_width": {
      "value": 2.2253783681726356,
      "bar": 0.0010827704052819651,
-     "coverage": 0.9,
+     "coverage": 0.9666666666666667,
      "as": "half_width",
      "quotable": false,
      "theory": null
@@ -2002,13 +1997,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve",
-     "the shape that the residuals hold in the asymmetry, changing along pressure"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+     "a slow trend over the span of each curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.64",
-     "more samples, a better data collection: the error of the known parameters times 0.65"
+     "more repeats, a better data collection: the error of the known parameters times 0.73",
+     "more samples, a better data collection: the error of the known parameters times 0.76"
     ]
    },
    "words": "a tail on one side, the generic term of an asymmetry",
@@ -2027,16 +2022,16 @@
      ],
      "chi_square_per_degree": 53.82065511736801,
      "beyond": [
-      "where: the asymmetry, excess 6.53e+04",
-      "changes along: the asymmetry along pressure, excess 3.3e+03",
-      "where: the core, excess 2.42e+03",
-      "its line 3.18"
+      "where: the asymmetry, excess 7.84e+04",
+      "changes along: the asymmetry along pressure, excess 5.07e+03",
+      "where: the core, excess 1.7e+03",
+      "its line 2.99"
      ],
      "parameters": {
       "half_width": {
        "value": 2.2254024239578194,
        "bar": 0.0032505507750389654,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2048,13 +2043,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 6 cycles over the span"
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.64",
-       "more samples, a better data collection: the error of the known parameters times 0.65"
+       "more repeats, a better data collection: the error of the known parameters times 0.58",
+       "a wider span, a better data collection: the error of the known parameters times 0.64"
       ]
      }
     },
@@ -2069,7 +2064,7 @@
       "half_width": {
        "value": 1.9989846981939146,
        "bar": 0.002648291516878386,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": true,
        "theory": null
@@ -2077,7 +2072,7 @@
       "q": {
        "value": 2.991188230147477,
        "bar": 0.005051460676216898,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "q",
        "quotable": true,
        "theory": null
@@ -2088,13 +2083,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a periodic structure of 386.5 cycles over the span",
+       "a structure of 0.5 widths at -3.74 widths from the centre",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more repeats, a better data collection: the error of the known parameters times 0.71",
+       "more samples, a better data collection: the error of the known parameters times 0.72"
       ]
      },
      "done": null,
@@ -2113,16 +2108,16 @@
      ],
      "chi_square_per_degree": 473.8692020781181,
      "beyond": [
-      "where: the asymmetry, excess 5.68e+05",
-      "changes along: the asymmetry along pressure, excess 3.26e+04",
-      "where: the core, excess 2.23e+04",
-      "its line 3.14"
+      "where: the asymmetry, excess 4.7e+05",
+      "changes along: the asymmetry along pressure, excess 2.72e+04",
+      "where: the core, excess 1.84e+04",
+      "its line 2.74"
      ],
      "parameters": {
       "half_width": {
        "value": 2.22536650144447,
        "bar": 0.0010823963190453722,
-       "coverage": 0.9,
+       "coverage": 0.9333333333333333,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2134,13 +2129,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 6 cycles over the span"
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.64",
-       "more samples, a better data collection: the error of the known parameters times 0.65"
+       "more repeats, a better data collection: the error of the known parameters times 0.54",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
       ]
      }
     },
@@ -2163,7 +2158,7 @@
       "q": {
        "value": 2.9999999044833126,
        "bar": 0.0016912023534907802,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "q",
        "quotable": false,
        "theory": null
@@ -2173,14 +2168,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the wings, changing along pressure",
-       "the shape that the residuals hold in the flanks, changing along pressure"
+       "the shape that the residuals hold in the core",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "the shape that the residuals hold in the core, changing along pressure"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more repeats, a better data collection: the error of the known parameters times 0.55",
+       "more samples, a better data collection: the error of the known parameters times 0.67"
       ]
      },
      "done": null,
@@ -2199,16 +2194,16 @@
      ],
      "chi_square_per_degree": 476.42269459797166,
      "beyond": [
-      "where: the asymmetry, excess 5.8e+05",
-      "changes along: the asymmetry along pressure, excess 3.39e+04",
-      "where: the core, excess 2.33e+04",
-      "its line 3.06"
+      "where: the asymmetry, excess 5.95e+05",
+      "changes along: the asymmetry along pressure, excess 4.32e+04",
+      "where: the core, excess 1.96e+04",
+      "its line 3.18"
      ],
      "parameters": {
       "half_width": {
        "value": 2.225224968504545,
        "bar": 0.0010834274023670087,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2220,13 +2215,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the asymmetry, changing along pressure"
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.64",
-       "more samples, a better data collection: the error of the known parameters times 0.65"
+       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more repeats, a better data collection: the error of the known parameters times 0.72"
       ]
      }
     },
@@ -2237,16 +2232,16 @@
      ],
      "chi_square_per_degree": 1.000138298070619,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 69.1",
-      "where: the asymmetry, excess 13",
-      "changes along: the asymmetry along pressure, excess 5.1",
-      "its line 2.64"
+      "what: a noise correlated from sample to sample, excess 93.1",
+      "where: the asymmetry, excess 10.7",
+      "changes along: the asymmetry along pressure, excess 6.73",
+      "its line 4.85"
      ],
      "parameters": {
       "half_width": {
        "value": 1.9986950017102998,
        "bar": 0.0008826250300596215,
-       "coverage": 0.9,
+       "coverage": 0.9333333333333333,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2254,7 +2249,7 @@
       "q": {
        "value": 2.9911184143731115,
        "bar": 0.0016837118664552214,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "q",
        "quotable": false,
        "theory": null
@@ -2265,13 +2260,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a periodic structure of 8.5 cycles over the span",
-       "a slow trend over the span of each curve"
+       "a structure of 0.5 widths at -3.74 widths from the centre",
+       "a periodic structure of 8.5 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more repeats, a better data collection: the error of the known parameters times 0.67",
+       "more samples, a better data collection: the error of the known parameters times 0.71"
       ]
      },
      "done": null,
@@ -2290,16 +2285,16 @@
      ],
      "chi_square_per_degree": 54.16598904763496,
      "beyond": [
-      "where: the asymmetry, excess 6.27e+04",
-      "changes along: the asymmetry along pressure, excess 3.7e+03",
-      "where: the core, excess 2.42e+03",
-      "its line 3.12"
+      "where: the asymmetry, excess 5.42e+04",
+      "changes along: the asymmetry along pressure, excess 4.55e+03",
+      "where: the core, excess 1.58e+03",
+      "its line 3.3"
      ],
      "parameters": {
       "half_width": {
        "value": 2.2249488866235723,
        "bar": 0.003256431407556218,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2311,13 +2306,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve",
-       "a periodic structure of 6 cycles over the span"
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
+       "more samples, a better data collection: the error of the known parameters times 0.48",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.64",
-       "more samples, a better data collection: the error of the known parameters times 0.65"
+       "more repeats, a better data collection: the error of the known parameters times 0.57"
       ]
      }
     },
@@ -2328,16 +2323,16 @@
      ],
      "chi_square_per_degree": 1.000169093118962,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 71",
-      "where: the asymmetry, excess 10.9",
-      "changes along: the asymmetry along pressure, excess 4.86",
-      "its line 2.75"
+      "what: a noise correlated from sample to sample, excess 55",
+      "where: the asymmetry, excess 10.7",
+      "changes along: the flanks along pressure, excess 7.7",
+      "its line 3.61"
      ],
      "parameters": {
       "half_width": {
        "value": 1.9960737294256854,
        "bar": 0.0026471847836334267,
-       "coverage": 0.9,
+       "coverage": 0.9333333333333333,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2345,7 +2340,7 @@
       "q": {
        "value": 2.9735478068917978,
        "bar": 0.00500680636371125,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.8333333333333334,
        "as": "q",
        "quotable": false,
        "theory": null
@@ -2355,14 +2350,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
+       "a structure of 0.5 widths at -3.73 widths from the centre",
        "a periodic structure of 8.5 cycles over the span",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more samples, a better data collection: the error of the known parameters times 0.57",
+       "more repeats, a better data collection: the error of the known parameters times 0.58"
       ]
      },
      "done": null,
@@ -2371,7 +2366,7 @@
     }
    }
   ],
-  "minutes": 3.1
+  "minutes": 11.3
  },
  "counts": {
   "field": "emission-line photon counts at four pump powers",
@@ -2386,16 +2381,16 @@
    ],
    "chi_square_per_degree": 4.508931441941741,
    "beyond": [
-    "what: a noise that grows with the signal, excess 347",
-    "what: glitches, excess 66.3",
-    "changes along: the core along power, excess 26.3",
-    "its line 2.37"
+    "what: a noise that grows with the signal, excess 298",
+    "what: glitches, excess 75.1",
+    "changes along: the core along power, excess 21.7",
+    "its line 4.24"
    ],
    "parameters": {
     "half_width": {
      "value": 1.5017944940725318,
      "bar": 0.0009442360198984045,
-     "coverage": 0.9333333333333333,
+     "coverage": 0.8333333333333334,
      "as": "half_width",
      "quotable": false,
      "theory": null
@@ -2405,14 +2400,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
+     "a periodic structure of 318.5 cycles over the span, fixed to the abscissa",
      "a periodic structure of 272.5 cycles over the span",
-     "the shape that the residuals hold in the core, changing along power",
-     "the shape that the residuals hold in the flanks, changing along power"
+     "the shape that the residuals hold in the core, changing along power"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.71",
-     "more repeats, a better data collection: the error of the known parameters times 0.75"
+     "more repeats, a better data collection: the error of the known parameters times 0.76",
+     "more samples, a better data collection: the error of the known parameters times 0.78"
     ]
    }
   },
@@ -2437,14 +2432,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the flanks",
-     "the shape that the residuals hold in the core, changing along power",
-     "the shape that the residuals hold in the wings, changing along power"
+     "a periodic structure of 246.5 cycles over the span, fixed to the abscissa",
+     "a structure of 0.25 widths at -4.73 widths from the centre",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.70",
-     "more repeats, a better data collection: the error of the known parameters times 0.71"
+     "more samples, a better data collection: the error of the known parameters times 0.61",
+     "more repeats, a better data collection: the error of the known parameters times 0.65"
     ]
    },
    "words": "give each sample the noise of a counter, the root of the fitted counts, with `python -m twinfit counts DIR`, and run the loop on the copy",
@@ -2458,16 +2453,16 @@
    ],
    "chi_square_per_degree": 4.508931441941741,
    "beyond": [
-    "what: a noise that grows with the signal, excess 347",
-    "what: glitches, excess 66.3",
-    "changes along: the core along power, excess 26.3",
-    "its line 2.37"
+    "what: a noise that grows with the signal, excess 298",
+    "what: glitches, excess 75.1",
+    "changes along: the core along power, excess 21.7",
+    "its line 4.24"
    ],
    "parameters": {
     "half_width": {
      "value": 1.5017944940725318,
      "bar": 0.0009442360198984045,
-     "coverage": 0.9333333333333333,
+     "coverage": 0.8333333333333334,
      "as": "half_width",
      "quotable": false,
      "theory": null
@@ -2479,14 +2474,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
+     "a periodic structure of 318.5 cycles over the span, fixed to the abscissa",
      "a periodic structure of 272.5 cycles over the span",
-     "the shape that the residuals hold in the core, changing along power",
-     "the shape that the residuals hold in the flanks, changing along power"
+     "the shape that the residuals hold in the core, changing along power"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.71",
-     "more repeats, a better data collection: the error of the known parameters times 0.75"
+     "more repeats, a better data collection: the error of the known parameters times 0.76",
+     "more samples, a better data collection: the error of the known parameters times 0.78"
     ]
    },
    "words": "hold the misfit at the top of the lines with a term of the curve, a pedestal",
@@ -2505,16 +2500,16 @@
      ],
      "chi_square_per_degree": 4.628790991191459,
      "beyond": [
-      "what: a noise that grows with the signal, excess 320",
-      "what: glitches, excess 106",
-      "changes along: the core along power, excess 20.7",
-      "its line 2.45"
+      "what: glitches, excess 179",
+      "what: a noise that grows with the signal, excess 173",
+      "changes along: the core along power, excess 8.1",
+      "its line 3.23"
      ],
      "parameters": {
       "half_width": {
        "value": 1.4903005498738284,
        "bar": 0.0027932180040868703,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2524,14 +2519,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
        "a periodic structure of 321 cycles over the span",
-       "the shape that the residuals hold in the core, changing along power"
+       "a periodic structure of 369 cycles over the span, fixed to the abscissa",
+       "a structure of 0.25 widths at +1.22 widths from the centre"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.78"
+       "a wider span, a better data collection: the error of the known parameters times 0.69",
+       "power past its range, a better data collection: the error of the known parameters times 0.73"
       ]
      }
     },
@@ -2542,16 +2537,16 @@
      ],
      "chi_square_per_degree": 8.852823915289727,
      "beyond": [
-      "what: glitches, excess 30.8",
-      "changes along: the core along power, excess 15.1",
-      "where: the asymmetry, excess 13.8",
-      "its line 2.69"
+      "what: glitches, excess 42.6",
+      "where: the asymmetry, excess 13.2",
+      "changes along: the core along power, excess 10",
+      "its line 3.73"
      ],
      "parameters": {
       "half_width": {
        "value": 1.5029732179013502,
        "bar": 0.0031974573971044165,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2561,14 +2556,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "a periodic structure of 299 cycles over the span",
-       "the shape that the residuals hold in the core, changing along power"
+       "a structure of 0.25 widths at +1.24 widths from the centre",
+       "a periodic structure of 299 cycles over the span, fixed to the abscissa",
+       "a periodic structure of 299 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.73",
-       "more repeats, a better data collection: the error of the known parameters times 0.73"
+       "more repeats, a better data collection: the error of the known parameters times 0.51",
+       "power past its range, a better data collection: the error of the known parameters times 0.65"
       ]
      },
      "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
@@ -2591,7 +2586,7 @@
       "half_width": {
        "value": 1.4999999802541921,
        "bar": 0.000942755617230275,
-       "coverage": 0.9333333333333333,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2601,14 +2596,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the wings, changing along power"
+       "the shape that the residuals hold in the core, changing along power",
+       "the shape that the residuals hold in the flanks, changing along power",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.71",
-       "more repeats, a better data collection: the error of the known parameters times 0.75"
+       "power past its range, a better data collection: the error of the known parameters times 0.75",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
       ]
      }
     },
@@ -2623,7 +2618,7 @@
       "half_width": {
        "value": 1.5000001518081754,
        "bar": 0.0032000912794849126,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2633,14 +2628,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "the shape that the residuals hold in the flanks",
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the core",
        "the shape that the residuals hold in the wings, changing along power"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.70",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "more repeats, a better data collection: the error of the known parameters times 0.74",
+       "power past its range, a better data collection: the error of the known parameters times 0.84"
       ]
      },
      "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
@@ -2663,7 +2658,7 @@
       "half_width": {
        "value": 1.5019204314509726,
        "bar": 0.0009436818164372971,
-       "coverage": 0.9333333333333333,
+       "coverage": 1.0,
        "as": "half_width",
        "quotable": true,
        "theory": null
@@ -2679,8 +2674,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.78"
+       "more samples, a better data collection: the error of the known parameters times 0.62",
+       "more repeats, a better data collection: the error of the known parameters times 0.67"
       ]
      }
     },
@@ -2691,14 +2686,14 @@
      ],
      "chi_square_per_degree": 0.4580814834206743,
      "beyond": [
-      "what: a noise that grows with the signal, excess 8.27",
-      "its line 2.49"
+      "what: a noise that grows with the signal, excess 9.7",
+      "its line 3.42"
      ],
      "parameters": {
       "half_width": {
        "value": 1.5007530461990017,
        "bar": 0.0032002586488731983,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2709,13 +2704,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the wings, changing along power"
+       "a periodic structure of 63.5 cycles over the span on the left of the curves",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.73",
-       "more repeats, a better data collection: the error of the known parameters times 0.73"
+       "more samples, a better data collection: the error of the known parameters times 0.58",
+       "more repeats, a better data collection: the error of the known parameters times 0.69"
       ]
      },
      "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
@@ -2738,7 +2733,7 @@
       "half_width": {
        "value": 1.5057388263862514,
        "bar": 0.0028365455608419504,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": true,
        "theory": null
@@ -2749,13 +2744,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the flanks",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
        "the shape that the residuals hold in the core, changing along power"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.78"
+       "more repeats, a better data collection: the error of the known parameters times 0.59",
+       "more samples, a better data collection: the error of the known parameters times 0.74"
       ]
      }
     },
@@ -2766,16 +2761,16 @@
      ],
      "chi_square_per_degree": 4.127429838867608,
      "beyond": [
-      "what: a noise that grows with the signal, excess 77.4",
-      "what: glitches, excess 20.7",
-      "where: the asymmetry, excess 4.76",
-      "its line 2.56"
+      "what: a noise that grows with the signal, excess 73.6",
+      "what: glitches, excess 21",
+      "where: the wings, excess 5.32",
+      "its line 3.81"
      ],
      "parameters": {
       "half_width": {
        "value": 1.5022557308342381,
        "bar": 0.0032005687094382967,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_width",
        "quotable": false,
        "theory": null
@@ -2785,14 +2780,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the asymmetry",
-       "a periodic structure of 254 cycles over the span"
+       "a periodic structure of 254 cycles over the span",
+       "a periodic structure of 348 cycles over the span, fixed to the abscissa",
+       "a structure of 2 widths at -1.22 widths from the centre"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.73",
-       "more repeats, a better data collection: the error of the known parameters times 0.73"
+       "more repeats, a better data collection: the error of the known parameters times 0.64",
+       "a wider span, a better data collection: the error of the known parameters times 0.72"
       ]
      },
      "done": "`python -m twinfit counts DIR` writes the copy, and the loop runs on it",
@@ -2801,7 +2796,7 @@
     }
    }
   ],
-  "minutes": 1.5
+  "minutes": 9.0
  },
  "clock": {
   "field": "atomic clock resonance at five probe powers",
@@ -2818,16 +2813,16 @@
    ],
    "chi_square_per_degree": 31.812288375542714,
    "beyond": [
-    "changes along: the asymmetry along power, excess 1.84e+04",
-    "changes along: the core along power, excess 1.49e+04",
-    "changes along: the flanks along power, excess 1.61e+03",
-    "its line 2.47"
+    "changes along: the core along power, excess 2.85e+04",
+    "changes along: the asymmetry along power, excess 2.41e+04",
+    "changes along: the flanks along power, excess 2.66e+03",
+    "its line 2.9"
    ],
    "parameters": {
     "width": {
      "value": 1.516135677508357,
      "bar": 0.000584511982852848,
-     "coverage": 1.0,
+     "coverage": 0.9333333333333333,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -2845,8 +2840,8 @@
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.66",
-     "more repeats, a better data collection: the error of the known parameters times 0.68"
+     "more repeats, a better data collection: the error of the known parameters times 0.66",
+     "a wider span, a better data collection: the error of the known parameters times 0.84"
     ]
    }
   },
@@ -2861,7 +2856,7 @@
     "width": {
      "value": 1.4997048276157465,
      "bar": 0.0005760691893672723,
-     "coverage": 1.0,
+     "coverage": 0.9333333333333333,
      "as": "width",
      "quotable": true,
      "theory": 3.781628343801913e-09
@@ -2869,7 +2864,7 @@
     "clock frequency": {
      "value": 0.11999830636839674,
      "bar": 0.0003844442797792003,
-     "coverage": 1.0,
+     "coverage": 0.9666666666666667,
      "as": "clock frequency",
      "quotable": true,
      "theory": 6.923049793161606e-09
@@ -2877,7 +2872,7 @@
     "light shift": {
      "value": 0.025050520192782217,
      "bar": 5.795052678907166e-05,
-     "coverage": 1.0,
+     "coverage": 0.9666666666666667,
      "as": "light shift",
      "quotable": true,
      "theory": 0.0005012091360115534
@@ -2888,13 +2883,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the asymmetry",
-     "the shape that the residuals hold in the wings",
-     "the shape that the residuals hold in the core, changing along power"
+     "the shape that the residuals hold in the core, changing along power",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.63",
-     "more repeats, a better data collection: the error of the known parameters times 0.71",
-     "more samples, a better data collection: the error of the known parameters times 0.79"
+     "more repeats, a better data collection: the error of the known parameters times 0.75",
+     "power scale measured better, a better characterization of the setup: the error of the known parameters times 0.80"
     ]
    },
    "words": "write the light shift that the physics gives, the center moving in proportion to the power read through its calibration, which the description holds within 2 per cent, so that the model measures the frequency at no power and the light shift carries the bar of that calibration",
@@ -2912,7 +2907,7 @@
     "width": {
      "value": 1.4997048003908247,
      "bar": 0.0005760691485288127,
-     "coverage": 1.0,
+     "coverage": 0.9333333333333333,
      "as": "width",
      "quotable": true,
      "theory": null
@@ -2926,12 +2921,12 @@
     "model": [
      "the shape that the residuals hold in the flanks",
      "a periodic structure of 294 cycles over the span",
-     "a slow trend over the span of each curve"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.63",
-     "more samples, a better data collection: the error of the known parameters times 0.74"
+     "more repeats, a better data collection: the error of the known parameters times 0.65",
+     "a wider span, a better data collection: the error of the known parameters times 0.69"
     ]
    },
    "words": "free the center of each curve: the fit is right, and the frequency of the clock is then in no parameter, the shift hidden in five centers",
@@ -2950,16 +2945,16 @@
      ],
      "chi_square_per_degree": 4.423716235560442,
      "beyond": [
-      "changes along: the asymmetry along power, excess 2.04e+03",
-      "changes along: the core along power, excess 1.7e+03",
-      "changes along: the flanks along power, excess 178",
-      "its line 2.28"
+      "changes along: the core along power, excess 3.17e+03",
+      "changes along: the asymmetry along power, excess 2.33e+03",
+      "changes along: the flanks along power, excess 352",
+      "its line 4.21"
      ],
      "parameters": {
       "width": {
        "value": 1.5159940331876118,
        "bar": 0.0017545067222784214,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -2977,8 +2972,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.66",
-       "more repeats, a better data collection: the error of the known parameters times 0.68"
+       "more repeats, a better data collection: the error of the known parameters times 0.53",
+       "more samples, a better data collection: the error of the known parameters times 0.67"
       ]
      }
     },
@@ -2993,7 +2988,7 @@
       "width": {
        "value": 1.4991148499362723,
        "bar": 0.0017285811092134095,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": true,
        "theory": 4.278933185553058e-08
@@ -3001,7 +2996,7 @@
       "clock frequency": {
        "value": 0.1199920652384438,
        "bar": 0.0011539001151918806,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "clock frequency",
        "quotable": true,
        "theory": 1.4539651642386797e-08
@@ -3009,7 +3004,7 @@
       "light shift": {
        "value": 0.025152045301311054,
        "bar": 0.00017389701052425384,
-       "coverage": 1.0,
+       "coverage": 0.9,
        "as": "light shift",
        "quotable": true,
        "theory": 0.000503236646886937
@@ -3020,13 +3015,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the core, changing along power"
+       "the shape that the residuals hold in the core, changing along power",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.70",
-       "more samples, a better data collection: the error of the known parameters times 0.78"
+       "more repeats, a better data collection: the error of the known parameters times 0.72",
+       "more samples, a better data collection: the error of the known parameters times 0.75"
       ]
      },
      "done": null,
@@ -3045,16 +3040,16 @@
      ],
      "chi_square_per_degree": 30.72818401232766,
      "beyond": [
-      "changes along: the asymmetry along power, excess 1.84e+04",
+      "changes along: the asymmetry along power, excess 3.38e+04",
       "changes along: the core along power, excess 1.46e+04",
-      "changes along: the flanks along power, excess 1.62e+03",
-      "its line 2.47"
+      "changes along: the flanks along power, excess 3.17e+03",
+      "its line 3.7"
      ],
      "parameters": {
       "width": {
        "value": 1.5162086287029977,
        "bar": 0.0005843509235432204,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3072,8 +3067,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.66",
-       "more repeats, a better data collection: the error of the known parameters times 0.68"
+       "more samples, a better data collection: the error of the known parameters times 0.68",
+       "more repeats, a better data collection: the error of the known parameters times 0.75"
       ]
      }
     },
@@ -3088,7 +3083,7 @@
       "width": {
        "value": 1.500000272426759,
        "bar": 0.0005760068585989899,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": 1.874611577079577e-12
@@ -3096,7 +3091,7 @@
       "clock frequency": {
        "value": 0.12000000004726212,
        "bar": 0.0003843497566714375,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "clock frequency",
        "quotable": false,
        "theory": 3.5578050047724297e-08
@@ -3104,7 +3099,7 @@
       "light shift": {
        "value": 0.024999999992459745,
        "bar": 5.794293736330049e-05,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "light shift",
        "quotable": false,
        "theory": 0.0005001946997251934
@@ -3115,13 +3110,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the flanks, changing along power",
-       "the shape that the residuals hold in the wings, changing along power"
+       "the shape that the residuals hold in the wings",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.63",
-       "more repeats, a better data collection: the error of the known parameters times 0.71",
-       "more samples, a better data collection: the error of the known parameters times 0.79"
+       "more repeats, a better data collection: the error of the known parameters times 0.78",
+       "power scale measured better, a better characterization of the setup: the error of the known parameters times 0.80"
       ]
      },
      "done": null,
@@ -3140,16 +3135,16 @@
      ],
      "chi_square_per_degree": 31.962916473641904,
      "beyond": [
-      "changes along: the asymmetry along power, excess 1.83e+04",
-      "changes along: the core along power, excess 1.53e+04",
-      "changes along: the flanks along power, excess 1.6e+03",
-      "its line 2.48"
+      "changes along: the asymmetry along power, excess 1.87e+04",
+      "changes along: the core along power, excess 1.62e+04",
+      "changes along: the flanks along power, excess 3.24e+03",
+      "its line 3.08"
      ],
      "parameters": {
       "width": {
        "value": 1.5157983190912399,
        "bar": 0.0005848006603457164,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3167,8 +3162,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.66",
-       "more repeats, a better data collection: the error of the known parameters times 0.68"
+       "more repeats, a better data collection: the error of the known parameters times 0.62",
+       "more samples, a better data collection: the error of the known parameters times 0.68"
       ]
      }
     },
@@ -3179,16 +3174,16 @@
      ],
      "chi_square_per_degree": 0.9301426263873698,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 28.7",
-      "changes along: the core along power, excess 14.8",
-      "where: the asymmetry, excess 8.66",
-      "its line 3.79"
+      "what: a noise correlated from sample to sample, excess 39.2",
+      "changes along: the core along power, excess 16",
+      "where: the asymmetry, excess 11.8",
+      "its line 3.22"
      ],
      "parameters": {
       "width": {
        "value": 1.4990012908108046,
        "bar": 0.0005761927565668336,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": 1.4338048304196604e-08
@@ -3196,7 +3191,7 @@
       "clock frequency": {
        "value": 0.12005935930036128,
        "bar": 0.0003846502863805254,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "clock frequency",
        "quotable": false,
        "theory": 1.699642877134311e-08
@@ -3204,7 +3199,7 @@
       "light shift": {
        "value": 0.025138209409754336,
        "bar": 5.7968348518853105e-05,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "light shift",
        "quotable": false,
        "theory": 0.0005029650121300966
@@ -3220,8 +3215,8 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.63",
-       "more repeats, a better data collection: the error of the known parameters times 0.71",
-       "more samples, a better data collection: the error of the known parameters times 0.79"
+       "more samples, a better data collection: the error of the known parameters times 0.71",
+       "more repeats, a better data collection: the error of the known parameters times 0.77"
       ]
      },
      "done": null,
@@ -3240,16 +3235,16 @@
      ],
      "chi_square_per_degree": 4.447317529777848,
      "beyond": [
-      "changes along: the asymmetry along power, excess 2.04e+03",
-      "changes along: the core along power, excess 1.87e+03",
-      "changes along: the flanks along power, excess 168",
-      "its line 2.21"
+      "changes along: the core along power, excess 2.43e+03",
+      "changes along: the asymmetry along power, excess 1.82e+03",
+      "changes along: the flanks along power, excess 254",
+      "its line 2.76"
      ],
      "parameters": {
       "width": {
        "value": 1.5150085892538512,
        "bar": 0.0017571329176553545,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3267,7 +3262,7 @@
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.66",
+       "more samples, a better data collection: the error of the known parameters times 0.59",
        "more repeats, a better data collection: the error of the known parameters times 0.66"
       ]
      }
@@ -3279,16 +3274,16 @@
      ],
      "chi_square_per_degree": 0.9301361171631445,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 28.7",
-      "changes along: the core along power, excess 14.7",
-      "where: the asymmetry, excess 8.66",
-      "its line 3.78"
+      "what: a noise correlated from sample to sample, excess 50.5",
+      "changes along: the core along power, excess 17.3",
+      "where: the asymmetry, excess 8.51",
+      "its line 2.6"
      ],
      "parameters": {
       "width": {
        "value": 1.497007452692891,
        "bar": 0.0017296866012711611,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "width",
        "quotable": false,
        "theory": 3.427155670365778e-09
@@ -3296,7 +3291,7 @@
       "clock frequency": {
        "value": 0.12015187790405031,
        "bar": 0.0011557539189288866,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "clock frequency",
        "quotable": false,
        "theory": 1.7794127768477885e-09
@@ -3304,7 +3299,7 @@
       "light shift": {
        "value": 0.025419111945660655,
        "bar": 0.00017405648869940483,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "light shift",
        "quotable": false,
        "theory": 0.0005085852514349013
@@ -3314,14 +3309,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
        "a periodic structure of 12.5 cycles over the span",
-       "the shape that the residuals hold in the core, changing along power"
+       "the shape that the residuals hold in the core, changing along power",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.62",
-       "more repeats, a better data collection: the error of the known parameters times 0.70",
-       "more samples, a better data collection: the error of the known parameters times 0.78"
+       "more repeats, a better data collection: the error of the known parameters times 0.81",
+       "power scale measured better, a better characterization of the setup: the error of the known parameters times 0.82"
       ]
      },
      "done": null,
@@ -3330,7 +3325,7 @@
     }
    }
   ],
-  "minutes": 1.7
+  "minutes": 9.7
  },
  "gel": {
   "field": "gel electrophoresis band at four voltages",
@@ -3346,16 +3341,16 @@
    ],
    "chi_square_per_degree": 7.30434431919394,
    "beyond": [
-    "where: the flanks, excess 3.01e+03",
-    "where: the asymmetry, excess 3e+03",
-    "where: the wings, excess 544",
-    "its line 2.48"
+    "where: the asymmetry, excess 1.69e+03",
+    "where: the flanks, excess 1.11e+03",
+    "where: the wings, excess 634",
+    "its line 3.97"
    ],
    "parameters": {
     "width": {
      "value": 1.0212914429930258,
      "bar": 0.00023679506362189116,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -3366,14 +3361,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the flanks",
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve"
+     "a structure of 1 widths at -0.614 widths from the centre",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+     "a periodic structure of 2 cycles over the span on the left of the curves"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.62",
-     "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+     "more repeats, a better data collection: the error of the known parameters times 0.62",
+     "more samples, a better data collection: the error of the known parameters times 0.73"
     ]
    }
   },
@@ -3389,7 +3384,7 @@
     "width": {
      "value": 1.0002345657719927,
      "bar": 0.00026707471553591303,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9333333333333333,
      "as": "width",
      "quotable": true,
      "theory": null
@@ -3397,7 +3392,7 @@
     "tail lower 3": {
      "value": 0.14918259241013845,
      "bar": 0.0008626109119064631,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.8666666666666667,
      "as": "tail lower 3.03",
      "quotable": true,
      "theory": null
@@ -3407,14 +3402,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the flanks",
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve"
+     "a structure of 1 widths at -0.614 widths from the centre",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+     "a periodic structure of 2 cycles over the span on the left of the curves"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.62",
-     "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+     "more repeats, a better data collection: the error of the known parameters times 0.62",
+     "more samples, a better data collection: the error of the known parameters times 0.73"
     ]
    },
    "words": "the report puts the misfit in the flanks and the asymmetry: in a gel a band trails on the side of slower migration, a tail, so scan its stretch and write the term at the top of the scan",
@@ -3429,16 +3424,16 @@
    ],
    "chi_square_per_degree": 5.3711550764311,
    "beyond": [
-    "where: the asymmetry, excess 2.53e+03",
-    "changes along: the asymmetry along voltage, excess 58.3",
-    "what: a noise that grows with the signal, excess 56.7",
-    "its line 2.85"
+    "where: the asymmetry, excess 1.97e+03",
+    "what: a noise that grows with the signal, excess 79.4",
+    "changes along: the asymmetry along voltage, excess 51.9",
+    "its line 4.09"
    ],
    "parameters": {
     "width": {
      "value": 0.9992596042825198,
      "bar": 0.000333815348954905,
-     "coverage": 1.0,
+     "coverage": 0.9,
      "as": "width",
      "quotable": false,
      "theory": null
@@ -3449,14 +3444,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the flanks",
-     "the shape that the residuals hold in the asymmetry",
-     "a slow trend over the span of each curve"
+     "a structure of 1 widths at -0.614 widths from the centre",
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+     "a periodic structure of 2 cycles over the span on the left of the curves"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.62",
-     "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+     "more repeats, a better data collection: the error of the known parameters times 0.62",
+     "more samples, a better data collection: the error of the known parameters times 0.73"
     ]
    },
    "words": "a pedestal under the band, wider on both sides alike",
@@ -3475,16 +3470,16 @@
      ],
      "chi_square_per_degree": 1.6862503381816438,
      "beyond": [
-      "where: the flanks, excess 425",
-      "where: the asymmetry, excess 310",
-      "where: the wings, excess 65.3",
-      "its line 2.41"
+      "where: the asymmetry, excess 259",
+      "where: the flanks, excess 174",
+      "where: the wings, excess 101",
+      "its line 3.25"
      ],
      "parameters": {
       "width": {
        "value": 1.0212328988616755,
        "bar": 0.0007104045383218817,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3495,14 +3490,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve"
+       "a structure of 1 widths at -0.635 widths from the centre",
+       "a slow trend over the span of each curve",
+       "a periodic structure of 2 cycles over the span on the left of the curves"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.58",
+       "more samples, a better data collection: the error of the known parameters times 0.60"
       ]
      }
     },
@@ -3518,7 +3513,7 @@
       "width": {
        "value": 1.0005427822856856,
        "bar": 0.0007996718235888405,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": true,
        "theory": null
@@ -3526,7 +3521,7 @@
       "tail lower 3": {
        "value": 0.14778045263886114,
        "bar": 0.0025821770327304886,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "tail lower 3.06464",
        "quotable": true,
        "theory": null
@@ -3536,14 +3531,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve"
+       "a structure of 1 widths at -0.635 widths from the centre",
+       "a slow trend over the span of each curve",
+       "a periodic structure of 2 cycles over the span on the left of the curves"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.58",
+       "more samples, a better data collection: the error of the known parameters times 0.60"
       ]
      },
      "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.331, and a finer scan about it, at 3.06464 3.15343 3.24221 3.331 3.41979 3.50857 3.59736, at 3.065, and a finer scan about it, at 2.79828 2.88707 2.97585 3.06464 3.15343 3.24221 3.331, at 3.065: the term file holds `term = mechanisms.tail(3.06464, 'lower')`",
@@ -3565,10 +3560,10 @@
      ],
      "chi_square_per_degree": 6.368010986193581,
      "beyond": [
-      "where: the flanks, excess 3.2e+03",
-      "where: the asymmetry, excess 3e+03",
-      "where: the wings, excess 476",
-      "its line 2.27"
+      "where: the flanks, excess 2.71e+03",
+      "where: the asymmetry, excess 1.83e+03",
+      "where: the wings, excess 602",
+      "its line 3.01"
      ],
      "parameters": {
       "width": {
@@ -3586,13 +3581,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "voltage past its range, a better data collection: the error of the known parameters times 0.72"
       ]
      }
     },
@@ -3627,13 +3622,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.68",
+       "voltage past its range, a better data collection: the error of the known parameters times 0.72"
       ]
      },
      "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.27, and a finer scan about it, at 3.18097 3.21065 3.24032 3.27 3.29968 3.32935 3.35903, at 3.181, and a finer scan about it, at 3.09194 3.12162 3.15129 3.18097 3.21065 3.24032 3.27, at 3.092, and a finer scan about it, at 3.00291 3.03259 3.06226 3.09194 3.12162 3.15129 3.18097, at 3.003, and a finer scan about it, at 2.91388 2.94356 2.97323 3.00291 3.03259 3.06226 3.09194, at 3: the term file holds `term = mechanisms.tail(3, 'lower')`",
@@ -3655,16 +3650,16 @@
      ],
      "chi_square_per_degree": 7.18979665086055,
      "beyond": [
-      "where: the flanks, excess 3.38e+03",
-      "where: the asymmetry, excess 2.52e+03",
-      "where: the wings, excess 577",
-      "its line 2.4"
+      "where: the asymmetry, excess 1.77e+03",
+      "where: the flanks, excess 1.55e+03",
+      "where: the wings, excess 783",
+      "its line 2.72"
      ],
      "parameters": {
       "width": {
        "value": 1.021334468981304,
        "bar": 0.00023682890334456337,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3675,14 +3670,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve"
+       "a structure of 1 widths at -0.635 widths from the centre",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a periodic structure of 2 cycles over the span on the left of the curves"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more samples, a better data collection: the error of the known parameters times 0.60",
+       "more repeats, a better data collection: the error of the known parameters times 0.79"
       ]
      }
     },
@@ -3694,16 +3689,16 @@
      ],
      "chi_square_per_degree": 0.9861556366242056,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 27.9",
-      "changes along: the core along voltage, excess 13.6",
-      "changes along: the asymmetry along voltage, excess 5.18",
-      "its line 2.67"
+      "what: a noise correlated from sample to sample, excess 39.9",
+      "changes along: the asymmetry along voltage, excess 6.91",
+      "changes along: the flanks along voltage, excess 5.89",
+      "its line 2.82"
      ],
      "parameters": {
       "width": {
        "value": 1.0009145240726962,
        "bar": 0.0002660516760497034,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3721,14 +3716,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the asymmetry",
-       "a slow trend over the span of each curve"
+       "a structure of 1 widths at -0.635 widths from the centre",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve",
+       "a periodic structure of 2 cycles over the span on the left of the curves"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more samples, a better data collection: the error of the known parameters times 0.60",
+       "more repeats, a better data collection: the error of the known parameters times 0.79"
       ]
      },
      "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.336, and a finer scan about it, at 3.24722 3.27681 3.30641 3.336 3.36559 3.39519 3.42478, at 3.247, and a finer scan about it, at 3.15843 3.18803 3.21762 3.24722 3.27681 3.30641 3.336, at 3.158, and a finer scan about it, at 3.06965 3.09924 3.12884 3.15843 3.18803 3.21762 3.24722, at 3.101: the term file holds `term = mechanisms.tail(3.101, 'lower')`",
@@ -3750,16 +3745,16 @@
      ],
      "chi_square_per_degree": 1.6440394924665895,
      "beyond": [
-      "where: the flanks, excess 411",
-      "where: the asymmetry, excess 273",
-      "where: the wings, excess 76",
-      "its line 2.35"
+      "where: the flanks, excess 367",
+      "where: the asymmetry, excess 253",
+      "where: the wings, excess 65.9",
+      "its line 4.11"
      ],
      "parameters": {
       "width": {
        "value": 1.021348146147561,
        "bar": 0.0007106965556565822,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "width",
        "quotable": false,
        "theory": null
@@ -3770,14 +3765,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
        "the shape that the residuals hold in the flanks",
-       "a slow trend over the span of each curve"
+       "a slow trend over the span of each curve",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.65",
+       "voltage past its range, a better data collection: the error of the known parameters times 0.68"
       ]
      }
     },
@@ -3789,10 +3784,10 @@
      ],
      "chi_square_per_degree": 0.9859171807974548,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 28.9",
-      "changes along: the core along voltage, excess 13.4",
-      "changes along: the asymmetry along voltage, excess 5.27",
-      "its line 2.34"
+      "what: a noise correlated from sample to sample, excess 37.3",
+      "changes along: the core along voltage, excess 9.5",
+      "where: the core, excess 5.11",
+      "its line 2.8"
      ],
      "parameters": {
       "width": {
@@ -3806,7 +3801,7 @@
       "tail lower 3": {
        "value": 0.1423140182842396,
        "bar": 0.00254935302490313,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "tail lower 3.37339",
        "quotable": false,
        "theory": null
@@ -3816,14 +3811,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
        "the shape that the residuals hold in the flanks",
-       "a slow trend over the span of each curve"
+       "a slow trend over the span of each curve",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.62",
-       "voltage past its range, a better data collection: the error of the known parameters times 0.81"
+       "more repeats, a better data collection: the error of the known parameters times 0.65",
+       "voltage past its range, a better data collection: the error of the known parameters times 0.68"
       ]
      },
      "done": "`python -m twinfit scan DIR \"tail(x, 'lower')\" 2 3 4 5 6` puts its top at 3.462, and a finer scan about it, at 3.19618 3.28478 3.37339 3.462 3.55061 3.63922 3.72783, at 3.373: the term file holds `term = mechanisms.tail(3.37339, 'lower')`",
@@ -3835,7 +3830,7 @@
     }
    }
   ],
-  "minutes": 2.1
+  "minutes": 15.4
  },
  "transit": {
   "field": "transit of an exoplanet in four filters",
@@ -3852,16 +3847,16 @@
    ],
    "chi_square_per_degree": 2.39741636551271,
    "beyond": [
-    "where: the core, excess 1.28e+03",
-    "changes along: the core along wavelength, excess 164",
-    "what: a noise correlated from sample to sample, excess 22.6",
-    "its line 2.74"
+    "where: the core, excess 1.01e+03",
+    "changes along: the core along wavelength, excess 172",
+    "where: the flanks, excess 29.3",
+    "its line 3.34"
    ],
    "parameters": {
     "half_duration": {
      "value": 1.145576414138874,
      "bar": 0.0005245621696898194,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9333333333333333,
      "as": "half_duration",
      "quotable": false,
      "theory": null
@@ -3874,13 +3869,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the core",
-     "the shape that the residuals hold in the core, changing along wavelength",
+     "a structure of 1 widths at +0.18 widths from the centre",
      "a periodic structure of 3.5 cycles over the span"
     ],
     "experiment": [
+     "more samples, a better data collection: the error of the known parameters times 0.47",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.75",
-     "more repeats, a better data collection: the error of the known parameters times 0.77"
+     "more repeats, a better data collection: the error of the known parameters times 0.62"
     ]
    }
   },
@@ -3895,7 +3890,7 @@
     "half_duration": {
      "value": 1.1997097251348718,
      "bar": 0.0010840638330388119,
-     "coverage": 0.9666666666666667,
+     "coverage": 0.9333333333333333,
      "as": "half_duration",
      "quotable": true,
      "theory": null
@@ -3903,7 +3898,7 @@
     "limb darkening at 450 nm": {
      "value": 0.5967136690706044,
      "bar": 0.007226322482320694,
-     "coverage": 0.9,
+     "coverage": 0.9666666666666667,
      "as": "limb darkening at 450 nm",
      "quotable": true,
      "theory": null
@@ -3911,7 +3906,7 @@
     "its fall to 800 nm": {
      "value": 0.30914804725904116,
      "bar": 0.009822997837642585,
-     "coverage": 0.9,
+     "coverage": 0.9666666666666667,
      "as": "its fall to 800 nm",
      "quotable": true,
      "theory": null
@@ -3921,14 +3916,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the core",
+     "the shape that the residuals hold in the flanks",
      "a slow trend over the span of each curve",
-     "the shape that the residuals hold in the flanks, changing along wavelength"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.72",
-     "wavelength past its range, a better data collection: the error of the known parameters times 0.72"
+     "more samples, a better data collection: the error of the known parameters times 0.53",
+     "more repeats, a better data collection: the error of the known parameters times 0.56"
     ]
    },
    "words": "write the darkening of the limb of the star that the physics gives, its coefficient falling with the wavelength, as the model",
@@ -3943,10 +3938,10 @@
    ],
    "chi_square_per_degree": 2.3415612999470232,
    "beyond": [
-    "where: the core, excess 1.03e+03",
-    "changes along: the core along wavelength, excess 149",
-    "where: the flanks, excess 29.6",
-    "its line 2.62"
+    "where: the core, excess 939",
+    "changes along: the core along wavelength, excess 148",
+    "where: the flanks, excess 75.7",
+    "its line 3.25"
    ],
    "parameters": {
     "half_duration": {
@@ -3965,13 +3960,13 @@
    "proposals": {
     "model": [
      "the shape that the residuals hold in the core",
-     "the shape that the residuals hold in the core, changing along wavelength",
+     "a structure of 1 widths at +0.18 widths from the centre",
      "a periodic structure of 3.5 cycles over the span"
     ],
     "experiment": [
+     "more samples, a better data collection: the error of the known parameters times 0.47",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.75",
-     "more repeats, a better data collection: the error of the known parameters times 0.77"
+     "more repeats, a better data collection: the error of the known parameters times 0.62"
     ]
    },
    "words": "a curvature of the baseline under every curve, the generic term of a round bottom",
@@ -3990,16 +3985,16 @@
      ],
      "chi_square_per_degree": 1.1366155174236081,
      "beyond": [
-      "where: the core, excess 131",
-      "changes along: the core along wavelength, excess 23.2",
-      "what: a noise correlated from sample to sample, excess 3.19",
-      "its line 2.62"
+      "where: the core, excess 182",
+      "changes along: the core along wavelength, excess 23.3",
+      "where: the flanks, excess 5.58",
+      "its line 3.28"
      ],
      "parameters": {
       "half_duration": {
        "value": 1.1480589711838092,
        "bar": 0.0015701711996615965,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_duration",
        "quotable": false,
        "theory": null
@@ -4012,13 +4007,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the core, changing along wavelength",
-       "a periodic structure of 3.5 cycles over the span"
+       "a structure of 1 widths at +0.184 widths from the centre",
+       "a periodic structure of 3.5 cycles over the span, fixed to the abscissa"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.74",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more repeats, a better data collection: the error of the known parameters times 0.62",
+       "more samples, a better data collection: the error of the known parameters times 0.63"
       ]
      }
     },
@@ -4033,7 +4028,7 @@
       "half_duration": {
        "value": 1.2007670911669142,
        "bar": 0.003204944151066326,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "half_duration",
        "quotable": true,
        "theory": null
@@ -4041,7 +4036,7 @@
       "limb darkening at 450 nm": {
        "value": 0.591479706767507,
        "bar": 0.021507534561627496,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "limb darkening at 450 nm",
        "quotable": true,
        "theory": null
@@ -4049,7 +4044,7 @@
       "its fall to 800 nm": {
        "value": 0.3238773464915239,
        "bar": 0.02944648121477764,
-       "coverage": 0.9,
+       "coverage": 0.9666666666666667,
        "as": "its fall to 800 nm",
        "quotable": true,
        "theory": null
@@ -4059,14 +4054,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "the shape that the residuals hold in the flanks",
        "a periodic structure of 124.5 cycles over the span",
-       "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the flanks, changing along wavelength"
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.70",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "more samples, a better data collection: the error of the known parameters times 0.61",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.67"
       ]
      },
      "done": null,
@@ -4085,10 +4080,10 @@
      ],
      "chi_square_per_degree": 1.4332667544152153,
      "beyond": [
-      "where: the core, excess 1.23e+03",
-      "changes along: the core along wavelength, excess 150",
-      "what: a noise correlated from sample to sample, excess 18.5",
-      "its line 2.61"
+      "where: the core, excess 1.26e+03",
+      "changes along: the core along wavelength, excess 127",
+      "where: the flanks, excess 11",
+      "its line 3.23"
      ],
      "parameters": {
       "half_duration": {
@@ -4107,13 +4102,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the core, changing along wavelength",
-       "a periodic structure of 3 cycles over the span"
+       "a structure of 1 widths at +0.178 widths from the centre",
+       "a periodic structure of 3 cycles over the span, fixed to the abscissa"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.75",
-       "more repeats, a better data collection: the error of the known parameters times 0.78"
+       "more repeats, a better data collection: the error of the known parameters times 0.52",
+       "more samples, a better data collection: the error of the known parameters times 0.56"
       ]
      }
     },
@@ -4128,7 +4123,7 @@
       "half_duration": {
        "value": 1.1991878621956633,
        "bar": 0.001092008784064162,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "half_duration",
        "quotable": false,
        "theory": null
@@ -4136,7 +4131,7 @@
       "limb darkening at 450 nm": {
        "value": 0.5993235701628907,
        "bar": 0.0072550792834493736,
-       "coverage": 0.9,
+       "coverage": 0.9666666666666667,
        "as": "limb darkening at 450 nm",
        "quotable": false,
        "theory": null
@@ -4144,7 +4139,7 @@
       "its fall to 800 nm": {
        "value": 0.3018153994398439,
        "bar": 0.009826649127894835,
-       "coverage": 0.9,
+       "coverage": 1.0,
        "as": "its fall to 800 nm",
        "quotable": false,
        "theory": null
@@ -4154,14 +4149,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks, changing along wavelength",
-       "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the core, changing along wavelength"
+       "the shape that the residuals hold in the flanks",
+       "the shape that the residuals hold in the core, changing along wavelength",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.50",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.72",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.72"
+       "more repeats, a better data collection: the error of the known parameters times 0.65"
       ]
      },
      "done": null,
@@ -4180,16 +4175,16 @@
      ],
      "chi_square_per_degree": 2.3562788738863794,
      "beyond": [
-      "where: the core, excess 1.06e+03",
-      "changes along: the core along wavelength, excess 220",
-      "what: a noise correlated from sample to sample, excess 63.6",
-      "its line 2.61"
+      "where: the core, excess 1.34e+03",
+      "changes along: the core along wavelength, excess 150",
+      "what: a noise correlated from sample to sample, excess 48.4",
+      "its line 3.11"
      ],
      "parameters": {
       "half_duration": {
        "value": 1.1477083165695268,
        "bar": 0.0005234787906469113,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "half_duration",
        "quotable": false,
        "theory": null
@@ -4202,13 +4197,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the core, changing along wavelength",
-       "a periodic structure of 3.5 cycles over the span"
+       "a structure of 1 widths at +0.184 widths from the centre",
+       "a periodic structure of 3.5 cycles over the span, fixed to the abscissa"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.74",
-       "more repeats, a better data collection: the error of the known parameters times 0.77"
+       "more repeats, a better data collection: the error of the known parameters times 0.74",
+       "more samples, a better data collection: the error of the known parameters times 0.91"
       ]
      }
     },
@@ -4219,15 +4214,14 @@
      ],
      "chi_square_per_degree": 0.9969111608073706,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 45.5",
-      "where: the core, excess 3.41",
-      "its line 2.82"
+      "what: a noise correlated from sample to sample, excess 39.5",
+      "its line 3.01"
      ],
      "parameters": {
       "half_duration": {
        "value": 1.1999619551634253,
        "bar": 0.001066278942703701,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.8666666666666667,
        "as": "half_duration",
        "quotable": false,
        "theory": null
@@ -4243,7 +4237,7 @@
       "its fall to 800 nm": {
        "value": 0.3198617586091903,
        "bar": 0.009828905413518668,
-       "coverage": 0.9,
+       "coverage": 0.9333333333333333,
        "as": "its fall to 800 nm",
        "quotable": false,
        "theory": null
@@ -4253,14 +4247,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the core",
        "a periodic structure of 22.5 cycles over the span",
-       "a slow trend over the span of each curve"
+       "a periodic structure of 12.5 cycles over the span, fixed to the abscissa",
+       "a structure of 0.5 widths at -0.815 widths from the centre"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.71",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.61",
+       "more samples, a better data collection: the error of the known parameters times 0.70"
       ]
      },
      "done": null,
@@ -4279,16 +4273,16 @@
      ],
      "chi_square_per_degree": 1.1327513448476914,
      "beyond": [
-      "where: the core, excess 138",
-      "what: a noise correlated from sample to sample, excess 45.9",
-      "changes along: the core along wavelength, excess 35.6",
-      "its line 2.49"
+      "where: the core, excess 209",
+      "what: a noise correlated from sample to sample, excess 53.5",
+      "changes along: the core along wavelength, excess 15.3",
+      "its line 3.52"
      ],
      "parameters": {
       "half_duration": {
        "value": 1.1545875643004044,
        "bar": 0.0015600305447797712,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "half_duration",
        "quotable": false,
        "theory": null
@@ -4301,13 +4295,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the core, changing along wavelength",
+       "a structure of 1 widths at -0.305 widths from the centre",
        "a periodic structure of 3.5 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.73",
-       "more repeats, a better data collection: the error of the known parameters times 0.75"
+       "more samples, a better data collection: the error of the known parameters times 0.61",
+       "more repeats, a better data collection: the error of the known parameters times 0.73"
       ]
      }
     },
@@ -4318,8 +4312,9 @@
      ],
      "chi_square_per_degree": 0.9963914280079605,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 48.2",
-      "its line 2.53"
+      "what: a noise correlated from sample to sample, excess 54",
+      "where: the asymmetry, excess 2.8",
+      "its line 2.51"
      ],
      "parameters": {
       "half_duration": {
@@ -4333,7 +4328,7 @@
       "limb darkening at 450 nm": {
        "value": 0.5614699063914887,
        "bar": 0.02106729999897095,
-       "coverage": 0.9333333333333333,
+       "coverage": 1.0,
        "as": "limb darkening at 450 nm",
        "quotable": false,
        "theory": null
@@ -4341,7 +4336,7 @@
       "its fall to 800 nm": {
        "value": 0.35771349925892054,
        "bar": 0.029508598488418084,
-       "coverage": 0.9,
+       "coverage": 0.9666666666666667,
        "as": "its fall to 800 nm",
        "quotable": false,
        "theory": null
@@ -4352,13 +4347,13 @@
      "proposals": {
       "model": [
        "a periodic structure of 12.5 cycles over the span",
-       "a slow trend over the span of each curve",
-       "the shape that the residuals hold in the core"
+       "a structure of 0.5 widths at -0.806 widths from the centre",
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
-       "a quieter setup, a better setup: the error of the known parameters times 0.49",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.69",
-       "more repeats, a better data collection: the error of the known parameters times 0.71"
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more samples, a better data collection: the error of the known parameters times 0.60",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.65"
       ]
      },
      "done": null,
@@ -4367,7 +4362,7 @@
     }
    }
   ],
-  "minutes": 1.7
+  "minutes": 12.0
  },
  "fringes": {
   "field": "piezo-scanned Michelson interferometer at five wavelengths",
@@ -4383,16 +4378,16 @@
    ],
    "chi_square_per_degree": 2.4250197887371074,
    "beyond": [
-    "what: a noise correlated from sample to sample, excess 44.8",
-    "where: the asymmetry, excess 14.6",
-    "what: glitches, excess 6.94",
-    "its line 2.42"
+    "what: a noise correlated from sample to sample, excess 32.7",
+    "where: the asymmetry, excess 13.6",
+    "what: glitches, excess 5.24",
+    "its line 3.08"
    ],
    "parameters": {
     "piezo scale": {
      "value": 1.0120177032794568,
      "bar": 2.9567169429884917e-05,
-     "coverage": 0.9666666666666667,
+     "coverage": 1.0,
      "as": "piezo scale",
      "quotable": false,
      "theory": null
@@ -4403,14 +4398,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
+     "a periodic structure of 16.5 cycles over the span on the left of the curves",
      "a periodic structure of 16.5 cycles over the span",
-     "the shape that the residuals hold in the asymmetry, changing along wavelength",
-     "the shape that the residuals hold in the asymmetry"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
+     "wavelength past its range, a better data collection: the error of the known parameters times 0.49",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "wavelength past its range, a better data collection: the error of the known parameters times 0.56",
-     "a wider span, a better data collection: the error of the known parameters times 0.81"
+     "a wider span, a better data collection: the error of the known parameters times 0.52"
     ]
    }
   },
@@ -4433,7 +4428,7 @@
     "scan bend": {
      "value": 0.0030010451461207543,
      "bar": 5.654831740830358e-05,
-     "coverage": 0.9333333333333333,
+     "coverage": 0.9,
      "as": "scan bend",
      "quotable": true,
      "theory": null
@@ -4448,9 +4443,9 @@
      "a periodic structure of 45.5 cycles over the span"
     ],
     "experiment": [
-     "a wider span, a better data collection: the error of the known parameters times 0.47",
+     "a wider span, a better data collection: the error of the known parameters times 0.43",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "wavelength past its range, a better data collection: the error of the known parameters times 0.52"
+     "wavelength past its range, a better data collection: the error of the known parameters times 0.55"
     ]
    },
    "words": "read the first answers, a noise correlated from sample to sample with the asymmetry, as the smooth ripple that a fringe leaves where its phase drifts, and write the physics of the instrument that makes it drift, a piezo that does not move the mirror in proportion to the scan: its displacement bent by a square of the position, as the model",
@@ -4464,16 +4459,16 @@
    ],
    "chi_square_per_degree": 2.4250197887371074,
    "beyond": [
-    "what: a noise correlated from sample to sample, excess 44.8",
-    "where: the asymmetry, excess 14.6",
-    "what: glitches, excess 6.94",
-    "its line 2.42"
+    "what: a noise correlated from sample to sample, excess 32.7",
+    "where: the asymmetry, excess 13.6",
+    "what: glitches, excess 5.24",
+    "its line 3.08"
    ],
    "parameters": {
     "piezo scale": {
      "value": 1.0120177032794568,
      "bar": 2.9567169429884917e-05,
-     "coverage": 0.9666666666666667,
+     "coverage": 1.0,
      "as": "piezo scale",
      "quotable": false,
      "theory": null
@@ -4486,14 +4481,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
+     "a periodic structure of 16.5 cycles over the span on the left of the curves",
      "a periodic structure of 16.5 cycles over the span",
-     "the shape that the residuals hold in the asymmetry, changing along wavelength",
-     "the shape that the residuals hold in the asymmetry"
+     "a part in quadrature with the line, the Hilbert transform of the fitted curve"
     ],
     "experiment": [
+     "wavelength past its range, a better data collection: the error of the known parameters times 0.49",
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "wavelength past its range, a better data collection: the error of the known parameters times 0.56",
-     "a wider span, a better data collection: the error of the known parameters times 0.81"
+     "a wider span, a better data collection: the error of the known parameters times 0.52"
     ]
    },
    "words": "let the calibration of the piezo change with the wavelength, a setting that the report does not name",
@@ -4512,9 +4507,9 @@
      ],
      "chi_square_per_degree": 1.1643741627984034,
      "beyond": [
-      "where: the asymmetry, excess 4.44",
-      "what: a noise correlated from sample to sample, excess 3.95",
-      "its line 2.42"
+      "where: the asymmetry, excess 5.94",
+      "what: a noise correlated from sample to sample, excess 5.43",
+      "its line 3.95"
      ],
      "parameters": {
       "piezo scale": {
@@ -4531,14 +4526,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "a periodic structure of 16.5 cycles over the span on the left of the curves",
        "a periodic structure of 16.5 cycles over the span",
-       "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the core"
+       "the shape that the residuals hold in the asymmetry"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.57",
-       "a wider span, a better data collection: the error of the known parameters times 0.81"
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.77",
+       "more samples, a better data collection: the error of the known parameters times 0.86"
       ]
      }
     },
@@ -4561,7 +4556,7 @@
       "scan bend": {
        "value": 0.0030028599276953174,
        "bar": 0.00016978630915227507,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "scan bend",
        "quotable": true,
        "theory": null
@@ -4576,9 +4571,9 @@
        "a periodic structure of 45.5 cycles over the span"
       ],
       "experiment": [
-       "a wider span, a better data collection: the error of the known parameters times 0.47",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.52"
+       "a wider span, a better data collection: the error of the known parameters times 0.59",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.66"
       ]
      },
      "done": null,
@@ -4597,16 +4592,15 @@
      ],
      "chi_square_per_degree": 1.4191562720900206,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 46.5",
-      "where: the asymmetry, excess 5.41",
-      "where: the flanks, excess 2.49",
-      "its line 2.42"
+      "what: a noise correlated from sample to sample, excess 37.1",
+      "where: the asymmetry, excess 5.45",
+      "its line 3.14"
      ],
      "parameters": {
       "piezo scale": {
        "value": 1.0119970678255423,
        "bar": 2.9554403510822834e-05,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "piezo scale",
        "quotable": false,
        "theory": null
@@ -4617,14 +4611,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "a periodic structure of 16.5 cycles over the span on the left of the curves",
        "a periodic structure of 16.5 cycles over the span",
-       "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the flanks"
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
-       "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.56",
-       "a wider span, a better data collection: the error of the known parameters times 0.81"
+       "a wider span, a better data collection: the error of the known parameters times 0.43",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.50",
+       "a quieter setup, a better setup: the error of the known parameters times 0.50"
       ]
      }
     },
@@ -4639,7 +4633,7 @@
       "piezo scale": {
        "value": 1.0120000012713464,
        "bar": 2.9584844535618152e-05,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9333333333333333,
        "as": "piezo scale",
        "quotable": false,
        "theory": null
@@ -4647,7 +4641,7 @@
       "scan bend": {
        "value": 0.0030000043891917536,
        "bar": 5.652433613068025e-05,
-       "coverage": 0.9333333333333333,
+       "coverage": 0.9666666666666667,
        "as": "scan bend",
        "quotable": false,
        "theory": null
@@ -4659,10 +4653,10 @@
       "model": [
        "the shape that the residuals hold in the core",
        "the shape that the residuals hold in the flanks, changing along wavelength",
-       "the shape that the residuals hold in the core, changing along wavelength"
+       "the shape that the residuals hold in the flanks"
       ],
       "experiment": [
-       "a wider span, a better data collection: the error of the known parameters times 0.47",
+       "a wider span, a better data collection: the error of the known parameters times 0.38",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
        "wavelength past its range, a better data collection: the error of the known parameters times 0.52"
       ]
@@ -4683,16 +4677,16 @@
      ],
      "chi_square_per_degree": 2.3589439814404765,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 65.2",
-      "where: the asymmetry, excess 9.83",
-      "changes along: the asymmetry along wavelength, excess 8.75",
-      "its line 2.42"
+      "what: a noise correlated from sample to sample, excess 65.1",
+      "where: the asymmetry, excess 11.9",
+      "changes along: the asymmetry along wavelength, excess 9.27",
+      "its line 4.56"
      ],
      "parameters": {
       "piezo scale": {
        "value": 1.0120002611987002,
        "bar": 2.9541221105716642e-05,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9,
        "as": "piezo scale",
        "quotable": false,
        "theory": null
@@ -4703,14 +4697,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "a periodic structure of 16.5 cycles over the span on the left of the curves",
        "the shape that the residuals hold in the asymmetry",
-       "a periodic structure of 14 cycles over the span",
-       "the shape that the residuals hold in the asymmetry, changing along wavelength"
+       "a periodic structure of 14 cycles over the span"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.56",
-       "a wider span, a better data collection: the error of the known parameters times 0.81"
+       "a wider span, a better data collection: the error of the known parameters times 0.78",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.87"
       ]
      }
     },
@@ -4721,16 +4715,15 @@
      ],
      "chi_square_per_degree": 0.9442028351115294,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 22.4",
-      "where: the core, excess 3.85",
-      "changes along: the asymmetry along wavelength, excess 3.42",
-      "its line 2.34"
+      "what: a noise correlated from sample to sample, excess 21.1",
+      "where: the core, excess 6.12",
+      "its line 3.6"
      ],
      "parameters": {
       "piezo scale": {
        "value": 1.0120034566776122,
        "bar": 2.957183841292685e-05,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9,
        "as": "piezo scale",
        "quotable": false,
        "theory": null
@@ -4738,7 +4731,7 @@
       "scan bend": {
        "value": 0.0029948195659748847,
        "bar": 5.6499558240232586e-05,
-       "coverage": 0.9333333333333333,
+       "coverage": 1.0,
        "as": "scan bend",
        "quotable": false,
        "theory": null
@@ -4750,12 +4743,12 @@
       "model": [
        "the shape that the residuals hold in the core",
        "a periodic structure of 10.5 cycles over the span",
-       "the shape that the residuals hold in the asymmetry, changing along wavelength"
+       "a structure of 0.25 widths at -0.378 widths from the centre"
       ],
       "experiment": [
-       "a wider span, a better data collection: the error of the known parameters times 0.47",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.51"
+       "a wider span, a better data collection: the error of the known parameters times 0.51",
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.58"
       ]
      },
      "done": null,
@@ -4774,10 +4767,9 @@
      ],
      "chi_square_per_degree": 1.1000424839055332,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 25.8",
-      "changes along: the asymmetry along wavelength, excess 4.77",
-      "where: the core, excess 4.14",
-      "its line 2.42"
+      "what: a noise correlated from sample to sample, excess 26.1",
+      "where: the core, excess 4.52",
+      "its line 3.33"
      ],
      "parameters": {
       "piezo scale": {
@@ -4796,12 +4788,12 @@
       "model": [
        "the shape that the residuals hold in the core",
        "a periodic structure of 14 cycles over the span",
-       "the shape that the residuals hold in the asymmetry, changing along wavelength"
+       "a periodic structure of 16.5 cycles over the span on the left of the curves"
       ],
       "experiment": [
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.39",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.56",
-       "a wider span, a better data collection: the error of the known parameters times 0.81"
+       "a wider span, a better data collection: the error of the known parameters times 0.53"
       ]
      }
     },
@@ -4812,10 +4804,9 @@
      ],
      "chi_square_per_degree": 0.9441987920639592,
      "beyond": [
-      "what: a noise correlated from sample to sample, excess 22.4",
-      "where: the core, excess 3.85",
-      "changes along: the asymmetry along wavelength, excess 3.42",
-      "its line 2.39"
+      "what: a noise correlated from sample to sample, excess 21.5",
+      "where: the core, excess 4.19",
+      "its line 3.34"
      ],
      "parameters": {
       "piezo scale": {
@@ -4829,7 +4820,7 @@
       "scan bend": {
        "value": 0.002983735561175292,
        "bar": 0.00016933739414428693,
-       "coverage": 0.9666666666666667,
+       "coverage": 1.0,
        "as": "scan bend",
        "quotable": false,
        "theory": null
@@ -4841,12 +4832,12 @@
       "model": [
        "the shape that the residuals hold in the core",
        "a periodic structure of 10.5 cycles over the span",
-       "the shape that the residuals hold in the asymmetry, changing along wavelength"
+       "a structure of 0.25 widths at -0.378 widths from the centre"
       ],
       "experiment": [
-       "a wider span, a better data collection: the error of the known parameters times 0.47",
+       "a wider span, a better data collection: the error of the known parameters times 0.43",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "wavelength past its range, a better data collection: the error of the known parameters times 0.51"
+       "wavelength past its range, a better data collection: the error of the known parameters times 0.50"
       ]
      },
      "done": null,
@@ -4855,7 +4846,7 @@
     }
    }
   ],
-  "minutes": 0.6
+  "minutes": 6.0
  },
  "returns": {
   "field": "daily stock index returns in five volatility periods",
@@ -4871,16 +4862,16 @@
    ],
    "chi_square_per_degree": 3.723406711135545,
    "beyond": [
-    "where: the wings, excess 47.5",
-    "changes along: the flanks along volatility, excess 40.2",
-    "where: the core, excess 37.9",
-    "its line 2.82"
+    "where: the wings, excess 72.3",
+    "where: the core, excess 46.7",
+    "changes along: the wings along volatility, excess 45.2",
+    "its line 3.94"
    ],
    "parameters": {
     "volatility ratio": {
      "value": 0.7407384434939696,
      "bar": 0.003819631347588876,
-     "coverage": 0.9666666666666667,
+     "coverage": 1.0,
      "as": "volatility ratio",
      "quotable": false,
      "theory": null
@@ -4893,12 +4884,12 @@
     "model": [
      "the shape that the residuals hold in the wings",
      "the shape that the residuals hold in the core",
-     "the shape that the residuals hold in the flanks, changing along volatility"
+     "the shape that the residuals hold in the wings, changing along volatility"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.52",
-     "more repeats, a better data collection: the error of the known parameters times 0.61"
+     "more samples, a better data collection: the error of the known parameters times 0.60",
+     "volatility past its range, a better data collection: the error of the known parameters times 0.73"
     ]
    }
   },
@@ -4913,7 +4904,7 @@
     "volatility ratio": {
      "value": 0.8984863388819678,
      "bar": 0.011558965917507763,
-     "coverage": 1.0,
+     "coverage": 0.8666666666666667,
      "as": "volatility ratio",
      "quotable": true,
      "theory": null
@@ -4921,7 +4912,7 @@
     "tail index": {
      "value": 4.0339710594513205,
      "bar": 0.14247689107659312,
-     "coverage": 1.0,
+     "coverage": 0.9,
      "as": "tail index",
      "quotable": true,
      "theory": null
@@ -4931,14 +4922,14 @@
    "by_a_hair": false,
    "proposals": {
     "model": [
-     "the shape that the residuals hold in the wings",
      "the shape that the residuals hold in the flanks",
-     "the shape that the residuals hold in the asymmetry, changing along volatility"
+     "the shape that the residuals hold in the asymmetry, changing along volatility",
+     "a periodic structure of 12.5 cycles over the span on the right of the curves"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more repeats, a better data collection: the error of the known parameters times 0.56",
-     "more samples, a better data collection: the error of the known parameters times 0.64"
+     "more samples, a better data collection: the error of the known parameters times 0.55",
+     "more repeats, a better data collection: the error of the known parameters times 0.57"
     ]
    },
    "words": "write the law that the market gives for returns, a Student law whose tail index, its degrees of freedom, is shared by the periods and whose standard deviation stays a fraction of the quoted volatility, as the model",
@@ -4952,16 +4943,16 @@
    ],
    "chi_square_per_degree": 3.723406711135545,
    "beyond": [
-    "where: the wings, excess 47.5",
-    "changes along: the flanks along volatility, excess 40.2",
-    "where: the core, excess 37.9",
-    "its line 2.82"
+    "where: the wings, excess 72.3",
+    "where: the core, excess 46.7",
+    "changes along: the wings along volatility, excess 45.2",
+    "its line 3.94"
    ],
    "parameters": {
     "volatility ratio": {
      "value": 0.7407384434939696,
      "bar": 0.003819631347588876,
-     "coverage": 0.9666666666666667,
+     "coverage": 1.0,
      "as": "volatility ratio",
      "quotable": false,
      "theory": null
@@ -4976,12 +4967,12 @@
     "model": [
      "the shape that the residuals hold in the wings",
      "the shape that the residuals hold in the core",
-     "the shape that the residuals hold in the flanks, changing along volatility"
+     "the shape that the residuals hold in the wings, changing along volatility"
     ],
     "experiment": [
      "a quieter setup, a better setup: the error of the known parameters times 0.50",
-     "more samples, a better data collection: the error of the known parameters times 0.52",
-     "more repeats, a better data collection: the error of the known parameters times 0.61"
+     "more samples, a better data collection: the error of the known parameters times 0.60",
+     "volatility past its range, a better data collection: the error of the known parameters times 0.73"
     ]
    },
    "words": "let the ratio of the standard deviation to the quoted volatility change along the volatility, the generic term where the law of the market gives the shape of every period",
@@ -5000,10 +4991,10 @@
      ],
      "chi_square_per_degree": 1.3766659129887262,
      "beyond": [
-      "where: the wings, excess 11.2",
-      "changes along: the wings along volatility, excess 4.69",
-      "changes along: the flanks along volatility, excess 4.4",
-      "its line 3.95"
+      "where: the wings, excess 9.67",
+      "changes along: the wings along volatility, excess 7.22",
+      "where: the core, excess 3.1",
+      "its line 3.05"
      ],
      "parameters": {
       "volatility ratio": {
@@ -5022,12 +5013,12 @@
       "model": [
        "the shape that the residuals hold in the wings",
        "the shape that the residuals hold in the wings, changing along volatility",
-       "the shape that the residuals hold in the flanks, changing along volatility"
+       "a slow trend over the span of each curve"
       ],
       "experiment": [
-       "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.56",
-       "more repeats, a better data collection: the error of the known parameters times 0.65"
+       "a quieter setup, a better setup: the error of the known parameters times 0.49",
+       "more samples, a better data collection: the error of the known parameters times 0.58",
+       "more repeats, a better data collection: the error of the known parameters times 0.70"
       ]
      }
     },
@@ -5042,7 +5033,7 @@
       "volatility ratio": {
        "value": 0.9426205013806812,
        "bar": 0.04210255823720465,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "volatility ratio",
        "quotable": true,
        "theory": null
@@ -5061,13 +5052,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the flanks",
+       "a periodic structure of 11 cycles over the span on the right of the curves",
        "a slow trend over the span of each curve"
       ],
       "experiment": [
-       "a quieter setup, a better setup: the error of the known parameters times 0.47",
-       "more repeats, a better data collection: the error of the known parameters times 0.51",
-       "more samples, a better data collection: the error of the known parameters times 0.60"
+       "a quieter setup, a better setup: the error of the known parameters times 0.49",
+       "more repeats, a better data collection: the error of the known parameters times 0.69",
+       "more samples, a better data collection: the error of the known parameters times 0.75"
       ]
      },
      "done": null,
@@ -5086,16 +5077,16 @@
      ],
      "chi_square_per_degree": 2.824461244821751,
      "beyond": [
-      "where: the wings, excess 47.9",
-      "where: the core, excess 36.3",
-      "changes along: the wings along volatility, excess 28.3",
-      "its line 2.89"
+      "where: the wings, excess 47.3",
+      "changes along: the flanks along volatility, excess 40.5",
+      "changes along: the wings along volatility, excess 35.7",
+      "its line 3.37"
      ],
      "parameters": {
       "volatility ratio": {
        "value": 0.7395716679884786,
        "bar": 0.003865172564156936,
-       "coverage": 0.9666666666666667,
+       "coverage": 0.9,
        "as": "volatility ratio",
        "quotable": false,
        "theory": null
@@ -5107,13 +5098,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the wings, changing along volatility"
+       "the shape that the residuals hold in the wings, changing along volatility",
+       "the shape that the residuals hold in the flanks, changing along volatility"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more samples, a better data collection: the error of the known parameters times 0.51",
-       "more repeats, a better data collection: the error of the known parameters times 0.65"
+       "more samples, a better data collection: the error of the known parameters times 0.78",
+       "more repeats, a better data collection: the error of the known parameters times 0.82"
       ]
      }
     },
@@ -5128,7 +5119,7 @@
       "volatility ratio": {
        "value": 0.9000001565842749,
        "bar": 0.011871891191744897,
-       "coverage": 1.0,
+       "coverage": 0.9,
        "as": "volatility ratio",
        "quotable": false,
        "theory": null
@@ -5136,7 +5127,7 @@
       "tail index": {
        "value": 3.9999965833192883,
        "bar": 0.14214741967526515,
-       "coverage": 1.0,
+       "coverage": 0.8,
        "as": "tail index",
        "quotable": false,
        "theory": null
@@ -5146,14 +5137,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the flanks",
-       "the shape that the residuals hold in the core",
-       "the shape that the residuals hold in the wings"
+       "the shape that the residuals hold in the flanks, changing along volatility",
+       "the shape that the residuals hold in the core, changing along volatility",
+       "a part in quadrature with the line, the Hilbert transform of the fitted curve"
       ],
       "experiment": [
-       "a quieter setup, a better setup: the error of the known parameters times 0.49",
-       "more repeats, a better data collection: the error of the known parameters times 0.56",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "a quieter setup, a better setup: the error of the known parameters times 0.50",
+       "more repeats, a better data collection: the error of the known parameters times 0.82",
+       "more samples, a better data collection: the error of the known parameters times 0.88"
       ]
      },
      "done": null,
@@ -5172,16 +5163,16 @@
      ],
      "chi_square_per_degree": 3.5636882152793325,
      "beyond": [
-      "where: the wings, excess 49.6",
-      "changes along: the flanks along volatility, excess 37.4",
-      "where: the core, excess 31.4",
-      "its line 2.69"
+      "where: the wings, excess 57.8",
+      "changes along: the flanks along volatility, excess 45.8",
+      "changes along: the wings along volatility, excess 31.1",
+      "its line 4.1"
      ],
      "parameters": {
       "volatility ratio": {
        "value": 0.7399744286094927,
        "bar": 0.0038562934453735447,
-       "coverage": 1.0,
+       "coverage": 0.9,
        "as": "volatility ratio",
        "quotable": false,
        "theory": null
@@ -5193,13 +5184,13 @@
      "proposals": {
       "model": [
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the core",
+       "the shape that the residuals hold in the wings, changing along volatility",
        "the shape that the residuals hold in the flanks, changing along volatility"
       ],
       "experiment": [
-       "more samples, a better data collection: the error of the known parameters times 0.48",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.63"
+       "more samples, a better data collection: the error of the known parameters times 0.76",
+       "more repeats, a better data collection: the error of the known parameters times 0.87"
       ]
      }
     },
@@ -5222,7 +5213,7 @@
       "tail index": {
        "value": 4.191081487121763,
        "bar": 0.1545373499182367,
-       "coverage": 1.0,
+       "coverage": 0.9666666666666667,
        "as": "tail index",
        "quotable": true,
        "theory": null
@@ -5232,14 +5223,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the asymmetry",
-       "the shape that the residuals hold in the asymmetry, changing along volatility",
-       "the shape that the residuals hold in the flanks, changing along volatility"
+       "the shape that the residuals hold in the wings",
+       "the shape that the residuals hold in the wings, changing along volatility",
+       "the shape that the residuals hold in the asymmetry, changing along volatility"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.56",
-       "more samples, a better data collection: the error of the known parameters times 0.64"
+       "more repeats, a better data collection: the error of the known parameters times 0.51",
+       "a wider span, a better data collection: the error of the known parameters times 0.83"
       ]
      },
      "done": null,
@@ -5258,9 +5249,8 @@
      ],
      "chi_square_per_degree": 1.1730588862962652,
      "beyond": [
-      "changes along: the flanks along volatility, excess 10.1",
-      "where: the wings, excess 4.07",
-      "its line 3.47"
+      "where: the core, excess 5.09",
+      "its line 4.03"
      ],
      "parameters": {
       "volatility ratio": {
@@ -5277,14 +5267,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
+       "the shape that the residuals hold in the core",
        "the shape that the residuals hold in the wings",
-       "the shape that the residuals hold in the flanks, changing along volatility",
-       "the shape that the residuals hold in the core"
+       "the shape that the residuals hold in the flanks, changing along volatility"
       ],
       "experiment": [
-       "more samples, a better data collection: the error of the known parameters times 0.49",
        "a quieter setup, a better setup: the error of the known parameters times 0.50",
-       "more repeats, a better data collection: the error of the known parameters times 0.63"
+       "more samples, a better data collection: the error of the known parameters times 0.63",
+       "more repeats, a better data collection: the error of the known parameters times 0.81"
       ]
      }
     },
@@ -5299,7 +5289,7 @@
       "volatility ratio": {
        "value": 0.8551395626915939,
        "bar": 0.028488070232357072,
-       "coverage": 1.0,
+       "coverage": 0.9,
        "as": "volatility ratio",
        "quotable": true,
        "theory": null
@@ -5307,7 +5297,7 @@
       "tail index": {
        "value": 4.6168007159959386,
        "bar": 0.5531420880992345,
-       "coverage": 1.0,
+       "coverage": 0.9333333333333333,
        "as": "tail index",
        "quotable": true,
        "theory": null
@@ -5317,14 +5307,14 @@
      "by_a_hair": false,
      "proposals": {
       "model": [
-       "the shape that the residuals hold in the wings, changing along volatility",
+       "the shape that the residuals hold in the wings",
        "the shape that the residuals hold in the asymmetry, changing along volatility",
        "the shape that the residuals hold in the flanks, changing along volatility"
       ],
       "experiment": [
        "a quieter setup, a better setup: the error of the known parameters times 0.47",
-       "more repeats, a better data collection: the error of the known parameters times 0.53",
-       "more samples, a better data collection: the error of the known parameters times 0.62"
+       "more repeats, a better data collection: the error of the known parameters times 0.57",
+       "more samples, a better data collection: the error of the known parameters times 0.58"
       ]
      },
      "done": null,
@@ -5333,6 +5323,6 @@
     }
    }
   ],
-  "minutes": 0.4
+  "minutes": 4.4
  }
 }

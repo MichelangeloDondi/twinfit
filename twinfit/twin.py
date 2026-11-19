@@ -31,6 +31,7 @@ from .pool import Lazy, elsewhere, in_order
 from .problem import Record
 from .propose import propose
 
+from .seeds import seed_of
 ENDED, BIAS, COVERAGE, SPREAD = 0.98, 0.25, (0.92, 0.98), (0.85, 1.15)
 HELD = 0.05              # a parameter held at a bound on more than one synthetic set in twenty is not admitted: until review 43 one held set refused a fit
 Z = 1.959964
@@ -53,12 +54,68 @@ def bands(sets: int) -> dict:
     return {"bias": bias, "spread": (max(0.0, 1.0 - spread), 1.0 + spread), "coverage": (max(0.0, NOMINAL - cover), min(1.0, NOMINAL + cover))}
 
 
-def replicas(problem, result, sets: int, level: float = 1.0, seed: int = 1, planted=None, nuisances=None, model_of=None):
+def drawn(rng, x, correlation: float = 0.0) -> np.ndarray:
+    """A noise of unit deviation on the samples at `x`: white, the same draws as before row M592, where `correlation` is
+    0, else a stationary AR(1) process of that coefficient along the abscissa, its innovations those same draws."""
+    z = rng.standard_normal(np.asarray(x).size)
+    phi = float(correlation or 0.0)
+    if phi <= 0.0:
+        return z
+    from scipy.signal import lfilter
+    order = np.argsort(x)
+    s = float(np.sqrt(1.0 - phi * phi))
+    head = z[order].copy()
+    head[0] /= s          # a start of unit deviation: the process is stationary from its first sample
+    e = np.empty_like(z)
+    e[order] = lfilter([s], [1.0, -phi], head)
+    return e
+
+
+def correlation_at(correlation, x_of_the_record, x) -> float:
+    """The AR(1) coefficient from sample to sample of a noise drawn at `x` that holds the correlation of a record over the
+    same span of the abscissa: `correlation` to the power of the new step over the record's. Twice the samples over the
+    same span take its square root, so that a lever of samples is not drawn with a correlation over half the span,
+    which bought more than such records do (the fourth reading of 0.1.3rc2, mislead 1). 0 stays 0."""
+    phi = float(correlation or 0.0)
+    if phi <= 0.0:
+        return 0.0
+    old, new = np.diff(np.sort(np.asarray(x_of_the_record, dtype=float))), np.diff(np.sort(np.asarray(x, dtype=float)))
+    step_old, step_new = (float(np.median(old)) if old.size else 0.0), (float(np.median(new)) if new.size else 0.0)
+    return phi ** (step_new / step_old) if step_old > 0.0 and step_new > 0.0 else phi
+
+
+def correlation_of(problem, result) -> list:
+    """For each curve, the AR(1) coefficient of its noise read from what the fit leaves, row M592 (the owner's message
+    535): for an AR(1) noise of coefficient phi the lag-one correlation of the differences is -(1 - phi) / 2, so phi is
+    1 + 2 rho, rho read on the differences of the whitened residuals in the order of the abscissa, which a smooth term
+    that the model lacks barely moves. Under two of its standard errors, the root of 2 over the samples, it is read as
+    white, and it is clipped to 0.95."""
+    out = []
+    for k, rec in enumerate(problem.records):
+        z = np.asarray(problem.whitened(k, result.shared, result.own[k]), dtype=float)[np.argsort(rec.x)]
+        d = np.diff(z - z.mean())
+        if d.size < 3 or float(d @ d) == 0.0:
+            out.append(0.0)
+            continue
+        phi = 1.0 + 2.0 * float(d[1:] @ d[:-1] / (d @ d))
+        out.append(float(np.clip(phi, 0.0, 0.95)) if phi >= 2.0 * np.sqrt(2.0 / d.size) else 0.0)          # under two of its standard errors, the root of 2 over the samples, white: measured unbiased on white noise and on a right model's residuals, its scatter that root
+    return out
+
+
+def correlated(problem, result):
+    """The problem whose records carry the AR(1) coefficient of their noise read by `correlation_of`, so that its twin draws
+    each curve's noise as its residuals' differences say (row M592)."""
+    import dataclasses
+    return problem.with_records([dataclasses.replace(rec, correlation=phi) for rec, phi in zip(problem.records, correlation_of(problem, result))])
+
+
+def replicas(problem, result, sets: int, level: float = 1.0, seed: int | None = None, planted=None, nuisances=None, model_of=None):
     """`sets` synthetic problems, each made when it is read, from its own seed: the 18th can be made without the 17 before
     it. `planted` is a discrepancy, one array a record (or None), added to the mean. `model_of(rng)` gives the model that
     one set is drawn from, for a quantity that is one number for a whole set and that the fit holds at its centre: the
     size of a term held at the centre of its theory, drawn from the law of that theory. The model of the problem is the
     one that every set is fitted with."""
+    seed = seed_of(problem, 1) if seed is None else seed          # replicas: drawn from the records, the old seed its salt (row M582)
     def one(rep: int):
         rng = np.random.default_rng([seed, int(round(1000 * level)), rep])
         model = problem.model if model_of is None else model_of(rng)            # drawn before the noise of the set, from the generator of the set
@@ -69,7 +126,7 @@ def replicas(problem, result, sets: int, level: float = 1.0, seed: int = 1, plan
             if planted is not None and planted[k] is not None:
                 mean = mean + planted[k]
             sd = level * rec.sd
-            recs.append(Record(rec.x, mean + sd * rng.standard_normal(rec.x.size), sd, rec.design, rec.name))
+            recs.append(Record(rec.x, mean + sd * drawn(rng, rec.x, rec.correlation), sd, rec.design, rec.name, rec.correlation))          # its noise correlated as the record's, row M592
         return problem.with_records(recs)
     return Lazy(one, sets)
 
@@ -144,7 +201,7 @@ def measured(out: dict, b: dict) -> tuple:
     return ". ".join(said), failed
 
 
-def admission(problem, result, sets: int = 200, level: float = 1.0, seed: int = 1, nuisances=None, start: str = "problem", workers: int = 1,
+def admission(problem, result, sets: int = 200, level: float = 1.0, seed: int | None = None, nuisances=None, start: str = "problem", workers: int = 1,
               max_iter: int = 80, model_of=None) -> dict:
     """The fit on replicas of its own model: the rule that admits it at one level of noise. Each search starts at the starts
     of the problem, as the researcher's own fit does. `start="fit"` starts it at the fitted values, which is faster and says
@@ -152,6 +209,7 @@ def admission(problem, result, sets: int = 200, level: float = 1.0, seed: int = 
     is the same whatever their number (pool.py). `max_iter`: the limit of steps of each search, as in `fit`. A search
     that stops at the limit counts as one that did not end: where the records hold a curve with no visible peak the
     limit of 80 can be too low, and the table says how many searches ended."""
+    seed = seed_of(problem, 1) if seed is None else seed          # admission: drawn from the records, the old seed its salt (row M582)
     if level <= 0:
         raise ValueError("the admission is a rule about spreads and needs noise: for the rung with no noise call noiseless(problem, result)")
     start = _start(start)
@@ -235,7 +293,7 @@ def _planted_of_one_set(args):
     return {"listed": listed, "keys": keys, "shared": got.shared, "leading": list(table["leading_set"])}
 
 
-def planted(problem, result, columns: list, amplitude, sets: int = 100, level: float = 1.0, seed: int = 2, block: str | None = None,
+def planted(problem, result, columns: list, amplitude, sets: int = 100, level: float = 1.0, seed: int | None = None, block: str | None = None,
             name: str | None = None, symmetric_only: bool = False, start: str = "problem", candidates=None, workers: int = 1, max_iter: int = 80) -> dict:
     """Replicas that hold a term which the working model lacks, read by the fit and by the table of candidates. `columns`
     and `amplitude` give the term as a candidate does. With an amplitude of zero the replicas are those of a right model,
@@ -251,6 +309,7 @@ def planted(problem, result, columns: list, amplitude, sets: int = 100, level: f
     candidate can have another name, since the name of a periodic term or of a slice holds a width that the fit of
     that replica computes: it is matched on its key, on every replica. A replica whose list does not hold the key at
     all is counted under `sets_whose_list_does_not_hold_it`."""
+    seed = seed_of(problem, 2) if seed is None else seed          # planted: drawn from the records, the old seed its salt (row M582)
     if level <= 0:
         raise ValueError("replicas that are read by the table need noise: for a term with no noise call noiseless(problem, result, planted=...)")
     start = _start(start)

@@ -43,6 +43,7 @@ from .candidates import ALONG, ALONG_SQUARE
 
 from .ledger import size_at
 
+from .seeds import seed_of
 ABSORBED = 1e-4          # a column whose visible share is under this is taken as inside the span of the model
 RANK = 1e-9
 
@@ -131,9 +132,10 @@ def family_levels(entries: list, draws: int, seed: int) -> tuple:
 POWERS = (0.5, 0.8, 0.95)       # the probabilities of being seen at which the bias of a candidate is given
 
 
-def propose(lin, candidates: list, draws: int = 4000, seed: int = 7, similar: float = 0.9, symmetric_only: bool = False) -> dict:
+def propose(lin, candidates: list, draws: int = 4000, seed: int | None = None, similar: float = 0.9, symmetric_only: bool = False) -> dict:
     """The table of the candidates on the residuals of a fit. `symmetric_only`: the candidates that are odd about the centre
     of a curve are read as alarms and none of them is proposed as a term."""
+    seed = seed_of(lin.problem, 7) if seed is None else seed          # propose: drawn from the records, the old seed its salt (row M582)
     entries = [_one(lin, c) for c in candidates]
     levels, threshold = family_levels(entries, draws, seed)
     names = lin.problem.shared

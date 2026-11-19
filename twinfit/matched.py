@@ -31,6 +31,7 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.optimize import least_squares
 
+from .seeds import seed_of
 LEVELS = tuple(float(v) for v in np.arange(1, 10) / 10.0)          # the levels of the abscissa against the value, as parts of the height
 REACH = 0.2                                                         # the half width of the interval about a crossing on which the straight line is fitted, in widths
 CUTS = (0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)        # the edges of the bands of value, as parts of the height
@@ -123,9 +124,10 @@ class Matched:
     statistics: int
 
 
-def match(lin, statistic: str, draws: int = 48, for_the_covariance: int = 400, seed: int = 1) -> Matched:
+def match(lin, statistic: str, draws: int = 48, for_the_covariance: int = 400, seed: int | None = None) -> Matched:
     """The estimate that one statistic gives: the parameters at which its values on the records match its mean on synthetic
     records of the model, weighted by the covariance of the synthetic values at the fit. The search starts at the fit."""
+    seed = seed_of(lin.problem, 1) if seed is None else seed          # match: drawn from the records, the old seed its salt (row M582)
     if statistic not in STATISTICS:
         raise ValueError(f"no statistic is called {statistic!r}: {', '.join(STATISTICS)}")
     pr, ft = lin.problem, lin.fit

@@ -4,28 +4,23 @@ This page builds on the README and sets out the protocol that an agent follows, 
 
 ## The card
 
-This card gives the procedure, steps A to H, D to G making one iteration, and the sections below give its steps 1 to 10.
+Steps A to H, D to G one iteration, steps 1 to 10 below.
 In five minutes, this card. In an hour, `guide agent-tutorial`. Whole, `TUTORIAL.md`. Its section 1 defines the words that this page uses.
 
-**A.** Brief the researcher, section 0. Read `DIR/description.toml` and the papers it names. Where `[literature]` asks a search, `python -m twinfit
+**A.** Brief the researcher, section 0. Read `DIR/agent.toml`, then `DIR/description.toml` and the papers it names. Where `[literature]` asks a search, `python -m twinfit
 literature DIR` prints the brief for one subagent.
 
 **B.** Where no model is named, write `DIR/model.py` from the physics, from the template of `python -m twinfit init DIR`,
-with its `EQUATION` in LaTeX. Where the noise is not known, leave `[noise]` out, the law in the height read from
-neighboring samples, or write `from = "residuals"` for a curve sharper than three samples.
+with its `EQUATION` in LaTeX. Where the noise is not known, leave `[noise]` out, or write `from = "residuals"` for a curve sharper than three samples.
 
 **C.** Start `mkdir -p DIR/agent && python -m twinfit loop DIR > DIR/agent/run.log 2>&1` in the background, then run
-`python -m twinfit wait DIR`: it returns within ten minutes and prints the last page. Run it again
-while the loop runs, and read `run.log` where a run was refused. Never start a second loop in the folder.
+`python -m twinfit wait DIR`: it prints the last page within ten minutes. Read `run.log` where a run was refused. Never start a second loop in the folder.
 
-**D.** Read `DIR/loop/brief_K.md` of the last model K. `model_K.json` holds every number. A term is asked only where an answer stands beyond the twin.
+**D.** Read `DIR/loop/brief_K.md` of the last model. A term is asked only where an answer stands beyond the twin.
 
-**E.** Write the next `DIR/terms/0N.py` with a term of physical origin that fills the place, the kind and the setting of the
-first direction of the report, either place where two are tied, and the physics in `why`: `python -m twinfit card` shows
-how. Have it red teamed first, step 7. Never add the flag of the dictionary, which names terms: the term comes from the data and the physics.
+**E.** Propose three improvements, ranked, each filling the place, kind and setting of the first direction of the report, either place where two are tied, with its gain on the twin and its physical ground: a term, an effect or a refined approximation, never named before the report reads it. With `chooses = "agent"` choose and write why, else ask the researcher. Write the chosen one as the next `DIR/terms/0N.py`, the physics in `why`: `python -m twinfit card` shows how. Have it red teamed first, step 7. Never add the flag of the dictionary, which names terms.
 
-**F.** Run the loop again. It keeps a term when its fit ends inside its bounds, the Bayesian criterion falls by more than
-2, and the twin admits the larger model. `DIR/loop/best.md` gives the reason of a refusal.
+**F.** Run the loop again. It keeps a term by its bounds, the Bayesian criterion and the twin.
 
 **G.** Stop by the rule below: the noise first, nothing beyond the twin, one answer just past its line,
 under 1.5 times the line and read on 100 sets, no answer worth a term, or the iterations told spent, five where no
@@ -33,10 +28,10 @@ number was told, or the time told spent. Quote a value of `DIR/loop/best.md`, wi
 where its report says "The twin admits the fit", the check of the noise holds, and `best.md` writes
 no "Not yet to be quoted" beside it. Where it says "not to be read", say why and quote nothing.
 
-**H.** Write each turn into `DIR/agent/iteration_K.md`, numbers, reasoning and decision, before the
-next run writes `DIR/loop/` again. At the end, the output section's list and `DIR/agent/report.md`.
+**H.** Before the next run, write the turn into `DIR/agent/iteration_K.md`: its figure from `python -m twinfit log DIR`, then `## What the statistical tools read`, `## The three improvements`, `## Chosen, by whom, and why`, over the others on physical ground and on the statistics, and `## What its fit showed`. `report.md` joins them.
 
 ## The input, the iterations and the output
+The purpose of every run is the physical terms that the model lacks: the package reads from the data where the model misses, of which kind and along which setting, and you write the term of physical origin that fills it, from the description and the physics. At each turn you propose the three most likely improvements of the model, each with the non-ideality that the statistical tools read, the mathematical need that answers it with its gain on the twin, and its physical ground. Who chooses among the three is the researcher's setting, `DIR/agent.toml`: `chooses = "agent"` lets you choose at each turn and write why, `chooses = "researcher"` asks the researcher at each turn, to proceed with your first, with another of the three or with something else of theirs, and with no such file you ask. The log of each turn, step H, is for a reader who did not watch the run: why you reasoned as you did and why one model over another, on physical ground and on the statistics, the structure of the residuals among them.
 
 When the researcher gives you a folder with a description of their records, and nothing that names what their model
 lacks, this section is your brief, and the sections after it are the rules of each step.
@@ -62,7 +57,7 @@ later reader can follow it. Each model is a rung: model 0, the first, and one ru
 Steps 8 to 10 of an iteration go in the same file as its steps 1 to 7, and the next file, `iteration_K.md` of the
 model that step 8 made, starts at step 1. Where one run keeps two term files, that is the last model that it made. Points 1 and 2 of section 0 go at the head of `DIR/agent/report.md`, as its point 4 says.
 
-**Running the loop.** The tutorial runs it in the foreground, since its worked runs take seconds: a run of your own
+**Running the loop.** The tutorial runs it in the foreground, since its worked runs take about a minute each: a run of your own
 records runs in the background, as step C of the card. `loop` takes `--n N`, `--sets S`, `--max-seconds T`, `--workers W`
 and the flag of the dictionary, and `python -m twinfit` with no command prints what each does. A run that names no
 `--sets` reads 30 sets, so the run whose numbers you quote is the last, at the sets that you quote it at. `best.md`
@@ -86,7 +81,8 @@ brief's "where best.md says that it may be quoted" means a value with no such ma
    of `DIR/terms/` in order, keeps or refuses each, makes the twin of each model, and writes the report of each kept
    model, `DIR/loop/model_K.md`: read the last. Its report answers the questions of a senior researcher, each against the twin:
    - where the misfit lies, in the core, the flanks, the wings or the asymmetry,
-   - how the residuals are shaped, a slow trend over the span of each curve or a periodic structure,
+   - how the residuals are shaped, a slow trend over the span of each curve, a periodic structure about each centre,
+     fixed to the abscissa or on one side, a part in quadrature with the line or a structure in one place and at one scale,
    - whether the noise holds glitches, grows with the signal or is correlated from sample to sample,
    - what changes from one trace to the next along which setting, the core, the flanks, the wings or the asymmetry,
    - which family of statistics sees it most.
@@ -117,13 +113,15 @@ brief's "where best.md says that it may be quoted" means a value with no such ma
 3. **Estimate the size of each effect**, to its order of magnitude: what it does to the signal, and what it would leave
    in the residuals of the current model, in the place, of the kind and along the setting that the report found. Each
    proposal for the model of `model_K.md` is a direction, measured with the shape that the residuals hold there and
-   what it would cost the known parameters on its twin: the package names no term, so set each estimate beside that
+   what it would cost the known parameters on its twin, which for the shape that the residuals hold in a place, freed of
+   the fit's own directions, is nothing at first order, the cost lying in the part that the fit absorbed, while a slow trend or a
+   periodic structure is not freed: the package names no term, so set each estimate beside that
    direction, and use `scan` for a distance, a stretch or a period of the term that you write.
 
 4. **Choose the three most promising effects** and report them to the scientist, each with why: the answer of the
    report that it fills, its source, and its estimated size against the size asked.
 
-5. **The scientist chooses** which one to add. Where you were told to choose on your own, choose, and say why.
+5. **The scientist chooses** which one to add, as `DIR/agent.toml` sets: where it says `chooses = "agent"`, choose, and say why, on physical ground and on the statistics, and otherwise ask.
 
 6. **Refine the model.** Write the chosen effect as `DIR/terms/NN.py`: `term`, a `twinfit.mechanisms.Mechanism`, and
    `why`, a sentence that names the physics, the source and the answer of the report that it fills. Where the report
@@ -155,7 +153,7 @@ brief's "where best.md says that it may be quoted" means a value with no such ma
 
 8. **Run the joint fits with the new model**: the loop again. The term is fitted, read on its own synthetic sets, and
    kept only when its fit ends inside its bounds, the Bayesian criterion falls by more than 2, and the twin admits the
-   larger model. A refused term is on record with its reason: read it before the next choice. A refusal by the twin
+   larger model, or whatever the criterion where its file says `keep = True`, for a term of solid physical ground. A refused term is on record with its reason: read it before the next choice. A refusal by the twin
    on the 30 synthetic sets of the first run can turn on more, as the loop says: run it again with `--sets 100` before
    the term is set aside, since a right term can be refused at 30 and kept at 100.
 
@@ -300,13 +298,19 @@ the noise of each sample, which the loop grades against the height of the fitted
 The report reads the residuals alone and holds no list of terms.
 
 1. **The readings of every family.** `where.statistics` reads each family of the catalog on the residuals: the
-   generalized moments and their ratios, the windows along the abscissa and along the value, the grids, the chi
-   functions and the transformations of the value, each a chi square in the covariance under a right model, with a level
-   from the twin. The family that sees most is the answer "seen by".
+   generalized moments and their ratios, the windows along the abscissa and along the value, and the
+   transformations of the value, each a chi square in the covariance under a right model, and the eight chi functions
+   averaged over the residuals and mapped so that near the normal law each grows about as their square or
+   slower, with the plane of position and residual value, the chi functions in windows of position and in bands of the
+   residual's value, and each curve predicted by the fit of the others, each with a level from the twin. The family that
+   sees most is the answer "seen by".
 2. **Where and along which setting.** The places, the core, the flanks, the wings and the asymmetry, and which of them
    changes along each setting of the design.
 3. **The shape of the residuals.** A slow trend over the span of each curve, by the Legendre polynomials of orders 1 to
-   3, and a periodic structure, by a dense scan of periods.
+   3, a periodic structure by a dense scan of periods, about each centre, fixed to the abscissa and on each side of the
+   centres, a part in quadrature with the line by the Hilbert transform of the fitted curve, and a structure in one place
+   and at one scale by a scan of wavelets. Where the instrument joins neighbouring samples, `correlated = true` under
+   `[noise]` has the twin draw each curve's noise correlated as its residuals' differences say.
 4. **The shape of the noise.** Glitches, a noise that grows with the signal, a noise correlated from sample to sample,
    and the skewness and tails of the whitened residuals, read once the leading shape of the residuals is taken out.
 5. **The noise matrix.** `families.noise_matrix` draws five laws of the noise on your records and gives the chance that

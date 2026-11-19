@@ -17,10 +17,15 @@ TEN = 10          # the niceness of every process of this work
 LATEX = ("latex", "pdflatex", "xelatex", "lualatex", "latexmk", "biber", "bibtex", "bibtex8", "makeindex", "xindy", "tectonic", "dvipdfmx", "dvips", "mpost", "makeglossaries", "texindy", "kpsewhich")          # the programs of a LaTeX build, by the name that the system gives the process
 
 
-def to_ten(nice=os.nice) -> int:
+def to_ten(nice=os.nice, read=lambda: os.getpriority(os.PRIO_PROCESS, 0)) -> int:
     """Raises the niceness of this process to TEN where it is lower, and returns it. A process already above TEN keeps
-    its own: the call only ever lowers a priority, which needs no right of the system."""
-    now = nice(0)
+    its own: the call only ever lowers a priority, which needs no right of the system. The niceness is read by `read`
+    where macOS refuses `nice(0)` to a process that an outer `nice` lowered already: on 2026-10-20 a matrix of the toy and
+    the figures of the README stopped at their first line with PermissionError, run under `nice -n 10`."""
+    try:
+        now = nice(0)
+    except PermissionError:
+        now = read()
     if now < TEN:
         now = nice(TEN - now)
     return now

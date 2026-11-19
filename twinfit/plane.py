@@ -71,6 +71,7 @@ from .fit import STEP, derivatives, fit
 from .pool import Lazy, in_order
 from .problem import Record
 
+from .seeds import seed_of
 BANDS = 8                                                # bands of the value of a residual, of equal probability under a normal law
 TAU = 0.5                                                # the width of a band's edge, in standard deviations of a residual. 0.25 until review 58: the mean
                                                          # derivative of a band, read from the residuals at hand, is rough with a narrow edge. One step was
@@ -454,7 +455,7 @@ def _columns_of_one_set(args):
     return out
 
 
-def columns(problem, start, sets: int = 100, seed: int = 1, workers: int = 1, errors: str = "residuals", slices: int = SLICES, max_iter: int = 80,
+def columns(problem, start, sets: int = 100, seed: int | None = None, workers: int = 1, errors: str = "residuals", slices: int = SLICES, max_iter: int = 80,
             functions: dict | None = None) -> dict:
     """The three columns for every shared parameter: the weighted fit `start`, the cells and the hybrid. For each, the estimate,
     the uncertainty that it prints, and what `sets` synthetic sets of the fitted model say: the share of searches that ended,
@@ -478,6 +479,7 @@ def columns(problem, start, sets: int = 100, seed: int = 1, workers: int = 1, er
     What it does not show. The sets are those of the fitted model: a term that the model lacks is not in them, and the bias
     that it gives is in no column. With residuals drawn again the position of a structure in the residuals is lost, and
     its size is kept as if it were noise."""
+    seed = seed_of(problem, 1) if seed is None else seed          # columns: drawn from the records, the old seed its salt (row M582)
     if errors not in ("residuals", "normal"):
         raise ValueError("errors is residuals or normal")
     if sets < 20:

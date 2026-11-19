@@ -7,8 +7,8 @@ third turn on one core, nearly all of it the models of the turns before (the red
 
 Every costly step of a run goes through `Reuse`. Its key is made of what the step reads: the digest of the package, the
 code of the model and of the term files read so far, the records with their noise, the fit with its values, and the
-arguments of the step. A step whose key is kept is read back and not computed. The steps draw from fixed seeds and give
-the same numbers on any number of workers, so a value read back is the value that the step would compute.
+arguments of the step. A step whose key is kept is read back and not computed. The steps draw from seeds read from the
+records, `seeds.seed_of`, and give the same numbers again on the same records and on any number of workers, so a value read back is the value that the step would compute.
 
     reuse = Reuse(folder)                                  the store of a folder, `loop.reuse/` beside `loop/`
     out = reuse("twin", lambda: admission(...), code, problem, result, sets)

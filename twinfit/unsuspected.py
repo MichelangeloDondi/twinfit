@@ -43,6 +43,7 @@ from .propose import propose
 from .refine import develop_one
 from .twin import replicas
 
+from .seeds import seed_of
 EVERY = "every sample: the fit"          # the family of every sample: its estimate is the fit itself
 INFLATED = 10.0          # a combination whose standard deviation is beyond this many times the fit's is of no use: the estimates then share the bias of the term, and nothing of it cancels
 MOST = 2          # a combination is made free of at most this many members of a class, from the first: each member more costs variance, and the members of a class are nearly one curve
@@ -71,7 +72,7 @@ def _levels_of_one_set(args):
         return None
 
 
-def level_for_all(problem, result, names=None, centre=None, sets: int = 200, level: float = 0.05, seed: int = 11, max_iter: int = 80, workers: int = 1) -> dict:
+def level_for_all(problem, result, names=None, centre=None, sets: int = 200, level: float = 0.05, seed: int | None = None, max_iter: int = 80, workers: int = 1) -> dict:
     """One level for all the readings together. Each reading has a level of its own, and with many readings some reading
     reports on far more sets of a right model than its level says: with sixteen of them, on about a third. Here `sets`
     synthetic sets of the fitted model are each fitted and read as the records are, and the smallest level among the
@@ -80,9 +81,11 @@ def level_for_all(problem, result, names=None, centre=None, sets: int = 200, lev
     readings, since on a further set of a right model the smallest level falls under it with that chance. Fewer sets
     than 1 / level give no such number, and are refused.
 
-    What it assumes: the noise of the records is the stated one, independent from sample to sample, and the fitted
-    model is near enough to the truth for its synthetic sets to stand for a right model. A noise that is correlated or
+    What it assumes: the noise of the records is the stated one, independent from sample to sample unless a record
+    carries its correlation, as `correlated = true` under [noise] gives, which its sets then draw, and the fitted model
+    is near enough to the truth for its synthetic sets to stand for a right model. A noise that is correlated or
     of another size moves every level, this one too."""
+    seed = seed_of(problem, 11) if seed is None else seed          # level_for_all: drawn from the records, the old seed its salt (row M582)
     if int(level * (sets + 1)) < 1:
         raise ValueError(f"{sets} sets give no level of {level} for all the readings: at least {int(np.ceil(1.0 / level))} are needed")
     names = list(names) if names is not None else list(families.catalogue(centre))
@@ -346,7 +349,7 @@ def _licence_of_one_set(args):
             "first_by_score": max(scores, key=scores.get) if scores else None, "first_by_gain": max(gains, key=gains.get) if gains else None}
 
 
-def licence(problem, result, known: dict, terms: list | None = None, sets: int = 100, same: float = SAME, share: float = SHARE, seed: int = 13, max_iter: int = 80, workers: int = 1) -> dict:
+def licence(problem, result, known: dict, terms: list | None = None, sets: int = 100, same: float = SAME, share: float = SHARE, seed: int | None = None, max_iter: int = 80, workers: int = 1) -> dict:
     """May first order be used on this problem. First order is fast, and right for a term that is small. Whether the
     term of these records is small enough is not known beforehand, so it is counted. Synthetic sets are drawn from the
     model with the generic term of `known` at the size that was fitted: the nearest stand-in for the records that can be
@@ -357,6 +360,7 @@ def licence(problem, result, known: dict, terms: list | None = None, sets: int =
 
     The licence is of this problem at this size of the term. A larger term, another design or another model is another
     count."""
+    seed = seed_of(problem, 13) if seed is None else seed          # licence: drawn from the records, the old seed its salt (row M582)
     term = known.get("_term")
     if term is None:
         raise ValueError("no generic term was fitted on these records: there is nothing whose first order could be set beside its fit")
@@ -377,3 +381,29 @@ def licence(problem, result, known: dict, terms: list | None = None, sets: int =
             "the_same_value": values, "the_same_term_comes_first": first,
             "largest_distance_in_bars": {name: float(np.max([abs(r["apart"][name]) for r in read_])) for name in problem.shared},
             "licence_for_the_values": {name: bool(v >= share) for name, v in values.items()}, "licence_for_the_term_that_comes_first": bool(first >= share)}
+
+
+def before_the_name(problem, result, report: dict, centre=None, dictionary: bool = False, max_iter: int = 80) -> dict | None:
+    """Row M581, the owner's messages 131 and 133, the precession of Mercury: what can be said of the known parameters
+    while the missing term has no name, in the loop's report of a model. Where an answer stands beyond the twin, the
+    five estimates of each shared parameter of `known_parameters`, blind: the class is read on the slow trend, the one
+    basis fixed before the residuals are read, and the generic terms are those that the model and the design alone give,
+    each shared parameter along each covariate, the package's own shapes only on `dictionary`. None where nothing stands
+    beyond the twin, where the model shares no parameter, or where the records refuse the estimates. No estimate sees a
+    part of the missing term that lies in the fit's own directions and in no basis tried."""
+    if not problem.shared or not any(a.get("beyond_the_twin") for a in report.get("answers", [])):
+        return None
+    lin = Linear(problem, result)
+    candidates = [c for c in held_by_the_residuals(lin) if c.family == "trend"]
+    kinds = classes(propose(lin, candidates))
+    leading = next((kind for kind in kinds if kind["leads"]), None)
+    try:
+        known = known_parameters(problem, result, lin, leading, candidates, None, centre, generic_terms(problem, lin, dictionary), max_iter)
+    except (ValueError, np.linalg.LinAlgError, FloatingPointError):
+        return None
+
+    def plain(v):          # what the page and the table read: the term and the columns that the estimates kept under a private key are objects of the run
+        if isinstance(v, dict):
+            return {k: plain(x) for k, x in v.items() if not str(k).startswith("_")}
+        return [plain(x) for x in v] if isinstance(v, (list, tuple)) else v
+    return plain(known)

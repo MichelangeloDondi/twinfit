@@ -57,6 +57,10 @@ SHORT = {"moments: powers 0 to 4": "moments, powers 0 to 4",
          "the logarithm of the value: power kernels 0 to 8": "moments of the logarithm",
          "the reciprocal of the value: power kernels 0 to 8": "moments of the reciprocal",
          "every sample: the fit": "chi square of the fit"}          # the families of the package, as a page names them
+from twinfit import where as _where  # noqa: E402
+READING_SHORT = ({_where.WINDOWED: "chi functions in windows", _where.WINDOWED_VALUE: "chi functions in bands of value", _where.GRIDDED_LEVEL: "chi functions in cells of level",
+              _where.GRIDDED_VALUE: "chi functions in cells of value", _where.CHI_FITS: "the fit under each chi function", _where.RUNNING_SUM: "the running sum",
+              _where.FOURIER_CHI: "the Fourier transform", _where.DIFFERENCE_CHI: "the differences"})          # the readings of rows M588, M594 and M596 that are no family, as a page names them: their whole names lay on one another on page 10 (his message 579). Apart from SHORT, which lists the families
 COSTS = {"square": "least squares", "1.5": "power 1.5", "huber": "Huber", "logarithm": "logarithm", "student": "Student"}          # the chi functions, as a page names them
 CENTRE = "centre"          # the own parameter of a trace that places its line
 LEVEL = 0.05          # a reading reports when its level is under this

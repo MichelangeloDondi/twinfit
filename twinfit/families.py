@@ -81,6 +81,7 @@ from scipy.stats import chi2, ncx2
 
 from .fit import basis, derivatives
 
+from .seeds import seed_of
 GEOMETRIC = (0.0, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0)          # the edges of readings.py, in widths of the curve
 TENTHS = tuple(float(v) for v in np.arange(1, 10) / 10.0)
 LARGEST = 2000          # a family of more statistics than this is the window of a fit: it is not read as one chi square
@@ -307,12 +308,133 @@ def transformed(how="logarithm", orders=range(5), above: float = 0.1):
     return rule
 
 
+def on_the_value(how, inner, above: float = 0.1):
+    """Any rule of weights read on a transformation g of the value, at first order, as `transformed` reads its moments:
+    each weight times g'(f), the slope of g at the fitted curve, on the samples whose fitted value is above `above` of the
+    height. `how` as for `transformed`. With `slices()` or `bands()` it gives the windows along the abscissa and along
+    the value of the logarithm or the reciprocal of the curve, cells of `cells()` that were not built (row M588, the
+    owner's message 88)."""
+    slope = transformed(how, (0,), above)
+
+    def rule(u, v, f):
+        weight = slope(u, v, f)[0]
+        got = inner(u, v, f) if getattr(inner, "curve", False) else inner(u, v)
+        return [np.asarray(w, dtype=float) * weight for w in got]
+    rule.curve = True
+    return rule
+
+
+def of_the_derivative(inner):
+    """Any rule of weights read on the derivative of the record by its abscissa, as `derivative` reads its moments: each
+    weight summed against the difference of the two neighbours of a sample over their distance, which carries it onto
+    the samples at the two ends of each of its intervals (row M588)."""
+    def rule(u, v, f):
+        if np.any(np.diff(u) <= 0.0):
+            raise ValueError("a derivative needs the abscissa of a record in increasing order")
+        out = []
+        for k in (inner(u, v, f) if getattr(inner, "curve", False) else inner(u, v)):
+            k = np.asarray(k, dtype=float)
+            w, g = np.zeros(u.size), k[1:-1] / (u[2:] - u[:-2])
+            w[2:] += g
+            w[:-2] -= g
+            out.append(w)
+        return out
+    rule.curve = True
+    return rule
+
+
+def of_the_integral(inner):
+    """Any rule of weights read on the running integral of the record from its first sample, as `integral` reads its
+    moments: a value carries the sum of the weight over every sample after it, times its spacing (row M588)."""
+    def rule(u, v, f):
+        if np.any(np.diff(u) <= 0.0):
+            raise ValueError("a running integral needs the abscissa of a record in increasing order")
+        step = np.gradient(u)
+        return [step * np.cumsum(np.asarray(k, dtype=float)[::-1])[::-1] for k in (inner(u, v, f) if getattr(inner, "curve", False) else inner(u, v))]
+    rule.curve = True
+    return rule
+
+
+def levels_of(read: str, levels=(0.05,) + TENTHS):
+    """Windows along the value of the derivative or of the running integral of the fitted curve: the samples where it lies
+    between two levels, as parts of its largest size, each side of the centre, the derivative signed (row M588)."""
+    def rule(u, v, f):
+        f = np.asarray(f, dtype=float)
+        if read == "derivative":
+            g = np.gradient(f, u)
+        else:
+            g = np.concatenate([[0.0], np.cumsum(0.5 * (f[1:] + f[:-1] - 2.0 * f.min()) * np.diff(u))])
+        g = g / (float(np.abs(g).max()) or 1.0)
+        e = [-np.inf] + sorted(set(levels) | {-x for x in levels} if read == "derivative" else levels) + [np.inf]
+        out = []
+        for lo, hi in zip(e, e[1:]):
+            for side in (u >= 0.0, u < 0.0):
+                col = ((g >= lo) & (g < hi) & side).astype(float)
+                if col.any():
+                    out.append(col)
+        return out
+    rule.curve = True
+    return rule
+
+
+def frequency_bands(edges=(0.05, 0.1, 0.2, 0.4, 0.8, 1.6), kind: str = "cosine", steps: int = 8):
+    """Windows along the abscissa of the cosine or the sine transform of the curve about its centre: the transform summed
+    over a band of frequencies, in cycles a width, which at first order is the residual under the sum of the cosines, or
+    the sines, of `steps` frequencies across the band (row M588)."""
+    trig = np.cos if kind == "cosine" else np.sin
+
+    def rule(u, v):
+        out = []
+        for lo, hi in zip(edges, edges[1:]):
+            out.append(sum(trig(2.0 * np.pi * nu * u) for nu in np.linspace(lo, hi, steps)) / steps)
+        return out
+    return rule
+
+
 def window(within: float = np.inf):
     """Every sample within a distance of the centre, in widths, each with a weight of its own: the window of a fit. With no
     limit it is the fit of every sample."""
     def rule(u, v):
         return np.abs(u) <= within
     return rule
+
+
+def beyond(outside: float):
+    """Every sample farther than `outside` widths from the centre, each with a weight of its own: the window of a fit off
+    the peak, its wings alone (row M588, the owner's message 39: "nor it is necessary centered in the peak")."""
+    def rule(u, v):
+        return np.abs(u) >= outside
+    return rule
+
+
+LADDER = (0.25, 0.5, 1.0, 2.0, 4.0, 8.0)          # the half widths of the ladder, in widths of the curve, a geometric progression as his 39 asks
+
+
+def ladder(lin, widths=LADDER) -> list:
+    """The window as an independent variable (row M588, the owner's messages 2, 4 and 39): the fit read in windows about
+    the centre, every sample within each half width, and off the peak, every sample beyond it. For each window, each
+    shared parameter's estimate and its first order bound, and the contrast of the estimate with the fit's, its chi
+    square and level at first order. On a right model the estimates of every window agree with the fit's within the
+    scatter of their difference. A term that the model lacks moves them, and where it lives tells which windows move
+    first: the core, the wings, or both. A window that holds too few samples to estimate the parameters is left out."""
+    out = []
+    for kind, make in (("within", window), ("beyond", beyond)):
+        for w in widths:
+            fam = Family(lin, make(w), f"the fit {kind} {w:g} widths")
+            try:
+                if not fam.bounds()["estimator"]:
+                    continue
+                c = fam.contrast()
+            except (ValueError, np.linalg.LinAlgError):
+                continue
+            if fam.size >= lin.n:          # a window that holds every sample is the fit itself
+                continue
+            sd = fam.bounds()["sd"]
+            out.append({"kind": kind, "half_width": float(w), "samples": int(fam.size),
+                        "estimate": {n: float(lin.fit.shared[j] + c["difference"][j]) for j, n in enumerate(lin.problem.shared)},
+                        "bound": {n: float(sd[j]) for j, n in enumerate(lin.problem.shared)},
+                        "chi_square": float(c["chi_square"]), "degrees_of_freedom": int(c["degrees_of_freedom"]), "level": float(c["level"])})
+    return out
 
 
 def union(*rules):
@@ -327,6 +449,28 @@ def union(*rules):
         return out
     rule.curve = True
     return rule
+
+
+def wide(centre: str | None = None) -> dict:
+    """The families of the cells that row M588 built, each by name: the windows and the two sides of the logarithm and
+    the reciprocal of the value, of the derivative and of the running integral, and the bands of frequency of the cosine
+    and the sine transform. They stand beside `catalogue()`, and a family joins the report only where a count measures a
+    power on a planted term that the report's own families lack: every family added raises the largest excess of all the
+    answers together that a right model passes, and lowers the power of the others."""
+    return {
+        "windows along the abscissa of the logarithm of the value: pairs of intervals": on_the_value("logarithm", slices()),
+        "windows along the abscissa of the reciprocal of the value: pairs of intervals": on_the_value("reciprocal", slices()),
+        "windows along the value of the logarithm of the value: bands, each side": on_the_value("logarithm", bands()),
+        "the two sides of the logarithm of the value: one less the other": on_the_value("logarithm", slices(sides="difference")),
+        "windows along the abscissa of the derivative: pairs of intervals": of_the_derivative(slices()),
+        "windows along the abscissa of the running integral: pairs of intervals": of_the_integral(slices()),
+        "windows along the value of the derivative: bands of its level, each side": of_the_derivative(levels_of("derivative")),
+        "windows along the value of the running integral: bands of its level, each side": of_the_integral(levels_of("integral")),
+        "the two sides of the derivative: one less the other": of_the_derivative(slices(sides="difference")),
+        "the two sides of the running integral: one less the other": of_the_integral(slices(sides="difference")),
+        "windows along the abscissa of the cosine transform: bands of frequency": frequency_bands(kind="cosine"),
+        "windows along the abscissa of the sine transform: bands of frequency": frequency_bands(kind="sine"),
+    }
 
 
 def catalogue(centre: str | None = None) -> dict:
@@ -548,7 +692,7 @@ def noise_reader(lin):
         out.update(noise_shape(ordered))
         flat = np.concatenate(back)
         out["a noise that grows with the signal"] = float(abs(h @ (flat * flat - 1.0)) / np.sqrt(max(h @ h * 2.0, 1e-300)))
-        scale = sum(float(o @ o) for o in ordered) / max(selves, 1e-300)          # the variance of the residuals, so that the reading grows as their square, as every statistic of the report
+        scale = sum(float(o @ o) for o in ordered) / max(selves, 1e-300)          # the variance of the residuals, so that the reading grows as their square, as every family of the report
         out["a noise correlated from sample to sample"] = float(abs(sum(float(o[:-1] @ o[1:]) for o in ordered) - white * scale) / np.sqrt(max(pairs, 1)))          # from the level of a white noise of that variance: read from zero, the running mean of three samples hid a correlation of 0.5 in 400 draws of 400
         return out
     return read
@@ -707,7 +851,7 @@ def noises(lin) -> dict:
             "glitches": glitches}
 
 
-def noise_matrix(lin, centre: str | None = None, draws: int = 400, seed: int = 1, level: float = 0.05, planted: dict | None = None, null_draws: int | None = None) -> dict:
+def noise_matrix(lin, centre: str | None = None, draws: int = 400, seed: int | None = None, level: float = 0.05, planted: dict | None = None, null_draws: int | None = None) -> dict:
     """Which statistic sees which non-ideality of the noise, by simulation (the owner's messages 266 and 267): for each
     noise of `noises`, the chance over `draws` draws that each family of the catalogue, and each reading of the noise
     that the report gives (`where.noise_reader`), passes its own line. The line of each statistic is the quantile
@@ -716,6 +860,7 @@ def noise_matrix(lin, centre: str | None = None, draws: int = 400, seed: int = 1
     through the fit as the residuals take it, `Linear.visible`, so that the plain chi square, which reads only the
     variance, reports each about at the level, and what a family reports is the law of the noise. Returns the draws, the
     level, the statistics read, and for each noise the chance of each statistic."""
+    seed = seed_of(lin.problem, 1) if seed is None else seed          # noise_matrix: drawn from the records, the old seed its salt (row M582)
     read_noise, read_beyond, read_opponents = noise_reader(lin), beyond_reader(lin), opponent_reader(lin)
     fams = {}
     for name in catalogue(centre):
@@ -831,7 +976,7 @@ def least_variance(C: np.ndarray) -> np.ndarray:
     return inv.sum(axis=1) / inv.sum()
 
 
-def together(lin, names, centre: str | None = None, draws: int = 40, check: int = 40, seed: int = 1) -> dict:
+def together(lin, names, centre: str | None = None, draws: int = 40, check: int = 40, seed: int | None = None) -> dict:
     """One estimate of each shared parameter from several, weighted by how they vary together on synthetic records of the
     fit. The estimates are those of the named families, and the fit of every sample if it is named. On `draws` synthetic
     sets of records of the fit, each fitted and read as the records are, the errors of the estimates give their
@@ -840,12 +985,17 @@ def together(lin, names, centre: str | None = None, draws: int = 40, check: int 
     estimates by generalised least squares. The standard deviation that is returned is read on `check` further sets with
     the weights held: the one that the first sets give with their own weights is too small, since the weights were
     chosen on those sets, and it is returned beside it under its own name. The mean error on the further sets is the
-    bias that the noise gives the combination, with its standard error: `corrected` is the estimate less that bias.
+    bias that the noise gives the combination, with its standard error: `corrected` is the estimate less that bias. On
+    the further sets too, `holds_the_truth` is the share whose interval of 1.96 standard deviations holds the value that
+    drew them, and the scatter of the combination less the fit gives `difference_from_the_fit_in_its_scatters`: under a
+    right model the two estimates move together on the records as on the twin, so a gap of more than about 3 of that
+    scatter says that the model lacks a term, the test of two estimators of Hausman (1978).
 
     What it cannot do. Under a right model and normal errors of the stated size no combination has a smaller variance
     than the fit at first order, so the gain there is none and the weights cost a little. The synthetic records hold
     normal errors of the stated size and the fitted model: a noise of another law, or a term that the model lacks, is
     not in them, and the standard deviation returned is then not that of the estimate. For a named term see `free_of`."""
+    seed = seed_of(lin.problem, 1) if seed is None else seed          # together: drawn from the records, the old seed its salt (row M582)
     from . import twin
     from .fit import fit as fit_
     from .linear import Linear
@@ -904,7 +1054,11 @@ def together(lin, names, centre: str | None = None, draws: int = 40, check: int 
     errors = np.einsum("jn,dnj->dj", weights, second)
     sd, bias = errors.std(axis=0, ddof=1), errors.mean(axis=0)
     value = np.einsum("jn,nj->j", weights, here)
+    apart = (errors - fit_errors).std(axis=0, ddof=1)          # the scatter of the combination less the fit on the same sets: under a right model the two move together, so their gap on the records reads a model that lacks a term, as the test of Hausman 1978 reads two estimators
+    fitted = np.asarray(ft.shared, dtype=float)
     return {"estimate": value, "corrected": value - bias, "standard_deviation": sd, "bias_on_synthetic_records": bias, "its_standard_error": sd / np.sqrt(errors.shape[0]),
+            "holds_the_truth": np.mean(np.abs(errors) <= 1.96 * sd, axis=0), "standard_deviation_of_the_difference_from_the_fit": apart,
+            "difference_from_the_fit_in_its_scatters": np.where(apart > 0, (value - fitted) / np.where(apart > 0, apart, 1.0), np.nan),
             "standard_deviation_of_the_fit_on_the_same_sets": fit_errors.std(axis=0, ddof=1), "over_the_fit": sd / fit_errors.std(axis=0, ddof=1),
             "standard_deviation_on_the_sets_of_the_weights": on_the_first, "weights": {name: [float(v) for v in weights[:, k]] for k, name in enumerate(names)},
             "sets_for_the_weights": int(first.shape[0]), "further_sets": int(errors.shape[0])}
@@ -937,11 +1091,23 @@ def cells() -> list:
         (2, 3): (SPAN, "families.slices", "the two sides are the object and the technique at once: the cell under windows along the abscissa"),
         (2, 4): (SPAN, "families.moments", "the odd and the even orders of the moments of the curve"),
         (3, 1): (RUN, "families.crossings, matched.crossings", "the places where the curve crosses nine levels of its height, each side, on the fitted curve or on the values of the record"),
+        (3, 0): (SPAN, "families.crossings", "a window over an interval of the value of x = g(y) sums the crossings of the levels that it holds"),
+        (3, 3): (SPAN, "families.crossings", "the crossings are read on each side, so the sum and the difference of the two sides at a level are combinations of them"),
+        (3, 4): (SPAN, "families.crossings", "a moment of x = g(y) is a sum over the levels of a power of the level times the place where the curve crosses it, a combination of the crossings"),
+        (4, 0): (FIRST, "families.on_the_value, families.wide", "pairs of intervals of the logarithm and of the reciprocal of the value, at first order"),
+        (4, 1): (FIRST, "families.on_the_value, families.wide", "bands of the logarithm of the value, each side"),
+        (4, 2): (SPAN, "losses.crossed, where.CHI_FUNCTIONS", "at first order the residual of g(y) over its noise is the residual of y over its noise, so a cost of the logarithm or the reciprocal of the value is the cost of the residuals"),          # review 231, N2
+        (4, 3): (FIRST, "families.on_the_value, families.wide", "the logarithm of the value, one side less the other"),
         (4, 4): (RUN, "families.transformed, matched.logarithm", "power kernels over the fitted curve and over its square, and the logarithm of the values of the record under kernels"),
+        (5, 0): (FIRST, "families.of_the_derivative, families.of_the_integral, families.wide", "pairs of intervals of the derivative and of the running integral"),
+        (5, 1): (FIRST, "families.levels_of, families.wide", "bands of the level of the derivative and of the running integral, each side"),
+        (5, 3): (FIRST, "families.of_the_derivative, families.of_the_integral, families.wide", "the derivative and the running integral, one side less the other"),
         (5, 4): (RUN, "families.derivative, families.integral", "moments of the derivative and of the running integral"),          # run with noise on 100 sets a level since 2026-10-12, and the map still said computed with no noise (review 72)
+        (6, 0): (FIRST, "families.frequency_bands, families.wide", "bands of frequency of the cosine and of the sine transform"),
+        (6, 3): (SPAN, "families.moments", "the cosine transform reads the two sides added and the sine transform one less the other: the cell of their kernels"),
         (6, 4): (RUN, "families.moments", "cosine and sine kernels"),
     }
-    why = {2: "a cost is a property of a fit of the curve or of its residuals, and this object is not fitted by itself", 3: "the two sides of this object were not built",
+    why = {2: "a cost of the residuals of this object, their differences, their running sums or their transform, is a statistic that was not built: the chi functions of the report read the residuals themselves", 3: "the two sides of this object were not built",
            0: "this object has no windows along the abscissa of its own in the package", 1: "this object has no windows along the value of its own in the package", 4: "moments of this object were not built"}
     out = []
     for i, obj in enumerate(OBJECTS):
@@ -1154,7 +1320,7 @@ class Family:
         z = V.T @ (got.shared - self.lin.fit.shared)
         return float(np.sum(z * z / w)), int(w.size)
 
-    def contrast(self, estimate: "FamilyFit | None" = None, draws: int = 0, seed: int = 1) -> dict:
+    def contrast(self, estimate: "FamilyFit | None" = None, draws: int = 0, seed: int | None = None) -> dict:
         """The estimate of the family less the fit's, read in the covariance that the difference has under a right model,
         which is the canonical specification test of two estimates of which one is efficient. A family whose bias under
         a term is not the fit's sees that term here, with the few numbers of the shared parameters. A level to trust is
@@ -1165,6 +1331,7 @@ class Family:
         outside the range where that law was found to hold on two designs, and the range itself is not a rule: it was
         read at one level of noise and says nothing of a higher one. A family
         that is a reading and an estimate whose search did not end are refused."""
+        seed = seed_of(self.lin.problem, 1) if seed is None else seed          # contrast: drawn from the records, the old seed its salt (row M582)
         if not self.bounds()["estimator"]:
             raise ValueError("this family holds next to nothing of the shared parameters, or leaves a direction of them free: it has no estimate to set against the fit's")
         got = self.estimate() if estimate is None else estimate

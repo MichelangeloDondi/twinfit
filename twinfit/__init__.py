@@ -53,6 +53,10 @@ What lies under it:
     log.py         the visual log of a run: a slide for each phase of each turn, the equation of each model and what each
                    term does, `python -m twinfit log DIR`
     reuse.py       the steps of a run kept by the files, records and fit that made them, and read back by the next run
+    seeds.py       the seed of every Monte Carlo of the package, drawn from the records that it reads
+    apart.py       what the records tell apart of parameters correlated beyond 0.9, each combination with its bar and
+                   each parameter's interval refitted along it, read on the twin
+    traces.py      the number of traces for a target bar, `python -m twinfit traces DIR NAME=BAR`
     agent/         the protocol for an agent that drives the package, and what a project needs to start
 
 The procedure and its limits are in agent/AGENT.md.

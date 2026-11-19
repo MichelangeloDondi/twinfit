@@ -1,0 +1,50 @@
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.28433, "draw": 1}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.18277, "draw": 4}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.47531, "draw": 5}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.83152, "draw": 2}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.36586, "draw": 3}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 6.00016, "draw": 6}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.03475, "draw": 9}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.31517, "draw": 10}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.57995, "draw": 8}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.19801, "draw": 11}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.42126, "draw": 7}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.77243, "draw": 12}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 5.21114, "draw": 13}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.82754, "draw": 14}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.70761, "draw": 16}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.56479, "draw": 15}
+{"first": {"where": "the wings", "shape": null, "what": null, "changes along": "the wings along P", "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [["changes along", "the wings along P", 4.44684]], "threshold": 3.14628, "draw": 17}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.48949, "draw": 18}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.30569, "draw": 19}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.32597, "draw": 20}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.13697, "draw": 21}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.02842, "draw": 22}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.52311, "draw": 23}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.03151, "draw": 24}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.36526, "draw": 25}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.74945, "draw": 26}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.47709, "draw": 27}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.51897, "draw": 28}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.06368, "draw": 29}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 2.89941, "draw": 30}
+{"first": {"where": "the flanks", "shape": null, "what": null, "changes along": "the flanks along T", "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [["changes along", "the flanks along T", 3.74313]], "threshold": 3.62755, "draw": 31}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.31247, "draw": 32}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": "a noise with heavy tails"}, "tied": {"where": []}, "beyond": [["noise", "a noise with heavy tails", 3.74614]], "threshold": 3.36887, "draw": 33}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.75231, "draw": 34}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 2.95695, "draw": 35}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.76263, "draw": 36}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.29014, "draw": 37}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.37971, "draw": 38}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 2.72719, "draw": 39}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.32097, "draw": 40}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.23914, "draw": 41}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.51227, "draw": 42}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": "each curve predicted by the fit of the others", "noise": null}, "tied": {"where": []}, "beyond": [["seen by", "each curve predicted by the fit of the others", 3.32343]], "threshold": 2.97341, "draw": 43}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 4.275, "draw": 44}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.59523, "draw": 45}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.41702, "draw": 46}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.92012, "draw": 49}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": "moments: fractional powers of the distance", "noise": null}, "tied": {"where": []}, "beyond": [["seen by", "moments: fractional powers of the distance", 3.36802]], "threshold": 3.34539, "draw": 47}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.82314, "draw": 48}
+{"first": {"where": null, "shape": null, "what": null, "changes along": null, "seen by": null, "noise": null}, "tied": {"where": []}, "beyond": [], "threshold": 3.03676, "draw": 50}

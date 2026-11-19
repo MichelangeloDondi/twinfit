@@ -59,6 +59,8 @@ from .propose import _one
 from .refine import develop_one, on_the_twin
 from .where import CORE, PLACES, WINGS
 
+from .seeds import seed_of
+from .twin import drawn, correlation_at
 KINDS = {"noise": "the noise of every sample is multiplied by the factor",
          "samples": "each record has the factor times as many samples over the same span",
          "span": "the abscissa of each record spans the factor times its span about its middle, with the same step",
@@ -187,8 +189,12 @@ def empirical(lin, place: str, along: str | None = None) -> Candidate:
     """A direction of search as a candidate, with no shape of the package: the residuals of each record, smoothed over an
     eighth of the width of its curve, kept in `place`, the core within CORE widths of the centre, the flanks from there
     to WINGS, the wings beyond, or the asymmetry, the part of the residuals that is odd about the centre, and with `along`
-    times the covariate centred and scaled over the records, so that the shape changes along it. Its size is one at the
-    residuals: a model proposal of the default is measured with it (the owner's message 337)."""
+    times the covariate centred and scaled over the records, so that the shape changes along it. Then it is freed of what
+    the fit absorbs: the part that lies in the fit's own directions, which the window and the smoothing put back, is
+    taken out, so the shape holds what the residuals can show and its cost on the twin is a lower bound at first
+    order (his message 529).
+    Its size of one is the residuals' own less that part: a model proposal of the default is measured with it (the
+    owner's message 337)."""
     pr = lin.problem
     unit = float(np.median([lin.width_of(k) for k in range(len(pr.records))]))
     z = None
@@ -213,20 +219,17 @@ def empirical(lin, place: str, along: str | None = None) -> Candidate:
             band = (u <= CORE) if place == "the core" else (u > CORE) & (u <= WINGS) if place == "the flanks" else (u > WINGS)
             col = r * band
         cols.append(col * (1.0 if z is None else z[k]))
+    seen = lin.visible(cols)          # freed of what the fit absorbs: the window and the smoothing put back a part of the fit's own directions, which cost the width 2.63 scatters on planted wings (his message 529)
+    cols = [np.asarray(rec.sd, dtype=float) * seen[lin.rows_of(k)] for k, rec in enumerate(pr.records)]
     return Candidate(f"the shape that the residuals hold in {place}" + (f", changing along {along}" if along else ""), "empirical", [cols],
                      "odd" if place == "the asymmetry" else "even")
 
 
 def shape_read(lin, said: str) -> Candidate | None:
-    """The shape that the report read as `said`, a slow trend or a periodic structure, as the candidate that read it."""
-    from .where import SHAPES_READ, periodic_best, slow_trend
+    """The shape that the report read as `said`, any of `where.SHAPES_READ`, as the candidate that read it."""
+    from .where import SHAPES_READ, shape_candidate
     kind = dict((answer, kind) for kind, answer in SHAPES_READ).get(said)
-    if kind == "trend":
-        return slow_trend(lin)
-    if kind == "periodic":
-        dense = periodic_best(lin)
-        return dense[0] if dense is not None else None
-    return None
+    return shape_candidate(lin, kind) if kind is not None else None          # every shape of the report by one function, row M589
 
 
 def period_of(problem, result, periods: int = 600) -> dict | None:
@@ -297,7 +300,10 @@ def sizes_apart(lin, cand) -> tuple | None:
     records' shapes on the abscissa counted in widths from each centre. A shape built from the residuals of each record
     has a size of one in every record by construction, so its sizes say nothing of what they follow: against the common
     shape, a misfit in proportion to an own value of the model has sizes in that proportion (round 8 of the cold tests).
-    None where the records share no span or the common shape is nought."""
+    None where the records share no span or the common shape is nought. A shape built from each fitted curve, the part
+    in quadrature of row M589, follows the height by construction, so what each record holds of it is read on that
+    record's residuals against the common shape: its own column read a share of height with a chi square of 0.0 on 3
+    in the tutorial's chromatography."""
     pr = lin.problem
     us = [(np.asarray(rec.x, dtype=float) - lin.centre_of(k)) / lin.width_of(k) for k, rec in enumerate(pr.records)]
     low, high = max(float(u.min()) for u in us), min(float(u.max()) for u in us)
@@ -313,6 +319,8 @@ def sizes_apart(lin, cand) -> tuple | None:
         return None
     sizes, bars = [], []
     for k, (rec, col) in enumerate(zip(pr.records, cand.columns[0])):
+        if cand.family == "quadrature":          # built from the fitted curve: the residuals say what the record holds of it
+            col = np.asarray(rec.y, dtype=float) - np.asarray(pr.predict(k, lin.fit.shared, lin.fit.own[k]), dtype=float)
         shape, w = np.interp(us[k], grid, common), 1.0 / np.asarray(rec.sd, dtype=float) ** 2
         norm = float(np.sum(w * shape * shape))
         if norm <= 0.0:
@@ -322,13 +330,21 @@ def sizes_apart(lin, cand) -> tuple | None:
     return sizes, bars
 
 
+SAME = 0.99          # two proposals whose shapes, as the records see them, have a cosine beyond this are one shape, proposed once (row M589)
+
+
 def model_terms(problem, result, report, most: int = 3, exclude=(), terms=()) -> list:
     """The directions of the model proposals, in the order of the report, at most `most`: the answers on the mean, where,
     which place changes along which setting, and how the residuals are shaped, those beyond the twin first and then by
     their excess, each measured with the shape that the residuals hold there. No list of terms is read (the owner's
     messages 337 and 340): the term of physical origin that fills a direction is the researcher's. `exclude` is kept
     for the callers that name the terms of the model. `terms`: the researcher's list, whose terms beyond the twin in the
-    question matched come first, each under its own name, since the researcher wrote it (the owner's message 342)."""
+    question matched come first, each under its own name, since the researcher wrote it (the owner's message 342). A
+    direction whose shape, as the records see it, has a cosine beyond `SAME` with one already proposed is the same shape
+    and is skipped: on curves of one centre the two frames of a periodic structure, at a cosine of 1.000, took two of
+    the three proposals, and the slow trend that a pedestal in the wings asks was left out (row M589). Shapes the records
+    do not tell apart, beyond `where.SIMILAR`, are both proposed, since each is a basis of its own with its own cost: the
+    trend and the periodic structure of two cycles stood at 0.922 there."""
     lin = Linear(problem, result)
     places = {name for name, _ in PLACES} | {"the asymmetry"}
     mine = {m.name: m for m in terms if m.name not in exclude}
@@ -348,7 +364,7 @@ def model_terms(problem, result, report, most: int = 3, exclude=(), terms=()) ->
         if cand is None:
             continue
         entry = _one(lin, cand)
-        if entry["status"] == "ranked" and all(o["candidate"].name != cand.name for o in out):
+        if entry["status"] == "ranked" and all(o["candidate"].name != cand.name and abs(float(o["entry"]["unit"] @ entry["unit"])) < SAME for o in out):
             out.append({"candidate": cand, "entry": entry, "stands_for": stands, "beyond_the_twin": a["beyond_the_twin"], "excess": a["excess"], "of_your_list": a["question"] == "matched"})
         if len(out) == most:
             break
@@ -421,7 +437,8 @@ def _on_design(problem, result, designed, term, sets: int, seed: int, max_iter: 
             if term is not None:
                 shapes, size = term
                 mean = mean + size * _shape(shapes, x, problem.records[k].design)
-            recs.append(Record(x, mean + sd * rng.standard_normal(x.size), sd, design, ""))
+            phi = correlation_at(problem.records[k].correlation, problem.records[k].x, x)          # the correlation over the abscissa kept on closer samples, the fourth reading of 0.1.3rc2
+            recs.append(Record(x, mean + sd * drawn(rng, x, phi), sd, design, "", phi))          # the noise of the record it is made from, row M592
         for into, make, start in ((est, problem.with_records, result.shared), (held, larger, None if term is None else np.append(result.shared, term[1]))):
             if make is None:
                 continue
@@ -458,8 +475,8 @@ def noise_leads(answers: list) -> str | None:
     from sample to sample, where it is the first answer of what beyond the twin and its excess passes that of every
     answer of the mean beyond the twin, else None. A term file cannot hold it, and the loop said write the next term
     file all the same, so a blind agent kept a cosine that fitted 16 spikes (round 7 of the cold tests). A misfit of the
-    mean far larger than the noise reading leaves part of itself in that reading: on the worked clock the asymmetry
-    changed along the power at an excess of 18388 and a noise that grows with the signal stood at 9.3, so the term comes
+    mean far larger than the noise reading leaves part of itself in that reading: on the worked clock the core
+    changed along the power at an excess of 28522 and a noise that grows with the signal stood at 9.6, so the term comes
     first and the noise is read again once the mean holds."""
     kinds = sorted([a for a in answers if a["question"] == "what" and a["beyond_the_twin"]], key=lambda a: -a["excess"])
     if not kinds or kinds[0]["answer"] not in NOISE_OF_THE_SAMPLES:
@@ -477,7 +494,7 @@ def leads_with_noise(report: dict) -> str | None:
     return noise_leads(report["answers"])
 
 
-def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41, max_iter: int = 80, held: dict | None = None, exclude=(), refused=(), setup: dict | None = None, workers: int | None = None, terms=()) -> dict:
+def proposals(problem, result, report, levers=(), sets: int = 50, seed: int | None = None, max_iter: int = 80, held: dict | None = None, exclude=(), refused=(), setup: dict | None = None, workers: int | None = None, terms=()) -> dict:
     """Three proposals for the model and three for the experiment, each measured on the twin. Fewer are given where the
     report or the description holds fewer, and the output says so. `held`: the values that the description holds,
     {name: (centre, bar, at)}. Their bar of theory is added in squares to the error of each known parameter under each
@@ -490,6 +507,7 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
     levers that no lever of the description names (row M251). `workers`: the twins of the proposals side by side, as
     `twinfit.pool.how_many` reads it, with the same numbers as on one worker (his message 316). A proposal is a direction
     of search and writes no term file (the owner's messages 337 and 340)."""
+    seed = seed_of(problem, 41) if seed is None else seed          # proposals: drawn from the records, the old seed its salt (row M582)
     lin = Linear(problem, result)
     unit = float(np.median([lin.width_of(k) for k in range(len(problem.records))]))
 
@@ -499,7 +517,7 @@ def proposals(problem, result, report, levers=(), sets: int = 50, seed: int = 41
         developed = develop_one(problem, result, mechanism, max_iter)
         row = {"term": c["candidate"].name, "stands_for": c["stands_for"], "direction": c["stands_for"], "beyond_the_twin": c["beyond_the_twin"],
                "excess_in_the_report": c["excess"], "as_a_term_file": None, "no_term_of_the_package": NO_LINE, "of_your_list": c.get("of_your_list", False),
-               "cost_is_a_lower_bound": c["candidate"].family == "empirical"}          # a shape read on the residuals holds none of what the fit absorbed: on planted wings it cost the width 0.27 scatters where a slow trend cost 9.3
+               "cost_is_a_lower_bound": c["candidate"].family == "empirical"}          # a shape read on the residuals and freed of the fit's directions holds none of what the fit absorbed, so it costs nothing at first order (review 227 of his message 529): at 0.1.2, unfreed, it cost the width 2.63 scatters on planted wings (the page of row M579)
         if len(problem.records) >= 3 and len(c["candidate"].columns) == 1:          # the size of the direction in each record: a size in proportion to an own value of the model, as a step under a peak in proportion to its height, follows every setting that value follows (round 8 of the cold tests)
             apart = sizes_apart(lin, c["candidate"])
             got = follows(problem, result, *apart) if apart else None

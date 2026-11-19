@@ -69,7 +69,7 @@ NOISE_KINDS = {"a noise that grows with the signal": "Where the description give
                            "where they stand at one abscissa in several records, or in one band of the height of the curve, they are no glitches, and the law of the noise there is too small or the model misses there, "
                            "which the check of the noise by bands of the height tells. Look at the samples of largest whitened residual, which the report of the model names with how many share their abscissa with another record, and where the instrument explains them, "
                            "give those samples a larger noise in a column of the curves, or leave them out of the files.",          # the report named as glitches 20 samples at the same abscissas in four records, where the fitted law of the noise dipped (the blind red team of 0.1.0rc13)
-               "a noise correlated from sample to sample": "The package draws the noise of each sample apart from the others, so the bars of the fit are too small where it is "
+               "a noise correlated from sample to sample": "The package draws the noise of each sample apart from the others, unless the description writes correlated = true under [noise], so the bars of the fit are too small where it is "
                                                            "correlated, as a filter of the detector leaves it. Keep one sample in every few, as many as the correlation spans, "
                                                            "so that the noise of those kept is apart, or read the bars as too small."}          # the kinds of the report that are read in the noise and not in the mean
 NO_BAR = ("the fit gives it no finite bar, as for a parameter at a bound of its search or one that the records cannot tell from another. "
@@ -148,6 +148,57 @@ def misfit_first(result) -> str | None:
             "which a missing term makes: write the term of the mean that the report puts first, and read the correlation again before any thinning.")
 
 
+def windows_said(answers: list, problem, result) -> list:
+    """The lines of a page where the chi functions in windows stand beyond the twin: where they read most, the cost, the
+    place, the scale and the frame of the windows of position, and the cost and the band of the bands of the value,
+    which the answer's name alone does not say (the owner's message 541). No line where neither stands beyond the twin."""
+    from .linear import Linear
+    from .where import (CHI_FITS, GRIDDED_LEVEL, GRIDDED_VALUE, RUNNING_SUM, WINDOWED, WINDOWED_VALUE, chi_fits, gridded_chi, running_sum, value_gridded_chi, value_windowed_chi,
+                         windowed_chi)
+    beyond = {a["answer"] for a in answers if a["question"] == "seen by" and a["beyond_the_twin"]}
+    out, lin = [], None
+    if WINDOWED in beyond:
+        lin = Linear(problem, result)
+        got = windowed_chi(lin)
+        if got:
+            at = (f"at {got['place'] * got['unit']:+.4g} in the unit of the abscissa" if got["frame"] == "fixed to the abscissa" else f"at {got['place']:+.3g} widths from the centre of each curve, a width being its full width at half height")
+            out.append(f"The chi functions in windows of position read most {got['cost']}, {got['sign']} of it than elsewhere, {at}, under a window of {got['scale']:g} widths, {got['frame']}: look there first.")
+    if WINDOWED_VALUE in beyond:
+        lin = lin or Linear(problem, result)
+        got = value_windowed_chi(lin)
+        if got:
+            low, high = got["band"]
+            band = f"below {high:g}" if low == -math.inf else f"above {low:g}" if high == math.inf else f"from {low:g} to {high:g}"
+            out.append(f"The chi functions in bands of the residual's value read most {got['cost']}, {got['sign']} of it than a normal law gives, in the band {band} of the residuals in their robust scale: "
+                       "a law of the noise wrong there, or a term that the model lacks, shapes that band.")
+    if GRIDDED_LEVEL in beyond:          # generalised griding of the data, row M588, the owner's message 572
+        lin = lin or Linear(problem, result)
+        got = gridded_chi(lin)
+        if got:
+            height = "near its median, in its wings" if got["level"] <= 0.15 else "near its top" if got["level"] >= 0.85 else f"at {got['level']:.2g} of its height above its median"          # a level of 0 is the curve's wings, review 246
+            out.append(f"The chi functions in cells of position and of the curve's level read most {got['cost']}, {got['sign']} of it than elsewhere, where the curve stands {height}, "
+                       f"about {got['place']:+.3g} widths from the centre of each curve, under windows of {got['scale']:g} widths and {got['level_scale']:g} of the height: a term that acts at that height of the curve, or a law of the noise that follows it.")
+    if GRIDDED_VALUE in beyond:          # generalised griding of the residuals, row M588, the owner's message 572
+        lin = lin or Linear(problem, result)
+        got = value_gridded_chi(lin)
+        if got:
+            out.append(f"The chi functions in cells of position and of the residual's value read most {got['cost']}, {got['sign']} of it than a normal law gives, for residuals near {got['value']:+.3g} in their robust scale "
+                       f"about {got['place']:+.3g} widths from the centre of each curve, under windows of {got['scale']:g} widths and {got['value_scale']:g} of that scale: a law of the noise wrong in that place, or a term that the model lacks there.")
+    if CHI_FITS in beyond:          # the fit under every chi function, the owner's messages 4, 25 and 573
+        lin = lin or Linear(problem, result)
+        got = chi_fits(lin)
+        if got:
+            each = ", ".join(said + " " + ", ".join(f"{name} {move['bars']:+.2f}" for name, move in m.items()) for said, m in got["moves"].items())          # no quote nested in a quote of its kind, which Python before 3.12 refuses
+            out.append(f"Fitted again under each chi function, {got['parameter']} moves most under {got['cost']}, {got['bars']:+.3g} of the bars of the fit by the square and {got['spreads']:+.3g} times the spread that a right model gives: "
+                       f"the fit by the square leans on residuals that the other costs weigh otherwise, a term that the model lacks or a law of the noise. The moves in bars: {each}.")
+    if RUNNING_SUM in beyond:          # the residuals' running sum, the owner's message 575
+        lin = lin or Linear(problem, result)
+        got = running_sum(lin)
+        if got:
+            out.append(f"The running sum of the residuals strays most in record {got['record'] + 1}, at {got['place']:+.3g} widths from its centre: the level of the residuals changes there, a step or a drift that the model does not hold.")
+    return [""] + out if out else []
+
+
 def tied_noise(answers: list, problem, result) -> list:
     """The lines of a page where a noise correlated from sample to sample stands beyond the twin but does not lead: the
     span of its correlation and the way to thin. Only the lead was given them, and with the correlated kind tied the
@@ -161,7 +212,8 @@ def tied_noise(answers: list, problem, result) -> list:
         return ["", f"A noise correlated from sample to sample stands beyond the twin too, though not first. {misfit_first(result)}"]
     return ["", f"A noise correlated from sample to sample stands beyond the twin too, though not first: the correlation of neighbouring whitened residuals is {rho:.2f} at one sample, the median over the curves, and "
             + (thin_said(problem, span, "so `python -m twinfit thin DIR {span}` makes copies that keep one sample in every {span}") if span else "does not fall under 0.05 within 200 samples. ")
-            + "A term proposed below that the thinned copies refuse holds the noise and not the curve."]
+            + "A term proposed below that the thinned copies refuse holds the noise and not the curve. "
+            + "Or write correlated = true under [noise] of the description: the twin then draws each curve's noise correlated as its residuals' differences say, and every sample is kept (row M592)."]
 
 
 def noise_said(problem, result) -> dict:
@@ -531,12 +583,14 @@ def _rung(book, rung, by, problem, result, d, sets, folder, k, centre, report: b
     report = again("the report of a model", lambda: where(problem, result, sets=sets, fixed=d.fixed(), centre=centre, terms=terms, dictionary=dictionary), d.fixed(), centre, listed)
     six = again("the proposals of a model", lambda: proposals(problem, result, report, d.levers(), sets=sets, held=held, exclude=exclude, refused=refused, setup=d.setup, terms=terms),
                 report, d.levers(), held, exclude, refused, d.setup, listed)          # no proposal of a term that the model holds, and one refused before says so
+    from .unsuspected import before_the_name
+    known = again("the known parameters before the term is named", lambda: before_the_name(problem, result, report, centre, dictionary), report, centre, listed)          # row M581, the owner's messages 131 and 133
     book.step("propose", rung, {"candidates": six["for_the_model"], "leading_set": report["first_of_each_question"], "where": report, "proposals": six})
     book.step("report", rung, {"what_it_does_not_show": "the cause of what is missing: the report names a place, a class, a covariate and a family of statistics, "
                                                       "and the term of physical origin that fills them is the researcher's choice", "default_choice": None})
     table = {"model": rung, "terms_by": by, "chi_square": result.chi2, "degrees_of_freedom": result.dof, "criterion": _criterion(problem, result),
              "admitted_on_the_twin": adm["admitted"], "rule_of_the_twin": adm["rule"], "measured_on_the_twin": adm["measured"], "bands_are_wider_than_stated": adm["bands_are_wider_than_stated"], "noise": noise_said(problem, result),
-             "where": report, "proposals": six, "parameters": _values(problem, result), "mode": report["mode"]}
+             "where": report, "proposals": six, "known_before_the_name": known, "parameters": _values(problem, result), "mode": report["mode"]}
     (folder / f"model_{k}.json").write_text(json.dumps(table, indent=1, default=float) + "\n")
     if "people" in d.output:
         (folder / f"model_{k}.md").write_text(_page(table, problem, result))
@@ -546,7 +600,7 @@ def _rung(book, rung, by, problem, result, d, sets, folder, k, centre, report: b
 
 
 ASKS = {"where": "the core of the curves, their flanks, their wings or their asymmetry",
-        "shape": "how the residuals are shaped: a slow trend over the span of each curve, or a periodic structure",
+        "shape": "how the residuals are shaped: a slow trend over the span of each curve, a periodic structure, a part in quadrature with the line, or a structure in one place and at one scale",
         "what": "glitches, a noise that grows with the signal, or a noise correlated from sample to sample",
         "changes along": "which part of the residuals changes from curve to curve along a setting, read on the residuals themselves",
         "seen by": "the family of statistics that sees the misfit most",
@@ -847,6 +901,7 @@ def _page(table, problem, result) -> str:
     lines += [f"| {a['question']} | {a['answer']} | {a['level']:.3f} | {_one(a['excess'])} | {'yes' if a['beyond_the_twin'] else 'no'} |" for a in rep["answers"][:12]]
     noisy = [a for a in [noise_leads(rep["answers"])] if a]
     lines += tied_noise(rep["answers"], problem, result)
+    lines += windows_said(rep["answers"], problem, result)          # where the windows read most, the owner's message 541
     if noisy:          # an answer that no term of the mean fills was met with proposals of the mean alone (round 3 of the cold tests)
         lines += ["", f"The first kind beyond the twin is {noisy[0]}, which no term of the mean holds: it is read in the noise of each sample. {NOISE_KINDS[noisy[0]]} "
                   "Do it in a copy of this folder, so that the curves as they were taken stay as they are, and run the loop on the copy: a term file cannot hold it."]
@@ -857,7 +912,8 @@ def _page(table, problem, result) -> str:
             elif rho is not None:
                 lines += ["", f"The correlation of neighbouring whitened residuals is {rho:.2f} at one sample, the median over the curves, and "
                           + (thin_said(problem, span, "so keep one sample in every {span}, which `python -m twinfit thin DIR {span}` does in three copies") if span else "does not fall under 0.05 within 200 samples. ")
-                          + "Run the loop on several such copies, each from another first sample: a term that one keeps and the others refuse is not to be believed."]
+                          + "Run the loop on several such copies, each from another first sample: a term that one keeps and the others refuse is not to be believed. "
+                          + "Or write correlated = true under [noise] of the description: the twin then draws each curve's noise correlated as its residuals' differences say, and every sample is kept (row M592)."]
         every = glitch_samples(problem, result, most=None) if noisy[0] == "glitches" else []          # every sample beyond 5, of which 20 are shown: the page gave the number shown for the number beyond, 20 for 46 (the blind red team of 0.1.0rc18, mislead 10)
         far = every[:20]
         if far:          # the samples named, which a blind agent found by numpy of its own (round 7)
@@ -875,7 +931,8 @@ def _page(table, problem, result) -> str:
               "those beyond the twin first, then by the gain in chi square that the shape that the residuals hold there brings when it is fitted beside the model. "
               "The package names no term: which term of physical origin has that place, shape and setting is the researcher's to say, in a term file."
               + (" On its twin, synthetic curves drawn with the term at its fitted size are fitted without it and with it: the bias without it is what the term would cost the known "
-                 "parameters if it were real, and says nothing of whether it is." if problem.shared else ""), ""]
+                 "parameters if it were real, and says nothing of whether it is. The shape that the residuals hold in a place is freed of the fit's own directions, so it costs them nothing at first order, "
+                 "and its line says so: a shape built apart from the residuals, a slow trend, a periodic structure, a part in quadrature with the line or a wavelet, is not freed, and its cost is read as any other." if problem.shared else ""), ""]
     if six.get("width_of_the_curves") is not None:
         lines += [f"In the names of the proposals a width is the full width of the fitted curves at half their height above their median value, here {six['width_of_the_curves']:.3g} in the unit of the abscissa: "
                   "where the wings of a curve fill its window, it is narrower than the width at half its peak, and it is not a parameter of the model. "
@@ -913,23 +970,40 @@ def _page(table, problem, result) -> str:
                          f"{f['chi_square']:.1f} on {f['degrees_of_freedom']}: a term whose size is a share of {f['own']} holds it, a Mechanism of your own that reads own[{f['index']}], "
                          f"as section 11 of the tutorial shows. A size that follows {f['own']} follows every setting that {f['own']} follows: read this before a term along a setting")
         for name, v in (m.get("known_parameters") or {}).items():
-            lines.append(f"  - if the term were real at that size, {name} would be biased on its twin by {_scatters(v['without_the_term'])} without it and by "
-                         f"{_scatters(v['with_the_term'])} with it: what the term would cost, and not a sign that it is real. A scatter of a model that lacks a term can be many bars of its fit"
-                         + (f". But the working model reads {name} on the records {abs(v['the_records_in_scatters']):.0f} scatters from what it reads on this twin, so the term in this shape and at this size "
-                            "does not make the records, and what it would cost there may be far larger: fit it, and read how far the values move" if abs(v.get("the_records_in_scatters") or 0.0) > 3.0 else "")
-                         + (". This shape is read on the residuals, which hold none of what the fit took into its own parameters, so this cost is a lower bound: "
-                            "a term of the physics in this place may cost far more" if m.get("cost_is_a_lower_bound") else ""))          # read as an argument to add a term that moved a shared width by 15 bars (round 7)
+            far = (f". But the working model reads {name} on the records {abs(v['the_records_in_scatters']):.0f} scatters from what it reads on this twin, so the term in this shape and at this size "
+                   "does not make the records, and what it would cost there may be far larger: fit it, and read how far the values move" if abs(v.get("the_records_in_scatters") or 0.0) > 3.0 else "")
+            if m.get("cost_is_a_lower_bound"):          # a shape read on the residuals, freed of the fit's directions, costs nothing at first order by construction (review 227 of his message 529)
+                lines.append(f"  - read on the residuals, this shape costs {name} nothing at first order: on its twin {name} is biased by {_scatters(v['without_the_term'])} without it and by "
+                             f"{_scatters(v['with_the_term'])} with it, the twin's own bias, since the residuals hold none of what the fit took into its own parameters. "
+                             f"What a term in this place would cost lies in that part, which no residual shows: fit a term of the physics here and read how far {name} moves" + far)
+            else:
+                lines.append(f"  - if the term were real at that size, {name} would be biased on its twin by {_scatters(v['without_the_term'])} without it and by "
+                             f"{_scatters(v['with_the_term'])} with it: what the term would cost, and not a sign that it is real. A scatter of a model that lacks a term can be many bars of its fit" + far)          # read as an argument to add a term that moved a shared width by 15 bars (round 7)
     lines += [f"- Fewer than three: {f}" for f in six["fewer_than_three"] if f.split(" ")[2:4] == ["the", "model:"]]
     if rep["first_of_each_question"].get("where") == "the asymmetry" and any(a["question"] == "where" and a["answer"] == "the asymmetry" and a["beyond_the_twin"] for a in rep["answers"]):
         lines += ["", "The asymmetry leads. Where no proposal above holds it once fitted, a shape that no term of the package writes may be missing, asymmetric about the place of the line: "
                   "an exponential fall of the line on one side, its height times x over one plus x squared, x the distance from its place in its widths, "
                   "or the derivative of the line. A Mechanism of your own writes it, as section 11 of the tutorial shows, and the physics of the records says which."]          # no cause named, which the package never names (the readers of the red team of his message 434, tutorial R3)          # a Fano line led by the asymmetry, and no proposal named a shape for it (round 10 of the cold tests)
     term = six.get("the_term_in_the_twin_of_the_levers")
+    before = table.get("known_before_the_name")
+    if before and before.get("parameters"):          # row M581, the owner's messages 131 and 133: what can be said of the known parameters while the missing term has no name
+        generic = (before.get("term") or {}).get("name")
+        lines += ["", "## The known parameters before the term is named", "",
+                  "Where an answer stands beyond the twin, each shared parameter is read five ways while the missing term has no name: the fit as it is, "
+                  "the combination of the families that is free of the leading class of the slow trend, the one basis fixed before the residuals are read, "
+                  + (f"the model with the generic term of the largest gain, {generic}, fitted and at first order, and the combination free of that term. " if generic else "and no generic term, since the model and the design give none. ")
+                  + "The generic terms are those that the model and the design alone give, each shared parameter along each covariate, and no list of terms is read. "
+                  "Where the five agree, the missing term does not move the parameter in the directions tried. Where they part, the spread says how far it may. "
+                  "None of them sees a part of the missing term that lies in the fit's own directions and in no basis tried.", "",
+                  "| parameter | the fit | free of the class | with the generic term | that term at first order | free of that term |", "|---|---|---|---|---|---|"]
+        cell = lambda e: "none" if not e or e.get("value") is None else f"{e['value']:.6g}, no bar" if e.get("bar") is None else " ± ".join(_pm(e["value"], e["bar"]))          # noqa: E731  an estimate the records give no bar
+        for name, row in before["parameters"].items():
+            lines.append(f"| {name} | {cell(row.get('the_fit'))} | {cell(row.get('free_of_the_class'))} | {cell(row.get('with_a_generic_term'))} | {cell(row.get('with_that_term_at_first_order'))} | {cell(row.get('free_of_that_term'))} |")
     lines += ["", "## Three proposals for the experiment", "",
               "Each is of one of three kinds: a better setup, a better characterization of the setup, or a better data collection. Each is measured on the twin"
               + (f", with the first proposal for the model that stands beyond the twin in it, {term}" if term
                  else f", with the model as it is, since the largest answer beyond the twin of the question what is {six['the_noise_leads']}, a noise of the samples that no term holds: read them again once the noise holds it"          # it said the report leads with it, under a table that put the core first (the fresh red team of 0.1.0rc18, mislead 3)
-                 + (", and more samples over the same span buy less than the twin says, since it draws them apart where the records hold them correlated" if six["the_noise_leads"] == "a noise correlated from sample to sample" else "")
+                 + (", and more samples over the same span buy less than a white twin says where the records hold them correlated, which `correlated = true` under `[noise]` draws, kept over the same span of the abscissa" if six["the_noise_leads"] == "a noise correlated from sample to sample" else "")
                  if six.get("the_noise_leads") else ", with the model as it is, since no proposal for the model stands beyond the twin")
               + ("" if problem.shared else ". The model shares no parameter, so what a change buys is read on the size of that term") + ". The error of a value is the root of its squared bias and its squared scatter "
               "there, over the same under the records as they are: under 1, the change helps.", ""]
@@ -949,12 +1023,24 @@ def _page(table, problem, result) -> str:
     return "\n".join(used_words(lines)) + "\n"
 
 
+def _white(d):
+    """The description `d` with its noise read as white, for `noise_settled` to settle its law first."""
+    import copy
+    white = copy.copy(d)
+    white.noise = dict(d.noise, correlated=False)
+    return white
+
+
 def noise_settled(d, problem, result, source):
     """The first model fitted again with the noise that the description asks: read from its residuals, `[noise] from =
     "residuals"`, or from the researcher's law of model.py, `from = "model"`, and as it stands otherwise. The loop and
     `scan` and `matrix` read the first model through it alike: `model_of` left the noise as the records gave it, so that
     on a folder whose noise is read from the residuals `scan` gave a fall of 21.7 to a term that the loop refused, and
     636 to a pedestal that the loop kept at a fall of 222 (the blind red team of 0.1.0rc19, mislead 5)."""
+    if d.noise.get("correlated"):          # the twin draws each curve's noise correlated as its residuals' differences say, row M592 (the owner's message 535)
+        from .twin import correlated
+        problem, result = noise_settled(_white(d), problem, result, source)
+        return correlated(problem, result), result
     if d.noise["from"] == "residuals":          # the law of the noise read from what the first model leaves, his message 316: the agent of a blind run built it by hand
         return noise_from_residuals(problem, result)
     if d.noise["from"] == "model":          # the researcher's law, `variance(mean, record, own)` of model.py, settled at the fit of the first model, his message 316
@@ -971,7 +1057,7 @@ def noise_settled(d, problem, result, source):
 
 def model_of(folder, skip=None) -> tuple:
     """The model that the term files of a folder give, fitted as `scan` and `matrix` read it: the first model with the noise
-    that the description asks, `noise_settled`, then each term file in turn, kept by the Bayesian criterion alone, a term that gives its theory and says `hold` held at it,
+    that the description asks, `noise_settled`, then each term file in turn, kept by the Bayesian criterion alone or by its file's `keep = True`, a term that gives its theory and says `hold` held at it,
     and the file `skip` left out. No twin is run. Returns the problem, the fit, the name of the centre, the files used,
     the dictionary HELD of model.py with the ansatz of the description in it, and model.py's module."""
     if not (Path(folder) / "description.toml").is_file():          # a folder that is not a project ended in a traceback
@@ -984,7 +1070,7 @@ def model_of(folder, skip=None) -> tuple:
     result = searched(problem)
     problem, result = noise_settled(d, problem, result, source)          # the noise of the loop: without it `scan` read another criterion than the loop's (the blind red team of 0.1.0rc19, mislead 5)
     used = []
-    for path in sorted((Path(folder) / "terms").glob("[0-9][0-9].py")):          # the model that the term files give, by the criterion alone
+    for path in sorted((Path(folder) / "terms").glob("[0-9][0-9].py")):          # the model that the term files give, by the criterion or by a file's keep = True
         if skip is not None and path.resolve() == Path(skip).resolve():
             continue
         term = getattr(_module(path, f"term_{path.stem}", held, source), "term", None)
@@ -998,7 +1084,7 @@ def model_of(folder, skip=None) -> tuple:
             got = develop_one(problem, result, term)
         except ValueError:          # a term that builds on one that the criterion left out, which stopped the scan whole (round 3 of the cold tests)
             continue
-        if got["ended"] and not got["at_its_bound"] and _criterion(problem, result) - _criterion(got["_problem"], got["_fit"]) > TIED:
+        if got["ended"] and not got["at_its_bound"] and (_criterion(problem, result) - _criterion(got["_problem"], got["_fit"]) > TIED or getattr(_module(path, f"term_{path.stem}", held, source), "keep", False)):          # keep = True as the loop reads it (row M585)
             problem, result = got["_problem"], got["_fit"]
             used.append(path.name)
     return problem, result, centre, used, held, source
@@ -1031,7 +1117,7 @@ def matrix_page(out: dict) -> str:
     """The page that `python -m twinfit matrix DIR` prints from `matrix`: what each family reads, the shape of the noise,
     and which statistic sees which law of the noise."""
     beside = f"with {', '.join(out['beside'])}" if out["beside"] else "its first model"
-    lines = [f"The families of statistics on the model of {out['folder']}, {beside}, each term file kept by the Bayesian criterion alone. No twin is run: a level here is that of a chi square "
+    lines = [f"The families of statistics on the model of {out['folder']}, {beside}, each term file kept by the Bayesian criterion alone or by its file's keep = True. No twin is run: a level here is that of a chi square "
              "under a right model at first order, which the families of many statistics do not reach, and the report of the loop gives the levels of the twin.", "",
              "## What each family reads", "",
              "Each family turns the residuals into a few statistics. Its reading is their chi square in the covariance that they have under a right model, "
@@ -1066,11 +1152,10 @@ def scan(folder, expression: str, values) -> dict:
     """A term whose argument is a choice and not a fitted parameter, the distance of `second`, the stretch of `pedestal`
     or of `tail`, the period of `periodic`, tried at each of `values`: `expression` is the term with x in the place of
     that argument, as "second(x)" or "tail(x, 'upper')", read among the terms of mechanisms.py. Each is fitted beside
-    the model that the term files of the folder give, each kept there by the Bayesian criterion alone, and the row says
+    the model that the term files of the folder give, each kept there by the Bayesian criterion alone or by its file's `keep = True`, and the row says
     whether its fit ended inside its bounds, the fall of the criterion, and the size with its bar. No twin is run: the
     scan says where to look, and the loop, with the term written at the chosen value, decides whether it is kept (row
-    M168: the report names a second component of the chromatograms and its first order guess of the distance, 0.35
-    widths, is not the 1.4 seconds that drew them)."""
+    M168)."""
     from . import mechanisms
     folder = Path(folder)
     own = (folder / expression if (folder / expression).is_file() or not Path(expression).is_file() else Path(expression)) if expression.strip().endswith(".py") else None          # a path from DIR or from where the command runs: my_nmr/terms/04.py was refused as no term_at (round 6)          # a term file of the researcher's own, which defines term_at(x): a blind agent could not scan the scale of its own tail (round 4 of the cold tests)
@@ -1592,9 +1677,10 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
             if lost:
                 why_not = (f"with it, the curve reads no {', '.join(lost)}, which the model before it read: a term that returns a curve of its own and does not call `model` "
                            "drops what it does not add again, so add it to the curve that its wrap returns, as `+ own[k]` for a baseline, section 11 of the tutorial")
-            elif gain <= TIED:
+            elif gain <= TIED and not getattr(m, "keep", False):          # a term of solid physical ground passes the criterion, keep = True in its file (the owner's message 44, row M585)
                 moved = f"rises by {-gain:.2f}" if gain < 0 else f"falls by only {gain:.2f}"          # the opening, "the Bayesian criterion", is what toy/chosen.py reads
-                why_not = f"the Bayesian criterion {moved} with it, where it must fall by more than {TIED:g}: these records do not tell the model with it from the model without it"
+                why_not = (f"the Bayesian criterion {moved} with it, where it must fall by more than {TIED:g}: these records do not tell the model with it from the model without it. "
+                           "A term of solid physical ground is better kept whatever the criterion says: write keep = True in its file")
             elif not adm["admitted"]:
                 why_not = "the twin does not admit the fit of the model with it: " + "; ".join(adm.get("why_not", []) + adm["failed"] or [adm["rule"]])
                 hair, fall = by_a_hair(adm), float(gain)          # what the records say of the model that the twin alone refused, which best.md names (the blind red team of 0.1.0rc18, mislead 13)
@@ -1626,20 +1712,23 @@ def _run(folder, n: int = 10, sets: int = 30, report: bool = True, max_seconds: 
         budget(f"after {rung}")
         iterations.append({"model": rung, "problem": problem, "result": result, "added": term.name, "after": before, "tried": [], "refused": [], "held": now, "formula": term.formula, "parameter": problem.shared[-1], "file": path.name})
         write_equations(out_dir, iterations)
-        kept.append({"term": term.name, "file": path.name, "model": rung, "parameter": term.parameter, "why": str(m.why), "asked": asked})
+        kept.append({"term": term.name, "file": path.name, "model": rung, "parameter": term.parameter, "why": str(m.why), "asked": asked}
+                    | ({"by_its_ground": True, "criterion_falls": float(gain)} if gain <= TIED else {}))          # kept by keep = True alone, the criterion against it (row M585)
     try:
-        held_models = {k["model"] for k in kept if "held_at" in k}          # a term held at its theory stays in the model: the best was once chosen among models that lacked it (round 5 of the cold tests)
+        held_models = {k["model"] for k in kept if "held_at" in k or k.get("by_its_ground")}          # a term held at its theory, or kept by its ground, stays in the model: the best was once chosen among models that lacked it (round 5 of the cold tests, row M585)
         first = max((i for i, it in enumerate(iterations) if it["model"] in held_models), default=0)
         budget("before best.md")
-        _say(f"best.md: the five parts of each value of the best model, on {max(sets, 30)} synthetic sets")
+        _say(f"best.md: the five parts of each value of the best model, on {max(sets, 30)} synthetic sets, and the combined estimate of the families")
         swapped = [s for s in in_place(iterations, refused, made, kept) if s["after"] in {it["model"] for it in iterations[first:]}]
-        output = reuse("the best model", lambda: best(iterations[first:] + swapped, sets=max(sets, 30), start="fit", workers=how_many(None, max(sets, 30))),
+        output = reuse("the best model", lambda: best(iterations[first:] + swapped, sets=max(sets, 30), start="fit", workers=how_many(None, max(sets, 30)), centre=centre),
                        code, [(it["model"], it["problem"], it["result"], it.get("held"), it.get("added"), it.get("after"), it.get("aside")) for it in iterations[first:] + swapped], max(sets, 30))          # each held value carries its bar of theory: the fit made again at the value less and more one bar
         by, at, chain = {it["model"]: it for it in iterations}, iterations[first].get("after"), []
         while at:          # the terms of the models before the held one: "Its terms" named the held term alone (round 11 of the cold tests)
             chain.insert(0, by[at]["added"])
             at = by[at].get("after")
         output["terms"] = chain + output["terms"]
+        output["before"] = [{"model": it["model"], "added": it.get("added"), "after": it.get("after"), "chi_square": float(it["result"].chi2), "fitted_parameters": int(it["problem"].samples - it["result"].dof),
+                             "criterion": _criterion(it["problem"], it["result"]), "ended": bool(it["result"].converged), "before": iterations[first].get("added")} for it in iterations[:first]]          # best.md's table began at the held or kept term without a word (the third reading of 0.1.3rc2, mislead 8)
     finally:
         for name, a in ansatz.items():
             if values is not None and name in values:
@@ -2001,6 +2090,101 @@ def _alone_said(r) -> str:
     return f"{r['term']}, of {r['file']}, " + " and ".join(how) + (", refused by a hair" if r.get("by_a_hair") else "") + f", where its twin reads {reason}"
 
 
+def ladder_lines(rows: list, names) -> list:
+    """The section of best.md on the window as an independent variable, row M588 (the owner's messages 2, 4 and 39): each
+    shared parameter read in windows about the centre and off the peak, with the contrast of each with the fit."""
+    if not rows:
+        return []
+    lines = ["", "## The values in windows", "",
+             "The fit read again in windows of growing half width about the centre of each curve, in widths of the curve, and off the peak, every sample beyond a half width, "
+             "each estimate set against the fit's by its contrast, read at first order. On a right model every window agrees with the fit within the scatter of their difference, "
+             "and a term that the model lacks moves the windows where it lives first: the core, the wings, or both. A level under 0.05 is a window that disagrees.", "",
+             "| window | samples | " + " | ".join(names) + " | level of its contrast with the fit |", "|---|---|" + "---|" * len(names) + "---|"]
+    for r in rows:
+        where = f"within {r['half_width']:g}" if r["kind"] == "within" else f"beyond {r['half_width']:g}"
+        lines.append(f"| {where} | {r['samples']} | " + " | ".join(" ± ".join(_pm(r["estimate"][n], r["bound"][n])) for n in names) + f" | {r['level']:.3g} |")
+    return lines
+
+
+def apart_lines(apart: dict) -> list:
+    """The section of best.md on what the records tell apart, row M587 (the owner's message 88): for each group of shared
+    parameters correlated beyond `apart.NEAR`, its combinations with their bars and their reading on the twin, and each
+    parameter's interval refitted along it beside its bar at first order, with the bar to quote: of a parameter, the
+    one whose scatter on the twin is nearer 1, and of a combination, its bar, its scatter on the twin or none, by its
+    bias and its coverage on the twin."""
+    if not apart or not apart.get("groups"):
+        return []
+    sets = apart.get("sets", 0)
+    band = 2.0 * math.sqrt(0.95 * 0.05 / sets) if sets else math.nan
+    lines = ["", "## What the records tell apart", "",
+             f"Shared parameters correlated beyond {apart['near']:g} are read together. The records hold some combinations of them much better than any one of them, and others badly, "
+             "and a bar read at first order from the curvature of the chi square can be wrong for both. A combination is a product of the parameters' powers, its bar a share of its value, "
+             "or a sum where a parameter is not positive, from the eigenvectors of their covariance, the best held first. "
+             f"Each is read on {sets} sets of the twin: its scatter over its bar, 1 where the bar is right, and the share of sets whose own interval of 1.96 bars holds its value, 0.95 within {band:.2f}. "
+             "Each parameter's interval is refitted along it, the parameter held and every other refitted, out to where the chi square rises by 1."]
+    for g in apart["groups"]:
+        if not g.get("told_apart", True):          # beyond 0.999: no combination, read at first order where the fit stopped (review 232, M1)
+            lines += ["", f"{', '.join(g['parameters'])}, correlated at {g['largest_correlation']:.3f}: the records do not tell them apart, so no combination of them is quoted, "
+                      "its reading at first order resting on the point where the fit stopped. Each parameter's interval refitted along it:", "",
+                      "| parameter | bar at first order | interval refitted along it | scatter on the twin over the bar, over the half width | the bar to quote |", "|---|---|---|---|---|"]
+            for name, c in g["intervals"].items():
+                inside = f"{c['low']:.6g} to {c['high']:.6g}" if c["low"] is not None and c["high"] is not None else "open: the chi square does not rise by 1 within 8 bars or a bound"
+                half = c.get("scatter_over_the_half_width")
+                lines.append(f"| {name} | none: correlated beyond 0.999 | {inside} | not read, " + ("not read" if half is None else f"{half:.2f}")
+                             + " | " + ("the interval refitted along it" if c["low"] is not None and c["high"] is not None else "none: the records hold no bar of it") + " |")
+            continue
+        lines += ["", f"{', '.join(g['parameters'])}, correlated at {g['largest_correlation']:.3f}:", "",
+                  "| combination | value | bar | its scatter on the twin over its bar | its interval holds the truth on the twin | the bar to quote |", "|---|---|---|---|---|---|"]
+        for c in g["combinations"]:
+            if c["kind"].startswith("a product"):
+                said = " × ".join(n if abs(p - 1.0) < 5e-3 else f"{n}^{p:.2f}" for n, p in c["of"].items())
+                as_bar = (lambda b: f"{100.0 * b:.2g} per cent")
+            else:
+                said = " + ".join(n if abs(p - 1.0) < 5e-3 else f"{p:.2f} {n}" for n, p in c["of"].items()).replace("+ -", "- ")
+                as_bar = _two
+            if not c.get("held", True):          # a direction that the records do not hold at all (review 231, M5)
+                lines.append(f"| {said} | not held: the records hold nothing along it | none | not read | not read | none |")
+                continue
+            bar = as_bar(c["bar"])
+            quote = (f"{c['quote_is']}, {as_bar(c['bar_to_quote'])}" if c.get("bar_to_quote") is not None else c.get("quote_is", "not read"))
+            scatter = f"{c['scatter_over_its_bar']:.2f}" if c.get("scatter_over_its_bar") is not None else "not read"
+            holds = f"{c['holds_the_truth']:.2f} of {c.get('sets_with_a_bar', sets)}" if c.get("holds_the_truth") is not None else "not read"          # of the sets whose fit gives a bar (review 232, N2)
+            lines.append(f"| {said} | {c['value']:.6g} | {bar} | {scatter} | {holds} | {quote} |")
+        lines += ["", "| parameter | bar at first order | interval refitted along it | scatter on the twin over the bar, over the half width | the bar to quote |", "|---|---|---|---|---|"]
+        for name, c in g["intervals"].items():
+            inside = f"{c['low']:.6g} to {c['high']:.6g}" if c["low"] is not None and c["high"] is not None else "open: the chi square does not rise by 1 within 8 bars or a bound"
+            first, half = c.get("scatter_over_the_bar"), c.get("scatter_over_the_half_width")
+            if c["bar_at_first_order"] is None:          # correlated beyond 0.999: no bar at first order, rule 5 (review 231, M4)
+                read = "not read, " + ("not read" if half is None else f"{half:.2f}")
+                quote = "the interval refitted along it" if c["low"] is not None and c["high"] is not None else "none: the records hold no bar of it"
+                lines.append(f"| {name} | none: correlated beyond 0.999 | {inside} | {read} | {quote} |")
+                continue
+            read = "not read" if first is None else f"{first:.2f}, " + ("not read" if half is None else f"{half:.2f}")
+            quote = "not read" if first is None else ("the interval refitted along it" if half is not None and abs(half - 1.0) < abs(first - 1.0) else "the bar at first order")
+            lines.append(f"| {name} | {_two(c['bar_at_first_order'])} | {inside} | {read} | {quote} |")
+    return lines
+
+
+def small_kept(kept: list, output: dict) -> list:
+    """The kept terms whose value in the best model is within two bars of none: not those held at their theory, and not
+    those kept by their file's keep = True, which the file keeps whatever the criterion (the third reading of 0.1.3rc2,
+    mislead 5: best.md told the reader to try the model without the cosine that its file kept)."""
+    pars = output["parameters"]
+    return [k for k in kept if "held_at" not in k and not k.get("by_its_ground") and k.get("parameter") in pars and pars[k["parameter"]]["bar_of_the_fit"]
+            and abs(pars[k["parameter"]]["value"]) < 2.0 * pars[k["parameter"]]["bar_of_the_fit"]]
+
+
+def table_rows(output: dict) -> list:
+    """The rows of best.md's table of models: those before a term held at its theory or kept by its file's keep = True
+    first, with their criteria and no comparison, then those that the best model was chosen from (the third reading of
+    0.1.3rc2, mislead 8: the table began at the held or kept term, and the model that the criterion prefers was in no row)."""
+    rows = [r for r in output.get("iterations", []) if r["ended"]]
+    top = next((r["criterion"] for r in rows if r["model"] == output["best"]), None)
+    out = [f"| {r['model']} | {r['added'] if r.get('after') else 'the first model'}, before {r['before']}, not a rival | {r['chi_square']:.2f} | {r['fitted_parameters']} | {r['criterion']:.2f} | "
+           + (f"{r['criterion'] - top:.2f} |" if top is not None else "|") for r in output.get("before", []) if r["ended"]]
+    return out + [f"| {r['model']} | {r['added'] if r.get('after') else 'the first model'} | {r['chi_square']:.2f} | {r['fitted_parameters']} | {r['criterion']:.2f} | {r['criterion_less_that_of_the_best']:.2f} |" for r in rows]
+
+
 def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quiet: bool = False) -> str:
     """The output of the loop for the researcher: the best model, the words of its table defined before the table, and
     the five parts of the uncertainty of each parameter, never folded into one (row M168: a newcomer met five headings
@@ -2027,11 +2211,12 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
               else f"The curves were taken in this order, as the description says: {order}. Where a setting was taken in the order of the time, it cannot be told from a drift." if order
               else "The description does not say in which order the curves were taken, `order` under [problem]: a setting taken in the order of the time cannot be told from a drift."]
     lines += ["",
-             "The best model is the one of the smallest Bayesian criterion, the chi square plus the number of fitted parameters times the logarithm of the number of samples. "
-             f"The models whose criterion is within {TIED:g} of it are those that the records cannot tell apart from it.", "",
+             "The best model is the last model of the loop, the first model where it kept no term: the one of the smallest Bayesian criterion, the chi square plus the number of fitted parameters times the logarithm of the number of samples, "
+             "among the models that it compares, from the first model on, or from the last term held at its theory or kept by its file's keep = True, since a model that lacks such a term is not its rival. "
+             f"The models whose criterion is within {TIED:g} of it are those that the records cannot tell apart from it."
+             + (" The models before that term stand first in the table, with their criteria and how far each stands from that of the best, and are not its rivals, since they lack the term." if output.get("before") else ""), "",
              "| model | its term | chi square | fitted parameters | Bayesian criterion | less that of the best |", "|---|---|---|---|---|---|"]
-    lines += [f"| {row['model']} | {row['added'] if row.get('after') else 'the first model'} | {row['chi_square']:.2f} | {row['fitted_parameters']} | {row['criterion']:.2f} | {row['criterion_less_that_of_the_best']:.2f} |"
-              for row in output.get("iterations", []) if row["ended"]]          # the criterion of a model was in model_K.json alone (round 16 of the cold tests)
+    lines += table_rows(output)          # the criterion of a model was in model_K.json alone (round 16 of the cold tests)
     ties = [r for r in refused if r.get("in_place") and abs(r["in_place"]["criterion_less"]) < TIED]
     if ties:          # two causes of one misfit tied within 0.1, and the page said the records ask for no more (round 16 of the cold tests)
         lines += ["", "Two causes fit alike: " + ". ".join(f"{r['term']}, of {r['file']}, fitted in the place of {r['in_place']['term']}, of {r['in_place']['of']}, gives a criterion {abs(r['in_place']['criterion_less']):.2f} "
@@ -2046,7 +2231,7 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
              "- **The bar of the fit**: the standard deviation of the parameter that the fit gives at first order, from the curvature of its chi square.",
              "- **The coverage on the twin**: the share of synthetic sets of the best model on which the interval of 1.96 bars of the fit holds the value that made them. "
              f"0.95 is right, and with the {sets} sets read here a coverage is known within {math.sqrt(0.95 * 0.05 / sets):.2f}, one standard deviation. Well under 0.95, the bar of the fit is too small, and well over it, too large. "
-             "The sets are drawn from fixed seeds, so a run gives the same numbers again, and two projects of one design and close values read close coverages: that coverage is one draw of its uncertainty, which more sets narrow.",          # 0.87 on three projects of one design read as a property of the data (round 12 of the cold tests)
+             "The sets are drawn from seeds read from the records, so a run gives the same numbers again on the same records, and records of another project draw sets of their own: a coverage is one draw of its uncertainty, which more sets narrow.",          # 0.87 on three projects of one design read as a property of the data (round 12 of the cold tests)
              "- **The bias on the twin, in bars**: the mean of the values fitted on those sets less the value that made them, in bars of the fit. It is given beside the value and not taken out of it: `best.json` gives the value less it too.",
              "- **The bar of theory**: where the model holds values of theory, half the move of the parameter when each held value is set one bar of theory below and above its centre. "
              "None held: the description holds no value of theory, which an ansatz in its addenda would, `[addenda.ansatz.NAME]` with its value and its uncertainty.",
@@ -2066,6 +2251,21 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
         lines.append(f"| {name} | {value} | {bar} | {twin[0]} | {twin[1]} | {theory} | {spread} |")
     lines += [f"- {name}: {', '.join(c['absent_from'])} has no such parameter, and the records do not tell that model from this one, so its spread over the models reads this model alone, and the records do not say that its term is there."
               for name, c in output["parameters"].items() if c.get("absent_from")]
+    joined = {name: c["combined_estimate"] for name, c in output["parameters"].items() if c.get("combined_estimate")}          # row M580, the owner's messages 20, 25, 28, 33, 48 and 89
+    if joined:
+        one = next(iter(joined.values()))
+        band = 2.0 * math.sqrt(0.95 * 0.05 / one["sets"])
+        lines += ["", "## The combined estimate of the families", "",
+                  f"Each parameter estimated by the {one['families']} families of statistics of the report that give an estimate, the fit among them, weighted by how they vary together on synthetic sets of the best model, "
+                  f"with its standard deviation read on {one['sets']} further sets. It is a check of the model and not a better value: under a right model and normal errors no combination scatters less than the fit, and weights read on synthetic sets cost a little. "
+                  f"Its interval of 1.96 standard deviations should hold the truth on 0.95 of the further sets, within {band:.2f}. Its gap from the fit is read in the scatter of their difference on the same sets: beyond 3, the families and the fit read the records apart, which says that the model lacks a term, as the test of two estimators of Hausman (1978) reads it.", "",
+                  "| parameter | combined estimate | its standard deviation over the fit's | its interval holds the truth on the twin | gap from the fit, in the scatter of their difference |", "|---|---|---|---|---|"]
+        for name, j in joined.items():
+            holds = f"{j['holds_the_truth']:.2f} of {j['sets']}" + ("" if abs(j["holds_the_truth"] - 0.95) <= band else ", outside its band: not to be quoted")
+            gap = j["differs_from_the_fit_in_its_scatters"]
+            lines.append(f"| {name} | {' ± '.join(_pm(j['value'], j['standard_deviation']))} | {j['over_the_fit']:.2f} | {holds} | {gap:+.1f}" + (", beyond 3: the model lacks a term" if math.isfinite(gap) and abs(gap) > 3.0 else "") + " |")
+    lines += apart_lines(output.get("apart"))          # what the records tell apart, row M587
+    lines += ladder_lines(output.get("ladder") or [], list(output["parameters"]))          # the values in windows, row M588
     if not noise["right"]:
         lines += ["", "The noise fails its check: the coverage and the bias on the twin are not to be read, since the twin draws its sets at that noise."]
     if any(c["coverage_on_the_twin"] is None for c in output["parameters"].values()):          # "not read", defined nowhere, beside a report that read 0.97 on other sets (round 15 of the cold tests)
@@ -2101,15 +2301,15 @@ def _best_page(output, noise, plain, refused, nxt, sets: int = 30, kept=(), quie
         lines += [f"The abscissa is read less its offset, {plain['abscissa_offset']:g}: every place is from it."]
     held = [k for k in kept if "held_at" in k]
     lines += ["", "## Terms held at their value of theory", ""] + [f"- {k['term']}, in {k['file']}: held at {k['held_at']:g} ± {k['bar_of_the_theory']:g}, which the bar of theory of each other value carries" for k in held] if held else []          # a held term was in the list of terms and nowhere else (round 4)
-    small = [k for k in kept if "held_at" not in k and k.get("parameter") in output["parameters"] and output["parameters"][k["parameter"]]["bar_of_the_fit"]
-             and abs(output["parameters"][k["parameter"]]["value"]) < 2.0 * output["parameters"][k["parameter"]]["bar_of_the_fit"]]
+    small = small_kept(kept, output)
     if small:          # a second component kept first, at 0.0113 ± 0.0086 once the right term came, with no word (round 9 of the cold tests)
-        lines += ["", "## Kept terms now within two bars of none", ""] + [f"- {k['parameter']}, kept in {k['file']}: a term kept before another is not looked at again when the next arrives. "
-                                                                          "Try the model without it, in a copy, as the section of the refused terms says, and keep the one of the smaller Bayesian criterion." for k in small]
+        lines += ["", "## Kept terms now within two bars of none", ""] + [f"- {k['parameter']}, kept in {k['file']}: "
+                                                                          + ("a term kept before another is not looked at again when the next arrives. " if k is not kept[-1] else "the last term kept, and its value is within two bars of none. ")
+                                                                          + "Try the model without it, in a copy, as the section of the refused terms says, and keep the one of the smaller Bayesian criterion." for k in small]
     unasked = [k for k in kept if k.get("asked") is False and "held_at" not in k and k["term"] in output["terms"]]
     if unasked:          # a cosine that the report put at an excess of 0.7 was kept, and its size quoted with no caution (round 12 of the cold tests)
         lines += ["", "## Kept terms that no report asked for", ""] + [f"- {k['term']}, kept in {k['file']}: the report of the model before it put no answer of where, what, along, changes along or matched beyond its twin, "
-                                                                      "so the records did not ask for it, and the fall of the Bayesian criterion alone kept it. A term chosen after looking at such a report fits what the twin also shows on some of its sets: "
+                                                                      "so the records did not ask for it, and the fall of the Bayesian criterion, or its file's `keep = True`, alone kept it. A term chosen after looking at such a report fits what the twin also shows on some of its sets: "
                                                                       "quote the values of the model without it beside these, and its size as what the records allow and not as a finding." for k in unasked]
     lines += setup_said(plain.get("setup") or {})
     lines += ["", "## Notes", "", "- The bias on the twin here is in bars of the fit, on sets of its own: the report of each model reads it in spreads of the estimate, on other sets, so the two differ.",

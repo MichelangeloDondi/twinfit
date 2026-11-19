@@ -14,9 +14,11 @@ An iteration is one model fitted on the records, a dict:
     "held"      the values of theory that the model holds, {name: (centre, bar, at)}: `at(value)` is the model with
                 that value held in place of the centre, as `refine.carried` holds a term
 
-The best model is that of the smallest Bayesian criterion, the chi square plus the number of fitted parameters times
-the logarithm of the number of samples. The models whose criterion is within `TIED` of it are those that the records
-cannot tell apart from it. Every iteration must be fitted on the same records: a criterion compares models, not records.
+The best model is that of the smallest Bayesian criterion among the iterations given, the chi square plus the number
+of fitted parameters times the logarithm of the number of samples. The loop gives them from the first model on, or from
+the last term held at its theory or kept by its file's `keep = True`, so its best model is the last that it made, and
+best.md lists the models before that term apart. The models whose criterion is within `TIED` of it are those that the
+records cannot tell apart from it. Every iteration must be fitted on the same records: a criterion compares models, not records.
 
 The five parts of the uncertainty of each shared parameter, never folded into one number without a word:
 
@@ -33,6 +35,14 @@ The five parts of the uncertainty of each shared parameter, never folded into on
     not told apart                     a parameter correlated with another beyond `TOLD_APART` gets no bar: the records
                                        fix a combination of the two and not each, and the output names the other
 
+And beside them, `combined`, the estimate of each shared parameter by every family of statistics that gives one, with its
+coverage on the twin and its gap from the fit: a check of the model and not a sixth part of its bar (row M580). And
+two readings of the shared parameters together. `apart`, row M587: for parameters correlated beyond 0.9, each
+combination that the records hold with its bar, its coverage and its bias on the twin and the bar to quote, and each
+parameter's interval refitted along it, with no combination for a group correlated beyond `TOLD_APART`, whose reading at
+first order rests on where the fit stopped. `ladder`, row M588: the values in windows about the centre and off the peak,
+each set against the fit's by its contrast, the window as an independent variable.
+
 The package knows nothing of the field of the records. Which term of physical origin an iteration adds is the choice of
 the researcher, or of the agent in the researcher's place.
 """
@@ -42,9 +52,13 @@ import math
 
 import numpy as np
 
+from .apart import held_apart
+from .families import ladder
+from .linear import Linear
 from .fit import fit
 from .twin import admission
 
+from .seeds import seed_of
 TIED = 2.0                  # two models whose Bayesian criteria differ by less than this are not told apart by the records
 TOLD_APART = 0.999          # two parameters correlated beyond this get no bar
 
@@ -79,15 +93,59 @@ def correlation(cov: np.ndarray, sd: np.ndarray) -> np.ndarray:
     return out
 
 
-def uncertainty(problem, result, sets: int = 100, held: dict | None = None, alike=(), seed: int = 31, start: str = "problem", max_iter: int = 80, workers: int = 1) -> dict:
+COMBINED_MOST = 4          # the families joined to the fit in the combined estimate, those of least variance at first order whose estimate ends on the records: on a draw of the toy 15 of 19 ended and the four that did not took 15 to 21 seconds each, and every family is read again on each of its synthetic sets (his message 579)
+
+
+def combined(problem, result, centre: str | None = None, check: int = 60, seed: int | None = None, most: int = COMBINED_MOST) -> dict:
+    """Beside the five parts and not a sixth, row M580 (the owner's messages 20, 25, 28, 33, 48 and 89, "an ultra-joint MLE across windowing ...
+    generalized moments, generalized chi", "a much stiffer set of springs"): one estimate of each shared parameter from
+    every family of statistics that gives one, the fit among them, weighted by how they vary together on synthetic sets
+    of the fit, `families.together`, with its standard deviation, that over the fit's on the same sets, the share of
+    `check` further sets whose interval holds the value that drew them, and its gap from the fit in the scatter of their
+    difference, from the fit and at most `most` families, those of least variance at first order whose estimate ends on
+    the records. Under a right model and normal errors no combination has a smaller variance than the fit, and weights
+    read on synthetic sets cost a little: on planted bumps its standard deviation was 1.19 to 1.23 of the fit's. So it is
+    not a better value but a check: a gap of more than about 3 of that scatter says that the families and the fit read
+    the records apart, so that the model lacks a term, as the test of two estimators of Hausman (1978) reads it. Empty
+    where fewer than two families give an estimate or too few sets end."""
+    from .families import catalogue, family, together
+    from .linear import Linear
+    from .where import seed_of
+    lin = Linear(problem, result)
+    ranked = []
+    for name in catalogue(centre):
+        if name == "every sample: the fit":
+            continue
+        try:
+            fam = family(lin, name, centre)
+            bounds = fam.bounds()
+            if bounds["estimator"] and fam.estimate().converged:          # a family whose search does not end on the records gave no combination at all until 2026-11-13: one of them made `together` refuse every draw of the toy (his message 579)
+                ranked.append((float(bounds["largest_over_the_fit_in_any_direction"]), name))
+        except (ValueError, np.linalg.LinAlgError):          # a family that the records refuse gives no estimate
+            continue
+    names = ["every sample: the fit"] + [name for _, name in sorted(ranked)[:most]]          # the fit and the families that carry the most of the shared parameters at first order: first order only chooses them, and every figure is read on synthetic sets
+    if len(names) < 2:
+        return {}
+    try:
+        got = together(lin, names, centre, draws=4 * len(names), check=check, seed=seed_of(problem) if seed is None else seed)
+    except (ValueError, np.linalg.LinAlgError):
+        return {}
+    return {name: {"value": float(got["estimate"][j]), "standard_deviation": float(got["standard_deviation"][j]), "over_the_fit": float(got["over_the_fit"][j]),
+                   "holds_the_truth": float(got["holds_the_truth"][j]), "sets": int(got["further_sets"]), "families": len(names),
+                   "differs_from_the_fit_in_its_scatters": float(got["difference_from_the_fit_in_its_scatters"][j])} for j, name in enumerate(problem.shared)}
+
+
+def uncertainty(problem, result, sets: int = 100, held: dict | None = None, alike=(), seed: int | None = None, start: str = "problem", max_iter: int = 80, workers: int = 1, centre: str | None = None) -> dict:
     """The five parts of the uncertainty of each shared parameter of a fit. `held`: the values of theory that the model
     holds, {name: (centre, bar, at)}. `alike`: the models that the records cannot tell apart from this one, each as
     (name, the names of its shared parameters, their values). `sets`, `seed`, `start`, `max_iter` and `workers` go to
     the admission of the twin, which needs 30 sets that end."""
+    seed = seed_of(problem, 31) if seed is None else seed          # uncertainty: drawn from the records, the old seed its salt (row M582)
     sd = result.sd
     corr = correlation(result.cov, sd)
     twin = admission(problem, result, sets=sets, seed=seed, start=start, max_iter=max_iter, workers=workers)
     moved = theory_moves(result, held, max_iter)
+    joined = combined(problem, result, centre)
     out = {"admitted_on_the_twin": twin["admitted"], "rule_of_the_twin": twin["rule"], "sets_of_the_twin": twin["sets"],
            "searches_that_ended": int(round(twin["ended"] * twin["sets"])), "parameters": {}}          # 27 of 30, which best.md did not say (round 18 of the cold tests)
     for j, name in enumerate(problem.shared):
@@ -107,7 +165,10 @@ def uncertainty(problem, result, sets: int = 100, held: dict | None = None, alik
             "bar_of_theory": {"together": float(math.sqrt(sum(v * v for v in theory.values()))), "of_each": theory},
             "spread_over_the_models": float(0.5 * (max(values) - min(values))),
             "models_not_told_apart": [m for m, names, _ in alike if name in names],
-            "absent_from": [m for m, names, _ in alike if name not in names]}          # a size of a term that a model not told apart lacks: the spread of 0 read as agreement (round 16 of the cold tests)
+            "absent_from": [m for m, names, _ in alike if name not in names],
+            "combined_estimate": joined.get(name)}          # a size of a term that a model not told apart lacks: the spread of 0 read as agreement (round 16 of the cold tests)
+    out["apart"] = held_apart(problem, result, sets=30, max_iter=max_iter)          # what the records tell apart of the parameters correlated beyond 0.9, row M587 (the owner's message 88)
+    out["ladder"] = ladder(Linear(problem, result))          # the window as an independent variable, row M588 (the owner's messages 2, 4 and 39)
     return out
 
 
@@ -132,7 +193,7 @@ def own_bars(problem, result) -> list:
     return out
 
 
-def best(iterations: list, sets: int = 100, tied: float = TIED, seed: int = 31, start: str = "problem", max_iter: int = 80, workers: int = 1) -> dict:
+def best(iterations: list, sets: int = 100, tied: float = TIED, seed: int | None = None, start: str = "problem", max_iter: int = 80, workers: int = 1, centre: str | None = None) -> dict:
     """The output after the iterations: the best model, its terms, its parameters with the five parts of their
     uncertainty, the models that the records cannot tell apart from it, and what each iteration tried and refused."""
     if not iterations:
@@ -167,6 +228,6 @@ def best(iterations: list, sets: int = 100, tied: float = TIED, seed: int = 31, 
         at = next((row for row in rows if row["model"] == at["after"]), None) if at["after"] else None
     chosen = iterations[rows.index(top)]
     others = [(it["model"], it["problem"].shared, it["result"].shared) for it in iterations if it["model"] in alike]
-    parts = uncertainty(chosen["problem"], chosen["result"], sets=sets, held=chosen.get("held"), alike=others, seed=seed, start=start, max_iter=max_iter, workers=workers)
+    parts = uncertainty(chosen["problem"], chosen["result"], sets=sets, held=chosen.get("held"), alike=others, seed=seed, start=start, max_iter=max_iter, workers=workers, centre=centre)
     return {"best": top["model"], "terms": terms, "models_not_told_apart": alike, "better_set_aside": better, "iterations": rows,
             "tried_and_refused": [dict(refused, iteration=row["model"]) for row in rows for refused in row["refused"]], **parts}
