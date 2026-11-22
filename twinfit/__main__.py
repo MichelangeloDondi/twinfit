@@ -54,10 +54,15 @@
     python -m twinfit card                  how to write a term file, a term of the package or one of your own, in a page
     python -m twinfit literature DIR        the brief of the search of the literature that [literature] of the
                                             description asks, for an agent to run
-    python -m twinfit log DIR               draws the visual log of the last run of the loop in DIR: for each model, one
-                                            slide for each of the eight phases of its turn, with the equation of the model
-                                            and what each of its terms does to the curves, and the best model with the
-                                            parts of each bar, into DIR/loop/log.pdf, DIR/loop/log/ and DIR/loop/log.md.
+    python -m twinfit log DIR               draws the visual log of the last run of the loop in DIR: for each model, each
+                                            of the eight phases of its turn first as one plot, then beside four of them
+                                            the equation and what each term does, every curve in a row, the answers of
+                                            the report and each model's criterion, thirteen kinds of slide a
+                                            model, a kind on more pages where its curves, terms or
+                                            proposals ask it,
+                                            and the best model with the parts of the bar of each of its
+                                            first ten shared parameters, into DIR/loop/log.pdf, DIR/loop/log/ and
+                                            DIR/loop/log.md.
                                             It needs matplotlib, and fits nothing
     python -m twinfit.tutorial --check      runs every command of the tutorial again and says whether an output changed
 """

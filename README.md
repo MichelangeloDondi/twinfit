@@ -4,7 +4,7 @@ A tool for the analysis of the residuals of a fit. It reports where a fitted mod
 
 twinfit is a Python package for a researcher who fits one model to a set of measured curves. It fits the model to all the curves at once and reads the residuals through families of statistics. Each statistic is compared with its value on a twin, that is, on synthetic curves drawn from the fitted model with the law of noise assigned to the records, fitted and read in the same way. The report states where the model misses, of which kind the miss is, and along which setting of the experiment it varies. The package names no term of any field. The researcher writes the term, and the package keeps it only where the records support it. In the terms of statistics, the twin is a parametric bootstrap from the fitted model, and the report a test of the specification by weighted moments of the residuals calibrated on it: section 1 of the tutorial, [`twinfit/TUTORIAL.md`](twinfit/TUTORIAL.md), sets the words of the package that the literature of statistics names otherwise beside their names there.
 
-This branch, `next`, holds 0.1.3rc3, ahead of the release on PyPI. To run the code of this branch:
+This branch, `next`, holds 0.1.3rc4, ahead of the release on PyPI. To run the code of this branch:
 
 ```bash
 pip install "git+https://github.com/MichelangeloDondi/twinfit@next"

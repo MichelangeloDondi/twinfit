@@ -24,7 +24,7 @@ How to read this page: read section 1 to the end of its first list, then section
 | find a project of another field whose first report reads as yours | section 13 |
 | know what the package cannot do | section 14 |
 
-Every command in a block of its own below, but the installation of section 2, was run as it is written, in an empty folder, and every output is what it printed. A command named inside a sentence, as `nohup` or `rsync`, is not run by the check. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 1303 seconds. A machine busy with other work takes longer.
+Every command in a block of its own below, but the installation of section 2, was run as it is written, in an empty folder, and every output is what it printed. A command named inside a sentence, as `nohup` or `rsync`, is not run by the check. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 266 seconds. A machine busy with other work takes longer.
 
 ## 1. Purpose and vocabulary of the package
 
@@ -151,7 +151,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.3rc3
+0.1.3rc4
 ```
 
 ## 3. A worked project
@@ -297,7 +297,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: nothing. Refused: nothing. The best model: model 0.
 The report of each model and the output are in my_nmr/loop. Write my_nmr/terms/01.py with the next term, then run the loop again. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_nmr/loop/log.pdf, 14 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 15 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
 Its last lines name the folder of the reports and the visual log, `my_nmr/loop/log.pdf`, a slide for each phase of each model, which section 6 shows.
@@ -614,7 +614,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, width changes along temperature. Refused: nothing. The best model: model 1.
 The report of each model and the output are in my_nmr/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
 The run's output uses two words: your list, `list_of_terms.py`, the terms that you suspect, which `init` writes empty and section 9 shows, and which a project of `example` does not hold, so that its list is empty, and matched, the question of the report that reads the residuals against each term of that list. With the list empty, no answer of matched is read. The package holds a list of its own, read only where you run the loop with `--dictionary`: it names terms, and the search for a term that you do not suspect runs without it.
@@ -748,7 +748,7 @@ model 0: the first model is fitted, and its twin and its report are read on 100 
 best.md: the five parts of each value of the best model, on 100 synthetic sets, and the combined estimate of the families
 kept: 01.py, width changes along temperature. Refused: nothing. The best model: model 1.
 The report of each model and the output are in my_nmr/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
 `my_nmr/loop/best.md`:
@@ -833,12 +833,12 @@ python -m twinfit log my_nmr
 ```
 
 ```
-The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
-The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives each of the eight phases of its turn first as one plot, with one line of words and one number to check, and beside four of them the slides that say more: thirteen slides a model. They are the curves as recorded, the model with the bar of each parameter, its equation and what each term does to the curves, its twin, the joint fit with what it leaves above it and then the curves in a row, what the fit leaves along the setting, where the residuals leave the twin's band and the answers of the report with the six proposals, the next term tried on the twin, and the decision, what the term changes and each model's criterion. At the end comes the best model with the parts of its bars.
+The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives each of the eight phases of its turn first as one plot, with one line of words and, where the phase made one, one number to check, and beside four of them the slides that say more: thirteen kinds of slide a model, a kind on more than one page where its curves, its terms or its proposals ask it. They are the curves as recorded, the model with the bar of its first ten shared parameters, its equation and what each term does to the curves, its twin, the joint fit with what it leaves above it and then the curves in a row, what the fit leaves along the setting, where the residuals leave the twin's band and the answers of the report with the six proposals, the next term tried on the twin, and the decision, what the term changes and each model's criterion. A name longer than its place is cut at a word and ends in ..., and `loop/equations.json` and `loop/best.md` hold it whole. At the end comes the best model with the parts of its bars.
 
-Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 the equation reads the width of the first model times one plus a times z, z the temperature in standard deviations from its mean. The fourth shows what that term does: the fitted curves less the same model with a at zero, wider on the hot records and narrower on the cold ones.
+Here are its 29 slides, model 0 and then model 1. On the third slide of model 1 the equation reads the width of the first model times one plus a times z, z the temperature in standard deviations from its mean. The fourth shows what that term does: the fitted curves less the same model with a at zero, wider on the hot records and narrower on the cold ones.
 
 ![model 0, phase 1](examples/figures/log_00_1_records.png)
 
@@ -846,7 +846,7 @@ Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 
 
 ![model 0, phase 2a](examples/figures/log_00_2a_model.png)
 
-*The first model and the bar of each of its parameters, in per cent of its value.*
+*The first model and the bar of each of its shared parameters, in per cent of its value.*
 
 ![model 0, phase 2b](examples/figures/log_00_2b_model.png)
 
@@ -874,11 +874,15 @@ Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 
 
 ![model 0, phase 6a](examples/figures/log_00_6a_where.png)
 
-*Where the residuals of the first model leave the twin's band, shaded on them.*
+*The place where the residuals of the first model change along the temperature beyond the twin, shaded on them, the spectra in the order of the temperature.*
 
 ![model 0, phase 6b](examples/figures/log_00_6b_where.png)
 
-*The answers of the first report beyond the twin, ordered by their excess, and the six proposals.*
+*The answers of the first report beyond the twin, ordered by their excess, and its proposals, those for the experiment that it has no room for standing on the page after it.*
+
+![model 0, phase 6b2](examples/figures/log_00_6b2_where.png)
+
+*The proposals of the first report for the experiment that the slide before had no room for, whole.*
 
 ![model 0, phase 7](examples/figures/log_00_7_next_term.png)
 
@@ -898,7 +902,7 @@ Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 
 
 ![model 1, phase 2a](examples/figures/log_01_2a_model.png)
 
-*Model 1 and the bar of each of its parameters.*
+*Model 1 and the bar of each of its shared parameters.*
 
 ![model 1, phase 2b](examples/figures/log_01_2b_model.png)
 
@@ -932,6 +936,10 @@ Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 
 
 *No answer stands beyond the twin after model 1, so no term is asked.*
 
+![model 1, phase 6b2](examples/figures/log_01_6b2_where.png)
+
+*The proposals of the report of model 1 for the experiment that the slide before had no room for, whole.*
+
 ![model 1, phase 7](examples/figures/log_01_7_next_term.png)
 
 *No term is tried after model 1, and the loop ends.*
@@ -948,16 +956,16 @@ Here are its 27 slides, model 0 and then model 1. On the third slide of model 1 
 
 *The best model, model 1, each value with its bar of the fit and its bias on the twin.*
 
-Each phase's first slide holds one number to check, and here is where the run keeps it, `K` the model and the notebook `my_nmr/loop/notebook/NNN_model_K_PHASE.json`:
+Each phase's first slide holds one number to check where its phase made one, and here is where the run keeps it, `K` the model and the notebook `my_nmr/loop/notebook/NNN_model_K_PHASE.json`. Where a model leaves nothing beyond its twin, as model 1 here, the slide of phase 6 says so in its title with no excess, and on the last model of a run, model 1 here too, the slides of phases 7 and 8 say in words that no next term was tried, or that the term tried was refused and why, and that no model came after:
 
-1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description.
-2. **The model**: each parameter's bar in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
-3. **The twin**: each parameter's `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
-4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees.
+1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description, three sweeps or six levels of a grid at most.
+2. **The model**: the bar of each of its first ten shared parameters in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
+3. **The twin**: each of its first eight shared parameters' `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
+4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees, times the root of `samples_of_the_correlation` of the phase `read` where its `correlation_of_neighbours` passes 0.3.
 5. **What the fit leaves**: the mean square of each curve's `residual` over its `noise` in `loop/residuals_K.csv`, a right model 1.
-6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json`, its excess against `where.largest_excess_on_the_twin`.
-7. **The next term**: `gain` of the phase `candidate on the twin`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
-8. **The decision**: the mean square of what the fit leaves in each cell before and after the next term, from `loop/residuals_K.csv` and the next model's, and each model's criterion in `loop/best.json`.
+6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json` names the first answer of each question, its excess is `excess` of the same answer in `where.answers`, against `where.largest_excess_on_the_twin`. Where `where.where_read_along` names a place along a setting, as on model 0 here, no place stands beyond the twin alone, and the slide reads that answer of the question changes along and its excess.
+7. **The next term**: `gain` of the phase `candidate on the twin`, in the notebook `NNN_model_K_candidate_on_the_twin.json`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
+8. **The decision**: the chi square over its degrees before and after the next term, from `loop/model_K.json` and the next model's, and on its second slide each model's `criterion`, read from its own `loop/model_K.json`, `loop/best.json` comparing them from a kept term on.
 
 ## 7. A term not asked for by the records
 
@@ -982,7 +990,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, width changes along temperature. Refused: 02.py, a cosine of period 3. The best model: model 1. best.md gives the reason of each refusal.
 The report of each model and the output are in my_nmr/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
 It refused the ripple, and says why in `best.md`:
@@ -1355,7 +1363,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: nothing. Refused: nothing. The best model: model 0.
 The report of each model and the output are in my_chrom/loop. Write my_chrom/terms/01.py with the next term, then run the loop again. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_chrom/loop/log.pdf, 14 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
+The visual log: my_chrom/loop/log.pdf, 15 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
 ```
 
 The report puts the misfit of the chromatograms in their asymmetry:
@@ -1494,7 +1502,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, a second component 1.45 away. Refused: nothing. The best model: model 1.
 The report of each model and the output are in my_chrom/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_chrom/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
+The visual log: my_chrom/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
 ```
 
 The curves were drawn with an impurity 1.4 s after the peak, of 0.06 of its height. The scan gives the distance from 1.2 to 1.7 s, and 1.4 s is in that range. The size moves with the distance across it, from 0.089 at 1.2 s to 0.036 at 1.7 s: these records fix the distance and the size together and not each.
@@ -1539,7 +1547,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, a second component 1.45 away. Refused: nothing. The best model: model 1.
 The report of each model and the output are in my_chrom/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_chrom/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
+The visual log: my_chrom/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom/loop/log.
 ```
 
 `my_chrom/loop/best.md`:
@@ -1661,7 +1669,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, an exponential tail of the line. Refused: nothing. The best model: model 1.
 The report of each model and the output are in my_chrom_tail/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_chrom_tail/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom_tail/loop/log.
+The visual log: my_chrom_tail/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_chrom_tail/loop/log.
 ```
 
 The loop keeps the tail, and the twin admits it. Its model reads a Bayesian criterion of 1303.31, against 1302.92 for the impurity of section 10 at 1.45 s: within 2 of each other, so the records cannot tell the two forms apart. The width reads 0.9591 ± 0.0075 s under the tail and 0.9984 ± 0.0055 s under the impurity, where 1 s drew the curves: 5.5 and 0.3 bars of the fit from it. Neither `best.md` holds the gap, since each form stands in a folder of its own.
@@ -1707,7 +1715,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: 01.py, width changes along temperature. Refused: 02.py, a cosine of period 3; 03.py, a slope of the baseline that grows with the temperature. The best model: model 1. best.md gives the reason of each refusal.
 The report of each model and the output are in my_nmr/loop. No answer of where, shape, what or changes along in the last report, nor a term of your list, stands beyond its twin: the records ask for no more, and a further term rests on theory alone. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
+The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.
 ```
 
 The curves of this project were drawn with a flat baseline, so the loop refuses the slope as it refused the ripple. A refused term stays where it is, as section 7 says, and each run tries it again and refuses it again, with its reason, in `best.md`.
@@ -1795,7 +1803,7 @@ model 0: the first model is fitted, and its twin and its report are read on 30 s
 best.md: the five parts of each value of the best model, on 30 synthetic sets, and the combined estimate of the families
 kept: nothing. Refused: nothing. The best model: model 0.
 The report of each model and the output are in my_satellite/loop. An own value moves from curve to curve, which no question of the report reads: best.md says which, and how to write it.
-The visual log: my_satellite/loop/log.pdf, 14 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_satellite/loop/log.
+The visual log: my_satellite/loop/log.pdf, 15 slides, each phase of each of 1 turn first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_satellite/loop/log.
 ```
 
 `my_satellite/loop/model_0.md`:

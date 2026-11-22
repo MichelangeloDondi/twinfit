@@ -113,7 +113,7 @@ pip install "twinfit[log]"
 python -c "import twinfit; print(twinfit.__version__)"
 ```
 
-Its first line, on this project: `0.1.3rc3`
+Its first line, on this project: `0.1.3rc4`
 
 ## 3. A worked project
 
@@ -262,16 +262,16 @@ Its line of what it kept, on this project: `kept: 01.py, width changes along tem
 python -m twinfit log my_nmr
 ```
 
-Its first line, on this project: `The visual log: my_nmr/loop/log.pdf, 27 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.`
+Its first line, on this project: `The visual log: my_nmr/loop/log.pdf, 29 slides, each phase of each of 2 turns first as one plot, then the equations, the effects of the terms, the curves in a row, the report and the criteria, the pictures in my_nmr/loop/log.`
 
-1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description.
-2. **The model**: each parameter's bar in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
-3. **The twin**: each parameter's `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
-4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees.
+1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description, three sweeps or six levels of a grid at most.
+2. **The model**: the bar of each of its first ten shared parameters in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
+3. **The twin**: each of its first eight shared parameters' `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
+4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees, times the root of `samples_of_the_correlation` of the phase `read` where its `correlation_of_neighbours` passes 0.3.
 5. **What the fit leaves**: the mean square of each curve's `residual` over its `noise` in `loop/residuals_K.csv`, a right model 1.
-6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json`, its excess against `where.largest_excess_on_the_twin`.
-7. **The next term**: `gain` of the phase `candidate on the twin`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
-8. **The decision**: the mean square of what the fit leaves in each cell before and after the next term, from `loop/residuals_K.csv` and the next model's, and each model's criterion in `loop/best.json`.
+6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json` names the first answer of each question, its excess is `excess` of the same answer in `where.answers`, against `where.largest_excess_on_the_twin`. Where `where.where_read_along` names a place along a setting, as on model 0 here, no place stands beyond the twin alone, and the slide reads that answer of the question changes along and its excess.
+7. **The next term**: `gain` of the phase `candidate on the twin`, in the notebook `NNN_model_K_candidate_on_the_twin.json`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
+8. **The decision**: the chi square over its degrees before and after the next term, from `loop/model_K.json` and the next model's, and on its second slide each model's `criterion`, read from its own `loop/model_K.json`, `loop/best.json` comparing them from a kept term on.
 
 ## 7. A term not asked for by the records
 

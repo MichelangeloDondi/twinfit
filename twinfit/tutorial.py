@@ -34,20 +34,22 @@ PAGE = HERE / "TUTORIAL.md"
 
 CAPTIONS = {          # what the reader takes from each slide of the visual log, in italics under it, the style of the public repository of the analysis (his message 432). No number: a slide drawn again leaves its caption true. Each phase first as one plot, row M600, his messages 586 to 588
     "00_1_records.png": "The four spectra of the project as recorded, one plot along the temperature.",
-    "00_2a_model.png": "The first model and the bar of each of its parameters, in per cent of its value.",
+    "00_2a_model.png": "The first model and the bar of each of its shared parameters, in per cent of its value.",
     "00_2b_model.png": "The equation of the first model, one Lorentzian line of one width for all four spectra.",
     "00_2c_model.png": "What each term of the first model does to the curves.",
     "00_3_twin.png": "On synthetic sets drawn from its fit, the first model returns what drew them: each parameter stands inside the white bands.",
     "00_4a_fit.png": "The joint fit of the first model through the four spectra, and above them what it leaves, in noises.",
     "00_4b_fit.png": "The four spectra in a row, in the order of their sweep, each over its height with what the first model leaves under it.",
     "00_5_residuals.png": "What the first model leaves on each spectrum, its mean square over the noise, along the temperature.",
-    "00_6a_where.png": "Where the residuals of the first model leave the twin's band, shaded on them.",
-    "00_6b_where.png": "The answers of the first report beyond the twin, ordered by their excess, and the six proposals.",
+    "00_6a_where.png": "The place where the residuals of the first model change along the temperature beyond the twin, shaded on them, the spectra in the order of the temperature.",
+    "00_6b2_where.png": "The proposals of the first report for the experiment that the slide before had no room for, whole.",
+    "01_6b2_where.png": "The proposals of the report of model 1 for the experiment that the slide before had no room for, whole.",
+    "00_6b_where.png": "The answers of the first report beyond the twin, ordered by their excess, and its proposals, those for the experiment that it has no room for standing on the page after it.",
     "00_7_next_term.png": "The width along the temperature, planted on the twin and found again: its gain on the records beside the twin's.",
     "00_8a_decision.png": "What the width along the temperature changes: what the fit leaves before it in grey, after it in colour.",
     "00_8b_decision.png": "The width along the temperature lowers the criterion and is kept.",
     "01_1_records.png": "The same four spectra, read by model 1.",
-    "01_2a_model.png": "Model 1 and the bar of each of its parameters.",
+    "01_2a_model.png": "Model 1 and the bar of each of its shared parameters.",
     "01_2b_model.png": "The equation of model 1, the width of the first model times one plus a times z.",
     "01_2c_model.png": "What the new term does: the curves wider on the hot records and narrower on the cold ones.",
     "01_3_twin.png": "The twin admits model 1, as a term is kept only where it does.",
@@ -427,7 +429,8 @@ When the noise fails its check, the coverage and the bias on the twin are marked
     _claim("log.pdf" in drawn, "the command of the visual log names the file of its slides")
     from .log import log as draw_log
     slides = draw_log(folder / "my_nmr", dpi=60)          # the visual log of this run, his message 309: the loop drew it at 110 dots an inch, and the tutorial carries it smaller
-    _claim(len(slides) == 2 * 13 + 1 and slides[-1].name == "99_best.png", "the visual log holds each phase of each of the two turns as one plot first, three slides for the model and two for the fit, where to search and the decision, and the best model")
+    kinds = {(p.name[:2], re.sub(r"(?<=[a-z])\d+$", "", p.name.split("_")[1])) for p in slides if p.name != "99_best.png"}          # a kind of slide, its pages one: the proposals for the experiment take a page of their own (the slides read against their words, 0.1.3rc4)
+    _claim(len(kinds) == 2 * 13 and slides[-1].name == "99_best.png", "the visual log holds each phase of each of the two turns as one plot first, thirteen kinds of slide a turn, three for the model and two for the fit, where to search and the decision, and the best model")
     import numpy as np
     eq = json.loads((folder / "my_nmr/loop/equations.json").read_text())
     temps = [r["settings"]["temperature"] for r in _json(folder, "my_nmr/loop/best.json")["own_parameters"]]
@@ -435,7 +438,7 @@ When the noise fails its check, the coverage and the bias on the twin are marked
         hot, cold = held[f"e0_{temps.index(max(temps))}"], held[f"e0_{temps.index(min(temps))}"]
     _claim(eq[1]["formula"] == r"$p \rightarrow p\,(1 + a\,z)$" and eq[1]["effects"][0]["value"] > 0 and hot.min() > -1e-12 and hot.max() > 0 and cold.max() < 1e-12 and cold.min() < 0,
            "the term of model 1 makes the hot records wider and the cold ones narrower, its formula one plus a times z")
-    say(f"""The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives each of the eight phases of its turn first as one plot, with one line of words and one number to check, and beside four of them the slides that say more: thirteen slides a model. They are the curves as recorded, the model with the bar of each parameter, its equation and what each term does to the curves, its twin, the joint fit with what it leaves above it and then the curves in a row, what the fit leaves along the setting, where the residuals leave the twin's band and the answers of the report with the six proposals, the next term tried on the twin, and the decision, what the term changes and each model's criterion. At the end comes the best model with the parts of its bars.
+    say(f"""The loop drew its visual log too, `my_nmr/loop/log.pdf`, and `python -m twinfit log my_nmr` draws it again from what the run left, fitting nothing. For each model it gives each of the eight phases of its turn first as one plot, with one line of words and, where the phase made one, one number to check, and beside four of them the slides that say more: thirteen kinds of slide a model, a kind on more than one page where its curves, its terms or its proposals ask it. They are the curves as recorded, the model with the bar of its first ten shared parameters, its equation and what each term does to the curves, its twin, the joint fit with what it leaves above it and then the curves in a row, what the fit leaves along the setting, where the residuals leave the twin's band and the answers of the report with the six proposals, the next term tried on the twin, and the decision, what the term changes and each model's criterion. A name longer than its place is cut at a word and ends in ..., and `loop/equations.json` and `loop/best.md` hold it whole. At the end comes the best model with the parts of its bars.
 
 Here are its {len(slides)} slides, model 0 and then model 1. On the third slide of model 1 the equation reads the width of the first model times one plus a times z, z the temperature in standard deviations from its mean. The fourth shows what that term does: the fitted curves less the same model with a at zero, wider on the hot records and narrower on the cold ones.""")
     out.append("\n\n".join((f"![model {int(p.name[:2])}, phase {p.name.split('_')[1]}](examples/figures/log_{p.name})" if p.name != "99_best.png" else f"![the best model](examples/figures/log_{p.name})") + (f"\n\n*{CAPTIONS[p.name]}*" if p.name in CAPTIONS else "") for p in slides))
@@ -450,16 +453,16 @@ Here are its {len(slides)} slides, model 0 and then model 1. On the third slide 
     _claim("per_cent_of_its_value" in next(iter(book["identify"]["parameters"].values())) and "correlations" in book["identify"] and {"bias_over_spread", "spread_over_bound", "coverage"} <= set(next(iter(book["twin"]["admission"]["parameters"].values())))
            and {"on_the_records", "mean", "scatter"} <= set(book["candidate_on_the_twin"]["gain"]) and {"chi_square", "degrees_of_freedom"} <= set(m0) and {"first_of_each_question", "largest_excess_on_the_twin"} <= set(m0["where"]),
            "each number of the eight plotted phases stands in the run's files under the key that the list names")          # row M600: the slide for people and the line for an agent give the same number
-    say("""Each phase's first slide holds one number to check, and here is where the run keeps it, `K` the model and the notebook `my_nmr/loop/notebook/NNN_model_K_PHASE.json`:
+    say("""Each phase's first slide holds one number to check where its phase made one, and here is where the run keeps it, `K` the model and the notebook `my_nmr/loop/notebook/NNN_model_K_PHASE.json`. Where a model leaves nothing beyond its twin, as model 1 here, the slide of phase 6 says so in its title with no excess, and on the last model of a run, model 1 here too, the slides of phases 7 and 8 say in words that no next term was tried, or that the term tried was refused and why, and that no model came after:
 
-1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description.
-2. **The model**: each parameter's bar in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
-3. **The twin**: each parameter's `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
-4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees.
+1. **The curves**: the curves and their samples, the rows of `loop/residuals_K.csv`, one plot a sweep of the description, three sweeps or six levels of a grid at most.
+2. **The model**: the bar of each of its first ten shared parameters in per cent of its value, `per_cent_of_its_value` of the phase `identify`, and the largest of its `correlations`.
+3. **The twin**: each of its first eight shared parameters' `bias_over_spread`, `spread_over_bound` and `coverage` against the `bands` of the rule, under `admission` of the phase `twin`.
+4. **The fit**: `chi_square` over `degrees_of_freedom` of `loop/model_K.json`, a right model 1 within 1.96 times the root of 2 over the degrees, times the root of `samples_of_the_correlation` of the phase `read` where its `correlation_of_neighbours` passes 0.3.
 5. **What the fit leaves**: the mean square of each curve's `residual` over its `noise` in `loop/residuals_K.csv`, a right model 1.
-6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json`, its excess against `where.largest_excess_on_the_twin`.
-7. **The next term**: `gain` of the phase `candidate on the twin`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
-8. **The decision**: the mean square of what the fit leaves in each cell before and after the next term, from `loop/residuals_K.csv` and the next model's, and each model's criterion in `loop/best.json`.""")
+6. **Where to search**: `where.first_of_each_question` of `loop/model_K.json` names the first answer of each question, its excess is `excess` of the same answer in `where.answers`, against `where.largest_excess_on_the_twin`. Where `where.where_read_along` names a place along a setting, as on model 0 here, no place stands beyond the twin alone, and the slide reads that answer of the question changes along and its excess.
+7. **The next term**: `gain` of the phase `candidate on the twin`, in the notebook `NNN_model_K_candidate_on_the_twin.json`, `on_the_records` beside its `mean` and `scatter` on the twin's sets.
+8. **The decision**: the chi square over its degrees before and after the next term, from `loop/model_K.json` and the next model's, and on its second slide each model's `criterion`, read from its own `loop/model_K.json`, `loop/best.json` comparing them from a kept term on.""")
     say("""## 7. A term not asked for by the records
 
 The loop is not a machine that keeps whatever it is given. Here is a term that no answer of the report points to, a ripple along the abscissa:""")

@@ -1,26 +1,29 @@
-"""The visual log of a run of the loop: for each model that the loop reached, one slide for each of the eight phases of
-its turn, with the equation of the model and the effect of each of its terms drawn on the curves, and the best model
-at the end with the five parts of each bar. The owner's message 309: "show clearly also the equations used and the
+"""The visual log of a run of the loop: for each model that the loop reached, each of the eight phases of its turn first
+as one plot, row M600, then beside four of them the older slides, the equation of the model and the effect of each of its
+terms, every curve in a row, the answers of the report and each model's criterion, thirteen kinds of slide a model in
+`SLIDES`, a kind on more than one page where its curves, its terms or its proposals ask
+it, and the best model at the end with the
+parts of the bar of each of its first ten shared parameters that have a size. The owner's message 309: "show clearly also the equations used and the
 effects of the terms of the models, in each turn, with at least a visual log slide for each phase".
 
     python -m twinfit loop DIR
     python -m twinfit log DIR
 
-It reads only what the run left in DIR/loop: equations.json and effects_K.npz, the notebook of each phase, residuals_K.csv,
-model_K.json and best.json. It fits nothing, so it takes seconds. It writes DIR/loop/log/, one picture a slide,
+It reads what the run left in DIR/loop: equations.json and effects_K.npz, the notebook of each phase, residuals_K.csv,
+model_K.json and best.json, beside DIR/description.toml for the settings and DIR/terms/ for the files of the terms. It fits nothing, so it takes seconds. It writes DIR/loop/log/, one picture a slide,
 DIR/loop/log.pdf with every slide in order, and DIR/loop/log.md, which lists the slides with the one sentence that each
 shows. A run made before 0.1.0rc8 left no equations.json: its slides say so where the equation and the effects stand.
 
 The phases of a turn are those of the notebook, in its order:
 
     1 the records            what was read: the curves, how many, how many samples
-    2 the model              its equation, term by term, its parameters with their bars, and what each term does to the curves
+    2 the model              its shared parameters with their bars, then its equation, term by term, and what each term does
     3 the twin               whether synthetic sets of the fitted model give back what made them, so that the fit may be read
-    4 the fit                each curve with the model, and what the model leaves in units of the noise
-    5 what the fit leaves    the residuals against the noise: their spread, and their spread along the height of the curve
-    6 where to search        the answers of the report beyond the twin, and the three proposals for the model and the experiment
+    4 the fit                the joint fit with what it leaves above it, then every curve in a row with what it leaves
+    5 what the fit leaves    the mean square of each curve's residuals over its noise, against the setting that its sweep changes
+    6 where to search        where the residuals leave the twin's band, then the answers of the report and the six proposals
     7 the next term          the term tried after this model, on synthetic sets that hold it
-    8 the decision           the criterion of each model, and whether the next term was kept or refused, and why
+    8 the decision           what the next term changes, then each model's criterion and whether the term was kept, and why
 """
 from __future__ import annotations
 
@@ -152,7 +155,7 @@ def _frame(title: str, k: int, phase: str | None, run: dict, sentence: str = "")
         where += f"  ·  phase {ORDER.index(phase) + 1} of {len(ORDER)}"
     fig.text(0.965, 0.94, where, fontsize=SMALL, color=GREY, ha="right", va="top")
     if sentence:
-        fig.text(0.035, 0.865, "\n".join(textwrap.wrap(sentence, WIDTH)[:2]), fontsize=TEXT, va="top", linespacing=1.3)
+        fig.text(0.035, 0.865, two_lines(sentence, WIDTH), fontsize=TEXT, va="top", linespacing=1.3)          # cut with its sign: two lines cut without one dropped the verdict of the best model (the slides read against their words, 0.1.3rc4)
     for j, name in enumerate(ORDER):
         x = 0.035 + j * 0.1175
         on = phase == name
@@ -163,12 +166,34 @@ def _frame(title: str, k: int, phase: str | None, run: dict, sentence: str = "")
     return fig
 
 
+def two_lines(text: str, width: int) -> str:
+    """A text on two lines of `width` characters at most, cut at a word with its sign where it is longer, shortened until
+    its two lines hold it: wrapped and then cut to two lines, a third line and its sign were dropped with no word (the
+    fourteenth reading of 0.1.3rc4)."""
+    lines = textwrap.wrap(text, width)
+    room = 2 * width
+    while len(lines) > 2 and room > 10:
+        room -= 4
+        lines = textwrap.wrap(textwrap.shorten(text, room, placeholder="..."), width)
+    return "\n".join(lines[:2])
+
+
+def _reason(why, room: int) -> str:
+    """A reason as a slide says it: cut at a word with its sign where it is long, closed by one full stop where it is not.
+    Cut at 140 characters with no mark and a full stop after it, a refused term's reason read as whole (the twelfth reading
+    of 0.1.3rc4)."""
+    said = textwrap.shorten(str(why), room, placeholder="...")
+    return said if said.endswith("...") else said.rstrip(".") + "."
+
+
 def _no_data(fig, words: str) -> None:
     fig.text(0.5, 0.45, "\n".join(textwrap.wrap(words, 80)), fontsize=TEXT, ha="center", va="center", color=GREY)          # wrapped by its characters: a long sentence ran past both edges (the blind red team of 0.1.0rc12)
 
 
 def slide_records(run: dict, k: int):
-    """Phase 1: every curve that the model reads, each in its colour, with the count of records and samples."""
+    """The slide of phase 1 before row M600: every curve that the model reads, each in its colour, with the count of
+    records and samples. The log no longer draws it: its phase 1 is `slide_curves`, `SLIDES`. It stays for a reader who
+    draws it alone, and for its tests."""
     intake = run["phases"].get(k, {}).get("intake", {})
     res = run["residuals"].get(k, {})
     fig = _frame(TITLES["intake"], k, "intake", run, f"{intake.get('records', len(res))} records, {intake.get('samples', '?')} samples, read as the description gives them."
@@ -192,10 +217,84 @@ def parameter_rows(params: dict, room: int = 30) -> list:
     return [["\n".join(textwrap.wrap(name, room)) or name, pm(v["value"], v["standard_deviation"]), f"{v['per_cent_of_its_value']:.2g} %"] for name, v in params.items()]
 
 
-def _height_of(j: int, row: dict) -> float:
+LETTER_LINES = 3          # the lines of letters under a formula, the last saying how many more where they do not fit: two lines left five of the first CO2 model's ten letters out with no word (the slides read against their words, 0.1.3rc4)
+LETTER_STEP = 0.03          # the height of each line of letters after the first
+TALL = ("\\frac", "\\sum", "\\int", "\\prod")          # what stands taller than a line in a formula: under a sum of HITRAN's lines its letters lay on the sum's lower limit (the slides read against their words, 0.1.3rc4)
+
+
+def _tall(formula) -> bool:
+    return any(x in str(formula or "") for x in TALL)
+
+
+def _rise(formula) -> float:
+    """The room a tall formula takes under its line: a sum's lower limit reaches lower than a fraction's denominator."""
+    return 0.045 if "\\sum" in str(formula or "") or "\\prod" in str(formula or "") else 0.025 if _tall(formula) else 0.0
+
+
+def name_labels(names: list, room: int) -> list:
+    """The names of parameters on a narrow axis, each on two lines, the first of `room` characters and the second of four
+    more at most, cut at a word, and
+    numbered by their place where two still read alike: cut on one line, "temperature exponent" read "..." and the
+    amplitudes of the fringe and of its fundamental both "amplitude..." (the slides read against their words, 0.1.3rc4)."""
+    out = []
+    for n in names:
+        lines = textwrap.wrap(n, room) or [n]
+        rest = " ".join(lines[1:])
+        if len(rest) > room + 4:          # cut: its leading article left out, where "the..." alone told the fundamental from nothing
+            rest = " ".join(rest.split()[1:]) if rest.split()[0] in ("the", "a", "an") and len(rest.split()) > 1 else rest
+        out.append(lines[0] if len(lines) == 1 else lines[0] + "\n" + textwrap.shorten(rest, room + 4, placeholder="..."))
+    return [x + (f" ({i + 1})" if out.count(x) > 1 else "") for i, x in enumerate(out)]
+
+
+def name_size(labels: list) -> int:
+    """The size of names on an axis: 15 points, the least of his rule, where names of two lines stand on more than five
+    rows, else TICK. At 20 points the two lines of neighbouring rows touched with no gap (the slides read against their
+    words, 0.1.3rc4)."""
+    return 15 if len(labels) > 5 and any("\n" in x for x in labels) else TICK
+
+
+def term_letters(run: dict | None, j: int, row: dict) -> tuple:
+    """The definitions of the letters of line j of the equation, and the file that defines them where the slide cannot:
+    the model's own `LETTERS` for the first model, a term's own letters where it gives them, the letters of the package's
+    mechanisms where the term is one of them, and none for a term that writes its own formula, whose letters only its
+    file defines. Read by patterns, the CO2 terms of HITRAN's lines called c_2 the centre of the curve and P/P_0 the
+    period (the slides read against their words, 0.1.3rc4)."""
+    formula = str(row.get("formula") or "")
+    if not formula.startswith("$"):
+        return [], None
+    if not j or row.get("letters"):
+        return [f"{a} {b}" for a, b in (row.get("letters") or {}).items()], None
+    path = Path(run["folder"]) / "terms" / str(row.get("file")) if run and run.get("folder") and row.get("file") else None
+    try:
+        own = path is not None and "formula=" in path.read_text()
+    except OSError:
+        own = False
+    if own:
+        return [], f"terms/{row['file']}"
+    return letters_list(formula, row.get("parameter")), None
+
+
+def _letter_lines(said: list, where: str | None = None) -> list:
+    """The lines of letters a slide shows, `LETTER_LINES` at most, the last naming how many letters it leaves out."""
+    lines = letters_lines(said)
+    if len(lines) <= LETTER_LINES:
+        return lines
+    m = len(said)
+    while m and len(letters_lines(said[:m], width=80)) > LETTER_LINES:
+        m -= 1
+    shown = letters_lines(said[:m], width=80)
+    shown[-1] += f", and {len(said) - m} more in {where or 'the LETTERS of its file'}"
+    return shown
+
+
+def _height_of(j: int, row: dict, run: dict | None = None) -> float:
     """The height on a slide of line j of the equation: its head, its formula, and its letters where the formula is
-    written in mathematics."""
-    return 0.055 + (0.045 if (j or row.get("letters")) and str(row.get("formula") or "").startswith("$") else 0.0) + 0.07 + (0.025 if "\\frac" in str(row.get("formula") or "") else 0.0)          # a fraction stands taller
+    written in mathematics, a line of letters more for each beyond the first."""
+    said, where = term_letters(run, j, row)
+    extra = LETTER_STEP * (max(len(_letter_lines([x for x in said if x.split(" ")[0] not in ("f", "a")])), 1) - 1)
+    lettered = (said or where) and str(row.get("formula") or "").startswith("$")
+    head = f"$f_{{{j}}}$: " + ("the first model, " + str(row.get("added", "")) if j == 0 else str(row.get("added", "")))
+    return 0.055 + 0.03 * two_lines(head, 64).count("\n") + (0.045 + extra if lettered else 0.0) + 0.07 + _rise(row.get("formula"))          # a fraction stands taller
 
 
 def slides_equation(run: dict, k: int) -> list:
@@ -219,74 +318,87 @@ def _lettered(text: str) -> int:
     return sum(1 for w in str(text).split() if any(c.isalpha() for c in w))
 
 
-def _words_of(j: int, row: dict) -> int:
-    """The words that line `j` of an equation puts on its slide: its heading, its value and the letters under it."""
-    formula = row.get("formula") or ""
-    letters = (letters_list(formula, row.get("parameter")) if j else [f"{k} {v}" for k, v in (row.get("letters") or {}).items()]) if formula.startswith("$") else []
+def _words_of(j: int, row: dict, run: dict | None = None) -> int:
+    """The words that line `j` of an equation puts on its slide: its heading, its value, the letters under it, and a
+    formula's code and its note where it has no EQUATION."""
+    letters, where = term_letters(run, j, row)
+    letters = letters + ([f"its letters as {where} defines them"] if where else [])
     head = f"f: {'the first model, ' if j == 0 else ''}{row.get('added', '')}"
     letters = [x for x in letters if x.split(" ")[0] not in ("f", "a")]          # said once by the sentence at the top of the slide
-    return _lettered(head) + (1 if j else 0) + (3 if row.get("held_at") else 0) + _lettered(" ".join(letters))
+    formula = str(row.get("formula") or "")
+    shown = (formula + " no EQUATION in its model file: its code is shown" if formula and not formula.startswith("$")
+             else "" if formula else "its formula is not written: a term of one's own takes formula= in its Mechanism")          # the code and its note count, as the slide shows them: uncounted, a slide of code reached 96 words (the slides read against their words, 0.1.3rc4)
+    return _lettered(head) + (1 if j else 0) + (3 if row.get("held_at") else 0) + _lettered(" ".join(letters)) + _lettered(shown)
 
 
 def slide_equation(run: dict, k: int, first: int = 0):
-    """Phase 2, first slide: the equation of the model, the first model and then each term on the model before it, with
+    """Phase 2, the slides of the equation that `slides_equation` draws after `slide_fixed`: the equation of the model, the
+    first model and then each term on the model before it, with
     the value of its parameter, and the parameters of the fit with their bars. From line `first` of the equation, as many
     lines as the slide holds: the table where the equation ends on this slide, else none, and `fig.rest` the line that
     the next slide starts from, or None."""
     ident = run["phases"].get(k, {}).get("identify", {})
     chain = chain_of(run, k)
-    fig = _frame(TITLES["identify"] + (", continued" if first else ""), k, "identify", run, r"Each line turns $f$, the model above it, into the next, with $a$ its parameter." if not first else "")
+    alone = bool(first) and first >= len(chain)          # its caption in log.md the parameters, the twelfth reading of 0.1.3rc4. a slide of the table alone: "continued" promised an equation it did not hold (the slides read against their words, 0.1.3rc4)
+    fig = _frame("The model: its shared parameters" if alone else TITLES["identify"] + (", continued" if first else ""), k, "identify", run, r"Each line turns $f$, the model above it, into the next, with $a$ its parameter." if not first else "")
     fig.rest = None
+    fig.caption = "the shared parameters of the fit" if alone else None
     params = ident.get("parameters", {})
     if not chain:
         _no_data(fig, "This run left no equations.json: it was made before the package wrote the equation of each model.")
     y = TOP
     table = 3 + sum(_lettered(n) for n in list(params)[:6])          # the words of the table of the parameters: its heads and the names, its numbers no words
-    box = 0.045 * (min(len(params), 6) + 1) + 0.03          # the height of the table, by its rows: a fixed box of six rows sent a table of two to a slide of its own
-    last = (y - sum(_height_of(j, row) for j, row in enumerate(chain) if j >= first) >= 0.14 + box
-            and sum(_words_of(j, row) for j, row in enumerate(chain) if j >= first) + table <= WORDS)          # the rest of the equation ends on this slide, above the table, in its room and its words
+    box = 0.045 * (sum(1 + r[0].count("\n") for r in parameter_rows(params)[:6]) + 1) + 0.03          # by its lines: a name on two lines doubles its row, and six such rows ran into the phases at the foot          # the height of the table, by its rows: a fixed box of six rows sent a table of two to a slide of its own
+    last = (y - sum(_height_of(j, row, run) for j, row in enumerate(chain) if j >= first) >= 0.14 + box
+            and sum(_words_of(j, row, run) for j, row in enumerate(chain) if j >= first) + table <= WORDS)          # the rest of the equation ends on this slide, above the table, in its room and its words
     said_letters = set() if first else {"f", "a"}          # the sentence at the top of the first slide says f and a
     spent = 0
     for j, row in enumerate(chain):
         if j < first:
             continue
-        if not last and y - _height_of(j, row) < 0.17 and j > first:          # a line that does not reach the foot goes on this slide, and the table on the next: a slide of two terms left its lower half blank (the cold round 22)
+        if not last and y - _height_of(j, row, run) < 0.17 and j > first:          # a line that does not reach the foot goes on this slide, and the table on the next: a slide of two terms left its lower half blank (the cold round 22)
             fig.rest = j
             return fig
-        if j > first and spent + _words_of(j, row) > WORDS:          # nor past the words of a slide
+        if j > first and spent + _words_of(j, row, run) > WORDS:          # nor past the words of a slide
             fig.rest = j
             return fig
-        spent += _words_of(j, row)
+        spent += _words_of(j, row, run)
         head = f"$f_{{{j}}}$: " + ("the first model, " + row["added"] if j == 0 else row["added"])
-        said = fig.text(0.04, y, head if len(head) < 64 else head[:61] + "...", fontsize=TEXT, fontweight="bold", va="top")
+        said = fig.text(0.04, y, two_lines(head, 64), fontsize=TEXT, fontweight="bold", va="top")          # on two lines with the sign of a cut: on one, no term was named (the slides read against their words, 0.1.3rc4)          # cut at a word: cut at 61 characters, "its Lorentzian wid..." named no term
         if j and (row.get("parameter") in params or row.get("held_at")):
             v = params.get(row["parameter"]) or {"value": row["held_at"][0], "standard_deviation": row["held_at"][1]}
             end = said.get_window_extent(renderer=fig.canvas.get_renderer()).x1 / fig.bbox.width          # the value beside the words, where they end
-            fig.text(end + 0.015, y, f"$a$ = {pm(v['value'], v['standard_deviation'])}" + (", held from theory" if row.get("parameter") not in params else ""), fontsize=TEXT, va="top", color=ACCENT)          # a held term's value is its theory (the cold round 22)
-        y -= 0.055
+            fig.text(end + 0.015, y - 0.03 * two_lines(head, 64).count("\n"), f"$a$ = {pm(v['value'], v['standard_deviation'])}" + (", held from theory" if row.get("parameter") not in params else ""), fontsize=TEXT, va="top", color=ACCENT)          # a held term's value is its theory (the cold round 22)
+        y -= 0.055 + 0.03 * two_lines(head, 64).count("\n")          # a second line of the head, counted by `_height_of`
         formula = row.get("formula") or ""
         if formula.startswith("$"):
             fig.text(0.07, y, formula, fontsize=TEXT + 5, va="top")          # the formula larger than its heading, as a displayed equation
-            if j or row.get("letters"):          # the letters of the first model from LETTERS of its file (the blind red team of 0.1.0rc12: h, x_0, w and b were defined nowhere)
-                y -= 0.045 + (0.025 if "\\frac" in formula else 0.0)          # under a fraction, which stands taller: its letters lay on its denominator
-                new = [x for x in (letters_list(formula, row.get("parameter")) if j else [f"{a} {b}" for a, b in row["letters"].items()]) if x.split(" ")[0] not in said_letters]          # each letter defined once on a slide (his message 311: fewer words a slide)
+            listed, where = term_letters(run, j, row)
+            if listed or where:          # the letters of the first model from LETTERS of its file (the blind red team of 0.1.0rc12: h, x_0, w and b were defined nowhere)
+                y -= 0.045 + _rise(formula)          # under a fraction, which stands taller: its letters lay on its denominator
+                new = [x for x in listed if x.split(" ")[0] not in said_letters]          # each letter defined once on a slide (his message 311: fewer words a slide)
                 said_letters.update(x.split(" ")[0] for x in new)
-                fig.text(0.07, y, "\n".join(letters_lines(new)[:2]), fontsize=SMALL, color=GREY, va="top")          # the letters of the formula on its slide, each typeset as mathematics
+                shown = _letter_lines(new, where) if new else [f"its letters as {where} defines them"] if where else []          # nothing where every letter was said above it on the slide
+                fig.text(0.07, y, "\n".join(shown), fontsize=SMALL, color=GREY, va="top")
+                y -= LETTER_STEP * max(len(shown) - 1, 0)          # a line of letters more, its room counted by `_height_of`          # the letters of the formula on its slide, each typeset as mathematics
         elif formula:          # a model file with no EQUATION: its Python line, and how to have it typeset (his message 314)
-            fig.text(0.07, y, formula if len(formula) < 52 else formula[:49] + "...", fontsize=TEXT - 2, family="monospace", va="top")
-            fig.text(0.07, y - 0.04, "no EQUATION in its model file: its code is shown", fontsize=SMALL, color=GREY, va="top")          # read as a promise that it was typeset (the blind red team of 0.1.0rc12, stumble 7)
+            code = textwrap.wrap(formula, 64, break_on_hyphens=False) or [formula]
+            shown = code[:2] if len(code) <= 2 else [code[0], textwrap.shorten(" ".join(code[1:]), 64, placeholder="...")]          # cut at 49 characters, ** 2 and + own[2] were left out under "its code is shown" (the slides read against their words, 0.1.3rc4)
+            fig.text(0.07, y, "\n".join(shown), fontsize=TEXT - 2, family="monospace", va="top")
+            fig.text(0.07, y - 0.04 - 0.035 * (len(shown) - 1), "no EQUATION in its model file: its code is shown" + (", cut" if len(code) > 2 else ""), fontsize=SMALL, color=GREY, va="top")
+            y -= 0.035 * (len(shown) - 1)          # read as a promise that it was typeset (the blind red team of 0.1.0rc12, stumble 7)
         else:
             fig.text(0.07, y, "its formula is not written: a term of one's own takes formula= in its Mechanism", fontsize=SMALL, color=GREY, va="top")
-        y -= 0.07 + (0.025 if "\\frac" in formula and not (j or row.get("letters")) else 0.0)          # a fraction stands taller, as `_height_of` counts it, its room taken above its letters where it has them
+        y -= 0.07 + (_rise(formula) if not any(term_letters(run, j, row)) else 0.0)          # a fraction stands taller, as `_height_of` counts it, its room taken above its letters where it has them
     if not last:          # the equation ended low on a slide with no room left for the table: the table on a slide of its own
         fig.rest = len(chain) if first < len(chain) else None
         if fig.rest is not None:
             return fig
-    ax = fig.add_axes([0.04, 0.12, 0.6, box])
+    ax = fig.add_axes([0.04, 0.12, 0.62, box])
     ax.axis("off")
     rows = parameter_rows(params)
     if rows:
-        tab = ax.table(cellText=rows[:6], colLabels=["parameter", "value of this turn", "bar"], loc="upper left", cellLoc="left", colLoc="left", colWidths=[0.48, 0.34, 0.18])          # the values of a turn read as results, which best.md alone quotes (the blind red team of 0.1.0rc16, mislead 11), and then a value printed under a head that said it was not quoted (the blind red team of 0.1.0rc19, mislead 1)
+        tab = ax.table(cellText=rows[:6], colLabels=["parameter", "value of this turn", "bar"], loc="upper left", cellLoc="left", colLoc="left", colWidths=[0.46, 0.39, 0.15])          # the values of a turn read as results, which best.md alone quotes (the blind red team of 0.1.0rc16, mislead 11), and then a value printed under a head that said it was not quoted (the blind red team of 0.1.0rc19, mislead 1)
         tab.auto_set_font_size(False)
         tab.set_fontsize(SMALL)
         tab.scale(1.0, 1.9)
@@ -296,6 +408,8 @@ def slide_equation(run: dict, k: int, first: int = 0):
             cell.set_edgecolor("#d0d4da")
             if r == 0:
                 cell.set_text_props(fontweight="bold")
+        if len(rows) > 6:          # the seventh parameter of the CO2 model with HITRAN's lines left the table with no word (the slides read against their words, 0.1.3rc4)
+            fig.text(0.68, 0.14, f"and {len(rows) - 6} more in loop/model_{k}.md", fontsize=SMALL, color=GREY, va="bottom")
     weak = ident.get("weakest")
     pairs = _correlated(ident.get("correlations", {}))
     told = [f"{a} and {b}" for a, b, r in pairs if abs(r) >= TOLD_APART]          # not told apart where best.md gives no bar, and correlated below: the slide said "not told apart" of two values that best.md quotes with bars (the cold round 22)
@@ -371,20 +485,23 @@ def _correlated(correlations, beyond: float = 0.9) -> list:
 
 def axis_names(run: dict) -> tuple:
     """The names of the abscissa and of the value of the curves, each with its unit, as the description gives them."""
-    p = run["problem"]
+    p = run.get("problem") or {}          # a run read without its description names its axes "abscissa" and "value"
     return (f"{p.get('abscissa', 'abscissa')}" + (f", {p['abscissa_unit']}" if p.get("abscissa_unit") else ""),
             f"{p.get('value', 'value')}" + (f", {p['value_unit']}" if p.get("value_unit") else ""))
 
 
 def slide_effects(run: dict, k: int):
-    """Phase 2, second slide: what each term of the model does to the curves at the fit, the fitted model less the same
+    """Phase 2, its last slide, after `slide_fixed` and the equation: what each term of the model does to the curves at
+    the fit, the fitted model less the same
     model with that term at zero, on every record, beside one noise of a sample. For the first model, which has no term,
     each shared parameter moved by one bar of its fit."""
     rows = next((row for row in run["equations"] if row["model"] == f"model {k}"), None)
     arrays = run["effects"].get(k)
     first = k == 0 or not rows or not rows.get("effects") or not rows.get("after")          # a term moved by one bar where at zero it leaves no curve is no first model
-    sentence = ("The first model has no term. Each panel: the curves when one of its parameters moves by one bar of its fit, less the fitted curves, on every record, beside the noise of a sample." if first else
-                "Each panel: the fitted model less the same model with that term at zero, all else held, on every record. Grey: one noise of a sample.")
+    moved = not first and any(e.get("how") not in ("at zero", "held") for e in (rows or {}).get("effects", []))          # a term whose parameter is moved by one bar and not set at zero: the speed dependence of the public CO2 lines (the slides read against their words, 0.1.3rc4)
+    sentence = ("The first model has no term. Each panel: the curves when one of its shared parameters moves by one bar of its fit, less the fitted curves, on every record. Grey: one noise, or its size in the title." if first else
+                "Each panel: the fitted model less the same model with that term at zero, or one bar off where it says one bar, all else held, on every record. Grey: one noise, or its size in the title." if moved else
+                "Each panel: the fitted model less the same model with that term at zero, all else held, on every record. Grey: one noise, or its size in the title.")
     fig = _frame("What each term does to the curves", k, "identify", run, sentence)
     if not rows or arrays is None or not rows.get("effects"):
         _no_data(fig, "This run left no effects: it was made before the package kept the effect of each term.")
@@ -396,38 +513,47 @@ def slide_effects(run: dict, k: int):
     cols = 1 if n == 1 else 2 if n <= 4 else 3
     lines = math.ceil(n / cols)
     noise = float(np.median(rows["noise"])) if rows.get("noise") else 0.0
-    w, h, left, top = 0.9 / cols, (TOP - 0.12) / lines, 0.06, TOP - 0.02
+    w, h, left, top = 0.86 / cols, (TOP - 0.12) / lines, 0.1, TOP - 0.02
+    room = {1: 60, 2: 40, 3: 26}[cols]          # the characters of a panel's title: on three columns titles of 44 ran into each other (the slides read against their words, 0.1.3rc4)
+    keyed = len(rows["records"]) <= 6          # a legend of 25 records ran off the top of the slide over its title
+    said_noise = any(noise and size.get(e["key"], 0.0) and not size.get(e["key"], 0.0) / 40 <= noise <= 5 * size.get(e["key"], 0.0) for e in shown)          # a title of four lines, the noise's size the last
     for i, e in enumerate(shown):
         c, r = i % cols, i // cols
-        ax = fig.add_axes([left + c * w + 0.03, top - (r + 1) * h + 0.05, w - 0.06, h - 0.09])
+        ax = fig.add_axes([left + c * w + 0.03, top - (r + 1) * h + 0.05, w - (0.11 if cols > 1 else 0.06), h - (0.17 if lines > 1 else 0.09) - 0.04 * bool(said_noise)])          # a line lower where a title says the noise: its fourth line met the sentence above it (the slides read against their words, 0.1.3rc4)          # room above a lower panel for a name on two lines          # room between panels for the ticks of the next: they lay on the panel before
         for j in range(len(rows["records"])):
             key = f"e{e['key']}_{j}"
             if key in arrays:
                 ax.plot(arrays[f"x{j}"], arrays[key], color=COLOURS[j % len(COLOURS)], lw=1.6, label=label_of(run, rows["records"][j], room=22))
         biggest = size.get(e["key"], 0.0)
         far = ""
-        if noise and noise <= 5 * biggest:
+        if noise and biggest / 40 <= noise <= 5 * biggest:          # a band of a hundredth of the change was a hairline that no reader saw (the slides read against their words, 0.1.3rc4)
             ax.axhspan(-noise, noise, color=GREY, alpha=0.2, lw=0)
         elif noise and biggest:
-            far = f"\none noise of a sample: {noise / biggest:.3g} times the largest change"          # under the title: inside the panel at 15 points it lay on the curves (row M583)
+            far = f"\nnoise: {noise / biggest:.2g} {'times' if noise > biggest else 'of'} the change"          # as narrow as the value above it: "one noise of a sample: 0.0105 times the largest change" ran into the next panel's title (the slides read against their words, 0.1.3rc4)          # under the title: inside the panel at 15 points it lay on the curves (row M583)
         ax.axhline(0.0, color=GREY, lw=0.8)
-        said = {"at zero": f"$a$ = {pm(e['value'], e['bar'])}", "held": f"$a$ = {pm(e['value'], e['bar'])}, held from theory"}.get(e["how"], f"{e['parameter']} + one bar, {pm(e['value'], e['bar'])}")
-        ax.set_title((e["name"] if len(e["name"]) < 44 else e["name"][:41] + "...") + "\n" + said + far, fontsize=SMALL, loc="left")
-        if i == 0:
+        moved = e["how"] not in ("at zero", "held")
+        tail = f"+ one bar, {pm(e['value'], e['bar'])}"          # whole: cut at the panel's room, "+ one bar" and its value were the words lost (the slides read against their words, 0.1.3rc4)
+        said = {"at zero": f"$a$ = {pm(e['value'], e['bar'])}", "held": f"$a$ = {pm(e['value'], e['bar'])}, held from theory"}.get(
+            e["how"], tail)
+        ax.set_title("\n".join((textwrap.wrap(e["parameter"] if moved else e["name"], room) or [""])[:1] + [textwrap.shorten(" ".join(textwrap.wrap(e["parameter"] if moved else e["name"], room)[1:]), room, placeholder="...")] * (len(textwrap.wrap(e["parameter"] if moved else e["name"], room)) > 1)) + "\n" + said + far, fontsize=SMALL, loc="left")
+        if i == 0 and keyed:
             ax.legend(fontsize=SMALL, frameon=True, loc="lower right")          # which curve is which record (review 84, minor 3)
         if r == lines - 1 or i + cols >= n:          # the names of the axes, on the lowest panel of each column and the first of each line (review 85, minor 1, and the red team of message 310, M7)
             ax.set_xlabel(axis_names(run)[0], fontsize=SMALL)
-        if c == 0:
-            ax.set_ylabel("change of the " + axis_names(run)[1], fontsize=SMALL)
         ax.tick_params(labelsize=SMALL)
+    fig.text(0.012, top - lines * h / 2, "change of the " + axis_names(run)[1], fontsize=SMALL, rotation=90, va="center", ha="left")          # one name for every row: on two rows it stood past the slide's left edge
+    if not keyed:
+        fig.text(0.965, 0.905, f"a colour a record, again after {len(COLOURS)}", fontsize=SMALL, color=GREY, ha="right", va="top")          # under the phase, clear of the names of the axes
     if len(effects) > n:
         fig.text(0.965, 0.1, f"the {n} largest of {len(effects)}", fontsize=SMALL, color=GREY, ha="right")
     return fig
 
 
 def slide_twin(run: dict, k: int):
-    """Phase 3: the admission of the fit by its twin, each parameter's bias over its spread, spread over its bar, and the
-    share of sets whose interval holds the truth, against the bands of the rule."""
+    """The slide of phase 3 before row M600: the admission of the fit by its twin, each of its first twelve shared parameters'
+    bias over its spread, spread over its bar, and the share of sets whose interval holds the truth, against the bands of
+    the rule. The log no longer draws it: its phase 3 is `slide_admitted`, `SLIDES`. It stays for a reader who draws it
+    alone, and for its tests."""
     adm = run["phases"].get(k, {}).get("twin", {}).get("admission", {})
     verdict = adm.get("admitted")
     fig = _frame(TITLES["twin"], k, "twin", run, f"Synthetic sets drawn from the fitted model, {adm.get('sets', '?')} of them, fitted again. The dots must stand in the white bands.")
@@ -475,13 +601,24 @@ def chi_said(read: dict) -> str:
     return said[:1].upper() + said[1:]
 
 
-LEVEL = 0.02          # settings within two per cent of each other are one level of a sweep: a measured temperature of 330.97 K and one of 331.02 K are one setting, his message 604
+LEVEL = 0.03          # a level of a sweep spans no more than three per cent of the larger of its first value and the value that joins it, its gaps under a tenth of the largest gap between the setting's values over the run, `levels_of`: a measured temperature of 330.97 K and one of 331.02 K are one setting, his message 604, and the public CO2 line's 49.51 to 50.59 Torr, 2.1 per cent of the larger, is one pressure: at two per cent its 246 K curve stood alone, the grid was not whole and the row split its 50 Torr sweep (the slides read against their words, 0.1.3rc4)
+
+
+def correlated(run: dict, k: int) -> float:
+    """The samples over which the neighbouring residuals of model k correlate, as `loop.chi_bar` reads them from the phase
+    read, where their correlation passes 0.3, else 1: the band of a right model of independent samples, times its root,
+    is that of a right model whose noise correlates as these residuals do. The slides of the fit and of what it leaves
+    drew the band of independent samples alone, 1.96 standard deviations of 0.020, 0.04, where `chi_said` gave one
+    standard deviation of 0.28 for samples that correlate over 192, so 0.55 at 1.96 (the eighth reading of 0.1.3rc4)."""
+    read = (run.get("phases") or {}).get(k, {}).get("read", {})          # a run read without its notebook has no phases
+    rho, span = read.get("correlation_of_neighbours"), read.get("samples_of_the_correlation")
+    return float(span) if isinstance(rho, (int, float)) and abs(rho) > 0.3 and isinstance(span, (int, float)) and span > 1 else 1.0
 
 
 def levels_of(values) -> dict:
     """Each value of a setting mapped to its level. Two values are one level where their gap is under a tenth of the
     largest gap between the values, so small against the steps of the sweep itself, and the level spans no more than
-    LEVEL of its first value. So the jitter of a measured setting, 330.97 K and 331.02 K, is one level, and a fine
+    LEVEL of the larger of its first value and the value that joins it. So the jitter of a measured setting, 330.97 K and 331.02 K, is one level, and a fine
     sweep in steps of 3 K is thirty (review 265, moderate 1: a gap judged against LEVEL alone, value by value, chained
     them into one). The level is named by the median of its values."""
     ordered = sorted(set(values))
@@ -506,7 +643,9 @@ def crowding(numeric: dict, level: dict, keys: list) -> dict:
 
 def sweeps_of(run: dict, curves: list) -> list:
     """The curves in sweeps, row M583 (the owner's messages 118, 135, 142 and 149: "each sweep in one plot"): a sweep is
-    the curves that share every numeric setting of the description but one, ordered along that one, as (the setting, the
+    the curves that share every numeric setting of the description but one, each setting read within its level, `levels_of`:
+    values one level where their gap is under a tenth of the largest gap of the setting and the level spans no more than
+    three per cent of the larger of its first value and the value that joins it, ordered along that one, as (the setting, the
     settings that are fixed, the curves). A curve may stand in two sweeps, as the corner of an L of settings does. Where no
     setting varies, or one alone, every curve is one sweep, and a curve that shares no sweep stands alone in its own."""
     numeric = {c: {k: v for k, v in run["settings"].get(c, {}).items() if isinstance(v, (int, float))} for c in curves}
@@ -535,9 +674,13 @@ def sweeps_of(run: dict, curves: list) -> list:
 def in_a_row(run: dict, curves: list) -> list:
     """The curves in the order of the owner's message 118, for any sweeps: "start from left with 70C-225mW, then increase
     temperature up to 130C-225mW, then decrease power down to 130C-25mW". Along each sweep from its far end to the curve
-    that it shares with the next, then along the next away from it, each curve once and the curves of no sweep after."""
+    that it shares with the next, then along the next away from it, each curve once and the curves of no sweep after.
+    Where sweeps cross, a curve stands in the first sweep that reaches it, and a later sweep shows only its curves not yet
+    shown. In a full grid of two settings the row runs along the sweeps of one setting, each whole (the slides read
+    against their words, 0.1.3rc4)."""
+    sweeps = sweeps_of(run, curves)
     out = []
-    for along, _, members in reversed(sweeps_of(run, curves)):
+    for along, _, members in reversed(sweeps):
         if not along or len(members) < 2:
             continue
         if out and members[-1] in out and members[0] not in out:          # the next sweep starts where the last ended, at the curve they share
@@ -573,14 +716,40 @@ def _cells(x, values, n: int = 60) -> tuple:
 
 def _strip(ax, x, z, colour, reach: float, n: int = 60) -> None:
     """What the fit leaves on one curve over its noise, summed in `n` cells of the abscissa and divided by the root of
-    their count, so that each bar has a scatter of one noise on a right model and stands inside the grey band of 1.96 on
-    19 cells of 20 (the toy's strips, the owner's message 118)."""
+    their count, so that each bar has a scatter of one noise on a right model of independent noise and stands inside the
+    grey band of 1.96 on 19 cells of 20 (the toy's strips, the owner's message 118)."""
     middle, mean, count = _cells(x, z, n)
     ax.axhspan(-1.96, 1.96, color=GREY, alpha=0.18, lw=0)
     ax.bar(middle, mean * np.sqrt(count), width=(x.max() - x.min()) / n, color=colour, lw=0)
     ax.axhline(0.0, color=GREY, lw=0.8)
-    ax.set_ylim(-reach, reach)
+    _seen(ax, reach)
     ax.tick_params(labelbottom=False, labelsize=SMALL)
+
+
+SEEN = 20.0          # past this many noises an axis turns to symlog, linear within 1.96 and logarithms past it, as the slide of where does: on axes of 75 to 14 000 noises the band of a right model, 1.96, was a hairline (the slides read against their words, 0.1.3rc4)
+
+
+def _seen(ax, reach: float, low: float | None = None, axis: str = "y", linthresh: float = 1.96) -> None:
+    """An axis on which the band of a right model can be seen: where its reach passes `SEEN` noises, symlog, linear
+    within `linthresh`, 1.96 for noises, and a scale of logarithms past it, which the slides say as "log past 2". Else
+    linear."""
+    top = max(abs(reach), abs(low if low is not None else reach))
+    if top > SEEN:
+        from matplotlib.ticker import FixedLocator, FuncFormatter
+        (ax.set_yscale if axis == "y" else ax.set_xscale)("symlog", linthresh=linthresh, linscale=0.6)
+        mark = 10.0 ** math.floor(math.log10(top))
+        line = ax.yaxis if axis == "y" else ax.xaxis
+        box = ax.get_position()
+        short = (box.height * ax.figure.get_figheight() if axis == "y" else box.width * ax.figure.get_figwidth()) * 72 < 110          # an axis under 110 points: 1.96 touched 10 on the strips of the row of curves
+        line.set_major_locator(FixedLocator([-mark, 0.0, linthresh] + [mark] * (not bool(short))))          # four ticks, three on a short axis: a symlog axis gave six, and 1 and -1 lay on one another
+        line.set_major_formatter(FuncFormatter(lambda v, _: "" if v == 0 else f"{v:g}"))          # the edge of the band named: between 0 and 100 it read as 25 and not 1.96 (the slides read against their words, 0.1.3rc4)
+    (ax.set_ylim if axis == "y" else ax.set_xlim)(-reach if low is None else low, reach)
+
+
+def _logged(label: str, reach: float) -> str:
+    """The name of an axis of `_seen`, with its scale where it turns to logarithms: the band of 1.96 read as 5 to 25 against
+    ticks of 10 and 100 where nothing said so (the slides read against their words, 0.1.3rc4)."""
+    return label + ", log past 2" if abs(reach) > SEEN else label
 
 
 def _reach(arrays) -> float:
@@ -597,26 +766,32 @@ def slide_row(run: dict, k: int):
     from matplotlib.ticker import MaxNLocator          # matplotlib is asked only by the log
     res = run["residuals"].get(k, {})
     fig = _frame(TITLES["fit"] + ": the curves in a row", k, "fit", run,
-                 "Each curve with its fit, in the order of its sweeps, its base off and over its height. Under it what the fit leaves, over the noise and summed in cells: inside the grey band on a right model.")
+                 "Each curve with its fit, once, along its sweeps, a curve of two sweeps in the first, base off, over its height. Under it what the fit leaves in noises, summed in cells: " + ("grey, a right model in white noise." if correlated(run, k) > 1 else "inside the grey band on a right model."))
     if not res:
         _no_data(fig, "The run kept no residuals of this model.")
         return fig
     curves = in_a_row(run, list(res))
+    lengths = {len(members) for along, _, members in sweeps_of(run, curves) if along and len(members) > 1}
+    row = next(iter(lengths)) if len(lengths) == 1 and next(iter(lengths)) <= 10 and len(curves) > 10 else 0          # the sweeps of a grid, all of one length: a page of whole sweeps, where pages of nine split a sweep of five across two (the slides read against their words, 0.1.3rc4)
     n_pages = max(math.ceil(len(curves) / 10), 1)          # never a division by nought (review 265)
     size = math.ceil(len(curves) / n_pages)          # pages of equal size, ten panels at most: the rest were left to the report, fifteen of the twenty five public CO2 curves, his message 604
+    if row:
+        size = row * (10 // row)
+        n_pages = math.ceil(len(curves) / size)
     figs = []
     for page_n, start_at in enumerate(range(0, len(curves), size)):
         shown = curves[start_at:start_at + size]
         if n_pages > 1:          # which curves, in the title: under the plots the words met the name of the project
             plt.close(fig)
             fig = _frame(TITLES["fit"] + f": the curves in a row, {start_at + 1} to {start_at + len(shown)} of {len(curves)}", k, "fit", run,
-                         "Each curve with its fit, in the order of its sweeps, its base off and over its height. Under it what the fit leaves, over the noise and summed in cells: inside the grey band on a right model.")
+                         "Each curve with its fit, once, along its sweeps, a curve of two sweeps in the first, base off, over its height. Under it what the fit leaves in noises, summed in cells: " + ("grey, a right model in white noise." if correlated(run, k) > 1 else "inside the grey band on a right model."))
         set_on = {c: _set_on(res[c]) for c in shown}
         reach = _reach([(x, z) for x, _, _, z in set_on.values()])
         w = 0.9 / len(shown)
         for i, curve in enumerate(shown):
             x, y, f, z = set_on[curve]
-            colour = COLOURS[i % len(COLOURS)]
+            shades = [c for c in COLOURS if c != "#000000"]          # not black under the black fit (the slides read against their words, 0.1.3rc4)
+            colour = shades[i % len(shades)]
             top = fig.add_axes([0.07 + i * w, 0.36, w - 0.03, TOP - 0.42])          # apart by 0.03: the last tick of a panel met the first of the next
             low = fig.add_axes([0.07 + i * w, 0.15, w - 0.03, 0.17], sharex=top)
             middle, mean, _ = _cells(x, y)
@@ -626,18 +801,27 @@ def slide_row(run: dict, k: int):
             top.set_title(label_of(run, curve, room=24).replace(", ", "\n"), fontsize=SMALL, loc="left")          # every setting, one a line: "750 Torr" alone named five curves of a grid
             top.tick_params(labelbottom=False, labelleft=i == 0, labelsize=SMALL)
             _strip(low, x, z, colour, reach)
-            low.tick_params(labelbottom=len(shown) <= 6, labelleft=i == 0)          # the span of each curve under it where there is room: on ten narrow plots the numbers ran together
+            low.tick_params(labelbottom=True, labelleft=i == 0)
             low.xaxis.set_major_locator(MaxNLocator(2))
+            if len(shown) > 6:          # two numbers a curve, 0 and its far end: on ten narrow plots three ran together, and none left the unit of the name with no scale (the slides read against their words, 0.1.3rc4)
+                lo, hi = low.get_xlim()
+                ends = [v for v in MaxNLocator(3).tick_values(lo, hi) if lo <= v <= hi]
+                far = max(ends, key=abs, default=None)
+                low.set_xticks([0.0, far] if far and lo <= 0.0 <= hi else [far] if far else [])
+                low.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: "" if v == 0 else f"{v:g}"))          # the far end alone in numbers, 0 the extremum that the name of the axis says: "-0.15 0" read "-0.150" (the eighth reading of the slides of 0.1.3rc4)
             if i == 0:
                 top.set_ylabel("over its height", fontsize=SMALL)
-                low.set_ylabel("in noise", fontsize=SMALL)
+                low.set_ylabel(_logged("in noise", reach), fontsize=SMALL)
+        fig.text(0.5, 0.075, f"{axis_names(run)[0]}, from each curve's extremum", fontsize=SMALL, ha="center", va="bottom")          # the abscissa named: on pages of narrow plots it had no name and no numbers (the slides read against their words, 0.1.3rc4)
         figs.append(fig)
     return figs[0] if len(figs) == 1 else figs
 
 def slide_fit(run: dict, k: int):
-    """Phase 4, the other kinds of slide of the owner's message 118: each sweep alone on a slide of its own (`sweeps_of`),
-    its curves together on one axis, each set on the others (`_set_on`), and above them a strip for each curve of what
-    the fit leaves, "the 4 and 5 subplots of the residuals above them". Returns one slide, or a list of one a sweep."""
+    """The slides of phase 4 before row M600, the other kinds of slide of the owner's message 118: each sweep alone on a
+    slide of its own (`sweeps_of`), its curves together on one axis, each set on the others (`_set_on`), and above them a
+    strip for each curve of what the fit leaves. The log no longer draws them: its phase 4 is `slide_fitted` and
+    `slide_row`, `SLIDES`. They stay for a reader who draws one sweep alone, and for their tests. Returns one slide, or a
+    list of one a sweep."""
     res = run["residuals"].get(k, {})
     read = run["phases"].get(k, {}).get("read", {})
     said = chi_said(read)
@@ -683,8 +867,9 @@ def slide_fit(run: dict, k: int):
 
 
 def slide_read(run: dict, k: int):
-    """Phase 5: the residuals over the noise of each sample against the normal law, and the mean of their square in
-    bands of the height of the curve, which is 1 where the noise is the one stated."""
+    """The slide of phase 5 before row M600: the residuals over the noise of each sample against the normal law, and the
+    mean of their square in bands of the height of the curve, which is 1 where the noise is the one stated. The log no
+    longer draws it: its phase 5 is `slide_left`, `SLIDES`. It stays for a reader who draws it alone, and for its tests."""
     res = run["residuals"].get(k, {})
     table = run["tables"].get(k, {})
     fig = _frame(TITLES["read"], k, "read", run, "Left: what the fit leaves over the noise, against the normal law. Right: its mean square along the height of the curve, 1 where the model and the noise are right, above 1 where either is wrong.")          # above 1 read as a wrong noise alone (the blind red team of 0.1.0rc12)
@@ -721,19 +906,29 @@ def _no_data_in(ax, words: str) -> None:
 def answer_label(a: dict, room: int = 40, lines: int = 2) -> str:
     """An answer of the report as the slide of where to search names its bar: its question and its answer on two lines
     of `room` characters at most, cut only past them. 0.1.0rc10 cut each at 36 characters, so that "a Gaussian width of
-    0.03 widths" and "of 0.3 widths" read alike (review 85 of the repository it is made in, minor 1)."""
+    0.03 widths" and "of 0.3 widths" read alike (review 85 of the repository it is made in, minor 1). Where the whole does
+    not fit and the answer names a family before a colon, the family alone, whole: its statistic after the colon was the
+    words cut away (the slides read against their words, 0.1.3rc4)."""
     said = textwrap.wrap(f"{a['question']}: {a['answer']}", room)
+    if len(said) > lines and ": " in str(a["answer"]):
+        said = textwrap.wrap(f"{a['question']}: {str(a['answer']).split(': ', 1)[0]}", room)
     return "\n".join(said[:lines]) + ("..." if len(said) > lines else "")
 
 
 def slide_where(run: dict, k: int):
     """Phase 6: the answers of the report, each with its excess, the line that a right model passes on 5 sets of 100,
-    and the three proposals for the model and the three for the experiment."""
+    and the three proposals for the model and the three for the experiment, those for the experiment that the slide has
+    no room for whole on a page of their own after it: under the proposals for the model and their term files, no slide
+    of eight read had room for one (the slides read against their words, 0.1.3rc4). Returns one slide, or two."""
     table = run["tables"].get(k, {})
     where = table.get("where", {})
-    answers = sorted([a for a in where.get("answers", []) if isinstance(a.get("excess"), (int, float)) and math.isfinite(a["excess"])], key=lambda a: -a["excess"])[:4]          # four of three lines at 15 points, the rest in the report: eight of two lines of 40 characters left the slide at its left edge, and five of three lines touched (row M583)
+    every = sorted([a for a in where.get("answers", []) if isinstance(a.get("excess"), (int, float)) and math.isfinite(a["excess"])], key=lambda a: -a["excess"])
+    places, setting, _, _, _ = place_read(table)
+    key = (("changes along", f"{places[0]} along {setting}") if setting else ("where", places[0])) if places else None
+    pick = next((a for a in every if key and (a.get("question"), a.get("answer")) == key), None)          # the answer whose excess slide 6a writes: it stood on none of these bars (the slides read against their words, 0.1.3rc4)
+    answers = every[:4] if pick is None or pick in every[:4] else every[:3] + [pick]          # four of three lines at 15 points, the rest in the report: eight of two lines of 40 characters left the slide at its left edge, and five of three lines touched (row M583)
     line = where.get("largest_excess_on_the_twin")
-    fig = _frame(TITLES["propose"], k, "propose", run, "The answers of the report, the largest first. The vertical line: the largest excess of all the answers together that a right model passes on 5 sets of 100. Blue: beyond it. Grey: within it.")          # the colours were said nowhere (the cold round 22)
+    fig = _frame(TITLES["propose"], k, "propose", run, (f"The {len(answers)} largest of the report's {len(every)} answers, the largest first. " if answers == every[:len(answers)] else f"The 3 largest of the report's {len(every)} answers, then the place of the slide before, rank {every.index(answers[-1]) + 1}. ") + "The line: the excess a right model passes on 5 sets of 100, all answers together. Blue beyond it, grey within.")          # the colours were said nowhere (the cold round 22)
     if not answers:
         _no_data(fig, "The run kept no report of this model.")
         return fig
@@ -747,8 +942,8 @@ def slide_where(run: dict, k: int):
     from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter          # matplotlib is asked only by the log
     ax.set_xscale("log")
     decades = math.log10(max(max(values), line or 1.0) / max(min(min(values), line or math.inf), 1e-2))          # the span of the axis, the red line among it: bars that all stood near 10 000 beside a line at 2 read as half a decade, and their ticks ran together again (the blind red team of 0.1.0rc13)
-    ax.xaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0) if decades <= 2.0 else (1.0,)))          # 1, 2 and 5 of each decade over two decades at most: over four, "5 1020 50 100200" ran together (the blind red team of 0.1.0rc12)
-    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+    ax.xaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0)) if decades <= 2.0 else LogLocator(base=10, subs=(1.0,), numticks=4))          # four decades at most: "10 100 1000100001000000" ran together over five          # 1, 2 and 5 of each decade over two decades at most: over four, "5 1020 50 100200" ran together (the blind red team of 0.1.0rc12)
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}" if decades <= 2.0 else f"$10^{{{round(math.log10(v))}}}$"))          # one form on an axis: "1000100000 1e+071e+09" mixed two
     ax.xaxis.set_minor_formatter(NullFormatter())          # the labels of the minor ticks lay on one another at 30 sets (the cold round 22)
     if line:
         ax.axvline(line, color=BAD, lw=2)
@@ -763,22 +958,31 @@ def slide_where(run: dict, k: int):
     beyond = any(a.get("beyond_the_twin") for a in answers)
     heading = ("For the model, by each term's fall of chi square, not by the bars" if beyond else "For the model, though none is asked")          # the bars put the core first and this list the flanks, with no word that they rank two things (the fresh red team of 0.1.0rc20, mislead 1)
     y = put(0.58, TOP, "\n".join(textwrap.wrap(heading, 38)), fontsize=SMALL + 1, fontweight="bold") - 0.015          # three proposals under grey bars read as asked (the cold round 22)
-    for k, p in enumerate(props.get("for_the_model", [])[:3]):
-        y = put(0.59, y, "\n".join(textwrap.wrap(f"{k + 1}. {p.get('term', '')}", 44)[:2]), fontsize=SMALL)          # each proposal under its own words, its term file beneath where it has one (review 84, minor 3)
+    for m, p in enumerate(props.get("for_the_model", [])[:3]):          # not k, the model's number, which the page after it names (the slides read against their words, 0.1.3rc4)
+        y = put(0.59, y, "\n".join(textwrap.wrap(f"{m + 1}. {p.get('term', '')}", 44)[:2]), fontsize=SMALL)          # each proposal under its own words, its term file beneath where it has one (review 84, minor 3)
         if p.get("as_a_term_file"):
             y = put(0.61, y - 0.004, "\n".join(textwrap.wrap(p["as_a_term_file"], 40, break_on_hyphens=False)[:2]), fontsize=SMALL, family="monospace", color=GREY)          # whole, where 0.1.0rc10 cut it in a word
         y -= 0.012
     if any("width" in str(p.get("term", "")) for p in props.get("for_the_model", [])[:3]):          # three widths on one page, a parameter, the unit of the names and a deviation, and the names said none (the blind red team of 0.1.0rc14 on a fresh machine)
         y = put(0.59, y, "\n".join(textwrap.wrap("A width in these names: the full width of the fitted curves at half their height, not a parameter of model.py.", 46)), fontsize=SMALL, color=GREY) - 0.012
     y = put(0.58, y - 0.02, "For the experiment", fontsize=SMALL + 1, fontweight="bold") - 0.015
-    for p in props.get("for_the_experiment", [])[:3]:
+    experiment = props.get("for_the_experiment", [])[:3]
+    for i, p in enumerate(experiment):
         said = fig.text(0.59, y, "\n".join(textwrap.wrap(experiment_line(p), 46)), fontsize=SMALL, va="top")
-        if y - said.get_window_extent(renderer=renderer).height / fig.bbox.height < 0.13:          # by its measured height, above the name of the run and the phases at the foot: the rest are in model_K.md (row M583)
+        if y - said.get_window_extent(renderer=renderer).height / fig.bbox.height < 0.13:          # by its measured height, above the name of the run and the phases at the foot
             said.remove()
-            fig.text(0.59, y, "and more in the report of this model", fontsize=SMALL, color=GREY, va="top")
+            fig.text(0.59, y, f"{'all' if i == 0 else 'the rest'} on the next slide", fontsize=SMALL, color=GREY, va="top")
             break
         y -= said.get_window_extent(renderer=renderer).height / fig.bbox.height + 0.012          # whole: four lines at most cut the ratio that the twin measured (the cold round 22)
-    return fig
+    else:
+        return fig
+    more = _frame(TITLES["propose"] + ": for the experiment", k, "propose", run,
+                  "The proposals of the report for the experiment that the slide before had no room for, whole, with what the twin measured of each.")
+    y = TOP
+    for j, p in enumerate(experiment[i:], start=i + 1):
+        said = more.text(0.06, y, "\n".join(textwrap.wrap(f"{j}. {experiment_line(p)}", 90)), fontsize=TEXT, va="top")
+        y -= said.get_window_extent(renderer=more.canvas.get_renderer()).height / more.bbox.height + 0.03
+    return [fig, more]
 
 
 PLACE_ROWS = 6          # the curves of one slide of where, his message 604
@@ -805,10 +1009,21 @@ def width_of(x, f) -> float:
     return float(right - left) if right > left else float(x[-1] - x[0])
 
 
+def place_ticks(reach: float, tall: bool) -> list:
+    """The ticks of the top strip of slide 6a, symlog within 1.96 noises: the edge of the band always, and past 10 noises
+    the decade under the reach on both sides, its upper one only on a strip of 110 points or more. Under 10 noises the
+    two edges of the band alone: a decade of 2 printed its 2 on the 1.96 of the band's edge (the twentieth reading of
+    0.1.3rc4)."""
+    if reach < 10:
+        return [-1.96, 0.0, 1.96]
+    mark = 10.0 ** math.floor(math.log10(reach))
+    return [-mark, 0.0, 1.96] + [mark] * bool(tall)
+
+
 def place_read(table: dict) -> tuple:
     """The place where the report reads the residuals beyond the twin, as `(places, setting, excess, line, seen_by)`: the
     places that lead, tied ones among them, the setting along which the place changes where it changes along one, the
-    excess of the first place, the largest excess that a right model passes on 95 sets of 100, and the family of
+    excess of the first place, the excess that a right model passes on 5 sets of 100, the 95th percentile on the twin, and the family of
     statistics that sees most. No place where none stands beyond the twin."""
     rep = table.get("where") or {}
     first = rep.get("first_of_each_question") or {}
@@ -828,14 +1043,26 @@ def place_read(table: dict) -> tuple:
 
 def slide_place(run: dict, k: int):
     """Phase 6 as one plot, row M600: every curve's residuals over its noise, summed in cells of the distance from its
-    centre in widths of the curve and divided by the root of their count, inside the grey band that a right model fills
-    on 19 cells of 20, with the place that the report reads beyond the twin shaded, the cells beyond the band in colour,
-    and the excess of that place over the twin written on the plot with the family of statistics that saw it."""
+    centre in widths of the curve and divided by the root of their count, inside the grey band that a right model of
+    independent noise fills on 19 cells of 20, with the place that the report reads beyond the twin shaded where it is the core, the flanks or
+    the wings, a place of another kind, as the asymmetry, named in the title and left unshaded, the cells beyond the
+    band in colour, and the excess of that place over the twin written on the plot with the family of statistics that
+    sees the residuals most, the report's first answer to its question seen by, as long as the room beside the note of
+    the band holds it. Where more than six curves make a grid of more than three sweeps along one setting, `_place_grid` draws them
+    instead, one colour map a level, which shades no place and draws no grey band, the core and the flanks dotted, its
+    colours pale inside the band of a right model, and writes the excess and its line but not the family that saw it.
+    Where no place stands beyond the twin alone and the report reads one along a setting, `where_read_along`, the title
+    says that the place changes along it, the curves stand in its order, and the excess is that of the answer of the
+    question changes along (the eighth reading of 0.1.3rc4). With no place, the title says whether another answer of
+    the report stands beyond the twin. The strips are on a scale of logarithms past 2 noises, and their unit says so."""
     import matplotlib.pyplot as plt
     from .where import CORE, WINGS          # the places of the report, in widths of the curve
     res = run["residuals"].get(k, {})
     places, setting, excess, line, seen = place_read(run["tables"].get(k, {}))
-    title = f"{ORDER.index('propose') + 1}. Beyond the twin's band: {' and '.join(places)}" if places else f"{ORDER.index('propose') + 1}. The residuals stay inside the twin's band"          # short: "where the residuals leave the twin's band: the asymmetry" ran off the slide on the public CO2 lines, his 604
+    title = (f"{ORDER.index('propose') + 1}. Beyond the twin: {places[0]}, changing along {setting}" if places and setting
+             else f"{ORDER.index('propose') + 1}. Beyond the twin's band: {' and '.join(places)}") if places else (
+        f"{ORDER.index('propose') + 1}. No place beyond the twin, other answers beyond it" if any(a.get("beyond_the_twin") for a in ((run["tables"].get(k, {}).get("where") or {}).get("answers") or []))
+        else f"{ORDER.index('propose') + 1}. No answer of the report beyond its twin")          # from every answer: read from the place alone, the title said the residuals stayed inside where the shape and the noise stood beyond (the eleventh reading of 0.1.3rc4)          # short: "where the residuals leave the twin's band: the asymmetry" ran off the slide on the public CO2 lines, his 604
     fig = plt.figure(figsize=SIZE)
     fig.text(0.035, 0.95, title, fontsize=BIG, fontweight="bold", va="top")
     curves = in_a_row(run, list(res))
@@ -862,7 +1089,7 @@ def slide_place(run: dict, k: int):
         fig = fig if n == 0 else plt.figure(figsize=SIZE)
         if n:
             fig.text(0.035, 0.95, title, fontsize=BIG, fontweight="bold", va="top")
-        top, foot = 0.83, 0.19
+        top, foot = 0.83, 0.23          # room under the name of the abscissa for the family on two lines (the slides read against their words, 0.1.3rc4)
         each = (top - foot) / size          # every slide of a run at one height of row
         for i, (c, u, z) in enumerate(page):
             ax = fig.add_axes([0.2, top - (i + 1) * each, 0.73, each * 0.92])          # the scale of the top strip on its right, inside the slide
@@ -877,9 +1104,8 @@ def slide_place(run: dict, k: int):
             ax.set_xlim(-span, span)
             ax.set_yscale("symlog", linthresh=1.96, linscale=0.6)          # the band of a right model as wide as a decade beyond it: on a linear axis a misfit of 50 noises left the band a line
             ax.set_ylim(-reach, reach)
-            mark = 10.0 ** math.floor(math.log10(reach)) if reach >= 10 else 2.0
-            ax.set_yticks([-mark, 0, mark] if i == 0 else [])
-            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}"))
+            ax.set_yticks(place_ticks(reach, bool(each * fig.get_figheight() * 72 >= 110)) if i == 0 else [])          # the band's edge named: between 0 and 10 it read as 5 (the slides read against their words, 0.1.3rc4)
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: "" if v == 0 else f"{v:g}"))
             ax.yaxis.set_minor_locator(plt.NullLocator())
             ax.yaxis.tick_right()
             ax.tick_params(axis="y", labelsize=TICK)
@@ -892,12 +1118,17 @@ def slide_place(run: dict, k: int):
         if places and excess is not None and line:
             said = f"excess {excess:.0f} over the twin, a right model under {line:.1f}"          # short of the unit of the scale on its right: on the public CO2 spectra the longer line ran into it
             fig.text(0.035, 0.875, said, fontsize=LABEL, color=ACCENT, va="top")
-        seen_said = f"seen most by {seen}" if seen else ""
-        if len(seen_said) > 52:          # the family alone, without what follows its colon: a long one ran into the words on its right
-            seen_said = textwrap.shorten(seen_said.split(": ", 1)[0], 52, placeholder="...")
-        fig.text(0.035, 0.03, seen_said, fontsize=TICK, va="bottom")
-        fig.text(0.965, 0.03, f"grey: a right model, model {k}", fontsize=TICK, color=GREY, ha="right", va="bottom")
-        fig.text(0.965, 0.875, "residual in noises", fontsize=TICK, color=GREY, ha="right", va="top")          # the unit of the scale on the right of the top strip
+        note = fig.text(0.965, 0.03, f"grey: ±1.96 noises, orange past, model {k}" if correlated(run, k) > 1 else f"grey: a right model, orange past it, model {k}", fontsize=TICK, color=GREY, ha="right", va="bottom")          # the band of independent noise, where the slide of the fit widens its own, said by its size and not as a right model's (the ninth reading of 0.1.3rc4)
+        renderer = fig.canvas.get_renderer()
+        limit = note.get_window_extent(renderer=renderer).x0 / fig.bbox.width - 0.02
+        family = f"all answers seen most by {seen}" if seen and len(f"all answers seen most by {seen}") <= 64 else f"all answers seen most by {seen.split(': ', 1)[0]}" if seen else ""          # the family of all the answers, not of this place's (the slides read against their words, 0.1.3rc4)          # the family alone, without what follows its colon, where it is long
+        for room in range(len(family), 12, -2):          # as much of it as the room beside the note holds: cut at 38 characters, two families both read "the chi functions in..." (the tenth reading of 0.1.3rc4)
+            lines = textwrap.wrap(family, room)
+            said_family = fig.text(0.035, 0.03, "\n".join(lines[:1] + [textwrap.shorten(" ".join(lines[1:]), room, placeholder="...")] * (len(lines) > 1)), fontsize=TICK, va="bottom", linespacing=1.1)          # two lines: on one, two families both read "the chi functions..." (the slides read against their words, 0.1.3rc4)
+            if said_family.get_window_extent(renderer=renderer).x1 / fig.bbox.width <= limit:
+                break
+            said_family.remove()          # the band of independent noise, where the slide of the fit widens its own (the ninth reading of 0.1.3rc4)
+        fig.text(0.965, 0.875, "residual in noises, log past 2", fontsize=TICK, color=GREY, ha="right", va="top")          # its strips are symlog at every reach          # the unit of the scale on the right of the top strip
         figs.append(fig)
     return figs[0] if len(figs) == 1 else figs
 
@@ -918,7 +1149,7 @@ def panel_title(run: dict, along, fixed: dict, low: float, high: float) -> str:
 def _place_grid(run: dict, k: int, fig, sets: dict, grid: list, places: list, excess, line, seen):
     """Phase 6 for a grid of two settings, his message 605: one colour map a level of the held setting, one row a curve
     along the swept one, one column a cell of the distance from the centre in widths of the curve, coloured by what the fit
-    leaves there over the noise, red above the fit and blue below, white inside the band of a right model. Twenty five
+    leaves there over the noise, red above the fit and blue below, white at nought and pale inside the band of a right model, 1.96 either side, the colour growing on a scale of logarithms beyond it. Twenty five
     strips on five slides were still not readable at the size that a reader sees them."""
     import matplotlib.pyplot as plt
     from matplotlib.colors import SymLogNorm
@@ -965,15 +1196,17 @@ def _place_grid(run: dict, k: int, fig, sets: dict, grid: list, places: list, ex
     fig.colorbar(image, cax=bar, ticks=marks)
     bar.set_yticklabels([f"{v:g}" for v in marks])          # plain numbers: the powers of ten of a symmetric log scale were a crowd
     bar.tick_params(labelsize=TICK)
-    bar.set_ylabel("residual in noises", fontsize=TICK)
-    fig.text(0.13 + 0.36, 0.03, "distance from the centre, in widths of the curve: dotted, the core and the flanks", fontsize=LABEL, ha="center", va="bottom")
+    bar.set_ylabel("residual in noises, log past 2", fontsize=TICK)          # the colours of SymLogNorm
+    fig.text(0.13 + 0.36, 0.03, f"distance from the centre, in widths of the curve: dotted, the core and the flanks\ndrawn to {reach:.0f} widths a side, light grey: no sample", fontsize=LABEL, ha="center", va="bottom")          # the reach of the maps and their light grey said (the slides read against their words, 0.1.3rc4)
     if places and excess is not None and line:
         fig.text(0.035, 0.875, f"excess {excess:.0f} over the twin, a right model under {line:.1f}", fontsize=LABEL, color=ACCENT, va="top")
     return fig
 
 
 def plotted_sweeps(run: dict, curves: list) -> list:
-    """The sweeps of the plotted slides of row M600, three at most, as (the setting, the settings fixed, the curves in
+    """The sweeps of the plotted slides of row M600, three at most, or up to `PANELS`, six, where a grid of two settings
+    is drawn a level a plot, the curves of further levels, or of no sweep beside three, left out of those plots, and
+    drawn on `slide_row`, as (the setting, the settings fixed, the curves in
     its order): those of `sweeps_of`, and the curves of no sweep, whose settings change together, as a density with its
     temperature, along the first setting that changes among them, with the curve of another sweep that shares their
     fixed settings, the corner of an L of settings (his message 118)."""
@@ -998,8 +1231,9 @@ def plotted_sweeps(run: dict, curves: list) -> list:
     return (sweeps + [(along, fixed, members)])[:3]
 
 def slide_curves(run: dict, k: int):
-    """Phase 1 as plots, row M600: every curve as it was recorded, one plot a sweep, each curve coloured by the setting
-    that the sweep changes, the number of curves and of samples written on the plot."""
+    """Phase 1 as plots, row M600: the curves as they were recorded, one plot a sweep of `plotted_sweeps`, which draws six
+    levels of a grid or three sweeps at most and leaves the curves beyond them out, `slide_row` drawing every curve, each
+    curve coloured by the setting that the sweep changes, the number of curves and of samples written on the plot."""
     import matplotlib.pyplot as plt
     from matplotlib import cm
     res = run["residuals"].get(k, {})
@@ -1011,11 +1245,12 @@ def slide_curves(run: dict, k: int):
         return fig
     sweeps = plotted_sweeps(run, curves)
     samples = sum(len(res[c]) for c in curves)
-    fig.text(0.035, 0.875, f"{len(curves)} curves, {samples} samples", fontsize=LABEL, color=ACCENT, va="top")
+    drawn = len({c for _, _, members in sweeps for c in members})
+    fig.text(0.035, 0.875, f"{len(curves)} curves, {samples} samples" + (f", {drawn} drawn here, every one in a row in phase 4" if drawn < len(curves) else ""), fontsize=LABEL, color=ACCENT, va="top")          # a grid of 64 curves said 64 and drew 48 (the tenth reading of 0.1.3rc4)
     names = axis_names(run)
     width = 0.9 / len(sweeps)
     for i, (along, fixed, members) in enumerate(sweeps):
-        ax = fig.add_axes([0.08 + i * width, 0.16, width - 0.07, 0.62])
+        ax = fig.add_axes([0.1 + i * width, 0.16, width - 0.08, 0.62])          # at 0.08 "fluorescence, a.u." lost its first letter at the slide's left edge
         values = [run["settings"].get(c, {}).get(along) for c in members] if along else list(range(len(members)))
         low, high = min(values), max(values)
         for c, v in zip(members, values):
@@ -1025,24 +1260,33 @@ def slide_curves(run: dict, k: int):
         if i == 0:
             ax.set_ylabel(names[1], fontsize=LABEL)
         ax.tick_params(labelsize=TICK)
+        if len(sweeps) > 2:
+            from matplotlib.ticker import MaxNLocator
+            lo, hi = ax.get_xlim()
+            ends = [t for t in MaxNLocator(4).tick_values(lo, hi) if lo <= t <= hi]
+            ax.set_xticks([ends[0], ends[-1]] if len(ends) > 1 else ends)          # two ticks: three, "-0.4 0.0 0.4", still touched on five plots
+            ax.tick_params(axis="x", labelsize=15)          # at the 15 points of his rule, the least: at 20 three ticks did not fit a plot of a fifth of the slide
     fig.text(0.5, 0.03, names[0], fontsize=LABEL, ha="center", va="bottom")          # one label under the plots: two of them ran into each other
     alongs = {along for along, _, _ in sweeps if along}
     fig.text(0.965, 0.875, f"dark to light: low to high {next(iter(alongs)) if len(alongs) == 1 else 'setting'}, model {k}", fontsize=TICK, color=GREY, ha="right", va="top")
     return fig
 
 def slide_fixed(run: dict, k: int):
-    """Phase 2 as one plot, row M600: the model by its name, and each of its parameters by the bar of the joint fit in per
-    cent of its value, on a scale of powers of ten, the parameters of a bar under the value read and those above it not.
+    """Phase 2 as one plot, row M600: the model by its name, or by its first model and its terms where it has terms, and each of its first ten shared parameters by the bar of the joint
+    fit in per cent of its value, on a scale of powers of ten, the parameters of a bar under the value read and those above it not.
     Its number is the largest correlation of two parameters, which says which the curves cannot tell apart."""
     import matplotlib.pyplot as plt
     ident = run["phases"].get(k, {}).get("identify", {})
     fig = plt.figure(figsize=SIZE)
-    fig.text(0.035, 0.95, f"{ORDER.index('identify') + 1}. The model and the bar of each parameter", fontsize=BIG, fontweight="bold", va="top")
+    fig.text(0.035, 0.95, f"{ORDER.index('identify') + 1}. The model and the bar of its shared parameters", fontsize=BIG, fontweight="bold", va="top")
     params = {n: v for n, v in (ident.get("parameters") or {}).items() if isinstance(v, dict) and v.get("per_cent_of_its_value") is not None}
     if not params:
         _no_data(fig, "The run kept no parameters of this model.")
         return fig
-    fig.text(0.035, 0.875, textwrap.shorten(ident.get("model", f"model {k}"), 80, placeholder="..."), fontsize=LABEL, color=ACCENT, va="top")
+    chain = chain_of(run, k) if run.get("equations") else []
+    named = (f"the first model and {len(chain) - 1} term{'s' * (len(chain) > 2)}, the last {chain[-1].get('added', '')}" if len(chain) > 1
+             else ident.get("model", f"model {k}"))          # the terms named: the first model's long name cut at 80 characters named none of the five terms of model 5 (the slides read against their words, 0.1.3rc4)
+    fig.text(0.035, 0.875, textwrap.shorten(named, 80, placeholder="..."), fontsize=LABEL, color=ACCENT, va="top")
     names = list(params)[:10]
     shares = [max(abs(float(params[n]["per_cent_of_its_value"])), 1e-6) for n in names]
     ax = fig.add_axes([0.3, 0.2, 0.62, 0.56])
@@ -1051,10 +1295,11 @@ def slide_fixed(run: dict, k: int):
     ax.set_xscale("log")
     ax.set_xlim(min(min(shares) / 3.0, 0.01), max(max(shares) * 3.0, 300.0))
     ax.set_yticks(range(len(names)))
-    ax.set_yticklabels([textwrap.shorten(n, 22, placeholder="...") for n in names], fontsize=TICK)
+    ax.set_yticklabels(name_labels(names, 22), fontsize=name_size(name_labels(names, 22)))
     ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}"))          # 0.01 to 100, not powers of ten
     ax.set_xlabel("its bar, in per cent of its value", fontsize=LABEL)
-    ax.tick_params(labelsize=TICK)
+    ax.set_title("in the grey, under 100 per cent, green, and past it orange", fontsize=TICK, loc="left")          # the shade and the colours said above the plot, where under it they ran into the correlation (the slides read against their words, 0.1.3rc4)          # the shade and the colours said (the slides read against their words, 0.1.3rc4)
+    ax.tick_params(axis="x", labelsize=TICK)          # the x axis alone: on both, it set the names back to 20 points
     ax.invert_yaxis()
     pairs = {pair: float(r) for pair, r in (ident.get("correlations") or {}).items() if isinstance(r, (int, float))}
     if pairs:
@@ -1063,9 +1308,10 @@ def slide_fixed(run: dict, k: int):
     return fig
 
 def slide_admitted(run: dict, k: int):
-    """Phase 3 as plots, row M600: synthetic sets drawn from the fitted model and fitted again, and for each parameter
-    its bias over its spread, its spread over its bar and the share of sets whose interval holds the value that drew
-    them, each against the white band of the rule. Its number is how many parameters stand inside every band."""
+    """Phase 3 as plots, row M600: synthetic sets drawn from the fitted model and fitted again, and for each of its first
+    eight parameters its bias over its spread, its spread over its bar and the share of sets whose interval holds the
+    value that drew them, each against the white band of the rule. Its number is how many of those stand inside every
+    band."""
     import matplotlib.pyplot as plt
     adm = run["phases"].get(k, {}).get("twin", {}).get("admission", {})
     fig = plt.figure(figsize=SIZE)
@@ -1081,7 +1327,7 @@ def slide_admitted(run: dict, k: int):
             ("share of sets held", "coverage", tuple(bands.get("coverage", (0.83, 1.0))))]
     inside = {n: True for n in names}
     for i, (label, key, (lo, hi)) in enumerate(what):
-        ax = fig.add_axes([0.2 + i * 0.27, 0.16, 0.22, 0.6])
+        ax = fig.add_axes([0.25 + i * 0.255, 0.16, 0.2, 0.6])          # the names on two lines inside the slide: at 0.2 the last lost its first letters
         ys = np.arange(len(names))
         vals = [float((adm["parameters"][n] or {}).get(key, np.nan) or np.nan) for n in names]
         for n, v in zip(names, vals):
@@ -1090,7 +1336,7 @@ def slide_admitted(run: dict, k: int):
         ax.set_facecolor("#f2e3dc")
         ax.scatter(vals, ys, s=160, color=[GOOD if lo <= v <= hi else BAD for v in vals], zorder=3)
         ax.set_yticks(ys)
-        ax.set_yticklabels([textwrap.shorten(n, 14, placeholder="...") for n in names] if i == 0 else [""] * len(names), fontsize=TICK)
+        ax.set_yticklabels(name_labels(names, 14) if i == 0 else [""] * len(names), fontsize=name_size(name_labels(names, 14)))
         ax.set_title(label, fontsize=LABEL)
         span = max(hi - lo, 1e-9)
         finite = [v for v in vals if math.isfinite(v)] or [lo]
@@ -1100,27 +1346,35 @@ def slide_admitted(run: dict, k: int):
         ax.invert_yaxis()
     held = sum(inside.values())
     fig.text(0.035, 0.875, f"{held} of {len(names)} parameters inside every white band, on {adm.get('sets', '?')} synthetic sets", fontsize=LABEL, color=GOOD if held == len(names) else BAD, va="top")
+    fig.text(0.965, 0.015, "green: inside the white band, orange: outside it", fontsize=TICK, color=GREY, ha="right", va="bottom")          # the colours said (the fifteenth reading of 0.1.3rc4)
     return fig
 
 def slide_fitted(run: dict, k: int):
-    """Phase 4 as plots, row M600: each sweep's curves with the joint fit drawn through them, and above them what the fit
-    leaves on each curve over its noise, summed in cells and divided by the root of their count, inside the grey band
-    that a right model fills on 19 cells of 20. Its number is the chi square over its degrees of freedom, beside the
-    band of a right model, 1.96 times the root of 2 over the degrees."""
+    """Phase 4 as plots, row M600: the curves of each sweep of `plotted_sweeps`, six levels of a grid or three sweeps at
+    most, with the joint fit drawn through them, and above them what the fit leaves on each over its noise, summed in cells and divided by the root of their count, inside the grey band
+    that a right model of independent noise fills on 19 cells of 20. Its number is the chi square over its degrees of
+    freedom, beside the band of a right model, 1.96 times the root of 2 over the degrees, times the root of the samples
+    over which neighbouring residuals correlate where they do, `correlated`: 1.96 of the standard deviations that
+    `chi_said` gives."""
     import matplotlib.pyplot as plt
     from matplotlib import cm
     res = run["residuals"].get(k, {})
     curves = list(res)
     table = run["tables"].get(k, {})
     fig = plt.figure(figsize=SIZE)
-    fig.text(0.035, 0.95, f"{ORDER.index('fit') + 1}. The joint fit, and what it leaves above it", fontsize=BIG, fontweight="bold", va="top")
+    fig.text(0.035, 0.95, f"{ORDER.index('fit') + 1}. The joint fit and what it leaves", fontsize=BIG, fontweight="bold", va="top")
     if not curves:
         _no_data(fig, "The run kept no residuals of this model.")
         return fig
     chi, dof = table.get("chi_square"), table.get("degrees_of_freedom")
     if isinstance(chi, (int, float)) and isinstance(dof, (int, float)) and dof > 0:
-        fig.text(0.035, 0.875, f"chi square over its degrees {chi / dof:.2f}, a right model 1 within {1.96 * math.sqrt(2.0 / dof):.2f}", fontsize=LABEL, color=ACCENT, va="top")
+        span = correlated(run, k)
+        fig.text(0.035, 0.875, (f"chi square a degree {chi / dof:.2f}, a right model 1 within {1.96 * math.sqrt(2.0 / dof * span):.2f}, {span:.0f} samples correlated" if span > 1
+                                else f"chi square over its degrees {chi / dof:.2f}, a right model 1 within {1.96 * math.sqrt(2.0 / dof):.2f}"), fontsize=LABEL, color=ACCENT, va="top")          # the line of correlated noise ran past the slide's edge at its first form
     sweeps = plotted_sweeps(run, curves)
+    alongs = {along for along, _, _ in sweeps if along}
+    drawn = len({c for _, _, members in sweeps for c in members})
+    fig.text(0.965, 0.975, f"dark to light:\nlow to high {next(iter(alongs)) if len(alongs) == 1 else 'setting'}" + (f"\n{drawn} of {len(curves)} curves" if drawn < len(curves) else ""), fontsize=TICK, color=GREY, ha="right", va="top")          # what the colours say, as on the slide of the curves: here nothing said it (the slides read against their words, 0.1.3rc4)
     names = axis_names(run)
     width = 0.85 / len(sweeps)
     reach = 4.5
@@ -1143,21 +1397,25 @@ def slide_fitted(run: dict, k: int):
             top.step(middle, mean * np.sqrt(count), where="mid", color=colour, lw=1.6)
             bottom.plot(a[:, 0], a[:, 1], ".", ms=2, color=colour, alpha=0.5)
             bottom.plot(a[:, 0], a[:, 2], "-", lw=1.4, color="black")
-        top.set_ylim(-reach, reach)
+        _seen(top, reach)
         top.axhline(0.0, color=GREY, lw=0.8)
         top.tick_params(labelbottom=False, labelleft=i == 0 or len(sweeps) <= 3, labelsize=TICK)          # one scale of noises for every strip: on five plots the numbers of each ran into the next, his message 604
         bottom.tick_params(labelsize=TICK)
         top.set_title(panel_title(run, along, fixed, low, high), fontsize=LABEL)
         if i == 0:
-            top.set_ylabel("noises", fontsize=TICK)          # the unit alone: the strip is too short for more
+            top.set_ylabel("noises", fontsize=TICK)          # the unit alone: the strip is too short for more, and "noises, log past 2" ran onto the name below it
             bottom.set_ylabel(names[1], fontsize=TICK)
-    fig.text(0.5, 0.03, names[0] + ", the fit in black", fontsize=LABEL, ha="center", va="bottom")
+    fig.text(0.5, 0.03, names[0] + ", the fit in black, grey: 1.96 noises" + (", log past 2" if reach > SEEN else ""), fontsize=LABEL, ha="center", va="bottom")
     return fig
 
 def slide_left(run: dict, k: int):
     """Phase 5 as one plot, row M600: what the fit leaves on each curve, the mean square of its residuals over their
-    noise, against the setting that each sweep changes. A right model reads 1 within the grey band, 1.96 standard errors
-    of a mean square of n normal residuals, the root of 2 over n, and the largest is written on the plot."""
+    noise, against the setting that each sweep changes, the sweeps of `plotted_sweeps`. A right model reads 1 within the
+    grey band, 1.96 standard errors of a mean square of n normal residuals, the root of 2 over n, times the root of the
+    samples over which neighbouring residuals correlate where they do, `correlated`, and the largest over
+    every curve is written on the plot, its curve drawn or not. Where more than
+    three sweeps run along one setting, a grid of two settings, the slide is one plot of lines, a line a level, on a scale
+    of powers of ten, with the line of a right model at 1 and no band, his message 605."""
     import matplotlib.pyplot as plt
     res = run["residuals"].get(k, {})
     curves = list(res)
@@ -1172,7 +1430,8 @@ def slide_left(run: dict, k: int):
         z = a[:, 3] / np.where(a[:, 4] > 0, a[:, 4], 1.0)
         square[c] = (float(np.mean(z * z)), z.size)
     sweeps = plotted_sweeps(run, curves)
-    top = max(max(m for m, _ in square.values()), 1.0 + 1.96 * math.sqrt(2.0 / min(n for _, n in square.values())))
+    span = correlated(run, k)
+    top = max(max(m for m, _ in square.values()), 1.0 + 1.96 * math.sqrt(2.0 * span / min(n for _, n in square.values())))
     lines_drawn = False
     if len(sweeps) > 3 and len({along for along, _, _ in sweeps}) == 1:          # a grid of two settings as one plot, a line a level: five small plots of dots were not readable, his message 605
         from matplotlib import cm
@@ -1196,7 +1455,7 @@ def slide_left(run: dict, k: int):
         xs = [run["settings"].get(c, {}).get(along, j) if along else j for j, c in enumerate(members)]
         for x, c in zip(xs, members):
             m, n = square[c]
-            band = 1.96 * math.sqrt(2.0 / n)
+            band = 1.96 * math.sqrt(2.0 * span / n)
             ax.add_patch(plt.Rectangle((x - 0.02 * (max(xs) - min(xs) or 1.0), 1.0 - band), 0.04 * (max(xs) - min(xs) or 1.0), 2 * band, color=GREY, alpha=0.3, lw=0))
             ax.plot([x], [m], "o", ms=12, color=BAD if abs(m - 1.0) > band else ACCENT)
         ax.axhline(1.0, color="black", lw=1.2)
@@ -1217,13 +1476,17 @@ def slide_left(run: dict, k: int):
         if len(sweeps) > 3:
             ax.xaxis.set_major_locator(plt.MaxNLocator(3))          # three ticks on a narrow plot
     worst = max(curves, key=lambda c: square[c][0])
-    fig.text(0.035, 0.875, f"largest {square[worst][0]:.2f} on {label_of(run, worst, 24)}, a right model " + ("at 1" if lines_drawn else "1 within the grey band"), fontsize=LABEL, color=ACCENT, va="top")          # the plot of lines draws no grey band (review 265)
+    drawn = len({c for _, _, members in plotted_sweeps(run, curves) for c in members})          # from the sweeps that the slide draws, whichever form: counted over `sweeps`, which the grid's plot of lines empties, it read 0 of 25 (the sixteenth reading of 0.1.3rc4)
+    if drawn < len(curves):          # the curves left out said, as slides 1 and 4a say them (the fifteenth reading of 0.1.3rc4)
+        fig.text(0.965, 0.015, f"{drawn} of {len(curves)} curves drawn, every one in a row in phase 4", fontsize=TICK, color=GREY, ha="right", va="bottom")
+    fig.text(0.035, 0.875, f"largest {square[worst][0]:.2f} on {label_of(run, worst, 24)}, a right model " + ("at 1" if lines_drawn else "1 within the grey band, orange past it"), fontsize=LABEL, color=ACCENT, va="top")          # the plot of lines draws no grey band (review 265)
     return fig
 
 def slide_tried(run: dict, k: int):
-    """Phase 7 as plots, row M600: the next term tried on synthetic sets that hold it. Left, the gain in chi square that
-    the term brings on each set, its spread as a band of 1.96 scatters about their mean, and the gain on the records as a
-    line. Right, each parameter as the sets return it against the value that drew them, in their scatter. Its number is
+    """Phase 7 as plots, row M600: the next term tried on synthetic sets that hold it. Left, the normal law of the gain in
+    chi square that the term brings on the sets, drawn from their mean and scatter, its band of 1.96 scatters about the
+    mean, and the gain on the records as a line. Right, each of the first six shared parameters that the sets return with a scatter, or the first five and the last, the
+    term's own, where there are more, against the value that drew them, in their scatter, orange past two. Its number is
     the gain on the records beside that of the sets."""
     import matplotlib.pyplot as plt
     tried = run["phases"].get(k, {}).get("candidate on the twin", {})
@@ -1231,10 +1494,13 @@ def slide_tried(run: dict, k: int):
     fig.text(0.035, 0.95, f"{ORDER.index('candidate on the twin') + 1}. The next term, tried on its own twin", fontsize=BIG, fontweight="bold", va="top")
     gain = tried.get("gain") or {}
     if not isinstance(gain.get("mean"), (int, float)) or not isinstance(gain.get("on_the_records"), (int, float)):
-        _no_data(fig, "No next term was tried on the twin of this model.")
+        this = next((r for r in (run.get("best") or {}).get("iterations", []) if r.get("model") == f"model {k}"), None) or {}
+        gone = this.get("refused") or []
+        _no_data(fig, f"The term tried after this model, {gone[0]['term']}, was refused before it could be planted on its twin: {_reason(gone[0]['why'], 140)}" if gone
+                 else "No next term was tried on the twin of this model.")          # a refused term said as none tried, beside a decision that named it refused (the tenth reading of 0.1.3rc4, as the blind red team of 0.1.0rc13 found it on slide_next)
         return fig
-    fig.text(0.035, 0.875, textwrap.shorten(f"{tried.get('the_planted_candidate', 'the next term')}: gain {gain['on_the_records']:.0f} on the records, {gain['mean']:.0f} on {tried.get('sets', '?')} sets", 80, placeholder="..."), fontsize=LABEL, color=ACCENT, va="top")
-    ax = fig.add_axes([0.08, 0.16, 0.4, 0.6])
+    fig.text(0.035, 0.875, two_lines(f"gain {gain['on_the_records']:.0f} on the records, {gain['mean']:.0f} on {tried.get('sets', '?')} sets: {tried.get('the_planted_candidate', 'the next term')}", 75), fontsize=LABEL, color=ACCENT, va="top")          # two lines with the sign of a cut: cut at 80 the term was never named whole
+    ax = fig.add_axes([0.08, 0.16, 0.34, 0.6])          # its right edge clear of the names of the plot beside it
     mean, scatter = float(gain["mean"]), float(gain.get("scatter") or 0.0)
     u = np.linspace(mean - 5 * scatter, mean + 5 * scatter, 400) if scatter > 0 else np.array([mean])
     if scatter > 0:
@@ -1242,20 +1508,26 @@ def slide_tried(run: dict, k: int):
         ax.axvspan(mean - 1.96 * scatter, mean + 1.96 * scatter, color=GREY, alpha=0.2, lw=0)
     ax.axvline(float(gain["on_the_records"]), color=ACCENT, lw=3)
     ax.set_yticks([])
-    ax.set_xlabel("gain in chi square: sets in grey, records in blue", fontsize=TICK)
+    ax.set_xlabel("gain in chi square, grey: the sets' law\nand its 1.96 scatters, blue: the records", fontsize=TICK)          # lines that fit the plot: "of the sets'" lost its o at the slide's edge          # a law drawn from two numbers, not the sets' own gains (the twelfth reading of 0.1.3rc4)
     ax.tick_params(labelsize=TICK)
+    from matplotlib.ticker import MaxNLocator
+    ax.xaxis.set_major_locator(MaxNLocator(3))          # three ticks: "445000447500450000452500455000" ran together (the slides read against their words, 0.1.3rc4)
     back = tried.get("what_the_whole_procedure_returns") or {}
-    names = [n for n, v in back.items() if isinstance(v, dict) and v.get("scatter")][:6]
+    every = [n for n, v in back.items() if isinstance(v, dict) and v.get("scatter")]
+    names = every if len(every) <= 6 else every[:5] + every[-1:]          # the first five and the last, the term's own: the first six left out the parameter of the term tried (the slides read against their words, 0.1.3rc4)
     side = fig.add_axes([0.62, 0.16, 0.34, 0.6])
     if names:
         moves = [(back[n]["mean"] - back[n]["put_in"]) / back[n]["scatter"] for n in names]
         side.axvspan(-1.0, 1.0, color=GREY, alpha=0.25, lw=0)
         side.scatter(moves, range(len(names)), s=160, color=[BAD if abs(m) > 2 else GOOD for m in moves], zorder=3)
         side.set_yticks(range(len(names)))
-        side.set_yticklabels([textwrap.shorten(n, 12, placeholder="...") for n in names], fontsize=TICK)
+        side.set_yticklabels(name_labels(names, 12), fontsize=name_size(name_labels(names, 12)))
         side.set_xlabel("returned less put in, scatters", fontsize=TICK)
+        if len(every) > 6:
+            side.set_title(f"the first five of {len(every)} and the last", fontsize=TICK, loc="left")          # above the plot: under it, it ran into the key of the colours
+        fig.text(0.965, 0.015, "grey: one scatter, orange: past two", fontsize=TICK, color=GREY, ha="right", va="bottom")          # the colours said
         side.set_xlim(-max(3.0, 1.2 * max(abs(m) for m in moves)), max(3.0, 1.2 * max(abs(m) for m in moves)))
-        side.tick_params(labelsize=TICK)
+        side.tick_params(axis="x", labelsize=TICK)          # the x axis alone: on both, it set the names back to 20 points
         side.invert_yaxis()
     else:
         _no_data_in(side, "no parameter returned")
@@ -1264,8 +1536,8 @@ def slide_tried(run: dict, k: int):
 def pooled_strip(res: dict, n: int = 60) -> tuple:
     """What a fit leaves on all its curves together, whatever its sign on each: each curve's residuals over their noise
     placed in widths of the curve from its centre, and in each of `n` cells of one width the mean of their squares less
-    one, over its standard error, the root of 2 over the samples of the cell, so that a right model stands in the band of
-    1.96 on 19 cells of 20. Summed with their signs, a width that changes along the temperature cancelled between the
+    one, over its standard error, the root of 2 over the samples of the cell, so that a right model of independent noise
+    stands in the band of 1.96 on 19 cells of 20. Summed with their signs, a width that changes along the temperature cancelled between the
     hot and the cold curves, and the slide of the decision read the first model of the tutorial inside the band (row
     M600). Returns the middles of the cells, their values and the half span."""
     places = []
@@ -1284,7 +1556,7 @@ def pooled_strip(res: dict, n: int = 60) -> tuple:
 
 def slide_chosen(run: dict, k: int):
     """Phase 8 as plots, row M600: the term that the next model adds, what the fit leaves on all the curves before it in
-    grey and after it in colour, inside the band of a right model, and each parameter's move from one model to the next
+    grey and after it in colour, inside the band of a right model of independent noise, and the move of each of the first six shared parameters that both share with a bar, from one model to the next,
     in its own bar. Its number is the chi square over its degrees before and after."""
     import matplotlib.pyplot as plt
     fig = plt.figure(figsize=SIZE)
@@ -1303,10 +1575,10 @@ def slide_chosen(run: dict, k: int):
         t = tables.get(j, {})
         if isinstance(t.get("chi_square"), (int, float)) and t.get("degrees_of_freedom"):
             said.append(f"{t['chi_square'] / t['degrees_of_freedom']:.2f}")
-    fig.text(0.035, 0.875, textwrap.shorten(f"the next model adds {added}", 70, placeholder="..."), fontsize=LABEL, color=ACCENT, va="top")          # the term alone on this line: with the chi squares beside it, it ran past the right edge
-    ax = fig.add_axes([0.1, 0.16, 0.53, 0.6])
+    fig.text(0.035, 0.875, two_lines(f"the next model adds {added}", 72), fontsize=LABEL, color=ACCENT, va="top", linespacing=1.1)          # the term on two lines with the sign of a cut
+    ax = fig.add_axes([0.15, 0.22, 0.4, 0.5])          # its right edge clear of the names of the plot beside it, its own name inside the slide
     if len(said) == 2:
-        ax.text(0.02, 0.97, f"chi square over its degrees {said[0]} then {said[1]}", transform=ax.transAxes, fontsize=TICK, va="top")
+        ax.set_title(f"chi square over its degrees {said[0]} then {said[1]}", fontsize=TICK, loc="left")          # above the plot: inside it the text lay on the curves
     ax.axhspan(-1.96, 1.96, color=GREY, alpha=0.25, lw=0)
     reach, low = 4.5, -4.5
     for res, colour, label in ((before, GREY, "before"), (after, ACCENT, "after")):
@@ -1314,23 +1586,26 @@ def slide_chosen(run: dict, k: int):
         ax.step(middle, values, where="mid", color=colour, lw=2.2, label=label)
         reach, low = max(reach, 1.1 * float(values.max())), min(low, 1.1 * float(values.min()))
     ax.axhline(0.0, color="black", lw=0.8)
-    ax.set_ylim(low, reach)          # from the lowest cell to the highest: a mean square falls below 1 by little, and a symmetric axis left its lower half empty
+    _seen(ax, reach, low)          # from the lowest cell to the highest: a mean square falls below 1 by little, and a symmetric axis left its lower half empty
     ax.set_xlabel("distance from the centre, in widths", fontsize=LABEL)
-    ax.set_ylabel("mean square less 1, its errors", fontsize=TICK)
+    ax.set_ylabel(_logged("mean square less 1,\nin errors", max(reach, -low)), fontsize=TICK)          # short enough for its axis with the scale's words
     ax.tick_params(labelsize=TICK)
-    ax.legend(fontsize=TICK, frameon=True, loc="lower right")
+    ax.legend(fontsize=TICK, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2)          # under the plot: inside it, it lay on the curves wherever it stood
     p0 = (phases.get(k, {}).get("identify") or {}).get("parameters") or {}
     p1 = (phases.get(k + 1, {}).get("identify") or {}).get("parameters") or {}
     shared = [n for n in p0 if n in p1 and p0[n].get("standard_deviation")][:6]
-    side = fig.add_axes([0.76, 0.16, 0.2, 0.6])
+    side = fig.add_axes([0.76, 0.22, 0.2, 0.5])          # level with the plot beside it
     if shared:
         moves = [(p1[n]["value"] - p0[n]["value"]) / p0[n]["standard_deviation"] for n in shared]
         side.axvspan(-1.0, 1.0, color=GREY, alpha=0.25, lw=0)
-        side.scatter(moves, range(len(shared)), s=160, color=[BAD if abs(m) > 2 else ACCENT for m in moves], zorder=3)
+        side.scatter(moves, range(len(shared)), s=160, color=[BAD if abs(m) > 2 else ACCENT for m in moves], zorder=3, clip_on=False)          # whole at the axis's edge
         side.set_yticks(range(len(shared)))
-        side.set_yticklabels([textwrap.shorten(n, 12, placeholder="...") for n in shared], fontsize=TICK)
-        side.set_xlabel("move, in its bars", fontsize=LABEL)
-        side.tick_params(labelsize=TICK)
+        side.set_yticklabels(name_labels(shared, 12), fontsize=name_size(name_labels(shared, 12)))
+        if max(abs(m) for m in moves) > SEEN:
+            _seen(side, 1.15 * max(abs(m) for m in moves), axis="x", linthresh=1.0)          # the band of one bar seen beside moves of 200 bars, four ticks, three on a short axis
+        side.set_xlabel("move in bars" + (",\nlog past 1" if max(abs(m) for m in moves) > SEEN else ""), fontsize=TICK)
+        fig.text(0.965, 0.015, "grey: 1.96 errors left, one bar right, blue: under two bars, orange: past two", fontsize=TICK, color=GREY, ha="right", va="bottom")          # both bands named: the left one read as one bar (the fifteenth reading of 0.1.3rc4)          # the colours said (the slides read against their words, 0.1.3rc4)          # inside the slide: at 22 points "log past 1" lost its 1
+        side.tick_params(axis="x", labelsize=TICK)          # the x axis alone: on both, it set the names back to 20 points
         side.invert_yaxis()
     else:
         _no_data_in(side, "no shared parameter")
@@ -1347,8 +1622,9 @@ def experiment_line(p: dict) -> str:
 
 
 def slide_next(run: dict, k: int):
-    """Phase 7: the term tried after this model, planted at its fitted size on synthetic sets and found again by the
-    whole procedure: the bias of each value in scatters, the share of sets in which one bar holds it, and the fall of
+    """The slide of phase 7 before row M600, which the log no longer draws, its phase 7 being `slide_tried`, `SLIDES`, and
+    which stays for a reader who draws it alone and for its tests: the term tried after this model, planted at its fitted
+    size on synthetic sets and found again by the whole procedure: the bias of each of the first ten values in scatters, the share of sets in which one bar holds it, and the fall of
     chi square that the term gives on the records beside the fall on the sets."""
     cand = run["phases"].get(k, {}).get("candidate on the twin")
     fig = _frame(TITLES["candidate on the twin"], k, "candidate on the twin", run,
@@ -1356,7 +1632,7 @@ def slide_next(run: dict, k: int):
     if not cand:
         this = next((r for r in run.get("best", {}).get("iterations", []) if r.get("model") == f"model {k}"), None) or {}
         gone = this.get("refused") or []
-        _no_data(fig, (f"The term tried after this model, {gone[0]['term']}, was refused before it could be planted on the twin: {gone[0]['why'][:140]}. " if gone
+        _no_data(fig, (f"The term tried after this model, {gone[0]['term']}, was refused before it could be planted on the twin: {_reason(gone[0]['why'], 140)} " if gone
                        else "No term was tried after this model: the loop ended here. ")
                  + "To go on, write the next file of terms/ from a proposal of phase 6 and run the loop again.")          # a term refused was said to be no term tried, beside a slide that said it was refused (the blind red team of 0.1.0rc13)
         return fig
@@ -1429,77 +1705,93 @@ def slide_decision(run: dict, k: int):
     if kept:
         said, colour = kept_said(this, kept), GOOD
     elif refused:
-        said, colour = f"Refused: {refused[0]['term']}. " + refused[0]["why"][:160], BAD
+        said, colour = f"Refused: {refused[0]['term']}. " + _reason(refused[0]["why"], 160), BAD
     elif tried:
         said, colour = f"Tried: {', '.join(tried)}.", GREY
     else:
         said, colour = "No term was tried after this model.", GREY
-    fig = _frame(TITLES["report"], k, "report", run, "The Bayesian criterion of each model, lower is better. A term is kept where its fit ends inside its bounds, the criterion falls by more than 2 and its twin admits it, or where its file says keep = True.")          # the three conditions of the tutorial, where one sentence named two and a term that lowered the criterion by 0.53 read as kept (the blind red team of 0.1.0rc13)
+    fig = _frame(TITLES["report"], k, "report", run, "The Bayesian criterion of each model, lower is better. A term is kept where its fit ends inside its bounds, its twin admits it and the criterion falls by more than 2, the criterion waived by keep = True.")          # the three conditions of the tutorial, where one sentence named two and a term that lowered the criterion by 0.53 read as kept (the blind red team of 0.1.0rc13)
     fig.text(0.04, 0.24, "\n".join(textwrap.wrap(said, WIDTH - 12)[:3]), fontsize=TEXT, color=colour, fontweight="bold", va="top", linespacing=1.3)          # bold letters are wider: the line ran past the edge (the cold round 22)
     # the models that ended, from `decision_rows`, where best.json held fewer than the run made
     if len(ended) == 1:          # one model is no comparison: a plot of one point was a graph of nothing (the blind red team of 0.1.0rc12)
-        fig.text(0.08, 0.5, f"One model so far, its criterion {ended[0]['criterion']:.1f}: the next term is judged against it.", fontsize=TEXT, color=GREY)
+        fig.text(0.08, 0.5, f"One model so far, its criterion {ended[0]['criterion']:.1f}" + (": the next term is judged against it." if kept or refused or tried else "."), fontsize=TEXT, color=GREY)          # with no term tried, nothing is judged against it: the slide said both (the thirteenth reading of 0.1.3rc4)
     elif ended:
-        ax = fig.add_axes([0.08, 0.32, 0.6, TOP - 0.34])
+        ax = fig.add_axes([0.11, 0.32, 0.57, TOP - 0.34])          # its name of the axis on the slide: at 0.08 "criterion" stood half past the left edge
         idx = [int(r["model"].split()[-1]) for r in ended]
         ax.plot(idx, [r["criterion"] for r in ended], "o-", color=ACCENT, ms=9)
         if k in idx:
-            ax.plot([k], [ended[idx.index(k)]["criterion"]], "o", ms=18, mfc="none", mec=BAD, mew=2.5)
+            ax.plot([k], [ended[idx.index(k)]["criterion"]], "o", ms=18, mfc="none", mec=BAD, mew=2.5, label=f"ringed: model {k}, this slide's")
+            ax.legend(fontsize=SMALL, frameon=False, loc="upper right")          # the ring said: it marked one model while the sentence spoke of the next (the slides read against their words, 0.1.3rc4)
         ax.set_xticks(idx)
         ax.set_xlabel("model")
         ax.set_ylabel("criterion")
     return fig
 
 
+def terms_said(terms: list) -> str:
+    """The terms of the best model in the sentence of its slide, their count first and where they stand whole, since the
+    slide cuts the sentence where it is long: "Its terms:" held two of six, cut, and never said how many (the eighth
+    reading of the slides of 0.1.3rc4)."""
+    return f"Its {len(terms)} term{'' if len(terms) == 1 else 's'}, whole in best.md: " + "; ".join(terms) + "."
+
+
 def slide_best(run: dict):
-    """The output: the best model, its terms, and each parameter with the five parts of its uncertainty side by side,
+    """The output: the best model, its terms, and each of its first ten shared parameters with the parts of its uncertainty that have a size side by side, of the four bars, the fit's, the bias on the twin, theory and the spread over the models, the coverage in words,
     in units of the bar of the fit."""
     best = run["best"]
     quotable = best.get("quotable") or {}
     verdict = ("Every value may be quoted with its bar of the fit." if quotable and all(quotable.values())
                else "No value is to be quoted yet: best.md says why." if quotable and not any(quotable.values())
                else "Only the values marked quoted may be quoted: best.md says why." if quotable else "")
-    fig = _frame(f"The best model: {best.get('best', '?')}", -1, None, run, "Its terms: " + "; ".join(best.get("terms", [])) + ". " + verdict)          # the slide dropped the warning of best.md, and a reader quoted a value that it forbids (the blind red team of 0.1.0rc14 on a fresh machine)
+    fig = _frame(f"The best model: {best.get('best', '?')}", -1, None, run, (verdict + " " if verdict else "") + terms_said(best.get("terms", [])))          # the verdict first, where a cut cannot take it          # the slide dropped the warning of best.md, and a reader quoted a value that it forbids (the blind red team of 0.1.0rc14 on a fresh machine)
     params = best.get("parameters", {})
     if not params:
         _no_data(fig, "The run left no best.json.")
         return fig
     names = list(params)[:10]
-    ax = fig.add_axes([0.25, 0.16, 0.33, TOP - 0.18])
+    ax = fig.add_axes([0.3, 0.16, 0.28, TOP - 0.18])
     ys = np.arange(len(names))
-    parts = [("fit", lambda p: 1.0), ("bias on the twin", lambda p: abs(p.get("bias_on_the_twin_in_bars") or 0.0)),
+    parts = [("fit", lambda p: 1.0), ("bias on the twin, its size", lambda p: abs(p.get("bias_on_the_twin_in_bars") or 0.0)),          # its sign left out, and said so (the slides read against their words, 0.1.3rc4)
              ("theory", lambda p: (p.get("bar_of_theory", {}).get("together") or 0.0) / (p.get("bar_of_the_fit") or 1.0)),
              ("over the models", lambda p: (p.get("spread_over_the_models") or 0.0) / (p.get("bar_of_the_fit") or 1.0))]
-    for i, (label, f) in enumerate(parts):
-        sizes = [f(params[n]) for n in names]
-        if i and not any(sizes):          # a part of no size is no bar and no line of the legend: "theory" and "over the models" stood empty and unexplained (the blind red team of 0.1.0rc12)
-            continue
-        ax.barh(ys + (i - 1.5) * 0.2, sizes, height=0.2, color=COLOURS[i], label=label)
+    drawn = [(i, label, [f(params[n]) for n in names]) for i, (label, f) in enumerate(parts)]
+    drawn = [(i, label, sizes) for i, label, sizes in drawn if not i or any(sizes)]          # a part of no size is no bar and no line of the legend: "theory" and "over the models" stood empty and unexplained (the blind red team of 0.1.0rc12)
+    for place, (i, label, sizes) in enumerate(drawn):
+        ax.barh(ys + (place - (len(drawn) - 1) / 2) * 0.2, sizes, height=0.2, color=COLOURS[i], label=label)          # centred on its name by the parts drawn: offsets for four left a pair of two above its name (the slides read against their words, 0.1.3rc4)
     ax.set_yticks(ys)
-    ax.set_yticklabels(names)
+    ax.set_yticklabels(name_labels(names, 20))          # on two lines inside the slide: seven names lost their first letters at its left edge
     ax.invert_yaxis()
     ax.set_xlabel("in bars of the fit")
     key = ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=True)
     read = best.get("searches_that_ended") or best.get("sets_of_the_twin")          # the sets that the run read: "held on 87 of 100 sets" was a coverage times 100 on a run of 30 (the cold round 22)
-    lines = []
+    paragraphs = []
     for n in names:
         cov = params[n].get("coverage_on_the_twin")
         said = (f"{n}: {pm(params[n]['value'], params[n].get('bar_of_the_fit') or float('nan'))}"
                 + (f", its interval holds the truth on {round(cov * read)} of {read} sets of the twin of best.md, drawn apart from those of the slides of the turns" if isinstance(cov, (int, float)) and read else "")
                 + ((", quoted" if quotable[n] else ", not yet quoted") if n in quotable else "")
                 + (f", not told apart from {', '.join(params[n]['not_told_apart_from'])}" if params[n].get("not_told_apart_from") else ""))
-        lines += textwrap.wrap(said, 40, subsequent_indent="    ")          # wrapped inside the slide: its last words were cut at the right edge (the cold round 22)
+        paragraphs.append(textwrap.wrap(said, 40, subsequent_indent="    "))          # wrapped inside the slide: its last words were cut at the right edge (the cold round 22)
     under = key.get_window_extent(renderer=fig.canvas.get_renderer()).y0 / fig.bbox.height - 0.03          # down from under the legend: up from the foot, the words of two parameters reached it at 15 points (row M583)
-    fig.text(0.62, under, "\n".join(lines), fontsize=SMALL, va="top", ha="left", linespacing=1.3)
+    renderer = fig.canvas.get_renderer()
+    for i, para in enumerate(paragraphs):          # a paragraph a parameter, while the slide has room: seven ran past its foot and over the phases (the slides read against their words, 0.1.3rc4)
+        said = fig.text(0.62, under, "\n".join(para), fontsize=SMALL, va="top", ha="left", linespacing=1.3)
+        low = under - said.get_window_extent(renderer=renderer).height / fig.bbox.height
+        if low < 0.13:
+            said.remove()
+            fig.text(0.62, under, f"and {len(paragraphs) - i} more in best.md", fontsize=SMALL, color=GREY, va="top")
+            break
+        under = low - 0.012
     return fig
 
 
 SLIDES = {"intake": (slide_curves,), "identify": (slide_fixed, slides_equation, slide_effects), "twin": (slide_admitted,), "fit": (slide_fitted, slide_row),
           "read": (slide_left,), "propose": (slide_place, slide_where), "candidate on the twin": (slide_tried,), "report": (slide_chosen, slide_decision)}          # each phase first as one plot, row M600, his messages 586 to 588: the equation, the effects, every curve in a row, the six proposals and the decision's reasons stay beside it
-CAPTIONS = {slide_curves: "the curves as recorded, one plot a sweep", slide_fixed: "the model and the bar of each parameter", slides_equation: "the equation, term by term",
+PAGE_CAPTIONS = {slide_where: "the proposals for the experiment that the slide before had no room for"}          # the pages after the first, where they hold other things
+CAPTIONS = {slide_curves: "the curves as recorded, one plot a sweep, three sweeps or six levels of a grid at most", slide_fixed: "the model and the bar of its first ten shared parameters", slides_equation: "the equation, term by term",
             slide_effects: "what each term does", slide_admitted: "the twin: does the fit return what drew it", slide_fitted: "the joint fit, and what it leaves above it",
-            slide_row: "every curve in a row, what the fit leaves above each", slide_left: "what the fit leaves on each curve, along its setting",
-            slide_place: "where the residuals leave the twin's band", slide_where: "the answers of the report and the six proposals",
+            slide_row: "every curve in a row, what the fit leaves under each", slide_left: "what the fit leaves on each curve, along its setting",
+            slide_place: "where the residuals leave the twin's band", slide_where: "the answers of the report and its proposals",
             slide_tried: "the next term, tried on its own twin", slide_chosen: "the decision: what the next term changes", slide_decision: "the decision: each model's criterion and why"}          # the line of log.md for each slide
 
 
@@ -1516,7 +1808,7 @@ def log(folder, dpi: int = 110) -> list:
     for old in out.glob("*.png"):
         old.unlink()
     made, lines = [], [f"# The visual log of {run['folder'].name}", "",
-                       "One slide for each phase of each turn of the loop, with the equation of each model and the effect of each term. `log.pdf` holds them in order.", ""]
+                       "Each phase of each turn of the loop first as one plot, then beside four of them the equation and the effect of each term, every curve in a row, the answers of the report and each model's criterion. `log.pdf` holds them in order.", ""]
     with plt.rc_context(_rc()), PdfPages(run["loop"] / "log.pdf") as pdf:
         for k in sorted(run["phases"]):
             lines += [f"## Model {k}", ""]
@@ -1529,7 +1821,8 @@ def log(folder, dpi: int = 110) -> list:
                         pdf.savefig(fig)
                         plt.close(fig)
                         made.append(path)
-                        lines.append(f"- phase {p + 1}, {CAPTIONS.get(draw, TITLES[phase])}: ![]({path.relative_to(run['loop']).as_posix()})")
+                        said = getattr(fig, "caption", None) or (PAGE_CAPTIONS.get(draw, CAPTIONS.get(draw, TITLES[phase])) if i else CAPTIONS.get(draw, TITLES[phase]))          # a page after the first says what it holds: the page of the proposals for the experiment was listed as the answers and six proposals (the tenth reading of 0.1.3rc4)
+                        lines.append(f"- phase {p + 1}, {said}: ![]({path.relative_to(run['loop']).as_posix()})")
             lines.append("")
         if run["best"]:
             fig = slide_best(run)

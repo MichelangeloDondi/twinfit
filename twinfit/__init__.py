@@ -50,8 +50,8 @@ What lies under it:
     standard.py    the standard checks of the residuals, beside the readings of the package
     notebook.py    the record of an analysis: its steps, its predictions stamped before the runs, its refusals
     version.py     the number of the package, and for each version the digest of its code and what it changed
-    log.py         the visual log of a run: a slide for each phase of each turn, the equation of each model and what each
-                   term does, `python -m twinfit log DIR`
+    log.py         the visual log of a run: each phase of each turn first as one plot, then the equation of each model,
+                   what each term does and the curves in a row, `python -m twinfit log DIR`
     reuse.py       the steps of a run kept by the files, records and fit that made them, and read back by the next run
     seeds.py       the seed of every Monte Carlo of the package, drawn from the records that it reads
     apart.py       what the records tell apart of parameters correlated beyond 0.9, each combination with its bar and

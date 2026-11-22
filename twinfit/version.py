@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.3rc3"
+__version__ = "0.1.3rc4"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -486,6 +486,12 @@ VERSIONS = {
         "the combined estimate of row M580 made of the fit and at most four families of least variance at first order whose estimate ends on the records, `best.COMBINED_MOST`: one family whose search did not end left it empty on every draw of the toy",
         "the agent's card at its 450 words with three improvements a turn, each with its non-ideality, its gain on the twin and its physical ground, chosen as `DIR/agent.toml` sets, and the four sections of each turn's page in step H, his messages 561 to 568 and 576 to 580, the tutorials written again on it",
         "the README's section for a model already used for a precision measurement, what the package gives that its chi square does not, his messages 583 and 584",
+    )},
+    "0.1.3rc4": {"digest": "838e8c30ef1f13b86d5df66f5added5152071e43e99908ea297dcee3c5084967", "changes": (
+        "row M600, his messages 586 to 588: each phase of a turn first as one plot in the visual log of every run, the slides of where, the curves, the bars of the parameters fitted, the twin admitted, the fit, what it leaves, the term tried and the decision, `log.slide_place` through `log.slide_chosen`, the decision's strip read by the mean square of each cell, which a sign does not cancel, and section 6 of both tutorials listing the eight phases with the file and the key that hold each phase's number, where the phase made one",
+        "his messages 604 and 605: a grid of settings readable in the visual log, settings one level where their gap is small against the sweep's own steps, a level bounded by three per cent of the larger of its first value and the value that joins it, named by its median (review 265), a merge of levels kept only where it crowds no cell of the grid more than the exact values do (review 266), one slide of colour maps for where, a level each, and one plot of lines on a scale of powers of ten for what the fit leaves",
+        "row M600 on real spectra: a sweep's title gives its two ends at three figures, the where slide's two captions kept apart, its family named without what follows its colon where long, and the fit slide's labels sized to their axes, seen on the public CO2 lines of row M599, his message 630 asking this number for the count of the gallery",
+        "the slides read against their words on the public CO2 lines with HITRAN's: the band of a right model widened where neighbouring residuals correlate, as `chi_said` reads them, and seen on axes of thousands of noises, the letters of a term's own formula left to its file, names of parameters on two lines and told apart, a legend of many records left out, the proposals for the experiment that a slide has no room for whole on a page after it, and the names of axes inside their slides",
     )},
 }
 

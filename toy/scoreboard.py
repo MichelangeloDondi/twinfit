@@ -97,6 +97,7 @@ WAIST = blind_key("the core", along="waist")          # the transit time is a wi
 DRAWS = 5          # the draws of noise on the records of each question, row M259: the slides said of one draw what a share must say
 DRAWS_IN = {"field": 20, "held out": 20, "waist": 20}          # the groups asked at 20 draws a question, row M412 and the red team of his message 308, R8: 5 left a share of a group of one question a fifth wide
 DRAWN = ("DRAWS", "DRAWS_IN", "NOISE_OF", "draws_of", "drawn", "agreed", "draw_report")          # what makes a draw: its rows hang on these and on the digest of the twins, which do not read them
+LATER = {"waist": "counted in 0.1.4, its draw made units of about 30 minutes first, his message 628: no draw of it ended in the queue, which kills a unit at 720 minutes"}          # the questions set aside from this version's count: no unit owed and no report in its table, outside MAKES and DRAWN so that no digest moves
 
 
 def questions(config: dict) -> list:
@@ -440,6 +441,8 @@ def units(root: Path = ROOT) -> list:
     _, config = model.load(Path(root) / "toy", root)
     out, made = [], (digest(root), draw_digest(root))
     for q in questions(config):
+        if q["name"] in LATER:          # set aside for a later version, so the queue's refill owes none of it
+            continue
         for weight in WEIGHTS:
             parts = [k for k in range(1, PARTS + 1) if not kept_at(root, made[0], q["name"], weight, k).exists()]
             kind = f"{q['group']} {weight}"
@@ -513,9 +516,10 @@ def progress(root: Path = ROOT) -> str:
 def table(root: Path = ROOT) -> Path:
     _, config = model.load(Path(root) / "toy", root)
     twins = digest(root)
-    reports = {f"{q['name']}|{w}": json.loads(kept_at(root, twins, q["name"], w).read_text()) for q in questions(config) for w in WEIGHTS if kept_at(root, twins, q["name"], w).exists()}
-    if len(reports) != len(questions(config)) * len(WEIGHTS):
-        raise SystemExit(f"REFUSED: {len(reports)} reports of {len(questions(config)) * len(WEIGHTS)} are kept: the queue has not ended")
+    owed = [q for q in questions(config) if q["name"] not in LATER]          # the questions of this version's count
+    reports = {f"{q['name']}|{w}": json.loads(kept_at(root, twins, q["name"], w).read_text()) for q in owed for w in WEIGHTS if kept_at(root, twins, q["name"], w).exists()}
+    if len(reports) != len(owed) * len(WEIGHTS):
+        raise SystemExit(f"REFUSED: {len(reports)} reports of {len(owed) * len(WEIGHTS)} are kept: the queue has not ended")
     made = (digest(root), draw_digest(root))
     of = {q["name"]: draws_of(q) for q in questions(config)}
     kept = {key: [draw_path(root, key.rsplit("|", 1)[0], key.rsplit("|", 1)[1], k, made) for k in range(1, of[key.rsplit("|", 1)[0]] + 1)] for key in reports}
@@ -523,7 +527,7 @@ def table(root: Path = ROOT) -> Path:
     if held and held != asked:
         raise SystemExit(f"REFUSED: {held} draws of {asked} are kept: the queue has not ended")
     from twinfit.version import __version__
-    board = {"digest": digest(root), "package": __version__, "weights": WEIGHTS, "seen": SEEN, "questions": questions(config), "reports": reports, "counted": counted(reports, config), "seen_by": seen_by(reports)}
+    board = {"digest": digest(root), "package": __version__, "weights": WEIGHTS, "seen": SEEN, "questions": owed, "later": LATER, "reports": reports, "counted": counted(reports, config), "seen_by": seen_by(reports)}
     if held:          # each report with its draws, and the count over them (row M259)
         for key, paths in kept.items():
             reports[key]["draws"] = [json.loads(p.read_text()) for p in paths]
