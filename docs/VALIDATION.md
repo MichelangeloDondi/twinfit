@@ -1,42 +1,42 @@
 # What the package was measured to do
 
-Every share of the first table below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release 0.1.1. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
+Every share of the first table below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release 0.1.3rc3. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
 
 A count draws synthetic traces from the toy model of `toy/` with a known truth, hides a term or none, runs the package on each draw and reads what its report says. A share is the fraction of draws on which the report did what the criterion asks, with its standard error, the square root of p(1 - p)/n over its n draws. A threshold was drafted before the counts, and the header of `toy/thresholds.toml` and `docs/DECISIONS.md` say which were set again after tables were read. `toy/README.md` says how each count is made and how to make one draw of it again.
 
 ## Not met at this release
 
-- C1, the place, collisions: 0.470 ± 0.025 of 400 draws, against at least 0.60
-- C4, the setting, pooled over the terms that change along one: 0.583 ± 0.017 of 800 draws, against at least 0.60
-- C5c, a false alarm on a right model against its own twin at the default sets, pooled: 0.188 ± 0.025 of 250 draws, against at most 0.12
+- C1, the place, collisions: 0.448 ± 0.025 of 400 draws, against at least 0.60
+- C4, the setting, pooled over the terms that change along one: 0.551 ± 0.018 of 800 draws, against at least 0.60
+- C2, the kind on the bench: 0.480 ± 0.079 of 40 draws, against at least 0.50
 
 ## Every criterion
 
 | criterion | reading | share | draws | threshold | |
 |---|---|---|---|---|---|
-| C1 | the place, pooled over the hidden terms | 0.791 ± 0.010 | 1600 | at least 0.60 | met |
-| C1 | the place, collisions | 0.470 ± 0.025 | 400 | at least 0.60 | **not met** |
-| C1 | the place, gas_width | 0.740 ± 0.022 | 400 | at least 0.60 | met |
-| C1 | the place, laser_noise | 0.9950 ± 0.0035 | 400 | at least 0.60 | met |
-| C1 | the place, transit | 0.9600 ± 0.0098 | 400 | at least 0.60 | met |
-| C4 | the setting, pooled over the terms that change along one | 0.583 ± 0.017 | 800 | at least 0.60 | **not met** |
-| C5 | a false alarm on a right model, pooled | 0.0760 ± 0.0059 | 2000 | at most 0.12 | met |
-| C5c | a false alarm on a right model against its own twin at the default sets, pooled | 0.188 ± 0.025 | 250 | at most 0.12 | **not met** |
-| C2 | the kind on the bench | 0.500 ± 0.079 | 40 | at least 0.50 | met |
-| C2b | the kind on the held-out questions | 0.736 ± 0.040 | 120 | at least 0.30 | met |
-| C5b | something missing on a right model, pooled | 0.040 ± 0.014 | 200 | at most 0.08 | met |
-| C6 | reached_the_fifth | 1.000 ± 0 | 400 | at least 0.80 | met |
+| C1 | the place, pooled over the hidden terms | 0.760 ± 0.011 | 1600 | at least 0.60 | met |
+| C1 | the place, collisions | 0.448 ± 0.025 | 400 | at least 0.60 | **not met** |
+| C1 | the place, gas_width | 0.660 ± 0.024 | 400 | at least 0.60 | met |
+| C1 | the place, laser_noise | 0.9925 ± 0.0043 | 400 | at least 0.60 | met |
+| C1 | the place, transit | 0.940 ± 0.012 | 400 | at least 0.60 | met |
+| C4 | the setting, pooled over the terms that change along one | 0.551 ± 0.018 | 800 | at least 0.60 | **not met** |
+| C5 | a false alarm on a right model, pooled | 0.0815 ± 0.0061 | 2000 | at most 0.12 | met |
+| C5c | a false alarm on a right model against its own twin at the default sets, pooled | 0.080 ± 0.017 | 250 | at most 0.12 | met |
+| C2 | the kind on the bench | 0.480 ± 0.079 | 40 | at least 0.50 | **not met** |
+| C2b | the kind on the held-out questions | 0.571 ± 0.045 | 120 | at least 0.28 | met |
+| C5b | something missing on a right model, pooled | 0.060 ± 0.017 | 200 | at most 0.08 | met |
+| C6 | reached_the_fifth | 0.9725 ± 0.0082 | 400 | at least 0.80 | met |
 | C6 | refused_the_absent | 1.000 ± 0 | 400 | at least 0.85 | met |
 | C7 | one bar holds the truth, collisions, the noise from neighbouring samples | 0.720 ± 0.022 | 400 | 0.62 to 0.75 | met |
-| C7 | one bar holds the truth, gas_width, the noise from neighbouring samples | 0.698 ± 0.023 | 400 | 0.62 to 0.75 | met |
-| C7 | one bar holds the truth, laser_noise, the noise from neighbouring samples | 0.682 ± 0.023 | 400 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, gas_width, the noise from neighbouring samples | 0.701 ± 0.023 | 395 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, laser_noise, the noise from neighbouring samples | 0.689 ± 0.023 | 392 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, transit, the noise from neighbouring samples | 0.703 ± 0.023 | 400 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, collisions, the toy's law of the noise | 0.744 ± 0.022 | 399 | 0.62 to 0.75 | met |
-| C7 | one bar holds the truth, gas_width, the toy's law of the noise | 0.722 ± 0.022 | 399 | 0.62 to 0.75 | met |
-| C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.712 ± 0.023 | 399 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, gas_width, the toy's law of the noise | 0.722 ± 0.023 | 396 | 0.62 to 0.75 | met |
+| C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.708 ± 0.023 | 390 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, transit, the toy's law of the noise | 0.707 ± 0.023 | 399 | 0.62 to 0.75 | met |
-| C10 | the package, pooled | 0.917 ± 0.025 | 120 | at least 0.76 | met |
-| C11 | pooled | 0.761 ± 0.020 | 440 | at least 0.50 | met |
+| C10 | toy/benchmark.json was made at 0.1.1, not at 0.1.3rc3 | | | not read |
+| C11 | toy/gallery.json was made at 0.1.3rc4, not at 0.1.3rc3 | | | not read |
 
 ## What each criterion measures, and where it is counted
 
@@ -60,9 +60,9 @@ No criterion of `toy/thresholds.toml` reads these, so `tools/met.py` does not pr
 
 | reading | share | draws | source |
 |---|---|---|---|
-| the place of a hidden term at half the size of the twin, pooled over the four | 0.1244 ± 0.0083 | 1600 | `toy/pointing.json` |
+| the place of a hidden term at half the size of the twin, pooled over the four | 0.0838 ± 0.0069 | 1600 | `toy/pointing.json` |
 | a false alarm on a right model against its own twin at 100 sets | not counted at this version | 0 | `runs/pointing_own100_*` |
-| the place on the gallery of eleven projects of other fields | 0.594 ± 0.039 | 160 | `toy/gallery.json` |
+| the place on the gallery of eleven projects of other fields | 0.662 ± 0.037 | 160 | `toy/gallery.json` |
 
 What was not measured at all, an outside user, the agentic version and terms after the fifth, is said in `twinfit/CONTINUING.md`.
 
