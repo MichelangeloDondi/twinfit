@@ -24,7 +24,7 @@ How to read this page: read section 1 to the end of its first list, then section
 | find a project of another field whose first report reads as yours | section 13 |
 | know what the package cannot do | section 14 |
 
-Every command in a block of its own below, but the installation of section 2, was run as it is written, in an empty folder, and every output is what it printed. A command named inside a sentence, as `nohup` or `rsync`, is not run by the check. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 266 seconds. A machine busy with other work takes longer.
+Every command in a block of its own below, but the installation of section 2, was run as it is written, in an empty folder, and every output is what it printed. A command named inside a sentence, as `nohup` or `rsync`, is not run by the check. `python -m twinfit.tutorial --check`, with matplotlib installed by `pip install "twinfit[log]"`, runs them all again, in a temporary folder, and says whether any output changed. Here the whole of it ran in 261 seconds. A machine busy with other work takes longer.
 
 ## 1. Purpose and vocabulary of the package
 
@@ -42,7 +42,7 @@ The words that the first run needs, the others of sections 4 to 11 in the glossa
 - **A setting** is a quantity under which a curve was taken and that the description gives for it, as the temperature of the sample. The package calls a setting that changes from curve to curve a covariate. The settings of one curve, by name, are its `design`, the dictionary that the model receives.
 - **A bar** is the standard deviation of a parameter that a fit gives from the curvature of its chi square. **First order** is the model taken as straight in its parameters about the fit, so that bar is a first order bar.
 - **A shared parameter** is one value for every curve, as a width. **An own parameter** is one value for each curve, as its height. The value of an own parameter in one curve is an own value, and the pages say an own value moves where it changes from curve to curve beyond its bars. The analysis is after the shared parameters, and the reports call them the known parameters: known in the sense that the model names them, and not that their values are known.
-- **The excess** of an answer is its statistic on the records less the median of the same statistic on the synthetic sets, over the span from that median to their 95th percentile. An answer is beyond the twin where its excess passes a line, the largest excess that the synthetic sets of a right model reach on 95 of 100 of them. Each report prints its line, read on the twin of its model. The line is itself read on the synthetic sets of the run: measured at 0.1.2 on 250 draws of models that lack nothing, before the chi functions were read, a run at the default of 30 sets with a seed for each draw, as 0.1.3 draws one from the records, read some answer past it on 0.068 ± 0.016 of them, as `README.md` of the package says, the count of 0.1.3 to come, where the line is set for 0.05 by its construction. So one answer just past its line is weak evidence.
+- **The excess** of an answer is its statistic on the records less the median of the same statistic on the synthetic sets, over the span from that median to their 95th percentile. An answer is beyond the twin where its excess passes a line, the largest excess that the synthetic sets of a right model reach on 95 of 100 of them. Each report prints its line, read on the twin of its model. The line is itself read on the synthetic sets of the run: measured at 0.1.3 on 250 draws of models that lack nothing, a run at the default of 30 sets whose twin draws its seed from the records, read some answer past it on 0.080 ± 0.017 of them, as `README.md` of the package says, where the line is set for 0.05 by its construction. So one answer just past its line is weak evidence.
 - **The Bayesian criterion** of a model is its chi square plus the number of its fitted parameters times the logarithm of the number of samples. A model with one term more is kept when its fit ends inside its bounds, its criterion falls by more than 2, and its twin admits it, as section 7 says.
 
 The glossary, the other words of the package, to look up when you meet them:
@@ -151,7 +151,7 @@ python -c "import twinfit; print(twinfit.__version__)"
 ```
 
 ```
-0.1.3rc4
+0.1.3
 ```
 
 ## 3. A worked project
@@ -1822,7 +1822,7 @@ The chi functions in windows of position read each cost of the residuals under a
 - It names a place, a kind and a setting of what is missing, never its cause.
 - The twin draws its synthetic curves at the noise that the description gives, so it takes that noise as right. The check of the residuals against the height of the fitted curve, on the first page of each report, is what says whether it is.
 - With 30 synthetic sets, the default, an answer can stand beyond all of them and no further: its chance is then the smallest that 30 sets give. More sets, `python -m twinfit loop DIR --sets 100`, read smaller levels and take longer.
-- On models that lack nothing, at the default of 30 sets with a seed for each draw, a run of 0.1.2, before the chi functions were read, read some answer past its line on 0.068 ± 0.016 of 250 draws, as `README.md` of the package says, the count of 0.1.3 to come, where the line is set for 0.05 by its construction. Read one answer just past its line as weak evidence, and read it again with `--sets 100`.
+- On models that lack nothing, at the default of 30 sets with its twin's seed drawn from the records, a run of 0.1.3 read some answer past its line on 0.080 ± 0.017 of 250 draws, as `README.md` of the package says, where the line is set for 0.05 by its construction. Read one answer just past its line as weak evidence, and read it again with `--sets 100`.
 - A term much smaller than the noise can be missing while no answer stands beyond the twin. When one answer alone stands just past its line, the loop says so and stops: a model that lacks nothing shows one such answer on some of its synthetic sets.
 - Glitches and a noise that grows with the signal are kinds of the report that no term of the mean fills. The report says so when one leads, and how to give the noise of each sample instead.
 - A proposal for the experiment is read on the synthetic sets of the twin, so its ratio moves from run to run: the page says within how much, about one over the root of the number of sets.

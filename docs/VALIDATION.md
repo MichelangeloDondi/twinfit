@@ -36,7 +36,7 @@ A count draws synthetic traces from the toy model of `toy/` with a known truth, 
 | C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.708 ± 0.023 | 390 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, transit, the toy's law of the noise | 0.707 ± 0.023 | 399 | 0.62 to 0.75 | met |
 | C10 | toy/benchmark.json was made at 0.1.1, not at 0.1.3rc3 | | | not read |
-| C11 | toy/gallery.json was made at 0.1.3rc4, not at 0.1.3rc3 | | | not read |
+| C11 | toy/gallery.json was made at 0.1.3, not at 0.1.3rc3 | | | not read |
 
 ## What each criterion measures, and where it is counted
 

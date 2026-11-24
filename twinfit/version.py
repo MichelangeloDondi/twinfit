@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-__version__ = "0.1.3rc4"
+__version__ = "0.1.3"
 
 VERSIONS = {
     "0.0.2.dev0": {"digest": "fd5bae3ecf4e99de29c84a71083d6f0dd1463b96536e93887f74abc4af644c27", "changes": ("the package as it was taken from the repository twin-moments at its commit 2a55db6",)},
@@ -492,6 +492,11 @@ VERSIONS = {
         "his messages 604 and 605: a grid of settings readable in the visual log, settings one level where their gap is small against the sweep's own steps, a level bounded by three per cent of the larger of its first value and the value that joins it, named by its median (review 265), a merge of levels kept only where it crowds no cell of the grid more than the exact values do (review 266), one slide of colour maps for where, a level each, and one plot of lines on a scale of powers of ten for what the fit leaves",
         "row M600 on real spectra: a sweep's title gives its two ends at three figures, the where slide's two captions kept apart, its family named without what follows its colon where long, and the fit slide's labels sized to their axes, seen on the public CO2 lines of row M599, his message 630 asking this number for the count of the gallery",
         "the slides read against their words on the public CO2 lines with HITRAN's: the band of a right model widened where neighbouring residuals correlate, as `chi_said` reads them, and seen on axes of thousands of noises, the letters of a term's own formula left to its file, names of parameters on two lines and told apart, a legend of many records left out, the proposals for the experiment that a slide has no room for whole on a page after it, and the names of axes inside their slides",
+    )},
+    "0.1.3": {"digest": "00cc5fca1ab7e2acddbcd27fb7eb78d500567e2caf2ea04478e37963cc675bad", "changes": (
+        "the code and the pages of 0.1.3rc4, stamped on a reading with no mislead, with its number moved to 0.1.3, which the two tutorials print in their section 2",
+        "the shares of 0.1.3 written from the tables of its counts, row M573, in the README and in CONTINUING.md: three criteria below their thresholds, the place of a width that grows steeply along a setting, the setting named first, pooled, and what the report puts first on a bench of planted shapes, and the false alarm at the default of 30 sets met, its twin drawn from the records",
+        "the two sentences of the tutorials on the false alarm at the default of 30 sets, which said a count of 0.1.2 with the count of 0.1.3 to come, say 0.1.3's own count",
     )},
 }
 

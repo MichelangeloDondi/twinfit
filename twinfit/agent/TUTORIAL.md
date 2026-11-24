@@ -113,7 +113,7 @@ pip install "twinfit[log]"
 python -c "import twinfit; print(twinfit.__version__)"
 ```
 
-Its first line, on this project: `0.1.3rc4`
+Its first line, on this project: `0.1.3`
 
 ## 3. A worked project
 
@@ -719,7 +719,7 @@ Its line of what it kept, on this project: `kept: nothing. Refused: nothing. The
 - It names a place, a kind and a setting of what is missing, never its cause.
 - The twin draws its synthetic curves at the noise that the description gives, so it takes that noise as right.
 - With 30 synthetic sets, the default, an answer can stand beyond all of them and no further: its chance is then the smallest that 30 sets give.
-- On models that lack nothing, at the default of 30 sets with a seed for each draw, a run of 0.1.2, before the chi functions were read, read some answer past its line on 0.068 ± 0.016 of 250 draws, as `README.md` of the package says, the count of 0.1.3 to come, where the line is set for 0.05 by its construction.
+- On models that lack nothing, at the default of 30 sets with its twin's seed drawn from the records, a run of 0.1.3 read some answer past its line on 0.080 ± 0.017 of 250 draws, as `README.md` of the package says, where the line is set for 0.05 by its construction.
 - A term much smaller than the noise can be missing while no answer stands beyond the twin.
 - Glitches and a noise that grows with the signal are kinds of the report that no term of the mean fills.
 - A proposal for the experiment is read on the synthetic sets of the twin, so its ratio moves from run to run: the page says within how much, about one over the root of the number of sets.
