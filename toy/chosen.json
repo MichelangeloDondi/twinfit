@@ -1,6 +1,6 @@
 {
  "digest": "2c0c00329e747de041870c25722ddf0502aae6bbd850471e72fd6f1f13001b11",
- "package": "0.1.3rc3",
+ "package": "0.1.3",
  "one": {
   "kept": [
    "01.py",

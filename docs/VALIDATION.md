@@ -1,6 +1,6 @@
 # What the package was measured to do
 
-Every share of the first table below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release 0.1.3rc3. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
+Every share of the first table below is read by `tools/met.py` from the tables of the counts in `toy/`, against the thresholds of `toy/thresholds.toml`, for the release 0.1.3. This page is written by `python docs/validation.py` from those tables, and `python docs/validation.py --check` says whether it still is the page they give. No number here is typed.
 
 A count draws synthetic traces from the toy model of `toy/` with a known truth, hides a term or none, runs the package on each draw and reads what its report says. A share is the fraction of draws on which the report did what the criterion asks, with its standard error, the square root of p(1 - p)/n over its n draws. A threshold was drafted before the counts, and the header of `toy/thresholds.toml` and `docs/DECISIONS.md` say which were set again after tables were read. `toy/README.md` says how each count is made and how to make one draw of it again.
 
@@ -35,8 +35,8 @@ A count draws synthetic traces from the toy model of `toy/` with a known truth, 
 | C7 | one bar holds the truth, gas_width, the toy's law of the noise | 0.722 ± 0.023 | 396 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, laser_noise, the toy's law of the noise | 0.708 ± 0.023 | 390 | 0.62 to 0.75 | met |
 | C7 | one bar holds the truth, transit, the toy's law of the noise | 0.707 ± 0.023 | 399 | 0.62 to 0.75 | met |
-| C10 | toy/benchmark.json was made at 0.1.1, not at 0.1.3rc3 | | | not read |
-| C11 | toy/gallery.json was made at 0.1.3, not at 0.1.3rc3 | | | not read |
+| C10 | toy/benchmark.json was made at 0.1.1, not at 0.1.3 | | | not read |
+| C11 | pooled | 0.730 ± 0.021 | 440 | at least 0.50 | met |
 
 ## What each criterion measures, and where it is counted
 
